@@ -49,4 +49,10 @@ class ChessWindow:
     def run(self):
         self.root.mainloop()
 
+    def update_square_image(self, image_path, x, y):
+        self._chess_board[x][y].set_image(image_path)
+
+    def update_square_color(self, color, x, y):
+        self._chess_board[x][y].set_color(color)
+
 

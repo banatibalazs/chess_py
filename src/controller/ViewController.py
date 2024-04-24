@@ -21,6 +21,7 @@ class ViewController:
 
     def __init__(self, chess_window, white_player_name, black_player_name):
         self._chess_window = chess_window
+        self._previous_click = None
         self._int_to_piece_image_path = {
             -6: ViewController.BL_KING_IMAGE_PATH,
             -5: ViewController.BL_QUEEN_IMAGE_PATH,
@@ -44,16 +45,19 @@ class ViewController:
 
     def click(self, x, y):
         print(f"Button clicked at ({x}, {y})")
+        self._current_click = (x, y)
+        self._game_controller.click_on_square(x, y)
         self.print_click_on_board(x, y)
+        self._previous_click = (x, y)
 
-    def update_board(self, board):
+    def update_board(self, piece_positions_board, ):
         for i in range(8):
             for j in range(8):
-                path = self._int_to_piece_image_path[board[i][j]]
-                self._chess_window.get_chess_board()[i][j].set_image(path)
+                path = self._int_to_piece_image_path[piece_positions_board[i][j]]
+                self._chess_window.update_square_image(path, i, j)
 
 
-        self.draw_board( board)
+        self.draw_board(piece_positions_board)
 
     def draw_board(self, board):
         for row in board:
@@ -66,6 +70,10 @@ class ViewController:
         board = [["[ ]" for i in range(8)] for j in range(8)]
         # Set the clicked square
         board[x][y] = "[x]"
+
+        if self._previous_click is not None:
+            _x,_y = self._previous_click
+            board[_x][_y] = "[o]"
 
         # Print the chess board
         for row in board:

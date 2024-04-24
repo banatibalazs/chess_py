@@ -7,6 +7,7 @@ class PieceType(Enum):
     WH_BISHOP = 4,
     WH_QUEEN = 5,
     WH_KING = 6,
+    NONE = 0,
     BL_PAWN = -1,
     BL_ROOK = -2,
     BL_KNIGHT = -3,
