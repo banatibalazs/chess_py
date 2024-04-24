@@ -1,41 +1,47 @@
+from src.model.Board import Board
+from src.model.PieceType import PieceType
 
 
 class GameController:
 
+    SELECTED_COLOR = "red"
+
+
     def __init__(self, white_player_name, black_player_name, view_controller):
-        self._white_player_name = white_player_name
-        self._black_player_name = black_player_name
+        self._board = Board(white_player_name, black_player_name)
         self._is_white_turn = True
+        self._selected_piece = None
         self._view_controller = view_controller
-        self._piece_positions_board = []
-        self.initialize_board()
-        # History is a stack of tuples (board, is_white_turn)
         self._boardHistory = []
+        self.update_view()
 
-    def initialize_board(self):
-        self._piece_positions_board = [[-2,-3,-4,-5,-6,-4,-3,-2],
-                                       [-1,-1,-1,-1,-1,-1,-1,-1],
-                                       [ 0, 0, 0, 0, 0, 0, 0, 0],
-                                       [ 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-                                       [ 0, 0, 0, 0, 0, 0, 0, 0],
-                                       [ 0, 0, 0, 0, 0, 0, 0, 0],
-                                       [ 1, 1, 1, 1, 1, 1, 1, 1],
-                                       [ 2, 3, 4, 5, 6, 4, 3, 2]]
-
-        self._view_controller.update_board(self._piece_positions_board)
+    def update_view(self):
+        self._view_controller.update_board(self._board.get_int_board())
 
     def click_on_square(self, x, y):
 
-         if self._piece_positions_board[x][y] == 0:
-             print("Empty square")
-         elif self._is_white_turn and self._piece_positions_board[x][y] < 0:
-             print("Black piece selected")
-         else:
-             print("White piece selected")
+        value = self._board.get_value_at(x, y)
 
-         print( "White Turn!" if self._is_white_turn else "Black Turn!")
+        if value == 0:
+            print("Empty square selected")
+
+        elif value < 0 and not self._is_white_turn:
+            print("Black piece selected")
+            self.select_piece(x, y)
+
+        elif value > 0 and self._is_white_turn:
+            print("White piece selected")
+            self.select_piece(x, y)
 
 
+    def select_piece(self, x, y):
+        print("Piece selected at ", x, y)
+
+        self.color_selected_square(x, y)
+
+
+    def color_selected_square(self, x, y):
+        self._view_controller.update_square_color(GameController.SELECTED_COLOR, x, y)
 
     def step(self):
         pass

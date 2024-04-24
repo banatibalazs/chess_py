@@ -2,7 +2,6 @@ from src.controller.GameController import GameController
 
 
 class ViewController:
-
     WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
     WH_BISHOP_IMAGE_PATH = "../resources/images/pieces/wh_bishop.png"
     WH_ROOK_IMAGE_PATH = "../resources/images/pieces/wh_rook.png"
@@ -41,42 +40,40 @@ class ViewController:
         }
         self._game_controller = GameController(white_player_name, black_player_name, self)
 
-
-
     def click(self, x, y):
         print(f"Button clicked at ({x}, {y})")
         self._current_click = (x, y)
         self._game_controller.click_on_square(x, y)
-        self.print_click_on_board(x, y)
+        # self.print_click_on_board(x, y)
         self._previous_click = (x, y)
 
-    def update_board(self, piece_positions_board, ):
+    def update_board(self, piece_positions_board):
         for i in range(8):
             for j in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
 
+        # self.draw_board(piece_positions_board)
 
-        self.draw_board(piece_positions_board)
+    def update_square_color(self, color, x, y):
+        self._chess_window.update_square_color(color, x, y)
 
     def draw_board(self, board):
         for row in board:
             for square in row:
-                print("[",square, end="]")
+                print("[", square, end="]")
             print("\n")
 
     def print_click_on_board(self, x, y):
-
-        board = [["[ ]" for i in range(8)] for j in range(8)]
-        # Set the clicked square
-        board[x][y] = "[x]"
-
-        if self._previous_click is not None:
-            _x,_y = self._previous_click
-            board[_x][_y] = "[o]"
-
-        # Print the chess board
-        for row in board:
-            print(" ".join(row))
-
-
+        pass
+        # board = [["[ ]" for i in range(8)] for j in range(8)]
+        # # Set the clicked square
+        # board[x][y] = "[x]"
+        #
+        # if self._previous_click is not None:
+        #     _x,_y = self._previous_click
+        #     board[_x][_y] = "[o]"
+        #
+        # # Print the chess board
+        # for row in board:
+        #     print(" ".join(row))
