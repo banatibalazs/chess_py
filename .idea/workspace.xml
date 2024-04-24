@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="new features">
-      <change afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/ColorEnum.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/PieceTypeEnum.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/PieceType.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/PieceType.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713973177953</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="new features">
+      <option name="closed" value="true" />
+      <created>1713991544914</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1713991544914</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

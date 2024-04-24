@@ -53,27 +53,12 @@ class ViewController:
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
 
-        # self.draw_board(piece_positions_board)
 
     def update_square_color(self, color, x, y):
         self._chess_window.update_square_color(color, x, y)
 
-    def draw_board(self, board):
-        for row in board:
-            for square in row:
-                print("[", square, end="]")
-            print("\n")
+    def deselect_square(self, x, y):
+        self._chess_window.update_square_color("white" if (x + y) % 2 == 0 else "#434343", x, y)
 
-    def print_click_on_board(self, x, y):
-        pass
-        # board = [["[ ]" for i in range(8)] for j in range(8)]
-        # # Set the clicked square
-        # board[x][y] = "[x]"
-        #
-        # if self._previous_click is not None:
-        #     _x,_y = self._previous_click
-        #     board[_x][_y] = "[o]"
-        #
-        # # Print the chess board
-        # for row in board:
-        #     print(" ".join(row))
+    def select_square(self, x, y):
+        self._chess_window.update_square_color("red", x, y)

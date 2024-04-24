@@ -1,11 +1,8 @@
 from src.model.Board import Board
-from src.model.PieceType import PieceType
 
 
 class GameController:
-
     SELECTED_COLOR = "red"
-
 
     def __init__(self, white_player_name, black_player_name, view_controller):
         self._board = Board(white_player_name, black_player_name)
@@ -27,18 +24,21 @@ class GameController:
 
         elif value < 0 and not self._is_white_turn:
             print("Black piece selected")
-            self.select_piece(x, y)
+            self.handle_selection(x, y)
+
 
         elif value > 0 and self._is_white_turn:
             print("White piece selected")
-            self.select_piece(x, y)
+            self.handle_selection(x, y)
 
-
-    def select_piece(self, x, y):
-        print("Piece selected at ", x, y)
-
-        self.color_selected_square(x, y)
-
+    def handle_selection(self, x, y):
+        if self._selected_piece is not None and self._selected_piece == (x, y):
+            print("Deselecting piece")
+            self._selected_piece = None
+            self._view_controller.deselect_square(x, y)
+        else:
+            self._selected_piece = (x, y)
+            self._view_controller.deselect_square(x, y)
 
     def color_selected_square(self, x, y):
         self._view_controller.update_square_color(GameController.SELECTED_COLOR, x, y)
