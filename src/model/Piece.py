@@ -1,10 +1,12 @@
-class Piece:
+from abc import ABC, abstractmethod
+
+
+class Piece(ABC):
     def __init__(self, piece_type, color, x, y):
         self._type = piece_type
         self._color = color
         self._x = x
         self._y = y
-        self._is_selected = False
 
         self._is_moved = False
         self._is_captured = False
@@ -14,6 +16,16 @@ class Piece:
         self._is_check = False
         self._is_checkmate = False
         self._is_stalemate = False
+
+    @abstractmethod
+    def get_possible_moves(self, board):
+        pass
+
+    def set_moved(self):
+        self._is_moved = True
+
+    def is_moved(self):
+        return self._is_moved
 
     def get_type(self):
         return self._type
@@ -33,18 +45,10 @@ class Piece:
     def set_y(self, y):
         self._y = y
 
-    def is_moved(self):
-        return self._is_moved
+    def set_coordinates(self, x, y):
+        self._x = x
+        self._y = y
+    def get_coordinates(self):
+        return self._x, self._y
 
-    def set_moved(self, moved):
-        self._is_moved = moved
-
-    def is_selected(self):
-        return self._is_selected
-
-    def set_selected(self, selected):
-        self._is_selected = selected
-
-    def toggle_selected(self):
-        self._is_selected = not self._is_selected
 

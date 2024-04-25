@@ -10,10 +10,10 @@ class Square(tk.Button):
 
     def set_image(self, piece_image_path):
         piece_image = Image.open(piece_image_path)
-        piece_image = piece_image.resize((150, 150))
+        piece_image = piece_image.resize((105, 110))
         piece_image_tk = ImageTk.PhotoImage(piece_image)  # Use ImageTk.PhotoImage here
         self.image = piece_image_tk
-        self.config(image=piece_image_tk, width="100", height="100")
+        self.config(image=piece_image_tk, width="80", height="80")
         # self.show_image_in_new_window(piece_image_path)
 
     def set_color(self, color):

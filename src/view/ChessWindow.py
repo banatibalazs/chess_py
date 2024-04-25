@@ -24,11 +24,11 @@ class ChessWindow:
             for j in range(8):
                 # Create a button for each square
                 square = Square(self.root,
-                                width=12,
-                                height=6,
+                                width=8,
+                                height=4,
                                 onclick=self.onclick,
-                                x=i,
-                                y=j)
+                                x=j,
+                                y=i)
                 square.grid(row=i, column=j, sticky="nsew")
 
                 # Alternate the button color to create a checker pattern

@@ -18,6 +18,13 @@ class ViewController:
 
     EMPTY_SQUARE_IMAGE_PATH = "../resources/images/welcome_page/empty.png"
 
+    DARK_GREEN = "#70b975"
+    LIGHT_GREEN = "#aaffaf"
+    LIGHT_SELECTED_COLOR = "#e0c097"
+    DARK_SELECTED_COLOR = "#c29977"
+    WHITE_COLOR = "#ffffff"
+    BLACK_COLOR = "#4a3434"
+
     def __init__(self, chess_window, white_player_name, black_player_name):
         self._chess_window = chess_window
         self._int_to_piece_image_path = {
@@ -42,30 +49,22 @@ class ViewController:
     def click(self, x, y):
         self._game_controller.click_on_square(x, y)
 
-    def update_board_view(self, piece_positions_board, selection_board, possible_moves):
-        self.print_board(piece_positions_board)
-        print("\n")
-        self.print_board(selection_board)
+    def update_board_view(self, piece_positions_board, coloring_board):
 
         for i in range(8):
             for j in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
-                if selection_board[i][j] == 'X':
-                    self.select_square(i, j)
+                if coloring_board[i][j] == 'X':
+                    self.update_square_color(ViewController.LIGHT_SELECTED_COLOR if (i + j) % 2 == 0 else
+                                             ViewController.DARK_SELECTED_COLOR, i, j)
+                elif coloring_board[i][j] == 'P':
+                    self.update_square_color(ViewController.LIGHT_GREEN if (i + j) % 2 == 0 else
+                                             ViewController.DARK_GREEN, i, j)
                 else:
-                    self.deselect_square(i, j)
+                    self._chess_window.update_square_color(
+                        ViewController.WHITE_COLOR if (i + j) % 2 == 0 else ViewController.BLACK_COLOR, i, j)
 
     def update_square_color(self, color, x, y):
         self._chess_window.update_square_color(color, x, y)
 
-    def deselect_square(self, x, y):
-        self._chess_window.update_square_color("white" if (x + y) % 2 == 0 else "#434343", x, y)
-
-    def select_square(self, x, y):
-        self._chess_window.update_square_color("red", x, y)
-    def print_board(self, board):
-        for row in board:
-            for square in row:
-                print("[", str(square).center(4), end="]")
-            print("\n")
