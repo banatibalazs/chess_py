@@ -29,6 +29,24 @@ class Player:
     def get_pieces(self):
         return self._pieces
 
+    def get_piece_at(self, x, y):
+        for piece in self._pieces:
+            if piece.get_x() == x and piece.get_y() == y:
+                return piece
+        return None
 
     def __str__(self):
         return f"{self._name} ({self._color})"
+
+    def select_piece(self, x, y):
+        for piece in self._pieces:
+            if piece.get_x() == x and piece.get_y() == y:
+                piece.toggle_selected()
+            else:
+                piece.set_selected(False)
+
+    def get_selected_piece(self):
+        for piece in self._pieces:
+            if piece.is_selected():
+                return piece
+        return None

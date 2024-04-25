@@ -44,3 +44,7 @@ class Piece:
 
     def set_selected(self, selected):
         self._is_selected = selected
+
+    def toggle_selected(self):
+        self._is_selected = not self._is_selected
+
