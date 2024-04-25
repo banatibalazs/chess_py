@@ -1,3 +1,5 @@
+import copy
+
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Player import Player
@@ -66,10 +68,16 @@ class GameController:
         print(f"Step made by {self._current_player.get_name()}.")
 
         # Save the current board state
+        # self._boardHistory.append(copy.deepcopy(self._current_player), self._opponent_player)
 
         moving_piece = self._current_player.get_selected_piece()
         moving_piece.set_coordinates(x, y)
         moving_piece.set_moved()
+
+        # Check if promotion
+        # if moving_piece.get_type() ==  and (y == 0 or y == 7):
+        #     self._current_player.promote_pawn(moving_piece, 'QUEEN')
+        #     print(f"{self._current_player.get_name()} promoted a pawn to a queen.")
 
 
         # Check if capture
@@ -80,7 +88,6 @@ class GameController:
             print(f"{self._opponent_player.get_name()} has {len(self._opponent_player.get_pieces())} pieces.")
             print(f"{self._current_player.get_name()} has {len(self._current_player.get_pieces())} pieces.")
 
-        # Check if promotion
 
         # Check if castling
 
@@ -89,6 +96,13 @@ class GameController:
         # Check if check
 
         # Check if checkmate
+
+
+        # print(f"{self._opponent_player.get_name()} is in check.")
+        # if piece.is_checkmate(self._board):
+        #     print(f"{self._opponent_player.get_name()} is in checkmate.")
+        #     print(f"{self._current_player.get_name()} won the game.")
+        #     return
 
         # Check if stalemate
 

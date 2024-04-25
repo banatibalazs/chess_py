@@ -55,12 +55,15 @@ class ViewController:
             for j in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
+
                 if coloring_board[i][j] == 'X':
                     self.update_square_color(ViewController.LIGHT_SELECTED_COLOR if (i + j) % 2 == 0 else
                                              ViewController.DARK_SELECTED_COLOR, i, j)
+
                 elif coloring_board[i][j] == 'P':
                     self.update_square_color(ViewController.LIGHT_GREEN if (i + j) % 2 == 0 else
                                              ViewController.DARK_GREEN, i, j)
+
                 else:
                     self._chess_window.update_square_color(
                         ViewController.WHITE_COLOR if (i + j) % 2 == 0 else ViewController.BLACK_COLOR, i, j)
