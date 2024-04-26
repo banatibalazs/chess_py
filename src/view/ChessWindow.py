@@ -7,8 +7,6 @@ from src.model.Square import Square
 
 class ChessWindow:
 
-
-
     def __init__(self, title, white_player_name, black_player_name):
         self.title = title
         self.root = tk.Toplevel()
@@ -54,5 +52,3 @@ class ChessWindow:
 
     def update_square_color(self, color, x, y):
         self._chess_board[x][y].set_color(color)
-
-

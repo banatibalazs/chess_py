@@ -81,7 +81,7 @@ class Player:
     def has_selected_piece(self):
         return self._selected_piece is not None
 
-    def remove_piece_at(self, x, y):
+    def remove_piece_at(self, x: int, y: int) -> None:
         for piece in self._pieces:
             if piece.get_coordinates() == (x, y):
                 self._pieces.remove(piece)
@@ -113,8 +113,11 @@ class Player:
     def set_king_is_checked(self, value):
         self._king_is_checked = value
 
-    def attacks_position(self, x, y):
+    def attacks_position(self, x, y, board):
         for piece in self._pieces:
-            if (x, y) in piece.get_possible_moves():
+            if (x, y) in piece.get_possible_moves(board):
                 return True
         return False
+
+    def get_piece_number(self):
+        return len(self._pieces)
