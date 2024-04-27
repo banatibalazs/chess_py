@@ -1,9 +1,12 @@
-from typing import Dict
+from typing import Dict, Tuple, List
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
 from src.controller.GameController import GameController
 import src.view.ChessWindow as ChessWindow
 import numpy as np
+
+from src.model.ColorEnum import ColorEnum
+
 
 # from src.view.ChessWindow import ChessWindow
 
@@ -52,8 +55,20 @@ class ViewController:
         }
         self._game_controller: GameController = GameController(white_player_name, black_player_name, self)
 
-    def click(self, x: int, y: int) -> None:
-        self._game_controller.click_on_square(x, y)
+    def click_on_board(self, x: int, y: int) -> None:
+        self._game_controller.click_on_board(x, y)
+
+    def reset_button_click(self) -> None:
+        pass
+
+    def black_button_click(self) -> None:
+        pass
+
+    def white_button_click(self) -> None:
+        pass
+
+    def extra_button_click(self) -> None:
+        pass
 
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for i in range(8):
@@ -78,14 +93,14 @@ class ViewController:
         if np.count_nonzero(coloring_board == char) == 1:
             # Get the position of the selected piece
             row, col = np.where(coloring_board == char)
-            row = row[0]
-            col = col[0]
+            row = int(row)
+            col = int(col)
             # Set the color of the square on which the selected piece is located
             if (row + col) % 2 == 0:
                 color = ViewController.LIGHT_SELECTED_COLOR
             else:
                 color = ViewController.DARK_SELECTED_COLOR
-            self.update_square_color([[color]], [[row, col]])
+            self.update_square_color([color], [[row, col]])
 
     def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents a possible move
@@ -103,14 +118,16 @@ class ViewController:
             positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
             self.update_square_color(colors, positions)
 
-    def update_square_color(self, color: list, positions: list) -> None:
+    def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
             x, y = positions[i]
             self._chess_window.update_square_color(color[i], x, y)
 
-    def reset_square_colors(self):
+    def reset_square_colors(self) -> None:
         for i in range(8):
             for j in range(8):
                 self._chess_window.update_square_color(ViewController.WHITE_COLOR
                                                        if (i + j) % 2 == 0
                                                        else ViewController.BLACK_COLOR, j, i)
+
+

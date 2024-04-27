@@ -16,10 +16,14 @@ class MainWindow:
         self.root = tk.Tk()
         self.root.title("Welcome to Chess Game!")
         self.root.configure(background="#FFFFFF")
+        self.white_player_name = None
+        self.black_player_name = None
+        self.start_button = None
+        self.exit_button = None
+        self.result_label = None
         self.setup_ui()
 
-
-    def setup_ui(self):
+    def setup_ui(self) -> None:
         frame = tk.Frame(self.root, padx=10, pady=10)
         frame.configure(background="#FFFFFF")
         frame.pack()
@@ -39,26 +43,25 @@ class MainWindow:
         image_label.image = chess_image_tk  # keep a reference to the image
         image_label.grid(row=0, column=0, columnspan=2)
 
-        whitePlayerNameLabel = tk.Label(frame, text="WhitePlayer:",
+        white_player_name_label = tk.Label(frame, text="WhitePlayer:",
                                         background="#FFFFFF",
                                         font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
-        whitePlayerNameLabel.grid(row=1, column=0, sticky="e", pady=MainWindow.LABEL_PADDING)
+        white_player_name_label.grid(row=1, column=0, sticky="e", pady=MainWindow.LABEL_PADDING)
 
-        self.whitePlayerName = tk.Entry(frame)
-        self.whitePlayerName.insert(0, "Player1")
-        self.whitePlayerName.grid(row=1, column=1, sticky="w", padx=5)
+        self.white_player_name = tk.Entry(frame)
+        self.white_player_name.insert(0, "Player1")
+        self.white_player_name.grid(row=1, column=1, sticky="w", padx=5)
 
-        blackPlayerNameLabel = tk.Label(frame, text="BlackPlayer:",
+        black_player_name_label = tk.Label(frame, text="BlackPlayer:",
                                         background="#FFFFFF",
                                         font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
-        blackPlayerNameLabel.grid(row=2, column=0, sticky="e")
+        black_player_name_label.grid(row=2, column=0, sticky="e")
 
+        self.black_player_name = tk.Entry(frame)
+        self.black_player_name.insert(0, "Player2")
+        self.black_player_name.grid(row=2, column=1, sticky="w", padx=5)
 
-        self.blackPlayerName = tk.Entry(frame)
-        self.blackPlayerName.insert(0, "Player2")
-        self.blackPlayerName.grid(row=2, column=1, sticky="w", padx=5)
-
-        startButton = tk.Button(frame, text="Start Game",
+        start_button = tk.Button(frame, text="Start Game",
                                 command=self.open_new_window,
                                 background= "#CCFFCC",
                                 image=start_button_image_tk,
@@ -68,14 +71,14 @@ class MainWindow:
                                 relief="groove",
                                 width=250,
                                 height=75)
-        startButton.image = start_button_image_tk
-        startButton.grid(row=3, column=0, columnspan=2, pady=(40, 10))
+        start_button.image = start_button_image_tk
+        start_button.grid(row=3, column=0, columnspan=2, pady=(40, 10))
 
         # Bind the <Enter> and <Leave> events to the button
-        startButton.bind("<Enter>", self.on_enter_startButton)
-        startButton.bind("<Leave>", self.on_leave_startButton)
+        start_button.bind("<Enter>", self.on_enter_startButton)
+        start_button.bind("<Leave>", self.on_leave_startButton)
 
-        exitButton = tk.Button(frame, text="Exit",
+        exit_button = tk.Button(frame, text="Exit",
                                 command=self.exit_button_click,
                                 background= "#FFFFFF",
                                 foreground='black',
@@ -85,18 +88,20 @@ class MainWindow:
                                 width=20,
                                 height=1
                                )
-        exitButton.grid(row=4, column=0, columnspan=2, pady=10)
+        exit_button.grid(row=4, column=0, columnspan=2, pady=10)
 
         # Bind the <Enter> and <Leave> events to the button
-        exitButton.bind("<Enter>", self.on_enter_exitButton)
-        exitButton.bind("<Leave>", self.on_leave_exitButton)
+        exit_button.bind("<Enter>", self.on_enter_exitButton)
+        exit_button.bind("<Leave>", self.on_leave_exitButton)
 
         self.result_label = tk.Label(frame, text="Welcome to this game!")
         self.result_label.grid(row=5, column=0, columnspan=2)
 
     def open_new_window(self):
-        chessWindow = ChessWindow("Chess Game", self.whitePlayerName.get(), self.blackPlayerName.get())
-        chessWindow.run()
+        chess_window = ChessWindow("Chess Game",
+                                  self.white_player_name.get(),
+                                  self.black_player_name.get())
+        chess_window.run()
 
     def run(self):
         self.root.mainloop()

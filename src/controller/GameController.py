@@ -27,7 +27,6 @@ class GameController:
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
 
         # self.print_boards()
-        print("Board has selected piece: " + str(self._board.has_selected_piece()))
 
     def print_boards(self) -> None:
         print("\tPiece Board:\t\t\tColoring Board:")
@@ -39,7 +38,7 @@ class GameController:
                   .ljust(30) + "   " +
                   str(self._board.get_coloring_board()[i]).ljust(30))
 
-    def click_on_square(self, x: int, y: int) -> None:
+    def click_on_board(self, x: int, y: int) -> None:
 
         # Check if the square is empty
         if self._board.is_empty_at(x, y) or self._board.is_opponent_at(x, y):

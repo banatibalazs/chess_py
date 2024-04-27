@@ -10,6 +10,10 @@ from src.model.Player import Player
 
 class Board:
 
+    POSSIBLE_MOVE_SYMBOL = b'p'
+    SELECTED_PIECE_SYMBOL = b's'
+    EMPTY_SYMBOL = b'o'
+
     def __init__(self, white_player: Player, black_player: Player):
         self._white_player: Player = white_player
         self._black_player: Player = black_player
@@ -22,8 +26,11 @@ class Board:
         self._piece_board = np.zeros((8, 8), dtype=np.byte)
         self._coloring_board = np.zeros((8, 8), dtype=np.character)
 
+        self._white_attack_board = np.zeros((8, 8), dtype=np.bool_)
+        self._black_attack_board = np.zeros((8, 8), dtype=np.bool_)
+
     def is_possible_step_at(self, x, y):
-        return self._coloring_board[y][x] == 'p'
+        return self._coloring_board[y][x] == self.POSSIBLE_MOVE_SYMBOL
 
     def get_current_player(self):
         return self._current_player
@@ -52,21 +59,21 @@ class Board:
             self._piece_board[piece.get_y()][piece.get_x()] = piece.get_type().value * piece.get_color().value
 
     def reset_coloring_board(self):
-        self._coloring_board.fill('o')
+        self._coloring_board.fill(self.EMPTY_SYMBOL)
 
     def update_coloring_board(self):
 
-        self._coloring_board.fill('o')
+        self._coloring_board.fill(self.EMPTY_SYMBOL)
 
         if self._selected_piece is not None:
             x = self._selected_piece.get_x()
             y = self._selected_piece.get_y()
-            self._coloring_board[y, x] = 's'
+            self._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
 
             possible_moves = self._selected_piece.get_possible_moves(self)
             if possible_moves is not None:
                 for move in possible_moves:
-                    self._coloring_board[move[1], move[0]] = 'p'
+                    self._coloring_board[move[1], move[0]] = self.POSSIBLE_MOVE_SYMBOL
 
     def get_value_at(self, x, y):
         # Get the value of the piece at the given coordinates
@@ -129,8 +136,7 @@ class Board:
 
     @update_board_after
     def remove_piece_at(self, x: int, y: int) -> None:
-        if not self._current_player.remove_piece_at(x, y):
-            self._opponent_player.remove_piece_at(x, y)
+        self._opponent_player.remove_piece_at(x, y)
 
     def switch_players(self) -> None:
         # Switch the current player and the opponent player (multiple assignment in Python)
@@ -187,7 +193,7 @@ class Board:
         return self._selected_piece.get_possible_moves(self)
 
     def is_selected_piece_at(self, x: int, y: int) -> bool:
-        return self._coloring_board[y][x] == 's'
+        return self._coloring_board[y][x] == self.SELECTED_PIECE_SYMBOL
 
 
 
