@@ -26,18 +26,6 @@ class GameController:
         # Update the coloring
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
 
-        # self.print_boards()
-
-    def print_boards(self) -> None:
-        print("\tPiece Board:\t\t\tColoring Board:")
-        for i in range(8):
-            print(str(self._board.get_piece_board()[i]).replace('[', ' ')
-                  .replace(' ', '  ')
-                  .replace(" -", "-")
-                  .replace("]", "")
-                  .ljust(30) + "   " +
-                  str(self._board.get_coloring_board()[i]).ljust(30))
-
     def click_on_board(self, x: int, y: int) -> None:
 
         # Check if the square is empty

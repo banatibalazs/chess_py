@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="change implementation to numpy arrays in ViewController.py">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="extra buttons and labels in ChessWindow.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714232573688</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="extra buttons and labels in ChessWindow.py">
+      <option name="closed" value="true" />
+      <created>1714239697719</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714239697719</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -239,7 +244,8 @@
     <MESSAGE value="all in" />
     <MESSAGE value="new features" />
     <MESSAGE value="change implementation to numpy arrays in ViewController.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="change implementation to numpy arrays in ViewController.py" />
+    <MESSAGE value="extra buttons and labels in ChessWindow.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="extra buttons and labels in ChessWindow.py" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
