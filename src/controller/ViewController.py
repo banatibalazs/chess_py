@@ -1,9 +1,9 @@
 from typing import Dict
-from numpy.typing import NDArray
+
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
 from src.controller.GameController import GameController
 import src.view.ChessWindow as ChessWindow
 import numpy as np
-
 
 # from src.view.ChessWindow import ChessWindow
 
@@ -55,21 +55,24 @@ class ViewController:
     def click(self, x: int, y: int) -> None:
         self._game_controller.click_on_square(x, y)
 
-    def update_board_view(self, piece_positions_board: NDArray[np.byte], coloring_board: NDArray[np.str_]) -> None:
+    def update_board_view(self, piece_positions_board: ByteArray8x8, coloring_board: CharArray8x8) -> None:
 
         for i in range(8):
             for j in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
 
-                if coloring_board[i][j] == 'X':
+                # Highlight the selected piece
+                if coloring_board[i][j] == 'S':
                     self.update_square_color(ViewController.LIGHT_SELECTED_COLOR if (i + j) % 2 == 0 else
                                              ViewController.DARK_SELECTED_COLOR, i, j)
 
+                # Highlight the possible moves
                 elif coloring_board[i][j] == 'P':
                     self.update_square_color(ViewController.LIGHT_GREEN if (i + j) % 2 == 0 else
                                              ViewController.DARK_GREEN, i, j)
 
+                # Reset the square color
                 else:
                     self._chess_window.update_square_color(
                         ViewController.WHITE_COLOR if (i + j) % 2 == 0 else ViewController.BLACK_COLOR, i, j)

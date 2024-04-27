@@ -1,7 +1,6 @@
 from typing import List
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
-from src.model.Piece import Piece
 from src.model.Player import Player
 import src.controller.ViewController as ViewController
 
@@ -21,55 +20,40 @@ class GameController:
         # Update the board
         self._board.update_board()
 
-        # Check if a piece is selected
-        if self._board.has_selected_piece():
-            self._board.update_coloring_board()
-        else:
-            # If no piece is selected, reset the coloring board
-            self._board.reset_coloring_board()
-            print("No piece selected.")
-
         # Send the updated board to the view controller
         self._view_controller.update_board_view(self._board.get_piece_board(),
                                                 self._board.get_coloring_board())
 
     def click_on_square(self, x: int, y: int) -> None:
 
-        if self._board.is_possible_step_at(x, y):
+        # Check if the square is empty
+        if self._board.is_empty_at(x, y) or self._board.is_opponent_at(x, y):
+            print("No piece selected.")
+
+        # If square contains a selected piece then deselect it
+        elif self._board.is_selected_piece_at(x, y):
+            self._board.reset_selected_piece()
+            print("Piece deselected by {self._board.current_player_name}.")
+
+        # If square contains piece owned by the current player then select piece
+        elif self._board.is_friend_at(x, y):
+            self._board.select_piece_at(x, y)
+            print(f"Piece selected by {self._board.current_player_name}.")
+
+        # If square is in the possible moves of the selected piece then move the selected piece to (x,y)
+        elif self._board.is_possible_step_at(x, y):
             self.step(x, y)
-        else:
-            if self._board.current_player_has_piece_at(x, y):
-                self._board.set_selected_piece(x, y)
-                print(f"{piece.get_color().name} {piece.get_type().name} piece at position:"
-                      f" x: {piece.get_x()} y: {piece.get_y()} selected by {self._board.get_current_player_name()}.")
-                self.handle_selection(x, y)
-            else:
-                print("No piece selected.")
 
-    def handle_selection(self, x: int, y: int) -> None:
-        if self._current_player.has_selected_piece() and self._current_player.get_selected_piece().get_coordinates() == (
-        x, y):
-            print("Deselected piece.")
-            self._current_player.reset_selected_piece()
 
-        elif self._current_player.has_piece_at(x, y):
-            print("Selected piece.")
-            self._current_player.set_selected_piece(x, y)
-            self.get_possible_moves(x, y, self._current_player.get_selected_piece())
-
-        self.update_view()
-
-    def get_possible_moves(self, x: int, y: int, piece: Piece) -> None:
-        self._board.update_coloring_board()
 
     def step(self, x: int, y: int) -> None:
 
-        print(f"Step made by {self._board.get_current_player_name()}.")
+        print(f"Step made by {self._board.current_player_name}.")
 
         # Save the current board state
         # self._boardHistory.append(copy.deepcopy(self._current_player), self._opponent_player)
 
-        moving_piece = self._board.get_selected_piece()
+        moving_piece = self._board.selected_piece
         moving_piece.set_coordinates(x, y)
         moving_piece.set_moved()
 
@@ -79,12 +63,12 @@ class GameController:
         #     print(f"{self._current_player.get_name()} promoted a pawn to a queen.")
 
         # Check if capture
-        if self._board.opponent_has_piece_at(x, y):
-            print(f"Capture made by {self._board.get_current_player_name()}.")
+        if self._board.is_opponent_at(x, y):
+            print(f"Capture made by {self._board.current_player_name}.")
             self._board.remove_piece_at(x, y)
-            print(f"{self._board.get_opponent_player_name()} lost a piece.")
-            print(f"{self._board.get_opponent_player_name()} has {self._board.get_opponent_player_piece_number()} pieces.")
-            print(f"{self._board.get_current_player_name()} has {self._board.get_current_player_piece_number()} pieces.")
+            print(f"{self._board.opponent_player_name} lost a piece.")
+            print(f"{self._board.opponent_player_name} has {self._board.opponent_player_piece_number} pieces.")
+            print(f"{self._board.current_player_name} has {self._board.current_player_piece_number} pieces.")
 
         # Check if castling
 
