@@ -29,16 +29,6 @@ class Board:
         return self._current_player
 
     def update_board(self):
-        # After initialization:
-
-        # [[-2,-3,-4,-5,-6,-4,-3,-2],
-        #  [-1,-1,-1,-1,-1,-1,-1,-1],
-        #  [ 0, 0, 0, 0, 0, 0, 0, 0],
-        #  [ 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-        #  [ 0, 0, 0, 0, 0, 0, 0, 0],
-        #  [ 0, 0, 0, 0, 0, 0, 0, 0],
-        #  [ 1, 1, 1, 1, 1, 1, 1, 1],
-        #  [ 2, 3, 4, 5, 6, 4, 3, 2]]
 
         # Reset the board to all 0s
         self._piece_board.fill(0)
@@ -67,17 +57,16 @@ class Board:
     def update_coloring_board(self):
 
         self._coloring_board.fill('o')
-        selected_piece = self._current_player.get_selected_piece()
 
-        if selected_piece is not None:
-            x = selected_piece.get_x()
-            y = selected_piece.get_y()
-            self._coloring_board[y][x] = 's'
+        if self._selected_piece is not None:
+            x = self._selected_piece.get_x()
+            y = self._selected_piece.get_y()
+            self._coloring_board[y, x] = 's'
 
-            possible_moves = selected_piece.get_possible_moves(self)
+            possible_moves = self._selected_piece.get_possible_moves(self)
             if possible_moves is not None:
                 for move in possible_moves:
-                    self._coloring_board[move[1]][move[0]] = 'p'
+                    self._coloring_board[move[1], move[0]] = 'p'
 
     def get_value_at(self, x, y):
         # Get the value of the piece at the given coordinates
@@ -169,16 +158,8 @@ class Board:
 
     @update_board_after
     def select_piece_at(self, x: int, y: int) -> None:
-        if self.is_empty_at(x, y):
-            self._selected_piece = self._get_piece_at(x, y)
-
-    def _get_piece_at(self, x: int, y: int) -> Optional[Piece]:
         if self._current_player.has_piece_at(x, y):
-            return self._current_player.get_piece_at(x, y)
-        elif self._opponent_player.has_piece_at(x, y):
-            return self._opponent_player.get_piece_at(x, y)
-        else:
-            return None
+            self._selected_piece = self._current_player.get_piece_at(x, y)
 
     def is_empty_at(self, x: int, y: int) -> bool:
         return self._piece_board[y][x] == 0
@@ -206,7 +187,7 @@ class Board:
         return self._selected_piece.get_possible_moves(self)
 
     def is_selected_piece_at(self, x: int, y: int) -> bool:
-        return self._coloring_board[y][x] == 'S'
+        return self._coloring_board[y][x] == 's'
 
 
 

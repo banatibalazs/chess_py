@@ -20,9 +20,24 @@ class GameController:
         # Update the board
         self._board.update_board()
 
-        # Send the updated board to the view controller
-        self._view_controller.update_board_view(self._board.get_piece_board(),
-                                                self._board.get_coloring_board())
+        # Update the pieces
+        self._view_controller.update_pieces_on_board(self._board.get_piece_board())
+
+        # Update the coloring
+        self._view_controller.update_board_coloring(self._board.get_coloring_board())
+
+        # self.print_boards()
+        print("Board has selected piece: " + str(self._board.has_selected_piece()))
+
+    def print_boards(self) -> None:
+        print("\tPiece Board:\t\t\tColoring Board:")
+        for i in range(8):
+            print(str(self._board.get_piece_board()[i]).replace('[', ' ')
+                  .replace(' ', '  ')
+                  .replace(" -", "-")
+                  .replace("]", "")
+                  .ljust(30) + "   " +
+                  str(self._board.get_coloring_board()[i]).ljust(30))
 
     def click_on_square(self, x: int, y: int) -> None:
 
@@ -39,12 +54,15 @@ class GameController:
         elif self._board.is_friend_at(x, y):
             self._board.select_piece_at(x, y)
             print(f"Piece selected by {self._board.current_player_name}.")
+            print(f"Piece selected at"
+                  f" x: {self._board.selected_piece_coordinate_x}"
+                  f" y: {self._board.selected_piece_coordinate_y}")
 
         # If square is in the possible moves of the selected piece then move the selected piece to (x,y)
         elif self._board.is_possible_step_at(x, y):
             self.step(x, y)
 
-
+        self.update_view()
 
     def step(self, x: int, y: int) -> None:
 

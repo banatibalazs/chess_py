@@ -55,27 +55,62 @@ class ViewController:
     def click(self, x: int, y: int) -> None:
         self._game_controller.click_on_square(x, y)
 
-    def update_board_view(self, piece_positions_board: ByteArray8x8, coloring_board: CharArray8x8) -> None:
-
+    def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for i in range(8):
             for j in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[i][j]]
                 self._chess_window.update_square_image(path, i, j)
 
-                # Highlight the selected piece
-                if coloring_board[i][j] == 'S':
-                    self.update_square_color(ViewController.LIGHT_SELECTED_COLOR if (i + j) % 2 == 0 else
-                                             ViewController.DARK_SELECTED_COLOR, i, j)
+    def update_board_coloring(self, coloring_board: CharArray8x8) -> None:
 
-                # Highlight the possible moves
-                elif coloring_board[i][j] == 'P':
-                    self.update_square_color(ViewController.LIGHT_GREEN if (i + j) % 2 == 0 else
-                                             ViewController.DARK_GREEN, i, j)
+        # Reset the square colors
+        self.reset_square_colors()
+        # Update the selected piece color
+        self.update_selected_piece_color(coloring_board)
+        # Update the possible moves color
+        self.update_possible_moves_color(coloring_board)
 
-                # Reset the square color
-                else:
-                    self._chess_window.update_square_color(
-                        ViewController.WHITE_COLOR if (i + j) % 2 == 0 else ViewController.BLACK_COLOR, i, j)
+    def update_selected_piece_color(self, coloring_board: CharArray8x8) -> None:
+        # Set the character that represents the selected piece
+        char = b's'
 
-    def update_square_color(self, color, x: int, y: int) -> None:
-        self._chess_window.update_square_color(color, x, y)
+        # Check if exactly one piece is selected
+        if np.count_nonzero(coloring_board == char) == 1:
+            # Get the position of the selected piece
+            row, col = np.where(coloring_board == char)
+            row = row[0]
+            col = col[0]
+            # Set the color of the square on which the selected piece is located
+            if (row + col) % 2 == 0:
+                color = ViewController.LIGHT_SELECTED_COLOR
+            else:
+                color = ViewController.DARK_SELECTED_COLOR
+            self.update_square_color([[color]], [[row, col]])
+
+    def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
+        # Set the character that represents a possible move
+        char = b'p'
+
+        # Check if there are possible moves
+        if np.isin(char, coloring_board):
+            # Get the positions of the possible moves
+            rows, cols = np.where(coloring_board == char)
+            # Create a list of colors according to the original square colors
+            colors = np.where((rows + cols) % 2 == 0,
+                              ViewController.LIGHT_GREEN,
+                              ViewController.DARK_GREEN).tolist()
+            # Create a list of positions
+            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+            self.update_square_color(colors, positions)
+
+    def update_square_color(self, color: list, positions: list) -> None:
+        for i in range(len(positions)):
+            x, y = positions[i]
+            self._chess_window.update_square_color(color[i], x, y)
+
+    def reset_square_colors(self):
+        for i in range(8):
+            for j in range(8):
+                self._chess_window.update_square_color(ViewController.WHITE_COLOR
+                                                       if (i + j) % 2 == 0
+                                                       else ViewController.BLACK_COLOR, j, i)
