@@ -56,13 +56,13 @@ class Player:
 
     def get_piece_at(self, x, y):
         for piece in self._pieces:
-            if piece.get_coordinates() == (x, y):
+            if piece.coordinates == (x, y):
                 return piece
         return None
 
     def has_piece_at(self, x, y):
         for piece in self._pieces:
-            if piece.get_coordinates() == (x, y):
+            if piece.coordinates == (x, y):
                 return True
         return False
 
@@ -83,7 +83,7 @@ class Player:
 
     def remove_piece_at(self, x: int, y: int) -> None:
         for piece in self._pieces:
-            if piece.get_coordinates() == (x, y):
+            if piece.coordinates == (x, y):
                 self._pieces.remove(piece)
                 break
 
@@ -103,7 +103,7 @@ class Player:
 
     def get_king(self):
         for piece in self._pieces:
-            if piece.get_type() == 'KING':
+            if piece.type.name == 'KING':
                 return piece
         return None
 

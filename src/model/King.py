@@ -9,9 +9,9 @@ class King(Piece):
 
     def get_possible_moves(self, board):
         possible_moves = []
-        x = self.get_x()
-        y = self.get_y()
-        color = self.get_color()
+        x = self.x
+        y = self.y
+        color = self.color
 
         if board.is_empty(x, y - 1) or board.is_enemy(x, y - 1, color):
             possible_moves.append((x, y - 1))

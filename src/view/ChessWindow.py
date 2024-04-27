@@ -16,8 +16,10 @@ class ChessWindow:
 
         self._chess_board: list = []
 
-        self.white_player_name_label = None
         self.black_player_name_label = None
+        self.black_player_piece_number_label = None
+        self.white_player_name_label = None
+        self.white_player_piece_number_label = None
 
         self.white_button = None
         self.black_button = None
@@ -39,11 +41,14 @@ class ChessWindow:
                                                0, 7, 2, 10)
         self.black_player_name_label = self.create_label(black_player_name,
                                                0, 5, 1, 10)
+        self.black_player_piece_number_label = self.create_label("16", 0, 6, 1, 10)
 
         self.create_board()
 
         self.white_player_name_label = self.create_label(white_player_name,
                                                10, 5, 1, 10)
+        self.white_player_piece_number_label = self.create_label("16", 10, 6, 1, 10)
+
         self.white_button = self.create_button("White", self.white_button_click,
                                                10, 7, 2, 10)
         self.extra_button = self.create_button("Extra", self.extra_button_click,
@@ -101,3 +106,7 @@ class ChessWindow:
 
     def update_square_color(self, color, x, y):
         self._chess_board[x][y].set_color(color)
+
+    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str):
+        self.white_player_piece_number_label.config(text=white_player_piece_number)
+        self.black_player_piece_number_label.config(text=black_player_piece_number)

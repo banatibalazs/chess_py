@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="extra buttons and labels in ChessWindow.py">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="code cleanup in ChessWindow.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -225,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714239697719</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="code cleanup in ChessWindow.py">
+      <option name="closed" value="true" />
+      <created>1714240876467</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1714240876467</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +257,8 @@
     <MESSAGE value="new features" />
     <MESSAGE value="change implementation to numpy arrays in ViewController.py" />
     <MESSAGE value="extra buttons and labels in ChessWindow.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="extra buttons and labels in ChessWindow.py" />
+    <MESSAGE value="code cleanup in ChessWindow.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup in ChessWindow.py" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

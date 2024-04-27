@@ -9,9 +9,9 @@ class Pawn(Piece):
 
     def get_possible_moves(self, board):
         possible_moves = []
-        x = self.get_x()
-        y = self.get_y()
-        color = self.get_color()
+        x = self.x
+        y = self.y
+        color = self.color
 
         '''
         The board [yx] coordinates

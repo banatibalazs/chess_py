@@ -1,11 +1,9 @@
-from typing import Dict, Tuple, List
+from typing import Dict, List
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
 from src.controller.GameController import GameController
 import src.view.ChessWindow as ChessWindow
 import numpy as np
-
-from src.model.ColorEnum import ColorEnum
 
 
 # from src.view.ChessWindow import ChessWindow
@@ -69,6 +67,9 @@ class ViewController:
 
     def extra_button_click(self) -> None:
         pass
+
+    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str) -> None:
+        self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
 
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for i in range(8):

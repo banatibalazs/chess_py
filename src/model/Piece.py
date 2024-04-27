@@ -27,16 +27,20 @@ class Piece(ABC):
     def is_moved(self):
         return self._is_moved
 
-    def get_type(self):
+    @property
+    def type(self):
         return self._type
 
-    def get_x(self):
+    @property
+    def x(self) -> int:
         return self._x
 
-    def get_y(self):
+    @property
+    def y(self) -> int:
         return self._y
 
-    def get_color(self):
+    @property
+    def color(self):
         return self._color
 
     def set_x(self, x):
@@ -48,7 +52,9 @@ class Piece(ABC):
     def set_coordinates(self, x, y):
         self._x = x
         self._y = y
-    def get_coordinates(self):
+
+    @property
+    def coordinates(self):
         return self._x, self._y
 
 

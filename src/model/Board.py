@@ -30,13 +30,12 @@ class Board:
         self._black_attack_board = np.zeros((8, 8), dtype=np.bool_)
 
     def is_possible_step_at(self, x, y):
-        return self._coloring_board[y][x] == self.POSSIBLE_MOVE_SYMBOL
+        return self._coloring_board[y, x] == self.POSSIBLE_MOVE_SYMBOL
 
     def get_current_player(self):
         return self._current_player
 
     def update_board(self):
-
         # Reset the board to all 0s
         self._piece_board.fill(0)
         # Update the board with the current piece positions
@@ -56,7 +55,7 @@ class Board:
 
     def update_piece_positions(self, pieces):
         for piece in pieces:
-            self._piece_board[piece.get_y()][piece.get_x()] = piece.get_type().value * piece.get_color().value
+            self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
 
     def reset_coloring_board(self):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
@@ -66,8 +65,8 @@ class Board:
         self._coloring_board.fill(self.EMPTY_SYMBOL)
 
         if self._selected_piece is not None:
-            x = self._selected_piece.get_x()
-            y = self._selected_piece.get_y()
+            x = self._selected_piece.x
+            y = self._selected_piece.y
             self._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
 
             possible_moves = self._selected_piece.get_possible_moves(self)
@@ -134,10 +133,6 @@ class Board:
     def is_opponent_at(self, x: int, y: int) -> bool:
         return self._opponent_player.has_piece_at(x, y)
 
-    @update_board_after
-    def remove_piece_at(self, x: int, y: int) -> None:
-        self._opponent_player.remove_piece_at(x, y)
-
     def switch_players(self) -> None:
         # Switch the current player and the opponent player (multiple assignment in Python)
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
@@ -172,21 +167,21 @@ class Board:
 
     @property
     def color_of_selected_piece(self) -> str:
-        return self._selected_piece.get_color().name
+        return self._selected_piece.color.name
 
     @property
     def type_of_selected_piece(self) -> str:
         if self._selected_piece is None:
             return ''
-        return self._selected_piece.get_type().name
+        return self._selected_piece.type.name
 
     @property
     def selected_piece_coordinate_x(self) -> int:
-        return self._selected_piece.get_x()
+        return self._selected_piece.x
 
     @property
     def selected_piece_coordinate_y(self) -> int:
-        return self._selected_piece.get_y()
+        return self._selected_piece.y
 
     @property
     def possible_moves(self) -> list:
@@ -194,6 +189,25 @@ class Board:
 
     def is_selected_piece_at(self, x: int, y: int) -> bool:
         return self._coloring_board[y][x] == self.SELECTED_PIECE_SYMBOL
+
+    def move_piece_to(self, to_x: int, to_y: int) -> None:
+        # if self._selected_piece.get_type() == 'PAWN' and (to_y == 0 or to_y == 7):
+        from_x, from_y = self._selected_piece.coordinates
+
+        self._selected_piece.set_coordinates(to_x, to_y)
+        self.capture_piece_at(to_x, to_y)
+        self._selected_piece.set_moved()
+
+        self.switch_players()
+
+    def check_en_passant(self, x: int, y: int) -> bool:
+        pass
+
+    @update_board_after
+    def capture_piece_at(self, x: int, y: int) -> None:
+        if self._opponent_player.has_piece_at(x, y):
+            self._opponent_player.remove_piece_at(x, y)
+
 
 
 
