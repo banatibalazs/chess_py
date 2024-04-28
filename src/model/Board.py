@@ -89,9 +89,6 @@ class Board:
 
     def update_special_moves(self):
 
-        self.update_attack_boards()
-        self.update_players()
-
         special_moves = self._current_player.special_moves
         if special_moves is not None:
             for move in special_moves:

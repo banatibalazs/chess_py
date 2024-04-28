@@ -167,7 +167,7 @@ class Player:
                     not board.square_is_attacked_by_white(4, 0) and
                     not board.square_is_attacked_by_white(3, 0) and
                     not board.square_is_attacked_by_white(2, 0)):
-                self._special_moves.append((0, 2))
+                self._special_moves.append((2, 0))
 
             rook = self.get_piece_at(7, 0)
             if (isinstance(rook, Rook) and
@@ -180,7 +180,7 @@ class Player:
                     not board.square_is_attacked_by_white(4, 0) and
                     not board.square_is_attacked_by_white(5, 0) and
                     not board.square_is_attacked_by_white(6, 0)):
-                self._special_moves.append((0, 6))
+                self._special_moves.append((6, 0))
 
         else:
             king = self.get_piece_at(4, 7)
@@ -196,7 +196,7 @@ class Player:
                     not board.square_is_attacked_by_black(4, 7) and
                     not board.square_is_attacked_by_black(3, 7) and
                     not board.square_is_attacked_by_black(2, 7)):
-                self._special_moves.append((7, 2))
+                self._special_moves.append((2, 7))
 
             rook = self.get_piece_at(7, 7)
             if (isinstance(rook, Rook) and
@@ -209,7 +209,7 @@ class Player:
                     not board.square_is_attacked_by_black(4, 7) and
                     not board.square_is_attacked_by_black(5, 7) and
                     not board.square_is_attacked_by_black(6, 7)):
-                self._special_moves.append((7, 6))
+                self._special_moves.append((6, 7))
 
     def reset_selected_piece(self):
         self._selected_piece = None
