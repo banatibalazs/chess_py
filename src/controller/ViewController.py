@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 from src.controller.GameController import GameController
 import src.view.ChessWindow as ChessWindow
 import numpy as np
@@ -31,6 +31,10 @@ class ViewController:
     DARK_SELECTED_COLOR = "#c29977"
     WHITE_COLOR = "#ffffff"
     BLACK_COLOR = "#4a3434"
+    LIGHT_RED_COLOR = "#ff2222"
+    DARK_RED_COLOR = "#ff8888"
+    LIGHT_BLUE_COLOR = "#2222ff"
+    DARK_BLUE_COLOR = "#8888ff"
 
     def __init__(self, chess_window: ChessWindow, white_player_name: str, black_player_name: str):
         self._chess_window: ChessWindow = chess_window
@@ -60,13 +64,39 @@ class ViewController:
         pass
 
     def black_button_click(self) -> None:
-        pass
+        self._game_controller.click_on_black_button()
 
     def white_button_click(self) -> None:
-        pass
+        self._game_controller.click_on_white_button()
 
     def extra_button_click(self) -> None:
         pass
+
+    def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
+
+        self.reset_square_colors()
+
+        rows, cols = np.where(attack_board == True)
+        # Create a list of colors according to the original square colors
+        colors = np.where((rows + cols) % 2 == 0,
+                          ViewController.LIGHT_RED_COLOR,
+                          ViewController.DARK_RED_COLOR).tolist()
+        # Create a list of positions
+        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+        self.update_square_color(colors, positions)
+
+    def show_white_attack_board(self, attack_board: BoolArray8x8) -> None:
+
+            self.reset_square_colors()
+
+            rows, cols = np.where(attack_board == True)
+            # Create a list of colors according to the original square colors
+            colors = np.where((rows + cols) % 2 == 0,
+                            ViewController.LIGHT_GREEN,
+                            ViewController.DARK_GREEN).tolist()
+            # Create a list of positions
+            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+            self.update_square_color(colors, positions)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str) -> None:
         self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
@@ -86,9 +116,10 @@ class ViewController:
         # Update the possible moves color
         self.update_possible_moves_color(coloring_board)
 
+
     def update_selected_piece_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents the selected piece
-        char = b's'
+        char = b'x'
 
         # Check if exactly one piece is selected
         if np.count_nonzero(coloring_board == char) == 1:
@@ -105,7 +136,7 @@ class ViewController:
 
     def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents a possible move
-        char = b'p'
+        char = b'n'
 
         # Check if there are possible moves
         if np.isin(char, coloring_board):
@@ -115,6 +146,18 @@ class ViewController:
             colors = np.where((rows + cols) % 2 == 0,
                               ViewController.LIGHT_GREEN,
                               ViewController.DARK_GREEN).tolist()
+            # Create a list of positions
+            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+            self.update_square_color(colors, positions)
+
+        char = b's'
+        if np.isin(char, coloring_board):
+            # Get the positions of the possible moves
+            rows, cols = np.where(coloring_board == char)
+            # Create a list of colors according to the original square colors
+            colors = np.where((rows + cols) % 2 == 0,
+                              ViewController.LIGHT_BLUE_COLOR,
+                              ViewController.DARK_BLUE_COLOR).tolist()
             # Create a list of positions
             positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
             self.update_square_color(colors, positions)

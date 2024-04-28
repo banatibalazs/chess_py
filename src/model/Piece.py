@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import List, Tuple
 
+# from src.model.Board import Board
+from src.model import Board
 
 class Piece(ABC):
     def __init__(self, piece_type, color, x, y):
@@ -10,7 +13,6 @@ class Piece(ABC):
 
         self._is_moved = False
         self._is_captured = False
-        self._is_en_passant = False
         self._is_castling = False
         self._is_promotion = False
         self._is_check = False
@@ -18,7 +20,7 @@ class Piece(ABC):
         self._is_stalemate = False
 
     @abstractmethod
-    def get_possible_moves(self, board):
+    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
         pass
 
     def set_moved(self):
@@ -42,12 +44,6 @@ class Piece(ABC):
     @property
     def color(self):
         return self._color
-
-    def set_x(self, x):
-        self._x = x
-
-    def set_y(self, y):
-        self._y = y
 
     def set_coordinates(self, x, y):
         self._x = x

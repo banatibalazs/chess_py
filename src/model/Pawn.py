@@ -1,13 +1,18 @@
+from typing import List, Tuple, override
+
+from src.model import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
 class Pawn(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: ColorEnum, x: int, y: int):
         super().__init__(PieceTypeEnum.PAWN, color, x, y)
+        self._is_en_passant = False
 
-    def get_possible_moves(self, board):
+    @override
+    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
         possible_moves = []
         x = self.x
         y = self.y
@@ -62,4 +67,48 @@ class Pawn(Piece):
 
         return possible_moves
 
+    def get_attacked_locations(self, board: Board) -> List[Tuple[int, int]]:
+
+        attacked_locations = []
+        x = self.x
+        y = self.y
+        color = self.color
+
+        if color == ColorEnum.WHITE:
+            if x - 1 >= 0 and y - 1 >= 0:
+                if x - 1 >= 0 and y - 1 >= 0:
+                    attacked_locations.append((x - 1, y - 1))
+            if x + 1 <= 7 and y - 1 >= 0:
+                if x + 1 <= 7 and y - 1 >= 0:
+                    attacked_locations.append((x + 1, y - 1))
+        else:
+            if x - 1 >= 0 and y + 1 <= 7:
+                if x - 1 >= 0 and y + 1 <= 7:
+                    attacked_locations.append((x - 1, y + 1))
+            if x + 1 <= 7 and y + 1 <= 7:
+                if x + 1 <= 7 and y + 1 <= 7:
+                    attacked_locations.append((x + 1, y + 1))
+
+        return attacked_locations
+
+    def en_passant_move(self, board: Board) -> None:
+        possible_moves = []
+        if self.color == ColorEnum.WHITE:
+            if board.is_empty(self.x - 1, self.y - 1) and board.is_enemy(self.x - 1, self.y, self.color)\
+                    and board.is_en_passant(self.x - 1, self.y - 1):
+                possible_moves.append((self.x - 1, self.y - 1))
+            if board.is_empty(self.x + 1, self.y - 1) and board.is_enemy(self.x + 1, self.y, self.color):
+                possible_moves.append((self.x + 1, self.y - 1))
+        else:
+            if board.is_empty(self.x - 1, self.y + 1) and board.is_enemy(self.x - 1, self.y, self.color):
+                possible_moves.append((self.x - 1, self.y + 1))
+            if board.is_empty(self.x + 1, self.y + 1) and board.is_enemy(self.x + 1, self.y, self.color):
+                possible_moves.append((self.x + 1, self.y + 1))
+
+    @property
+    def is_en_passant(self) -> bool:
+        return self._is_en_passant
+
+    def set_en_passant(self, value: bool) -> None:
+        self._is_en_passant = value
 

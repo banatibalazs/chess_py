@@ -1,13 +1,19 @@
+from typing import Tuple, List, override
+
+# from src.model.Board import Board
+from src.model import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
+
 class Knight(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: ColorEnum, x: int, y: int):
         super().__init__(PieceTypeEnum.KNIGHT, color, x, y)
 
-    def get_possible_moves(self, board):
+    @override
+    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
         possible_moves = []
         x = self.x
         y = self.y

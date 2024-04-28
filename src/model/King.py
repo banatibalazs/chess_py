@@ -1,3 +1,5 @@
+from typing import override
+
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -7,7 +9,8 @@ class King(Piece):
     def __init__(self, color, x, y):
         super().__init__(PieceTypeEnum.KING, color, x, y)
 
-    def get_possible_moves(self, board):
+    @override
+    def get_possible_moves(self, board) -> object:
         possible_moves = []
         x = self.x
         y = self.y

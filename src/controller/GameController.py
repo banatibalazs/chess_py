@@ -23,8 +23,8 @@ class GameController:
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
         # Update View labels
-        self._view_controller.update_labels(self._board.current_player_piece_number,
-                                            self._board.opponent_player_piece_number)
+        self._view_controller.update_labels(self._board.white_player_piece_number,
+                                            self._board.black_player_piece_number)
 
     def click_on_board(self, x: int, y: int) -> None:
 
@@ -42,9 +42,12 @@ class GameController:
                   f" y: {self._board.selected_piece_coordinate_y}")
 
         # If square is in the possible moves of the selected piece then move the selected piece to (x,y)
-        elif self._board.is_possible_step_at(x, y):
+        elif self._board.is_normal_move_at(x, y):
             print(f"Step made by {self._board.current_player_name}.")
             self.step(x, y)
+
+        elif self._board.is_special_move_at(x, y):
+            print(f"Special move made by {self._board.current_player_name}.")
 
         # Check if the square is empty
         elif self._board.is_empty_at(x, y) or self._board.is_opponent_at(x, y):
@@ -68,11 +71,16 @@ class GameController:
 
         self._board.move_piece_to(x, y)
 
+
         # Check if castling
 
         # Check if en passant
 
+        # Create opponent attack board
+        #
+
         # Check if check
+
 
         # Check if checkmate
 
@@ -91,3 +99,11 @@ class GameController:
 
     def load_game(self):
         pass
+
+    def click_on_white_button(self) -> None:
+        self._board.update_attack_boards()
+        self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
+
+    def click_on_black_button(self) -> None:
+        self._board.update_attack_boards()
+        self._view_controller.show_black_attack_board(self._board.get_black_attack_board())

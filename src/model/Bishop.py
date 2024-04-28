@@ -1,3 +1,5 @@
+from typing import override
+
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -7,6 +9,7 @@ class Bishop(Piece):
     def __init__(self, color, x, y):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
+    @override
     def get_possible_moves(self, board):
         possible_moves = []
         x = self.x
@@ -48,6 +51,5 @@ class Bishop(Piece):
                 break
             else:
                 break
-
 
         return possible_moves

@@ -4,3 +4,4 @@ from numpy.typing import NDArray
 
 ByteArray8x8 = Annotated[NDArray[np.byte], Literal[8, 8]]
 CharArray8x8 = Annotated[NDArray[np.character], Literal[8, 8]]
+BoolArray8x8 = Annotated[NDArray[np.bool_], Literal[8, 8]]
