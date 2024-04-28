@@ -1,22 +1,27 @@
+from typing import Optional, List
+
 from src.model.Bishop import Bishop
 from src.model.King import King
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.ColorEnum import ColorEnum
+from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 
 
 class Player:
-    def __init__(self, name, color):
-        self._name = name
-        self._color = color
-        self._is_computer = False
-        self._pieces = []
-        self._selected_piece = None
+    def __init__(self, name: str, color: ColorEnum):
+        self._name: str = name
+        self._color: ColorEnum = color
+        self._is_computer: bool = False
+        self._selected_piece: Optional[Piece] = None
         self._king_is_checked = False
-        self._attacked_squares = []
+        self._pieces: List[Piece] = []
+        self._possible_moves = []
+        self._special_moves = []
+        self._attacked_squares = []  # TODO
 
         '''
                          The board 
@@ -74,14 +79,16 @@ class Player:
 
     def reset_selected_piece(self):
         self._selected_piece = None
-    def set_selected_piece(self, x, y):
+
+    def set_selected_piece(self, x: int, y: int) -> None:
         if self.has_piece_at(x, y):
             self._selected_piece = self.get_piece_at(x, y)
 
-    def get_selected_piece(self):
+    @property
+    def selected_piece(self):
         return self._selected_piece
 
-    def has_selected_piece(self):
+    def has_selected_piece(self) -> bool:
         return self._selected_piece is not None
 
     def remove_piece_at(self, x: int, y: int) -> None:
@@ -89,19 +96,6 @@ class Player:
             if piece.coordinates == (x, y):
                 self._pieces.remove(piece)
                 break
-
-    def promote_pawn(self, from_x, from_y, to_x: int, to_y: int, piece_type: PieceTypeEnum) -> None:
-        self.remove_piece_at(from_x, from_y)
-        if piece_type == PieceTypeEnum.QUEEN:
-            self._pieces.append(Queen(self._color, to_x, to_y))
-        elif piece_type == PieceTypeEnum.ROOK:
-            self._pieces.append(Rook(self._color, to_x, to_y))
-        elif piece_type == PieceTypeEnum.BISHOP:
-            self._pieces.append(Bishop(self._color, to_x, to_y))
-        elif piece_type == PieceTypeEnum.KNIGHT:
-            self._pieces.append(Knight(self._color, to_x, to_y))
-        else:
-            raise ValueError("Invalid piece type.")
 
     def get_king(self):
         for piece in self._pieces:
@@ -124,25 +118,40 @@ class Player:
     def get_piece_number(self):
         return len(self._pieces)
 
-    def castling(self, from_x, from_y, to_x, to_y):
-        if from_x == 4 and from_y == 0 and to_x == 6 and to_y == 0:
-            self.get_piece_at(7, 0).set_coordinates(5, 0)
-        elif from_x == 4 and from_y == 0 and to_x == 2 and to_y == 0:
-            self.get_piece_at(0, 0).set_coordinates(3, 0)
-        elif from_x == 4 and from_y == 7 and to_x == 6 and to_y == 7:
-            self.get_piece_at(7, 7).set_coordinates(5, 7)
-        elif from_x == 4 and from_y == 7 and to_x == 2 and to_y == 7:
-            self.get_piece_at(0, 7).set_coordinates(3, 7)
-        else:
-            raise ValueError("Invalid castling move.")
-        self.get_king().set_moved()
-        self.get_piece_at(to_x, to_y).set_moved()
+    def move_piece(self, to_x, to_y) -> None:
+        # Set en passant field if the pawn moves two squares
+        self.reset_en_passant()
+        if isinstance(self.selected_piece, Pawn):
+            if abs(self.selected_piece.y - to_y) == 2:
+                self.selected_piece.is_en_passant = True
 
-    # def get_attacked_squares(self, board):
-    #     for piece in self.get_pieces():
-    #         attacked_locations = piece.get_attacked_locations(self) if isinstance(piece,
-    #                                                   Pawn) else piece.get_possible_moves(
-    #             self)
-    #         for location in attacked_locations:
-    #             attack_board[location[1], location[0]] = True
+            if to_y == 0 or to_y == 7:
+                self.promote_pawn(to_x, to_y, PieceTypeEnum.QUEEN)
+                return
+
+        self.selected_piece.set_coordinates(to_x, to_y)
+        self.selected_piece.set_moved()
+
+    def reset_en_passant(self) -> None:
+        for piece in self._pieces:
+            if isinstance(piece, Pawn):
+                piece.is_en_passant = False
+
+    def promote_pawn(self, to_x: int, to_y: int, piece_type: PieceTypeEnum) -> None:
+        from_x = self.selected_piece.x
+        from_y = self.selected_piece.y
+
+        self.remove_piece_at(from_x, from_y)
+        if piece_type == PieceTypeEnum.QUEEN:
+            self._pieces.append(Queen(self._color, to_x, to_y))
+        elif piece_type == PieceTypeEnum.ROOK:
+            self._pieces.append(Rook(self._color, to_x, to_y))
+        elif piece_type == PieceTypeEnum.BISHOP:
+            self._pieces.append(Bishop(self._color, to_x, to_y))
+        elif piece_type == PieceTypeEnum.KNIGHT:
+            self._pieces.append(Knight(self._color, to_x, to_y))
+        else:
+            raise ValueError("Invalid piece type.")
+
+
 

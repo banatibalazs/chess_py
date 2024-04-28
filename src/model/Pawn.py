@@ -109,6 +109,7 @@ class Pawn(Piece):
     def is_en_passant(self) -> bool:
         return self._is_en_passant
 
-    def set_en_passant(self, value: bool) -> None:
+    @is_en_passant.setter
+    def is_en_passant(self, value: bool) -> None:
         self._is_en_passant = value
 

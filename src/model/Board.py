@@ -26,7 +26,7 @@ class Board:
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
-        self._selected_piece: Optional[Piece] = None
+        # self._selected_piece: Optional[Piece] = None
 
         self._piece_board = np.zeros((8, 8), dtype=np.byte)
         self._coloring_board = np.zeros((8, 8), dtype=np.character)
@@ -66,17 +66,17 @@ class Board:
 
         self._coloring_board.fill(self.EMPTY_SYMBOL)
 
-        if self._selected_piece is not None:
-            x = self._selected_piece.x
-            y = self._selected_piece.y
+        if self._current_player.selected_piece is not None:
+            x = self._current_player.selected_piece.x
+            y = self._current_player.selected_piece.y
             self._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
 
-            possible_moves = self._selected_piece.get_possible_moves(self)
+            possible_moves = self._current_player.selected_piece.get_possible_moves(self)
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
 
-        if isinstance(self._selected_piece, King):
+        if isinstance(self._current_player.selected_piece, King):
             self.check_castling()
 
     def check_castling(self):
@@ -95,6 +95,19 @@ class Board:
                 [70][71][72][73][74][75][76][77]            [ 2][ 3][ 4][ 5][ 6][ 4][ 3][ 2]
 
                                                                         White player
+                '''
+
+        '''
+                Castling rules
+
+                1. Neither the king nor the rook has previously moved.
+                2. There are no pieces between the king and the rook.
+                3. The king is not currently in check.
+                4. The king does not pass through or finish on a square that is attacked by an enemy piece.
+
+                                (x, y)
+                Rook positions: (0, 0), (7, 0), (0, 7), (7, 7)
+                King positions: (4, 0), (4, 7)
                 '''
 
         self.update_attack_boards()
@@ -189,6 +202,9 @@ class Board:
     def is_enemy(self, x, y, color):
         return self.get_color_at(x, y) != color and self.get_color_at(x, y) != ColorEnum.NONE
 
+    def is_attacked_by_opponent_at(self, x, y):
+        return self._opponent_player.attacks_position(x, y, self)
+
     def get_coloring_board(self) -> CharArray8x8:
         return self._coloring_board
 
@@ -224,81 +240,44 @@ class Board:
     def switch_players(self) -> None:
         # Switch the current player and the opponent player (multiple assignment in Python)
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
-        self.reset_selected_piece()
-
-    @update_board_after
-    def reset_selected_piece(self) -> None:
-        self._selected_piece = None
+        self._current_player.reset_selected_piece()
 
     @update_board_after
     def select_piece_at(self, x: int, y: int) -> None:
         if self._current_player.has_piece_at(x, y):
-            self._selected_piece = self._current_player.get_piece_at(x, y)
+            self._current_player.set_selected_piece(x, y)
 
     def is_empty_at(self, x: int, y: int) -> bool:
         return self._piece_board[y][x] == 0
 
     @property
     def selected_piece_coordinate_x(self) -> int:
-        return self._selected_piece.x
+        return self._current_player.selected_piece.x
 
     @property
     def selected_piece_coordinate_y(self) -> int:
-        return self._selected_piece.y
+        return self._current_player.selected_piece.y
 
     def is_selected_piece_at(self, x: int, y: int) -> bool:
         return self._coloring_board[y, x] == self.SELECTED_PIECE_SYMBOL
 
     def move_piece_to(self, to_x: int, to_y: int) -> None:
-        piece = self._selected_piece
-        from_x, from_y = piece.coordinates
-
-        # Pawn specific rules and checks
-        if isinstance(piece, Pawn):
-
-            # Pawn promotion
-            if to_y == 0 or to_y == 7:
-                self._current_player.promote_pawn(from_x, from_y, to_x, to_y, PieceTypeEnum.QUEEN)
-
-            # Set en passant field if the pawn moves two squares
-            if abs(from_y - to_y) == 2:
-                self._selected_piece.set_en_passant(True)
+        # piece = self._current_player.selected_piece
+        # from_x, from_y = piece.coordinates
 
 
-        '''
-        Castling rules
-        
-        1. Neither the king nor the rook has previously moved.
-        2. There are no pieces between the king and the rook.
-        3. The king is not currently in check.
-        4. The king does not pass through or finish on a square that is attacked by an enemy piece.
-        
-                        (x, y)
-        Rook positions: (0, 0), (7, 0), (0, 7), (7, 7)
-        King positions: (4, 0), (4, 7)
-        '''
-
-        if isinstance(self._selected_piece, King) and not piece.is_moved():
-            if to_x == 6 and to_y == 0:
-                self._current_player.castling(4, 0, 7, 0)
-            elif to_x == 2 and to_y == 0:
-                self._current_player.castling(4, 0, 0, 0)
-            elif to_x == 6 and to_y == 7:
-                self._current_player.castling(4, 7, 7, 7)
-            elif to_x == 2 and to_y == 7:
-                self._current_player.castling(4, 7, 0, 7)
-
-
-        self._selected_piece.set_coordinates(to_x, to_y)
+        self._current_player.move_piece(to_x, to_y)
         self.capture_piece_at(to_x, to_y)
-        self._selected_piece.set_moved()
 
         self.switch_players()
 
         # reset en passant
 
-    def check_en_passant(self, x: int, y: int) -> bool:
-        pass
+    # def check_en_passant(self, x: int, y: int) -> bool:
+    #     self._current_player.check_en_passant(x, y)
+    #
+    # def check_promotion(self, x: int, y: int) -> bool:
+    #     self._current_player.check_promotion(x, y)
 
     @update_board_after
     def capture_piece_at(self, x: int, y: int) -> None:
@@ -342,6 +321,9 @@ class Board:
             return self._current_player.get_piece_at(x, y)
         else:
             return self._opponent_player.get_piece_at(x, y)
+
+    def reset_selected_piece(self):
+        self._current_player.reset_selected_piece()
 
 
 
