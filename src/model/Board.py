@@ -95,7 +95,7 @@ class Board:
         special_moves = self._current_player.special_moves
         if special_moves is not None:
             for move in special_moves:
-                self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
+                self._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
 
     def square_is_attacked_by_white(self, x, y) -> bool:
         return bool(self._white_attack_board[y, x])
@@ -184,14 +184,13 @@ class Board:
         return self._coloring_board[y, x] == self.SELECTED_PIECE_SYMBOL
 
     def make_normal_move(self, to_x: int, to_y: int) -> None:
-        # piece = self._current_player.selected_piece
-        # from_x, from_y = piece.coordinates
 
         self._current_player.make_normal_move(to_x, to_y)
         if self._opponent_player.has_piece_at(to_x, to_y):
             self._opponent_player.remove_piece_at(to_x, to_y)
 
         self.switch_players()
+        self.update_data()
 
     def update_attack_boards(self) -> None:
         self._white_attack_board.fill(False)

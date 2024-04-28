@@ -71,18 +71,12 @@ class King(Piece):
 
             if color == ColorEnum.WHITE:
                 if board.square_is_attacked_by_black(field[0], field[1]) or \
-                        board.square_is_protected_by_black(field[1], field[0]):
+                        board.square_is_protected_by_black(field[0], field[1]):
                     possible_fields.remove(field)
             else:
                 if board.square_is_attacked_by_white(field[0], field[1]) or \
                         board.square_is_protected_by_white(field[1], field[0]):
                     possible_fields.remove(field)
-
-
-        # print("Opponent attacked fields: ")
-        # print(board._opponent_player.attacked_fields)
-        #
-        # print()
 
 
         return possible_fields, protected_fields
