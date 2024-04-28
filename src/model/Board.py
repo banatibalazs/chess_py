@@ -75,7 +75,9 @@ class Board:
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
-        self.check_castling()
+
+        if isinstance(self._selected_piece, King):
+            self.check_castling()
 
     def check_castling(self):
 
@@ -94,6 +96,8 @@ class Board:
 
                                                                         White player
                 '''
+
+        self.update_attack_boards()
 
         if self._current_player.get_color() == ColorEnum.BLACK:
             # Then king is at (4, 0) and rooks are at (0, 0) and (7, 0)

@@ -136,31 +136,32 @@ class ViewController:
 
     def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents a possible move
-        char = b'n'
+        # char = b'n'
 
+        for char in [b'n', b's']:
         # Check if there are possible moves
-        if np.isin(char, coloring_board):
-            # Get the positions of the possible moves
-            rows, cols = np.where(coloring_board == char)
-            # Create a list of colors according to the original square colors
-            colors = np.where((rows + cols) % 2 == 0,
-                              ViewController.LIGHT_GREEN,
-                              ViewController.DARK_GREEN).tolist()
-            # Create a list of positions
-            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-            self.update_square_color(colors, positions)
+            if np.isin(char, coloring_board):
+                # Get the positions of the possible moves
+                rows, cols = np.where(coloring_board == char)
+                # Create a list of colors according to the original square colors
+                colors = np.where((rows + cols) % 2 == 0,
+                                  ViewController.LIGHT_GREEN if char == b'n' else ViewController.LIGHT_RED_COLOR,
+                                  ViewController.DARK_GREEN if char == b'n' else ViewController.DARK_BLUE_COLOR).tolist()
+                # Create a list of positions
+                positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+                self.update_square_color(colors, positions)
 
-        char = b's'
-        if np.isin(char, coloring_board):
-            # Get the positions of the possible moves
-            rows, cols = np.where(coloring_board == char)
-            # Create a list of colors according to the original square colors
-            colors = np.where((rows + cols) % 2 == 0,
-                              ViewController.LIGHT_BLUE_COLOR,
-                              ViewController.DARK_BLUE_COLOR).tolist()
-            # Create a list of positions
-            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-            self.update_square_color(colors, positions)
+        # char = b's'
+        # if np.isin(char, coloring_board):
+        #     # Get the positions of the possible moves
+        #     rows, cols = np.where(coloring_board == char)
+        #     # Create a list of colors according to the original square colors
+        #     colors = np.where((rows + cols) % 2 == 0,
+        #                       ViewController.LIGHT_BLUE_COLOR,
+        #                       ViewController.DARK_BLUE_COLOR).tolist()
+        #     # Create a list of positions
+        #     positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+        #     self.update_square_color(colors, positions)
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):

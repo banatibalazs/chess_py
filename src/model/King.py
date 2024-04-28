@@ -34,4 +34,13 @@ class King(Piece):
             possible_moves.append((x + 1, y + 1))
 
 
+        for move in possible_moves:
+            if color == ColorEnum.WHITE:
+                if board.square_is_attacked_by_black(move[0], move[1]):
+                    possible_moves.remove(move)
+            else:
+                if board.square_is_attacked_by_white(move[0], move[1]):
+                    possible_moves.remove(move)
+
+
         return possible_moves
