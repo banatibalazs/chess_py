@@ -5,6 +5,8 @@ from src.model.ColorEnum import ColorEnum
 import numpy as np
 
 from src.model.King import King
+from src.model.Pawn import Pawn
+from src.model.Piece import Piece
 
 from src.model.Player import Player
 
@@ -24,6 +26,7 @@ class Board:
         self._opponent_player: Player = self._black_player
 
         # self._selected_piece: Optional[Piece] = None
+        self._last_moved_piece: Optional[Piece] = None
 
         self._piece_board = np.zeros((8, 8), dtype=np.byte)
         self._coloring_board = np.zeros((8, 8), dtype=np.character)
@@ -39,30 +42,32 @@ class Board:
     def is_special_move_at(self, x, y):
         return self._coloring_board[y, x] == self.SPECIAL_MOVE_SYMBOL
 
-    def update_board(self):
+    def update_piece_board(self):
         # Reset the board to all 0s
         self._piece_board.fill(0)
         # Update the board with the current piece positions
-        self.update_piece_positions(self._white_player.get_pieces())
-        self.update_piece_positions(self._black_player.get_pieces())
-        # Update the coloring board
-        self.update_coloring_board()
+        self.update_piece_positions(self._white_player.pieces)
+        self.update_piece_positions(self._black_player.pieces)
 
-    @staticmethod
-    def update_board_after(func):
-        def wrapper(self, *args, **kwargs):
-            result = func(self, *args, **kwargs)
-            self.update_board()
-            return result
-
-        return wrapper
+    # @staticmethod
+    # def update_board_after(func):
+    #     def wrapper(self, *args, **kwargs):
+    #         result = func(self, *args, **kwargs)
+    #         self.update_board()
+    #         return result
+    #
+    #     return wrapper
 
     def update_piece_positions(self, pieces):
         for piece in pieces:
             self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
 
-    def update_all_board(self):
-        self.update_board()
+    def update_data(self):
+        self.update_players()
+
+        self.update_piece_board()
+        self.update_coloring_board()
+
         self.update_attack_boards()
         self.update_protection_boards()
 
@@ -75,19 +80,19 @@ class Board:
             y = self._current_player.selected_piece.y
             self._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
 
-            possible_moves = self._current_player.get_possible_moves_of_selected_piece(self)
+            possible_moves = self._current_player.possible_moves_of_selected_piece
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
 
-        if isinstance(self._current_player.selected_piece, King):
-            self.update_special_moves()
+        self.update_special_moves()
 
     def update_special_moves(self):
 
         self.update_attack_boards()
+        self.update_players()
 
-        special_moves = self._current_player.get_special_moves(self)
+        special_moves = self._current_player.special_moves
         if special_moves is not None:
             for move in special_moves:
                 self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
@@ -97,10 +102,6 @@ class Board:
 
     def square_is_attacked_by_black(self, x, y) -> bool:
         return bool(self._black_attack_board[y, x])
-
-    def get_value_at(self, x, y):
-        # Get the value of the piece at the given coordinates
-        return self._piece_board[y][x]
 
     def get_color_at(self, x, y):
         if x < 0 or x > 7 or y < 0 or y > 7:
@@ -116,7 +117,7 @@ class Board:
     def is_empty(self, x, y):
         if x < 0 or x > 7 or y < 0 or y > 7:
             return False
-        return self.get_value_at(x, y) == 0
+        return self._piece_board[y][x] == 0
 
     def is_enemy(self, x, y, color):
         return self.get_color_at(x, y) != color and self.get_color_at(x, y) != ColorEnum.NONE
@@ -164,7 +165,6 @@ class Board:
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self._current_player.reset_selected_piece()
 
-    @update_board_after
     def select_piece_at(self, x: int, y: int) -> None:
         if self._current_player.has_piece_at(x, y):
             self._current_player.set_selected_piece(x, y)
@@ -197,8 +197,8 @@ class Board:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
 
-        attacked_by_white = self._white_player.get_attacked_locations(self)
-        attacked_by_black = self._black_player.get_attacked_locations(self)
+        attacked_by_white = self._white_player.attacked_fields
+        attacked_by_black = self._black_player.attacked_fields
 
         for location in attacked_by_white:
             self._white_attack_board[location[0], location[1]] = True
@@ -216,14 +216,14 @@ class Board:
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
 
-        protected_by_white = self._white_player.get_protected_fields(self)
-        protected_by_black = self._black_player.get_protected_fields(self)
+        protected_by_white = self._white_player.protected_fields
+        protected_by_black = self._black_player.protected_fields
 
         for location in protected_by_white:
-            self._white_protection_board[location[0], location[1]] = True
+            self._white_protection_board[location[1], location[0]] = True
 
         for location in protected_by_black:
-            self._black_protection_board[location[0], location[1]] = True
+            self._black_protection_board[location[1], location[0]] = True
 
     def get_black_protection_board(self):
         return self._black_protection_board
@@ -231,11 +231,11 @@ class Board:
     def get_white_protection_board(self):
         return self._white_protection_board
 
-    def square_is_protected_by_black(self, x, y):
-        return self._black_protection_board[y, x]
+    def square_is_protected_by_black(self, x, y) -> bool:
+        return bool(self._black_protection_board[y, x])
 
-    def square_is_protected_by_white(self, x, y):
-        return self._white_protection_board[y, x]
+    def square_is_protected_by_white(self, x, y) -> bool:
+        return bool(self._white_protection_board[y, x])
 
     def is_attacked_by_white_at(self, x: int, y: int):
         return self._white_attack_board[y, x]
@@ -251,7 +251,28 @@ class Board:
             if isinstance(self._current_player.selected_piece, King):
                 self._current_player.castling(x, y)
                 self.switch_players()
+            if isinstance(self._current_player.selected_piece, Pawn):
+                self._current_player.en_passant(x, y)
+                if self._current_player.get_color() == ColorEnum.WHITE:
+                    self._opponent_player.remove_piece_at(x, y + 1)
+                else:
+                    self._opponent_player.remove_piece_at(x, y - 1)
+                self.switch_players()
 
+        self.update_players()
+
+    def get_opponent_player_last_moved_piece(self):
+        return self._opponent_player.get_last_moved_piece()
+
+    def update_white_player_data(self):
+        self._white_player.update_player(self)
+
+    def update_black_player_data(self):
+        self._black_player.update_player(self)
+
+    def update_players(self):
+        self._white_player.update_player(self)
+        self._black_player.update_player(self)
 
 
 

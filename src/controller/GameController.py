@@ -20,7 +20,7 @@ class GameController:
     def update_view(self) -> None:
 
         # Update the board state
-        self._board.update_board()
+        self._board.update_data()
         # Update View by sending the updated board to the view controller
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
@@ -58,6 +58,8 @@ class GameController:
             # print("No piece selected.")
 
         self.update_view()
+        # self._board.update_all_boards()
+        # self._board.update_players()
 
     def step(self, x: int, y: int) -> None:
 
@@ -82,18 +84,22 @@ class GameController:
         pass
 
     def click_on_white_button(self) -> None:
-        self._board.update_attack_boards()
+        # self._board.update_white_player_data()
+        # self._board.update_all_boards()
         self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
 
     def click_on_black_button(self) -> None:
-        self._board.update_attack_boards()
+        # self._board.update_black_player_data()
+        # self._board.update_all_boards()
         self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
 
     def click_on_white_protection_button(self) -> None:
-        self._board.update_protection_boards()
+        # self._board.update_white_player_data()
+        # self._board.update_all_boards()
         self._view_controller.show_protection_board(self._board.get_white_protection_board())
 
     def click_on_black_protection_button(self) -> None:
-        self._board.update_protection_boards()
+        # self._board.update_black_player_data()
+        # self._board.update_all_boards()
         self._view_controller.show_protection_board(self._board.get_black_protection_board())
 
