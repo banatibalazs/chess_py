@@ -1,8 +1,5 @@
 from typing import Optional, List, Tuple
-
-import numpy as np
-
-from src.model import Board
+import src.model.Board as Board
 from src.model.Bishop import Bishop
 from src.model.King import King
 from src.model.Knight import Knight
@@ -20,11 +17,12 @@ class Player:
         self._color: ColorEnum = color
         self._is_computer: bool = False
         self._selected_piece: Optional[Piece] = None
-        self._king_is_checked = False
+        self._king_is_checked: bool = False
         self._pieces: List[Piece] = []
-        self._possible_moves = []
-        self._special_moves = []
-        self._attacked_squares = []
+        self._possible_moves: List[Tuple[int, int]] = []
+        self._protected_fields: List[Tuple[int, int]] = []
+        self._special_moves: List[Tuple[int, int]] = []
+        self._attacked_squares: List[Tuple[int, int]] = []
 
         '''
                          The board 
@@ -80,27 +78,122 @@ class Player:
     def __str__(self):
         return f"{self._name} ({self._color})"
 
-    def update_possible_moves_of_selected_piece(self, board: Board) :
+    def update_player(self, board: Board):
+        self.update_possible_moves_of_selected_piece(board)
+        self.update_attacked_locations(board)
+        self.update_special_moves(board)
+
+    def update_possible_moves_of_selected_piece(self, board: Board):
         if self._selected_piece is not None:
-            self._possible_moves = self._selected_piece.get_possible_moves(board)
+            self._possible_moves, _ = self._selected_piece.get_possible_moves(board)
 
     def get_possible_moves_of_selected_piece(self, board: Board) -> List[Tuple[int, int]]:
         self.update_possible_moves_of_selected_piece(board)
         return self._possible_moves
 
-    def update_attacked_locations(self, board: Board) -> None:
+    def update_protected_fields(self, board: Board) -> None:
+        self._protected_fields = []
         for piece in self._pieces:
-            attacked_locations = piece.get_attacked_locations(board) \
-                if isinstance(piece, Pawn) \
-                else piece.get_possible_moves(board)
+            if piece != self._selected_piece:
+                _, protected_fields = piece.get_possible_moves(board)
+                for location in protected_fields:
+                    self._protected_fields.append((location[1], location[0]))
+
+    def get_protected_fields(self, board: Board) -> List[Tuple[int, int]]:
+        self.update_protected_fields(board)
+        return self._protected_fields
+
+    def update_attacked_locations(self, board: Board) -> None:
+        self._attacked_squares = []
+        for piece in self._pieces:
+            if isinstance(piece, Pawn):
+                attacked_locations = piece.get_attacked_locations(board)
+            else:
+                attacked_locations, _ = piece.get_possible_moves(board)
             for location in attacked_locations:
                 self._attacked_squares.append((location[1], location[0]))
 
     def get_attacked_locations(self, board: Board) -> List[Tuple[int, int]]:
         self.update_attacked_locations(board)
         return self._attacked_squares
-    def get_special_moves(self) -> List[Tuple[int, int]]:
+
+    def get_protected_locations(self, board: Board) -> List[Tuple[int, int]]:
+        # TODO: Implement this method
+        # Change the figures' get_possible_moves method to get_protected_locations
+        # It is important because the king should not be able to move to a square that is attacked by the opponent
+        pass
+
+
+    def get_special_moves(self, board: Board) -> List[Tuple[int, int]]:
+        self.update_special_moves(board)
         return self._special_moves
+
+    def update_special_moves(self, board: Board) -> None:
+        self._special_moves = []
+        # Promotion
+        # En passant
+        # Castling
+        self.update_castling(board)
+
+    def update_castling(self, board: Board) -> None:
+        if self._color == ColorEnum.BLACK:
+            # Then king is at (4, 0) and rooks are at (0, 0) and (7, 0)
+            king = self.get_piece_at(4, 0)
+            rook = self.get_piece_at(0, 0)
+            if (isinstance(rook, Rook) and
+                    isinstance(king, King) and
+                    not rook.is_moved() and
+                    not king.is_moved() and
+                    board.is_empty_at(1, 0) and
+                    board.is_empty_at(2, 0) and
+                    board.is_empty_at(3, 0) and
+                    not board.square_is_attacked_by_black(4, 0) and
+                    not board.square_is_attacked_by_white(4, 0) and
+                    not board.square_is_attacked_by_white(3, 0) and
+                    not board.square_is_attacked_by_white(2, 0)):
+                self._special_moves.append((0, 2))
+
+            rook = self.get_piece_at(7, 0)
+            if (isinstance(rook, Rook) and
+                    isinstance(king, King) and
+                    not rook.is_moved() and
+                    not king.is_moved() and
+                    board.is_empty_at(5, 0) and
+                    board.is_empty_at(6, 0) and
+                    not board.square_is_attacked_by_black(4, 0) and
+                    not board.square_is_attacked_by_white(4, 0) and
+                    not board.square_is_attacked_by_white(5, 0) and
+                    not board.square_is_attacked_by_white(6, 0)):
+                self._special_moves.append((0, 6))
+
+        else:
+            king = self.get_piece_at(4, 7)
+            rook = self.get_piece_at(0, 7)
+            if (isinstance(rook, Rook) and
+                    isinstance(king, King) and
+                    not rook.is_moved() and
+                    not king.is_moved() and
+                    board.is_empty_at(1, 7) and
+                    board.is_empty_at(2, 7) and
+                    board.is_empty_at(3, 7) and
+                    not board.square_is_attacked_by_white(4, 7) and
+                    not board.square_is_attacked_by_black(4, 7) and
+                    not board.square_is_attacked_by_black(3, 7) and
+                    not board.square_is_attacked_by_black(2, 7)):
+                self._special_moves.append((7, 2))
+
+            rook = self.get_piece_at(7, 7)
+            if (isinstance(rook, Rook) and
+                    isinstance(king, King) and
+                    not rook.is_moved() and
+                    not king.is_moved() and
+                    board.is_empty_at(5, 7) and
+                    board.is_empty_at(6, 7) and
+                    not board.square_is_attacked_by_white(4, 7) and
+                    not board.square_is_attacked_by_black(4, 7) and
+                    not board.square_is_attacked_by_black(5, 7) and
+                    not board.square_is_attacked_by_black(6, 7)):
+                self._special_moves.append((7, 6))
 
     def reset_selected_piece(self):
         self._selected_piece = None
@@ -143,11 +236,13 @@ class Player:
     def get_piece_number(self):
         return len(self._pieces)
 
-    def move_piece(self, to_x, to_y) -> None:
+    def make_normal_move(self, to_x, to_y) -> None:
+        print("Normal move.")
         # Set en passant field if the pawn moves two squares
         self.reset_en_passant()
         if isinstance(self.selected_piece, Pawn):
             if abs(self.selected_piece.y - to_y) == 2:
+                print("En passant variable is set.")
                 self.selected_piece.is_en_passant = True
 
             if to_y == 0 or to_y == 7:
@@ -163,6 +258,7 @@ class Player:
                 piece.is_en_passant = False
 
     def promote_pawn(self, to_x: int, to_y: int, piece_type: PieceTypeEnum) -> None:
+        print("Promoting pawn")
         from_x = self.selected_piece.x
         from_y = self.selected_piece.y
 
@@ -178,5 +274,22 @@ class Player:
         else:
             raise ValueError("Invalid piece type.")
 
+    def castling(self, x: int, y: int):
+        print("Castling")
+        if x == 2:
+            rook = self.get_piece_at(0, y)
+            if rook is not None:
+                rook.set_coordinates(3, y)
+                rook.set_moved()
+        elif x == 6:
+            rook = self.get_piece_at(7, y)
+            if rook is not None:
+                rook.set_coordinates(5, y)
+                rook.set_moved()
+
+        king = self.get_king()
+        if king is not None:
+            king.set_coordinates(x, y)
+            king.set_moved()
 
 

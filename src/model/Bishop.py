@@ -1,6 +1,4 @@
-from typing import override
-
-from src.model.ColorEnum import ColorEnum
+from typing import override, Tuple, List
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
 
@@ -10,8 +8,9 @@ class Bishop(Piece):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
     @override
-    def get_possible_moves(self, board):
+    def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_moves = []
+        protected_fields = []
         x = self.x
         y = self.y
         color = self.color
@@ -22,6 +21,9 @@ class Bishop(Piece):
             elif board.is_enemy(x + i, y + i, color):
                 possible_moves.append((x + i, y + i))
                 break
+            elif board.is_friend(x + i, y + i, color):
+                protected_fields.append((x + i, y + i))
+                break
             else:
                 break
 
@@ -30,6 +32,9 @@ class Bishop(Piece):
                 possible_moves.append((x - i, y + i))
             elif board.is_enemy(x - i, y + i, color):
                 possible_moves.append((x - i, y + i))
+                break
+            elif board.is_friend(x - i, y + i, color):
+                protected_fields.append((x - i, y + i))
                 break
             else:
                 break
@@ -40,6 +45,9 @@ class Bishop(Piece):
             elif board.is_enemy(x + i, y - i, color):
                 possible_moves.append((x + i, y - i))
                 break
+            elif board.is_friend(x + i, y - i, color):
+                protected_fields.append((x + i, y - i))
+                break
             else:
                 break
 
@@ -49,7 +57,10 @@ class Bishop(Piece):
             elif board.is_enemy(x - i, y - i, color):
                 possible_moves.append((x - i, y - i))
                 break
+            elif board.is_friend(x - i, y - i, color):
+                protected_fields.append((x - i, y - i))
+                break
             else:
                 break
 
-        return possible_moves
+        return possible_moves, protected_fields

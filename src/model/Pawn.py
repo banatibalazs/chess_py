@@ -12,8 +12,9 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
-        possible_moves = []
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+        possible_fields = []
+        protected_fields = []
         x = self.x
         y = self.y
         color = self.color
@@ -34,38 +35,50 @@ class Pawn(Piece):
         # Move forward
         if color == ColorEnum.WHITE:
             if board.is_empty(x, y - 1):
-                possible_moves.append((x, y - 1))
+                possible_fields.append((x, y - 1))
         else:
             if board.is_empty(x, y + 1):
-                possible_moves.append((x, y + 1))
+                possible_fields.append((x, y + 1))
 
         # Move two squares forward
         if not self.is_moved():
             if color == ColorEnum.WHITE:
                 if board.is_empty(x, y - 1) and board.is_empty(x, y - 2):
-                    possible_moves.append((x, y - 2))
+                    possible_fields.append((x, y - 2))
             else:
                 if board.is_empty(x, y + 1) and board.is_empty(x, y + 2):
-                    possible_moves.append((x, y + 2))
+                    possible_fields.append((x, y + 2))
 
         # Capture diagonally
         if color == ColorEnum.WHITE:
             if board.is_enemy(x - 1, y - 1, color):
-                possible_moves.append((x - 1, y - 1))
+                possible_fields.append((x - 1, y - 1))
             if board.is_enemy(x + 1, y - 1, color):
-                possible_moves.append((x + 1, y - 1))
+                possible_fields.append((x + 1, y - 1))
         else:
             if board.is_enemy(x - 1, y + 1, color):
-                possible_moves.append((x - 1, y + 1))
+                possible_fields.append((x - 1, y + 1))
             if board.is_enemy(x + 1, y + 1, color):
-                possible_moves.append((x + 1, y + 1))
+                possible_fields.append((x + 1, y + 1))
 
         # Remove moves that are out of bounds
-        for move in possible_moves:
+        for move in possible_fields:
             if move[0] < 0 or move[0] > 7 or move[1] < 0 or move[1] > 7:
-                possible_moves.remove(move)
+                possible_fields.remove(move)
 
-        return possible_moves
+        # Collect protected fields (fields that are protected by other pieces of the same color)
+        if color == ColorEnum.WHITE:
+            if board.is_friend(x - 1, y - 1, color):
+                protected_fields.append((x - 1, y - 1))
+            if board.is_friend(x + 1, y - 1, color):
+                protected_fields.append((x + 1, y - 1))
+        else:
+            if board.is_friend(x - 1, y + 1, color):
+                protected_fields.append((x - 1, y + 1))
+            if board.is_friend(x + 1, y + 1, color):
+                protected_fields.append((x + 1, y + 1))
+
+        return possible_fields, protected_fields
 
     def get_attacked_locations(self, board: Board) -> List[Tuple[int, int]]:
 
@@ -90,20 +103,6 @@ class Pawn(Piece):
                     attacked_locations.append((x + 1, y + 1))
 
         return attacked_locations
-
-    # def en_passant_move(self, board: Board) -> None:
-    #     possible_moves = []
-    #     if self.color == ColorEnum.WHITE:
-    #         if board.is_empty(self.x - 1, self.y - 1) and board.is_enemy(self.x - 1, self.y, self.color)\
-    #                 and board.is_en_passant(self.x - 1, self.y - 1):
-    #             possible_moves.append((self.x - 1, self.y - 1))
-    #         if board.is_empty(self.x + 1, self.y - 1) and board.is_enemy(self.x + 1, self.y, self.color):
-    #             possible_moves.append((self.x + 1, self.y - 1))
-    #     else:
-    #         if board.is_empty(self.x - 1, self.y + 1) and board.is_enemy(self.x - 1, self.y, self.color):
-    #             possible_moves.append((self.x - 1, self.y + 1))
-    #         if board.is_empty(self.x + 1, self.y + 1) and board.is_enemy(self.x + 1, self.y, self.color):
-    #             possible_moves.append((self.x + 1, self.y + 1))
 
     @property
     def is_en_passant(self) -> bool:

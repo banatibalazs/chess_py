@@ -13,8 +13,9 @@ class Knight(Piece):
         super().__init__(PieceTypeEnum.KNIGHT, color, x, y)
 
     @override
-    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_moves = []
+        protected_fields = []
         x = self.x
         y = self.y
         color = self.color
@@ -50,6 +51,23 @@ class Knight(Piece):
         if board.is_empty(x + 1, y + 2) or board.is_enemy(x + 1, y + 2, color):
             possible_moves.append((x + 1, y + 2))
 
-        return possible_moves
+        if board.is_friend(x - 1, y - 2, color):
+            protected_fields.append((x - 1, y - 2))
+        if board.is_friend(x + 1, y - 2, color):
+            protected_fields.append((x + 1, y - 2))
+        if board.is_friend(x - 2, y - 1, color):
+            protected_fields.append((x - 2, y - 1))
+        if board.is_friend(x + 2, y - 1, color):
+            protected_fields.append((x + 2, y - 1))
+        if board.is_friend(x - 2, y + 1, color):
+            protected_fields.append((x - 2, y + 1))
+        if board.is_friend(x + 2, y + 1, color):
+            protected_fields.append((x + 2, y + 1))
+        if board.is_friend(x - 1, y + 2, color):
+            protected_fields.append((x - 1, y + 2))
+        if board.is_friend(x + 1, y + 2, color):
+            protected_fields.append((x + 1, y + 2))
+
+        return possible_moves, protected_fields
 
 

@@ -4,11 +4,8 @@ from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
 from src.model.ColorEnum import ColorEnum
 import numpy as np
 
-from src.model.Rook import Rook
 from src.model.King import King
-from src.model.Pawn import Pawn
-from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
+
 from src.model.Player import Player
 
 
@@ -33,6 +30,8 @@ class Board:
 
         self._white_attack_board = np.zeros((8, 8), dtype=np.bool_)
         self._black_attack_board = np.zeros((8, 8), dtype=np.bool_)
+        self._white_protection_board = np.zeros((8, 8), dtype=np.bool_)
+        self._black_protection_board = np.zeros((8, 8), dtype=np.bool_)
 
     def is_normal_move_at(self, x, y):
         return self._coloring_board[y, x] == self.NORMAL_MOVE_SYMBOL
@@ -62,6 +61,11 @@ class Board:
         for piece in pieces:
             self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
 
+    def update_all_board(self):
+        self.update_board()
+        self.update_attack_boards()
+        self.update_protection_boards()
+
     def update_coloring_board(self):
 
         self._coloring_board.fill(self.EMPTY_SYMBOL)
@@ -77,107 +81,22 @@ class Board:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
 
         if isinstance(self._current_player.selected_piece, King):
-            self.check_castling()
+            self.update_special_moves()
 
-    def check_castling(self):
-
-        '''
-                The board [yx] coordinates                               Piece codes
-                                                                        Black player
-
-                [00][01][02][03][04][05][06][07]            [-2][-3][-4][-5][-6][-4][-3][-2]
-                [10][11][12][13][14][15][16][17]            [-1][-1][-1][-1][-1][-1][-1][-1]
-                [20][21][22][23][24][25][26][27]            [ 0][ 0][ 0][ 0][ 0][ 0][ 0][ 0]
-                [30][31][32][33][34][35][36][37]            [ 0][ 0][ 0][ 0][ 0][ 0][ 0][ 0]
-                [40][41][42][43][44][45][46][47]            [ 0][ 0][ 0][ 0][ 0][ 0][ 0][ 0]
-                [50][51][52][53][54][55][56][57]            [ 0][ 0][ 0][ 0][ 0][ 0][ 0][ 0]
-                [60][61][62][63][64][65][66][67]            [ 1][ 1][ 1][ 1][ 1][ 1][ 1][ 1]
-                [70][71][72][73][74][75][76][77]            [ 2][ 3][ 4][ 5][ 6][ 4][ 3][ 2]
-
-                                                                        White player
-                '''
-
-        '''
-                Castling rules
-
-                1. Neither the king nor the rook has previously moved.
-                2. There are no pieces between the king and the rook.
-                3. The king is not currently in check.
-                4. The king does not pass through or finish on a square that is attacked by an enemy piece.
-
-                                (x, y)
-                Rook positions: (0, 0), (7, 0), (0, 7), (7, 7)
-                King positions: (4, 0), (4, 7)
-                '''
+    def update_special_moves(self):
 
         self.update_attack_boards()
 
-        if self._current_player.get_color() == ColorEnum.BLACK:
-            # Then king is at (4, 0) and rooks are at (0, 0) and (7, 0)
-            king = self._current_player.get_piece_at(4, 0)
-            rook = self._current_player.get_piece_at(0, 0)
-            if (isinstance(rook, Rook) and
-                isinstance(king, King) and
-                not rook.is_moved() and
-                not king.is_moved() and
-                self.is_empty_at(1, 0) and
-                self.is_empty_at(2, 0) and
-                self.is_empty_at(3, 0) and
-                not self.square_is_attacked_by_black(4, 0) and
-                not self.square_is_attacked_by_white(4, 0) and
-                not self.square_is_attacked_by_white(3, 0) and
-                not self.square_is_attacked_by_white(2, 0)):
-                self._coloring_board[0, 2] = self.SPECIAL_MOVE_SYMBOL
-
-            rook = self._current_player.get_piece_at(7, 0)
-            if (isinstance(rook, Rook) and
-                isinstance(king, King) and
-                not rook.is_moved() and
-                not king.is_moved() and
-                self.is_empty_at(5, 0) and
-                self.is_empty_at(6, 0) and
-                not self.square_is_attacked_by_black(4, 0) and
-                not self.square_is_attacked_by_white(4, 0) and
-                not self.square_is_attacked_by_white(5, 0) and
-                not self.square_is_attacked_by_white(6, 0)):
-                self._coloring_board[0, 6] = self.SPECIAL_MOVE_SYMBOL
-
-        else:
-            king = self._current_player.get_piece_at(4, 7)
-            rook = self._current_player.get_piece_at(0, 7)
-            if (isinstance(rook, Rook) and
-                isinstance(king, King) and
-                not rook.is_moved() and
-                not king.is_moved() and
-                self.is_empty_at(1, 7) and
-                self.is_empty_at(2, 7) and
-                self.is_empty_at(3, 7) and
-                not self.square_is_attacked_by_white(4, 7) and
-                not self.square_is_attacked_by_black(4, 7) and
-                not self.square_is_attacked_by_black(3, 7) and
-                not self.square_is_attacked_by_black(2, 7)):
-                self._coloring_board[7, 2] = self.SPECIAL_MOVE_SYMBOL
-
-            rook = self._current_player.get_piece_at(7, 7)
-            if (isinstance(rook, Rook) and
-                isinstance(king, King) and
-                not rook.is_moved() and
-                not king.is_moved() and
-                self.is_empty_at(5, 7) and
-                self.is_empty_at(6, 7) and
-                not self.square_is_attacked_by_white(4, 7) and
-                not self.square_is_attacked_by_black(4, 7) and
-                not self.square_is_attacked_by_black(5, 7) and
-                not self.square_is_attacked_by_black(6, 7)):
-                self._coloring_board[7, 6] = self.SPECIAL_MOVE_SYMBOL
-
-
+        special_moves = self._current_player.get_special_moves(self)
+        if special_moves is not None:
+            for move in special_moves:
+                self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
 
     def square_is_attacked_by_white(self, x, y) -> bool:
-        return self._white_attack_board[y, x]
+        return bool(self._white_attack_board[y, x])
 
     def square_is_attacked_by_black(self, x, y) -> bool:
-        return self._black_attack_board[y, x]
+        return bool(self._black_attack_board[y, x])
 
     def get_value_at(self, x, y):
         # Get the value of the piece at the given coordinates
@@ -201,6 +120,9 @@ class Board:
 
     def is_enemy(self, x, y, color):
         return self.get_color_at(x, y) != color and self.get_color_at(x, y) != ColorEnum.NONE
+
+    def is_friend(self, x, y, color):
+        return self.get_color_at(x, y) == color
 
     def is_attacked_by_opponent_at(self, x, y):
         return self._opponent_player.attacks_position(x, y, self)
@@ -261,28 +183,15 @@ class Board:
     def is_selected_piece_at(self, x: int, y: int) -> bool:
         return self._coloring_board[y, x] == self.SELECTED_PIECE_SYMBOL
 
-    def move_piece_to(self, to_x: int, to_y: int) -> None:
+    def make_normal_move(self, to_x: int, to_y: int) -> None:
         # piece = self._current_player.selected_piece
         # from_x, from_y = piece.coordinates
 
-
-        self._current_player.move_piece(to_x, to_y)
-        self.capture_piece_at(to_x, to_y)
+        self._current_player.make_normal_move(to_x, to_y)
+        if self._opponent_player.has_piece_at(to_x, to_y):
+            self._opponent_player.remove_piece_at(to_x, to_y)
 
         self.switch_players()
-
-        # reset en passant
-
-    # def check_en_passant(self, x: int, y: int) -> bool:
-    #     self._current_player.check_en_passant(x, y)
-    #
-    # def check_promotion(self, x: int, y: int) -> bool:
-    #     self._current_player.check_promotion(x, y)
-
-    @update_board_after
-    def capture_piece_at(self, x: int, y: int) -> None:
-        if self._opponent_player.has_piece_at(x, y):
-            self._opponent_player.remove_piece_at(x, y)
 
     def update_attack_boards(self) -> None:
         self._white_attack_board.fill(False)
@@ -292,10 +201,10 @@ class Board:
         attacked_by_black = self._black_player.get_attacked_locations(self)
 
         for location in attacked_by_white:
-            self._white_attack_board[location[1], location[0]] = True
+            self._white_attack_board[location[0], location[1]] = True
 
         for location in attacked_by_black:
-            self._black_attack_board[location[1], location[0]] = True
+            self._black_attack_board[location[0], location[1]] = True
 
     def get_black_attack_board(self):
         return self._black_attack_board
@@ -303,20 +212,46 @@ class Board:
     def get_white_attack_board(self):
         return self._white_attack_board
 
+    def update_protection_boards(self):
+        self._white_protection_board.fill(False)
+        self._black_protection_board.fill(False)
+
+        protected_by_white = self._white_player.get_protected_locations(self)
+        protected_by_black = self._black_player.get_protected_locations(self)
+
+        for location in protected_by_white:
+            self._white_protection_board[location[0], location[1]] = True
+
+        for location in protected_by_black:
+            self._black_protection_board[location[0], location[1]] = True
+
+    def get_black_protection_board(self):
+        return self._black_protection_board
+
+    def get_white_protection_board(self):
+        return self._white_protection_board
+
+    def square_is_protected_by_black(self, x, y):
+        return self._black_protection_board[y, x]
+
+    def square_is_protected_by_white(self, x, y):
+        return self._white_protection_board[y, x]
+
     def is_attacked_by_white_at(self, x: int, y: int):
         return self._white_attack_board[y, x]
 
     def is_attacked_by_black_at(self, x: int, y: int):
         return self._black_attack_board[y, x]
 
-    # def get_piece_at(self, x: int, y: int) -> Optional[Piece]:
-    #     if self._current_player.has_piece_at(x, y):
-    #         return self._current_player.get_piece_at(x, y)
-    #     else:
-    #         return self._opponent_player.get_piece_at(x, y)
-
     def reset_selected_piece(self):
         self._current_player.reset_selected_piece()
+
+    def make_special_move(self, x, y):
+        if self._coloring_board[y, x] == self.SPECIAL_MOVE_SYMBOL:
+            if isinstance(self._current_player.selected_piece, King):
+                self._current_player.castling(x, y)
+                self.switch_players()
+
 
 
 

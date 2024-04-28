@@ -116,7 +116,6 @@ class ViewController:
         # Update the possible moves color
         self.update_possible_moves_color(coloring_board)
 
-
     def update_selected_piece_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents the selected piece
         char = b'x'
@@ -124,9 +123,9 @@ class ViewController:
         # Check if exactly one piece is selected
         if np.count_nonzero(coloring_board == char) == 1:
             # Get the position of the selected piece
-            row, col = np.where(coloring_board == char)
-            row = int(row)
-            col = int(col)
+            _row, _col = np.where(coloring_board == char)
+            row = int(_row)
+            col = int(_col)
             # Set the color of the square on which the selected piece is located
             if (row + col) % 2 == 0:
                 color = ViewController.LIGHT_SELECTED_COLOR
@@ -150,18 +149,6 @@ class ViewController:
                 # Create a list of positions
                 positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
                 self.update_square_color(colors, positions)
-
-        # char = b's'
-        # if np.isin(char, coloring_board):
-        #     # Get the positions of the possible moves
-        #     rows, cols = np.where(coloring_board == char)
-        #     # Create a list of colors according to the original square colors
-        #     colors = np.where((rows + cols) % 2 == 0,
-        #                       ViewController.LIGHT_BLUE_COLOR,
-        #                       ViewController.DARK_BLUE_COLOR).tolist()
-        #     # Create a list of positions
-        #     positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-        #     self.update_square_color(colors, positions)
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
