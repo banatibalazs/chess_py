@@ -1,5 +1,8 @@
-from typing import Optional, List
+from typing import Optional, List, Tuple
 
+import numpy as np
+
+from src.model import Board
 from src.model.Bishop import Bishop
 from src.model.King import King
 from src.model.Knight import Knight
@@ -21,7 +24,7 @@ class Player:
         self._pieces: List[Piece] = []
         self._possible_moves = []
         self._special_moves = []
-        self._attacked_squares = []  # TODO
+        self._attacked_squares = []
 
         '''
                          The board 
@@ -76,6 +79,28 @@ class Player:
 
     def __str__(self):
         return f"{self._name} ({self._color})"
+
+    def update_possible_moves_of_selected_piece(self, board: Board) :
+        if self._selected_piece is not None:
+            self._possible_moves = self._selected_piece.get_possible_moves(board)
+
+    def get_possible_moves_of_selected_piece(self, board: Board) -> List[Tuple[int, int]]:
+        self.update_possible_moves_of_selected_piece(board)
+        return self._possible_moves
+
+    def update_attacked_locations(self, board: Board) -> None:
+        for piece in self._pieces:
+            attacked_locations = piece.get_attacked_locations(board) \
+                if isinstance(piece, Pawn) \
+                else piece.get_possible_moves(board)
+            for location in attacked_locations:
+                self._attacked_squares.append((location[1], location[0]))
+
+    def get_attacked_locations(self, board: Board) -> List[Tuple[int, int]]:
+        self.update_attacked_locations(board)
+        return self._attacked_squares
+    def get_special_moves(self) -> List[Tuple[int, int]]:
+        return self._special_moves
 
     def reset_selected_piece(self):
         self._selected_piece = None

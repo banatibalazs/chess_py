@@ -71,7 +71,7 @@ class Board:
             y = self._current_player.selected_piece.y
             self._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
 
-            possible_moves = self._current_player.selected_piece.get_possible_moves(self)
+            possible_moves = self._current_player.get_possible_moves_of_selected_piece(self)
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
@@ -288,13 +288,14 @@ class Board:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
 
-        for player, attack_board in [(self._white_player, self._white_attack_board),
-                                     (self._black_player, self._black_attack_board)]:
-            for piece in player.get_pieces():
-                attacked_locations = piece.get_attacked_locations(self) if isinstance(piece,
-                          Pawn) else piece.get_possible_moves(self)
-                for location in attacked_locations:
-                    attack_board[location[1], location[0]] = True
+        attacked_by_white = self._white_player.get_attacked_locations(self)
+        attacked_by_black = self._black_player.get_attacked_locations(self)
+
+        for location in attacked_by_white:
+            self._white_attack_board[location[1], location[0]] = True
+
+        for location in attacked_by_black:
+            self._black_attack_board[location[1], location[0]] = True
 
     def get_black_attack_board(self):
         return self._black_attack_board
@@ -308,19 +309,11 @@ class Board:
     def is_attacked_by_black_at(self, x: int, y: int):
         return self._black_attack_board[y, x]
 
-    # def get_opponent_attack_board(self):
-    #     return self._opponent_player.get_attack_board(self)
-
-    def is_en_passant(self, x: int, y: int) -> bool:
-        if self.get_piece_at(x, y) is not None:
-            if isinstance(self.get_piece_at(x, y), Pawn):
-                return self.get_piece_at(x, y).is_en_passant
-
-    def get_piece_at(self, x: int, y: int) -> Optional[Piece]:
-        if self._current_player.has_piece_at(x, y):
-            return self._current_player.get_piece_at(x, y)
-        else:
-            return self._opponent_player.get_piece_at(x, y)
+    # def get_piece_at(self, x: int, y: int) -> Optional[Piece]:
+    #     if self._current_player.has_piece_at(x, y):
+    #         return self._current_player.get_piece_at(x, y)
+    #     else:
+    #         return self._opponent_player.get_piece_at(x, y)
 
     def reset_selected_piece(self):
         self._current_player.reset_selected_piece()

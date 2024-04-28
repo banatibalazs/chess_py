@@ -91,19 +91,19 @@ class Pawn(Piece):
 
         return attacked_locations
 
-    def en_passant_move(self, board: Board) -> None:
-        possible_moves = []
-        if self.color == ColorEnum.WHITE:
-            if board.is_empty(self.x - 1, self.y - 1) and board.is_enemy(self.x - 1, self.y, self.color)\
-                    and board.is_en_passant(self.x - 1, self.y - 1):
-                possible_moves.append((self.x - 1, self.y - 1))
-            if board.is_empty(self.x + 1, self.y - 1) and board.is_enemy(self.x + 1, self.y, self.color):
-                possible_moves.append((self.x + 1, self.y - 1))
-        else:
-            if board.is_empty(self.x - 1, self.y + 1) and board.is_enemy(self.x - 1, self.y, self.color):
-                possible_moves.append((self.x - 1, self.y + 1))
-            if board.is_empty(self.x + 1, self.y + 1) and board.is_enemy(self.x + 1, self.y, self.color):
-                possible_moves.append((self.x + 1, self.y + 1))
+    # def en_passant_move(self, board: Board) -> None:
+    #     possible_moves = []
+    #     if self.color == ColorEnum.WHITE:
+    #         if board.is_empty(self.x - 1, self.y - 1) and board.is_enemy(self.x - 1, self.y, self.color)\
+    #                 and board.is_en_passant(self.x - 1, self.y - 1):
+    #             possible_moves.append((self.x - 1, self.y - 1))
+    #         if board.is_empty(self.x + 1, self.y - 1) and board.is_enemy(self.x + 1, self.y, self.color):
+    #             possible_moves.append((self.x + 1, self.y - 1))
+    #     else:
+    #         if board.is_empty(self.x - 1, self.y + 1) and board.is_enemy(self.x - 1, self.y, self.color):
+    #             possible_moves.append((self.x - 1, self.y + 1))
+    #         if board.is_empty(self.x + 1, self.y + 1) and board.is_enemy(self.x + 1, self.y, self.color):
+    #             possible_moves.append((self.x + 1, self.y + 1))
 
     @property
     def is_en_passant(self) -> bool:

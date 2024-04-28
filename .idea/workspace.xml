@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="king can not step onto an attacked square">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="reorganizing the code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/problems/intriguing.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/intriguing.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
     </list>
@@ -260,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714265040444</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="reorganizing the code">
+      <option name="closed" value="true" />
+      <created>1714292168334</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1714292168334</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -284,7 +290,8 @@
     <MESSAGE value="bugfixes and properties for pieces" />
     <MESSAGE value="start implement castling in Board.py" />
     <MESSAGE value="king can not step onto an attacked square" />
-    <option name="LAST_COMMIT_MESSAGE" value="king can not step onto an attacked square" />
+    <MESSAGE value="reorganizing the code" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganizing the code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
