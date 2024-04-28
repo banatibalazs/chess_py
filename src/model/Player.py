@@ -117,13 +117,6 @@ class Player:
         self.update_attacked_locations(board)
         return self._attacked_squares
 
-    def get_protected_locations(self, board: Board) -> List[Tuple[int, int]]:
-        # TODO: Implement this method
-        # Change the figures' get_possible_moves method to get_protected_locations
-        # It is important because the king should not be able to move to a square that is attacked by the opponent
-        pass
-
-
     def get_special_moves(self, board: Board) -> List[Tuple[int, int]]:
         self.update_special_moves(board)
         return self._special_moves

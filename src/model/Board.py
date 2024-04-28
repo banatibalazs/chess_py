@@ -216,8 +216,8 @@ class Board:
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
 
-        protected_by_white = self._white_player.get_protected_locations(self)
-        protected_by_black = self._black_player.get_protected_locations(self)
+        protected_by_white = self._white_player.get_protected_fields(self)
+        protected_by_black = self._black_player.get_protected_fields(self)
 
         for location in protected_by_white:
             self._white_protection_board[location[0], location[1]] = True

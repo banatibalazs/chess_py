@@ -88,3 +88,12 @@ class GameController:
     def click_on_black_button(self) -> None:
         self._board.update_attack_boards()
         self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
+
+    def click_on_white_protection_button(self) -> None:
+        self._board.update_protection_boards()
+        self._view_controller.show_protection_board(self._board.get_white_protection_board())
+
+    def click_on_black_protection_button(self) -> None:
+        self._board.update_protection_boards()
+        self._view_controller.show_protection_board(self._board.get_black_protection_board())
+

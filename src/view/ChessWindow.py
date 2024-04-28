@@ -23,8 +23,8 @@ class ChessWindow:
 
         self.white_button = None
         self.black_button = None
-        self.reset_button = None
-        self.extra_button = None
+        self.black_protection_button = None
+        self.white_protection_button = None
 
         self.setup_ui(white_player_name, black_player_name)
         self.view_controller = ViewController(self, white_player_name, black_player_name)
@@ -35,8 +35,8 @@ class ChessWindow:
         # Make the window adapt to its content
         self.root.geometry("")
 
-        self.reset_button = self.create_button("Reset", self.reset_button_click,
-                                               0, 0, 4, 10)
+        self.black_protection_button = self.create_button("Blck protection", self.black_protection_button_click,
+                                                          0, 0, 4, 10)
         self.black_button = self.create_button("Black", self.black_button_click,
                                                0, 7, 2, 10)
         self.black_player_name_label = self.create_label(black_player_name,
@@ -51,8 +51,8 @@ class ChessWindow:
 
         self.white_button = self.create_button("White", self.white_button_click,
                                                10, 7, 2, 10)
-        self.extra_button = self.create_button("Extra", self.extra_button_click,
-                                               10, 0, 4, 10)
+        self.white_protection_button = self.create_button("Wh_protection", self.white_protection_button_click,
+                                                          10, 0, 4, 10)
 
     def create_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):
         button = tk.Button(self.root, text=text, command=command,
@@ -86,11 +86,11 @@ class ChessWindow:
     def white_button_click(self):
         self.view_controller.white_button_click()
 
-    def reset_button_click(self):
-        self.view_controller.reset_button_click()
+    def black_protection_button_click(self):
+        self.view_controller.black_protection_button_click()
 
-    def extra_button_click(self):
-        self.view_controller.extra_button_click()
+    def white_protection_button_click(self):
+        self.view_controller.white_protection_button_click()
 
     def get_chess_board(self):
         return self._chess_board

@@ -60,17 +60,17 @@ class ViewController:
     def click_on_board(self, x: int, y: int) -> None:
         self._game_controller.click_on_board(x, y)
 
-    def reset_button_click(self) -> None:
-        pass
-
     def black_button_click(self) -> None:
         self._game_controller.click_on_black_button()
 
+    def black_protection_button_click(self) -> None:
+        self._game_controller.click_on_black_protection_button()
+
+    def white_protection_button_click(self) -> None:
+        self._game_controller.click_on_white_protection_button()
+
     def white_button_click(self) -> None:
         self._game_controller.click_on_white_button()
-
-    def extra_button_click(self) -> None:
-        pass
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
@@ -97,6 +97,18 @@ class ViewController:
             # Create a list of positions
             positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
             self.update_square_color(colors, positions)
+
+    def show_protection_board(self, protection_board: BoolArray8x8) -> None:
+        self.reset_square_colors()
+
+        rows, cols = np.where(protection_board == True)
+        # Create a list of colors according to the original square colors
+        colors = np.where((rows + cols) % 2 == 0,
+                          ViewController.DARK_BLUE_COLOR,
+                          ViewController.LIGHT_BLUE_COLOR).tolist()
+        # Create a list of positions
+        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+        self.update_square_color(colors, positions)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str) -> None:
         self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
