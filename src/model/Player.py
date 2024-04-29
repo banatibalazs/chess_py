@@ -316,17 +316,17 @@ class Player:
             rook = self.get_piece_at(0, y)
             if rook is not None:
                 rook.set_coordinates(3, y)
-                rook.set_moved()
+                rook.set_moved = True
         elif x == 6:
             rook = self.get_piece_at(7, y)
             if rook is not None:
                 rook.set_coordinates(5, y)
-                rook.set_moved()
+                rook.set_moved = True
 
         king = self.get_king()
         if king is not None:
             king.set_coordinates(x, y)
-            king.set_moved()
+            king.set_moved = True
         self._last_moved_piece = king
         self.reset_en_passant()
 
