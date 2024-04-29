@@ -1,7 +1,6 @@
 from typing import List, Tuple, override
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-import src.model.Board as Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -11,6 +10,92 @@ class Pawn(Piece):
     def __init__(self, color: ColorEnum, x: int, y: int):
         super().__init__(PieceTypeEnum.PAWN, color, x, y)
         self._is_en_passant = False
+
+    @override
+    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+        possible_fields = []
+        protected_fields = []
+        x = self.x
+        y = self.y
+        color = self.color
+
+        # Move forward
+        if color == ColorEnum.WHITE:
+            if y - 1 >= 0:
+                if board[y - 1, x] == 0:
+                    possible_fields.append((x, y - 1))
+        else:
+            if y + 1 <= 7:
+                if board[y + 1, x] == 0:
+                    possible_fields.append((x, y + 1))
+
+        # Move two squares forward
+        if color == ColorEnum.WHITE and y == 6:
+            if board[y - 1, x] == 0 and board[y - 2, x] == 0:
+                possible_fields.append((x, y - 2))
+        elif color == ColorEnum.BLACK and y == 1:
+            if board[y + 1, x] == 0 and board[y + 2, x] == 0:
+                possible_fields.append((x, y + 2))
+
+        # Diagonal capture
+        if color == ColorEnum.WHITE:
+            if x - 1 >= 0 and y - 1 >= 0:
+                if board[y - 1, x - 1] < 0:
+                    possible_fields.append((x - 1, y - 1))
+                if board[y - 1, x - 1] > 0:
+                    protected_fields.append((x - 1, y - 1))
+            if x + 1 <= 7 and y - 1 >= 0:
+                if board[y - 1, x + 1] < 0:
+                    possible_fields.append((x + 1, y - 1))
+                if board[y - 1, x + 1] > 0:
+                    protected_fields.append((x + 1, y - 1))
+        else:
+            if x - 1 >= 0 and y + 1 <= 7:
+                if board[y + 1, x - 1] > 0:
+                    possible_fields.append((x - 1, y + 1))
+                if board[y + 1, x - 1] < 0:
+                    protected_fields.append((x - 1, y + 1))
+
+            if x + 1 <= 7 and y + 1 <= 7:
+                if board[y + 1, x + 1] > 0:
+                    possible_fields.append((x + 1, y + 1))
+                if board[y + 1, x + 1] < 0:
+                    protected_fields.append((x + 1, y + 1))
+
+        return possible_fields, protected_fields
+
+    def get_attacked_locations(self) -> List[Tuple[int, int]]:
+
+        attacked_locations = []
+        x = self.x
+        y = self.y
+        color = self.color
+
+        if color == ColorEnum.WHITE:
+            if x - 1 >= 0 and y - 1 >= 0:
+                if x - 1 >= 0 and y - 1 >= 0:
+                    attacked_locations.append((x - 1, y - 1))
+            if x + 1 <= 7 and y - 1 >= 0:
+                if x + 1 <= 7 and y - 1 >= 0:
+                    attacked_locations.append((x + 1, y - 1))
+        else:
+            if x - 1 >= 0 and y + 1 <= 7:
+                if x - 1 >= 0 and y + 1 <= 7:
+                    attacked_locations.append((x - 1, y + 1))
+            if x + 1 <= 7 and y + 1 <= 7:
+                if x + 1 <= 7 and y + 1 <= 7:
+                    attacked_locations.append((x + 1, y + 1))
+
+        return attacked_locations
+
+    @property
+    def is_en_passant(self) -> bool:
+        return self._is_en_passant
+
+    @is_en_passant.setter
+    def is_en_passant(self, value: bool) -> None:
+        self._is_en_passant = value
+
 
     # @override
     # def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
@@ -80,91 +165,3 @@ class Pawn(Piece):
     #             protected_fields.append((x + 1, y + 1))
     #
     #     return possible_fields, protected_fields
-
-    @override
-    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
-        possible_fields = []
-        protected_fields = []
-        x = self.x
-        y = self.y
-        color = self.color
-
-        board: ByteArray8x8 = board.get_piece_board()
-
-        # Move forward
-        if color == ColorEnum.WHITE:
-            if y - 1 >= 0:
-                if board[y - 1, x] == 0:
-                    possible_fields.append((x, y - 1))
-        else:
-            if y + 1 <= 7:
-                if board[y + 1, x] == 0:
-                    possible_fields.append((x, y + 1))
-
-        # Move two squares forward
-        if color == ColorEnum.WHITE and y == 6:
-            if board[y - 1, x] == 0 and board[y - 2, x] == 0:
-                possible_fields.append((x, y - 2))
-        elif color == ColorEnum.BLACK and y == 1:
-            if board[y + 1, x] == 0 and board[y + 2, x] == 0:
-                possible_fields.append((x, y + 2))
-
-        # Diagonal capture
-        if color == ColorEnum.WHITE:
-            if x - 1 >= 0 and y - 1 >= 0:
-                if board[y - 1, x - 1] < 0:
-                    possible_fields.append((x - 1, y - 1))
-                if board[y - 1, x - 1] > 0:
-                    protected_fields.append((x - 1, y - 1))
-            if x + 1 <= 7 and y - 1 >= 0:
-                if board[y - 1, x + 1] < 0:
-                    possible_fields.append((x + 1, y - 1))
-                if board[y - 1, x + 1] > 0:
-                    protected_fields.append((x + 1, y - 1))
-        else:
-            if x - 1 >= 0 and y + 1 <= 7:
-                if board[y + 1, x - 1] > 0:
-                    possible_fields.append((x - 1, y + 1))
-                if board[y + 1, x - 1] < 0:
-                    protected_fields.append((x - 1, y + 1))
-
-            if x + 1 <= 7 and y + 1 <= 7:
-                if board[y + 1, x + 1] > 0:
-                    possible_fields.append((x + 1, y + 1))
-                if board[y + 1, x + 1] < 0:
-                    protected_fields.append((x + 1, y + 1))
-
-        return possible_fields, protected_fields
-
-    def get_attacked_locations(self, board: Board) -> List[Tuple[int, int]]:
-
-        attacked_locations = []
-        x = self.x
-        y = self.y
-        color = self.color
-
-        if color == ColorEnum.WHITE:
-            if x - 1 >= 0 and y - 1 >= 0:
-                if x - 1 >= 0 and y - 1 >= 0:
-                    attacked_locations.append((x - 1, y - 1))
-            if x + 1 <= 7 and y - 1 >= 0:
-                if x + 1 <= 7 and y - 1 >= 0:
-                    attacked_locations.append((x + 1, y - 1))
-        else:
-            if x - 1 >= 0 and y + 1 <= 7:
-                if x - 1 >= 0 and y + 1 <= 7:
-                    attacked_locations.append((x - 1, y + 1))
-            if x + 1 <= 7 and y + 1 <= 7:
-                if x + 1 <= 7 and y + 1 <= 7:
-                    attacked_locations.append((x + 1, y + 1))
-
-        return attacked_locations
-
-    @property
-    def is_en_passant(self) -> bool:
-        return self._is_en_passant
-
-    @is_en_passant.setter
-    def is_en_passant(self, value: bool) -> None:
-        self._is_en_passant = value
-

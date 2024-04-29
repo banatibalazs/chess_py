@@ -1,8 +1,4 @@
-import functools
-import time
 from typing import override, Tuple, List
-
-import numpy as np
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.ColorEnum import ColorEnum
@@ -13,6 +9,34 @@ from src.model.PieceTypeEnum import PieceTypeEnum
 class King(Piece):
     def __init__(self, color, x, y):
         super().__init__(PieceTypeEnum.KING, color, x, y)
+
+    @override
+    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+        possible_moves = []
+        protected_fields = []
+        x = self.x
+        y = self.y
+        color = self.color
+
+        move_pattern_list = [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y),
+                             (x - 1, y - 1), (x + 1, y - 1), (x - 1, y + 1), (x + 1, y + 1)]
+
+        for move in move_pattern_list:
+            if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
+                field = board[move[1], move[0]]
+
+                if color == ColorEnum.WHITE and field <= 0:
+                    possible_moves.append(move)
+                elif color == ColorEnum.BLACK and field >= 0:
+                    possible_moves.append(move)
+
+                if color == ColorEnum.WHITE and field > 0:
+                    protected_fields.append(move)
+                elif color == ColorEnum.BLACK and field < 0:
+                    protected_fields.append(move)
+
+
+        return possible_moves, protected_fields
 
     # @override
     # def get_possible_move(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
@@ -84,36 +108,6 @@ class King(Piece):
     #                 possible_fields.remove(field)
     #
     #     return possible_fields, protected_fields
-
-    @override
-    def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
-        possible_moves = []
-        protected_fields = []
-        x = self.x
-        y = self.y
-        color = self.color
-
-        board: ByteArray8x8 = board.get_piece_board()
-
-        move_pattern_list = [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y),
-                             (x - 1, y - 1), (x + 1, y - 1), (x - 1, y + 1), (x + 1, y + 1)]
-
-        for move in move_pattern_list:
-            if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
-                field = board[move[1], move[0]]
-
-                if color == ColorEnum.WHITE and field <= 0:
-                    possible_moves.append(move)
-                elif color == ColorEnum.BLACK and field >= 0:
-                    possible_moves.append(move)
-
-                if color == ColorEnum.WHITE and field > 0:
-                    protected_fields.append(move)
-                elif color == ColorEnum.BLACK and field < 0:
-                    protected_fields.append(move)
-
-
-        return possible_moves, protected_fields
 
     # @override
     # def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:

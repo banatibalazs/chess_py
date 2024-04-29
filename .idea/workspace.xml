@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix and rook logic change">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="queen and bishop logic change and bugfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,7 +344,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714389049227</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="queen and bishop logic change and bugfix">
+      <option name="closed" value="true" />
+      <created>1714390022636</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1714390022636</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -369,7 +384,8 @@
     <MESSAGE value="changed possible step method logic in King and Knight" />
     <MESSAGE value="knight bugfix and pawn logic change" />
     <MESSAGE value="bugfix and rook logic change" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix and rook logic change" />
+    <MESSAGE value="queen and bishop logic change and bugfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="queen and bishop logic change and bugfix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

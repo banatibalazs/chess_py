@@ -1,7 +1,6 @@
 from typing import override, Tuple, List
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-import src.model.Board as Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -12,14 +11,12 @@ class Bishop(Piece):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
     @override
-    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_fields = []
         protected_fields = []
         x = self.x
         y = self.y
         color = self.color
-
-        board: ByteArray8x8 = board.get_piece_board()
 
         vectors = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
         directions = []

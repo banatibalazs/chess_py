@@ -1,7 +1,8 @@
 import functools
 import time
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, TYPE_CHECKING
 import src.model.Board as Board
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.Bishop import Bishop
 from src.model.King import King
 from src.model.Knight import Knight
@@ -98,13 +99,12 @@ class Player:
         return f"{self._name} ({self._color})"
 
     @timer_decorator
-    def update_player(self, board: Board):
+    def update_normal_moves(self, board: ByteArray8x8):
         self._update_possible_moves_of_selected_piece(board)
         self._update_attacked_locations(board)
-        self._update_special_moves(board)
         self._update_protected_fields(board)
 
-    def _update_possible_moves_of_selected_piece(self, board: Board):
+    def _update_possible_moves_of_selected_piece(self, board: ByteArray8x8):
         if self._selected_piece is not None:
             self._possible_moves, _ = self._selected_piece.get_possible_moves(board)
 
@@ -113,18 +113,18 @@ class Player:
         # self._update_possible_moves_of_selected_piece(board)
         return self._possible_moves
 
-    def _update_protected_fields(self, board: Board) -> None:
+    def _update_protected_fields(self, board: ByteArray8x8) -> None:
         self._protected_fields = [field for piece in self._pieces for field in piece.get_possible_moves(board)[1]]
 
     @property
     def protected_fields(self) -> List[Tuple[int, int]]:
         return self._protected_fields
 
-    def _update_attacked_locations(self, board: Board) -> None:
+    def _update_attacked_locations(self, board: ByteArray8x8) -> None:
         self._attacked_squares = []
         for piece in self._pieces:
             if isinstance(piece, Pawn):
-                attacked_locations = piece.get_attacked_locations(board)
+                attacked_locations = piece.get_attacked_locations()
             else:
                 attacked_locations, _ = piece.get_possible_moves(board)
             for location in attacked_locations:
@@ -138,13 +138,15 @@ class Player:
     def special_moves(self) -> List[Tuple[int, int]]:
         return self._special_moves
 
-    def _update_special_moves(self, board: Board) -> None:
+    def update_special_moves(self, board: Board) -> None:
         self._special_moves = []
         # Promotion
 
         # En passant
         if self.selected_piece is not None and isinstance(self.selected_piece, Pawn):
-            self.update_en_passant(board)
+            self.update_en_passant(board.get_opponent_player_last_moved_piece())
+            pass
+
         # Castling
         if self.selected_piece is not None and isinstance(self.selected_piece, King):
             self.update_castling(board)
@@ -152,9 +154,8 @@ class Player:
     def get_last_moved_piece(self):
         return self._last_moved_piece
 
-    def update_en_passant(self, board: Board) -> None:
+    def update_en_passant(self, op_last_moved_piece) -> None:
         print("Updating en passant")
-        op_last_moved_piece = board.get_opponent_player_last_moved_piece()
         if op_last_moved_piece is not None and \
             isinstance(op_last_moved_piece, Pawn) and \
             op_last_moved_piece.is_en_passant and \
@@ -260,7 +261,7 @@ class Player:
     def set_king_is_checked(self, value):
         self._king_is_checked = value
 
-    def attacks_position(self, x: int, y: int, board):
+    def attacks_position(self, x: int, y: int, board: ByteArray8x8):
         for piece in self._pieces:
             if (x, y) in piece.get_possible_moves(board):
                 return True

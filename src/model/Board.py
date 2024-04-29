@@ -123,7 +123,7 @@ class Board:
         return self.get_color_at(x, y) == color
 
     def is_attacked_by_opponent_at(self, x, y):
-        return self._opponent_player.attacks_position(x, y, self)
+        return self._opponent_player.attacks_position(x, y, self._piece_board)
 
     def get_coloring_board(self) -> CharArray8x8:
         return self._coloring_board
@@ -260,15 +260,12 @@ class Board:
     def get_opponent_player_last_moved_piece(self):
         return self._opponent_player.get_last_moved_piece()
 
-    def update_white_player_data(self):
-        self._white_player.update_player(self)
-
-    def update_black_player_data(self):
-        self._black_player.update_player(self)
-
     def update_players(self):
-        self._white_player.update_player(self)
-        self._black_player.update_player(self)
+        self._white_player.update_normal_moves(self._piece_board)
+        self._white_player.update_special_moves(self)
+
+        self._black_player.update_normal_moves(self._piece_board)
+        self._black_player.update_special_moves(self)
 
 
 

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 
-# from src.model.Board import Board
-from src.model import Board
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+
 
 class Piece(ABC):
     def __init__(self, piece_type, color, x, y):
@@ -20,7 +20,7 @@ class Piece(ABC):
         self._is_stalemate = False
 
     @abstractmethod
-    def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
+    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         pass
 
     @property
