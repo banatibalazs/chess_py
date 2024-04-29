@@ -46,7 +46,7 @@ class GameController:
         # Update View by sending the updated board to the view controller
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
-        self._view_controller.update_labels(str(self.white_score()), str(self.black_score()))
+        self._view_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()))
 
     @timer_decorator
     def update_data(self) -> None:
@@ -115,23 +115,23 @@ class GameController:
     def click_on_board(self, x: int, y: int) -> None:
 
         # A selected piece is clicked -> deselect it
-        if self._board.is_selected_piece_at(x, y):
+        if self._current_player.is_selected_piece_at(x, y):
             self._current_player.reset_selected_piece()
 
         # Own unselected piece is clicked -> select it
-        elif self.is_friend_at(x, y):
+        elif self._current_player.has_piece_at(x, y):
             self._current_player.set_selected_piece(x, y)
 
         # Promotion -> promote the pawn
-        elif self._board.is_normal_move_at(x, y) and self.is_promotion(x, y):
+        elif self._current_player.is_possible_normal_move(x, y) and self.is_promotion(x, y):
             self.promote_pawn(x, y)
 
         # Selected piece can move to the square -> move it
-        elif self._board.is_normal_move_at(x, y):
+        elif self._current_player.is_possible_normal_move(x, y):
             self.normal_move(x, y)
 
         # En passant or castling moves -> special move
-        elif self._board.is_special_move_at(x, y):
+        elif self._current_player.is_possible_special_move(x, y):
             if isinstance(self._current_player.selected_piece, King):
                 self._current_player.castling(x, y)
             if isinstance(self._current_player.selected_piece, Pawn):
@@ -149,6 +149,8 @@ class GameController:
     def promote_pawn(self, x, y):
         self._current_player.promote_pawn(x, y, PieceTypeEnum.QUEEN)
         self._current_player.reset_selected_piece()
+        if self._opponent_player.has_piece_at(x, y):
+            self._opponent_player.remove_piece_at(x, y)
         self.switch_players()
 
     def normal_move(self, x, y):
@@ -161,8 +163,7 @@ class GameController:
         self.switch_players()
 
     def is_promotion(self, to_x, to_y):
-        return to_y == 0 or to_y == 7 and isinstance(self._current_player.selected_piece, Pawn) and \
-                self._board.is_empty_at(to_x, to_y)
+        return to_y == 0 or to_y == 7 and isinstance(self._current_player.selected_piece, Pawn)
 
     def set_en_passant(self, to_y):
         # If the selected piece is a pawn and it moves two squares forward, set the en passant variable
@@ -171,18 +172,6 @@ class GameController:
             if abs(self._current_player.selected_piece.y - to_y) == 2:
                 print("En passant variable is set.")
                 self._current_player.selected_piece.is_en_passant = True
-
-    def reset_selected_piece(self):
-        self._current_player.reset_selected_piece()
-
-    def get_opponent_player_last_moved_piece(self):
-        return self._opponent_player.get_last_moved_piece()
-
-    def white_score(self) -> int:
-        return self._white_player.get_score()
-
-    def black_score(self) -> int:
-        return self._black_player.get_score()
 
     def save_game(self):
         # current_data = [self._board._piece_board, self._board._current_player.get_color(),

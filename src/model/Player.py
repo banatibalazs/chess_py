@@ -65,6 +65,16 @@ class Player:
     def has_piece_at(self, x, y) -> bool:
         return (x, y) in self._piece_coordinates
 
+    def is_selected_piece_at(self, x, y):
+        if self.selected_piece is not None:
+            return self.selected_piece.coordinates == (x, y)
+
+    def is_possible_normal_move(self, x, y):
+        return (x, y) in self._possible_moves
+
+    def is_possible_special_move(self, x, y):
+        return (x, y) in self.special_moves
+
     def __str__(self):
         return f"{self._name} ({self._color})"
 
