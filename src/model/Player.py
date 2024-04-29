@@ -1,3 +1,5 @@
+import functools
+import time
 from typing import Optional, List, Tuple
 import src.model.Board as Board
 from src.model.Bishop import Bishop
@@ -52,6 +54,20 @@ class Player:
         self._pieces.append(Knight(color, 6, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Rook(color, 7, 7 if color == ColorEnum.WHITE else 0))
 
+    @staticmethod
+    def timer_decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            start_time = time.time()
+            # print(f"Starting {func.__name__} at {start_time}")
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            # print(f"Ending {func.__name__} at {end_time}")
+            print(f"{func.__name__} ran for {(end_time - start_time):.5f} seconds")
+            return result
+
+        return wrapper
+
 
     def is_computer(self):
         return self._is_computer
@@ -81,6 +97,7 @@ class Player:
     def __str__(self):
         return f"{self._name} ({self._color})"
 
+    @timer_decorator
     def update_player(self, board: Board):
         self._update_possible_moves_of_selected_piece(board)
         self._update_attacked_locations(board)
