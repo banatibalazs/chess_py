@@ -1,5 +1,9 @@
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
+from typing import List, Tuple
+
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 import numpy as np
+
+from src.model.Piece import Piece
 
 
 class Board:
@@ -10,12 +14,69 @@ class Board:
     EMPTY_SYMBOL = b'o'
 
     def __init__(self):
-        self._piece_board = np.zeros((8, 8), dtype=np.byte)
-        self._coloring_board = np.zeros((8, 8), dtype=np.character)
-        self._white_attack_board = np.zeros((8, 8), dtype=np.bool_)
-        self._black_attack_board = np.zeros((8, 8), dtype=np.bool_)
-        self._white_protection_board = np.zeros((8, 8), dtype=np.bool_)
-        self._black_protection_board = np.zeros((8, 8), dtype=np.bool_)
+        self._piece_board: ByteArray8x8 = np.zeros((8, 8), dtype=np.byte)
+        self._coloring_board: CharArray8x8 = np.zeros((8, 8), dtype=np.character)
+        self._white_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
+        self._black_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
+        self._white_protection_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
+        self._black_protection_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
+
+    def reset_coloring_board(self):
+        self._coloring_board.fill(self.EMPTY_SYMBOL)
+
+    def update_coloring_board(self, selected_piece: Piece, possible_moves_of_selected_piece: List[Tuple[int,int]],
+                              special_moves: List[Tuple[int,int]]):
+
+        if selected_piece is not None:
+            self._coloring_board[selected_piece.y, selected_piece.x] = self.SELECTED_PIECE_SYMBOL
+
+            possible_moves = possible_moves_of_selected_piece
+            if possible_moves is not None:
+                for move in possible_moves:
+                    self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
+
+        if special_moves is not None:
+            for move in special_moves:
+                self._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
+
+    def reset_piece_board(self):
+        self._piece_board.fill(0)
+
+    def update_piece_board(self, white_player_pieces: List[Piece], black_player_pieces: List[Piece]) -> None:
+        # Update the board with the current piece positions
+        for piece in white_player_pieces:
+            self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
+
+        for piece in black_player_pieces:
+            self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
+
+    def reset_attack_boards(self):
+        self._white_attack_board.fill(False)
+        self._black_attack_board.fill(False)
+
+    def update_attack_boards(self, attacked_by_white: List[Tuple[int, int]],
+                             attacked_by_black: List[Tuple[int, int]]) -> None:
+
+        for location in attacked_by_white:
+            self._white_attack_board[location[0], location[1]] = True
+
+        for location in attacked_by_black:
+            self._black_attack_board[location[0], location[1]] = True
+
+
+    def reset_protection_boards(self):
+        self._white_protection_board.fill(False)
+        self._black_protection_board.fill(False)
+
+    def update_protection_boards(self, protected_by_white: List[Tuple[int, int]],
+                                 protected_by_black: List[Tuple[int, int]]) -> None:
+
+        for location in protected_by_white:
+            self._white_protection_board[location[1], location[0]] = True
+
+        for location in protected_by_black:
+            self._black_protection_board[location[1], location[0]] = True
+
 
     def is_normal_move_at(self, x, y):
         return self._coloring_board[y, x] == self.NORMAL_MOVE_SYMBOL

@@ -44,87 +44,6 @@ class GameController:
 
         return wrapper
 
-    def update_data(self) -> None:
-        self.update_players()
-        self.update_piece_board()
-        self.update_coloring_board()
-        self.update_attack_boards()
-        self.update_protection_boards()
-
-    def update_piece_board(self) -> None:
-        # Reset the board
-        self._board._piece_board.fill(0)
-        # Update the board with the current piece positions
-        for piece in self._white_player.pieces:
-            self._board._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
-
-        for piece in self._black_player.pieces:
-            self._board._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
-
-
-    def update_coloring_board(self):
-
-        self._board._coloring_board.fill(self.EMPTY_SYMBOL)
-
-        if self._current_player.selected_piece is not None:
-            x = self._current_player.selected_piece.x
-            y = self._current_player.selected_piece.y
-            self._board._coloring_board[y, x] = self.SELECTED_PIECE_SYMBOL
-
-            possible_moves = self._current_player.possible_moves_of_selected_piece
-            if possible_moves is not None:
-                for move in possible_moves:
-                    self._board._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
-
-            self.update_special_moves()
-
-
-    def update_special_moves(self):
-
-        special_moves = self._current_player.special_moves
-        if special_moves is not None:
-            for move in special_moves:
-                self._board._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
-
-    def update_attack_boards(self) -> None:
-        self._board._white_attack_board.fill(False)
-        self._board._black_attack_board.fill(False)
-
-        attacked_by_white = self._white_player.attacked_fields
-        attacked_by_black = self._black_player.attacked_fields
-
-        for location in attacked_by_white:
-            self._board._white_attack_board[location[0], location[1]] = True
-
-        for location in attacked_by_black:
-            self._board._black_attack_board[location[0], location[1]] = True
-
-    def update_protection_boards(self):
-        self._board._white_protection_board.fill(False)
-        self._board._black_protection_board.fill(False)
-
-        protected_by_white = self._white_player.protected_fields
-        protected_by_black = self._black_player.protected_fields
-
-        for location in protected_by_white:
-            self._board._white_protection_board[location[1], location[0]] = True
-
-        for location in protected_by_black:
-            self._board._black_protection_board[location[1], location[0]] = True
-
-    def update_players(self):
-        self._white_player.update_normal_moves(self._board.get_piece_board())
-        self._white_player.update_special_moves(self._board, self._black_player.get_last_moved_piece())
-
-        self._black_player.update_normal_moves(self._board.get_piece_board())
-        self._black_player.update_special_moves(self._board, self._white_player.get_last_moved_piece())
-
-    def is_friend_at(self, x: int, y: int) -> bool:
-        return self._current_player.has_piece_at(x, y)
-
-    def is_opponent_at(self, x: int, y: int) -> bool:
-        return self._opponent_player.has_piece_at(x, y)
-
     def update_view(self) -> None:
 
         # Update the board state
@@ -135,6 +54,44 @@ class GameController:
         # Update View labels
         self._view_controller.update_labels(str(self.white_score()),
                                             str(self.black_score()))
+
+    def update_data(self) -> None:
+        self.update_players()
+        self.update_piece_board()
+        self.update_coloring_board()
+        self.update_attack_boards()
+        self.update_protection_boards()
+
+    def update_players(self):
+        self._white_player.update_normal_moves(self._board.get_piece_board())
+        self._white_player.update_special_moves(self._board, self._black_player.get_last_moved_piece())
+
+        self._black_player.update_normal_moves(self._board.get_piece_board())
+        self._black_player.update_special_moves(self._board, self._white_player.get_last_moved_piece())
+
+    def update_piece_board(self) -> None:
+        self._board.reset_piece_board()
+        self._board.update_piece_board(self._white_player.pieces, self._black_player.pieces)
+
+    def update_coloring_board(self):
+        self._board.reset_coloring_board()
+        self._board.update_coloring_board(self._current_player.selected_piece,
+                                          self._current_player.possible_moves_of_selected_piece,
+                                          self._current_player.special_moves)
+
+    def update_attack_boards(self) -> None:
+        self._board.reset_attack_boards()
+        self._board.update_attack_boards(self._white_player.attacked_fields, self._black_player.attacked_fields)
+
+    def update_protection_boards(self):
+        self._board.reset_protection_boards()
+        self._board.update_protection_boards(self._white_player.protected_fields, self._black_player.protected_fields)
+
+    def is_friend_at(self, x: int, y: int) -> bool:
+        return self._current_player.has_piece_at(x, y)
+
+    def is_opponent_at(self, x: int, y: int) -> bool:
+        return self._opponent_player.has_piece_at(x, y)
 
     def click_on_board(self, x: int, y: int) -> None:
 
