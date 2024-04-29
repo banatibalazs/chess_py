@@ -99,6 +99,7 @@ class Board:
 
             self.update_special_moves()
 
+
     def update_special_moves(self):
 
         special_moves = self._current_player.special_moves
