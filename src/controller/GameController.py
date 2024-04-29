@@ -13,7 +13,8 @@ class GameController:
                                    Player(black_player_name, ColorEnum.BLACK))
 
         self._view_controller: ViewController = view_controller
-        self._boardHistory: List[Board] = []
+        self._board_history_prev: List[Board] = []
+        self._board_history_fwd: List[Board] = []
         self.update_view()
 
     def update_view(self) -> None:
@@ -51,9 +52,20 @@ class GameController:
         self.update_view()
 
     def save_game(self):
+        # current_data = [self._board._piece_board, self._board._current_player.get_color(),
+        #                 self._board._current_player_name, self._board._opponent_player_name]
+        # self._board_history_prev.append()
         pass
 
-    def load_game(self):
+    def load_game_prev(self):
+        # self._board_history_fwd.append(self._board)
+        # self._board = self._board_history_prev.pop()
+        pass
+
+    def load_game_fwd(self):
+        # current_data = [self._board._current_player, self._board._opponent_player]
+        # self._board_history_prev.append()
+        # self._board.load_players(self._board_history_fwd.pop())
         pass
 
     def click_on_white_button(self) -> None:

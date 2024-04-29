@@ -97,6 +97,8 @@ class Board:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
 
+            self.update_special_moves()
+
     def update_special_moves(self):
 
         special_moves = self._current_player.special_moves
