@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="knight bugfix and pawn logic change">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix and rook logic change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -328,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714386316176</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="bugfix and rook logic change">
+      <option name="closed" value="true" />
+      <created>1714389049227</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1714389049227</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +368,8 @@
     <MESSAGE value="castling bug fix" />
     <MESSAGE value="changed possible step method logic in King and Knight" />
     <MESSAGE value="knight bugfix and pawn logic change" />
-    <option name="LAST_COMMIT_MESSAGE" value="knight bugfix and pawn logic change" />
+    <MESSAGE value="bugfix and rook logic change" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix and rook logic change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
