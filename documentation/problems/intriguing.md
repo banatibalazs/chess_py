@@ -72,3 +72,37 @@ class MyClass:
 ```
 
 So while both `classmethod` and `staticmethod` are methods that belong to a class rather than an instance of a class, they have different behaviors and use cases.
+
+### 4. Chat
+
+The `has_piece_at` method in the `Player` class currently uses a for loop to iterate over all the pieces and checks if any of them are at the given coordinates. This approach has a time complexity of O(n), where n is the number of pieces.
+
+One way to optimize this method is to maintain a set of coordinates for all the pieces. This set can be updated whenever a piece is moved or removed. Checking if a piece is at a given coordinate would then simply involve checking if the coordinate is in the set, which has a time complexity of O(1).
+
+Here's how you can implement this:
+
+```python
+class Player:
+    def __init__(self, name: str, color: ColorEnum):
+        # ...
+        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
+
+    def has_piece_at(self, x, y):
+        return (x, y) in self._piece_coordinates
+
+    def make_normal_move(self, to_x, to_y) -> None:
+        # ...
+        self._piece_coordinates.remove((self.selected_piece.x, self.selected_piece.y))
+        self._piece_coordinates.add((to_x, to_y))
+        self.selected_piece.set_coordinates(to_x, to_y)
+        # ...
+
+    def remove_piece_at(self, x: int, y: int) -> None:
+        for piece in self._pieces:
+            if piece.coordinates == (x, y):
+                self._pieces.remove(piece)
+                self._piece_coordinates.remove((x, y))
+                break
+```
+
+In this code, `_piece_coordinates` is a set that stores the coordinates of all the pieces. The `has_piece_at` method checks if the given coordinate is in this set. The `make_normal_move` and `remove_piece_at` methods are updated to maintain this set whenever a piece is moved or removed.

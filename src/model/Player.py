@@ -1,6 +1,4 @@
-import functools
-import time
-from typing import Optional, List, Tuple, TYPE_CHECKING
+from typing import Optional, List, Tuple, Set
 import src.model.Board as Board
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.Bishop import Bishop
@@ -29,24 +27,11 @@ class Player:
         self._special_moves: List[Tuple[int, int]] = []
         self._attacked_squares: List[Tuple[int, int]] = []
 
-        '''
-                         The board 
-
-                [00][01][02][03][04][05][06][07]                [A8][B8][C8][D8][E8][F8][G8][H8]
-                [10][11][12][13][14][15][16][17]                [A7][B7][C7][D7][E7][F7][G7][H7]
-                [20][21][22][23][24][25][26][27]                [A6][B6][C6][D6][E6][F6][G6][H6]
-                [30][31][32][33][34][35][36][37]        ->      [A5][B5][C5][D5][E5][F5][G5][H5]
-                [40][41][42][43][44][45][46][47]                [A4][B4][C4][D4][E4][F4][G4][H4]
-                [50][51][52][53][54][55][56][57]                [A3][B3][C3][D3][E3][F3][G3][H3]
-                [60][61][62][63][64][65][66][67]                [A2][B2][C2][D2][E2][F2][G2][H2]
-                [70][71][72][73][74][75][76][77]                [A1][B1][C1][D1][E1][F1][G1][H1]
-        '''
-
         # Append pawns
         for i in range(8):
             self._pieces.append(Pawn(color, i, 6 if color == ColorEnum.WHITE else 1))
 
-        self._pieces.append(Rook(color,0, 7 if color == ColorEnum.WHITE else 0))
+        self._pieces.append(Rook(color, 0, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Knight(color, 1, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Bishop(color, 2, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Queen(color, 3, 7 if color == ColorEnum.WHITE else 0))
@@ -55,54 +40,39 @@ class Player:
         self._pieces.append(Knight(color, 6, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Rook(color, 7, 7 if color == ColorEnum.WHITE else 0))
 
-    @staticmethod
-    def timer_decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            # print(f"Starting {func.__name__} at {start_time}")
-            result = func(*args, **kwargs)
-            end_time = time.time()
-            # print(f"Ending {func.__name__} at {end_time}")
-            print(f"{func.__name__} ran for {(end_time - start_time):.5f} seconds")
-            return result
-
-        return wrapper
+        self._piece_coordinates: Set[Tuple[int, int]] = set((piece.x, piece.y) for piece in self._pieces)
 
 
-    def is_computer(self):
+    def is_computer(self) -> bool:
         return self._is_computer
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self._name
 
-    def get_color(self):
+    def get_color(self) -> ColorEnum:
         return self._color
 
     @property
-    def pieces(self):
+    def pieces(self) -> List[Piece]:
         return self._pieces
 
-    def get_piece_at(self, x, y):
+    def get_piece_at(self, x, y) -> Optional[Piece]:
         for piece in self._pieces:
             if piece.coordinates == (x, y):
                 return piece
         return None
 
-    def has_piece_at(self, x, y):
-        for piece in self._pieces:
-            if piece.coordinates == (x, y):
-                return True
-        return False
+    def has_piece_at(self, x, y) -> bool:
+        return (x, y) in self._piece_coordinates
 
     def __str__(self):
         return f"{self._name} ({self._color})"
 
-    @timer_decorator
     def update_normal_moves(self, board: ByteArray8x8):
         self._update_possible_moves_of_selected_piece(board)
         self._update_attacked_locations(board)
         self._update_protected_fields(board)
+        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
 
     def _update_possible_moves_of_selected_piece(self, board: ByteArray8x8):
         if self._selected_piece is not None:
@@ -143,31 +113,27 @@ class Player:
         # Promotion
 
         # En passant
-        if self.selected_piece is not None and isinstance(self.selected_piece, Pawn):
+        if isinstance(self.selected_piece, Pawn):
             self.update_en_passant(board.get_opponent_player_last_moved_piece())
-            pass
 
         # Castling
-        if self.selected_piece is not None and isinstance(self.selected_piece, King):
+        if isinstance(self.selected_piece, King):
             self.update_castling(board)
 
     def get_last_moved_piece(self):
         return self._last_moved_piece
 
     def update_en_passant(self, op_last_moved_piece) -> None:
-        print("Updating en passant")
         if op_last_moved_piece is not None and \
-            isinstance(op_last_moved_piece, Pawn) and \
-            op_last_moved_piece.is_en_passant and \
-            self.selected_piece is not None and \
-            isinstance(self.selected_piece, Pawn) and \
-            self.selected_piece.y == op_last_moved_piece.y and \
-            abs(self.selected_piece.x - op_last_moved_piece.x) == 1:
+                isinstance(op_last_moved_piece, Pawn) and \
+                op_last_moved_piece.is_en_passant and \
+                self.selected_piece is not None and \
+                self.selected_piece.y == op_last_moved_piece.y and \
+                abs(self.selected_piece.x - op_last_moved_piece.x) == 1:
             if self._color == ColorEnum.WHITE:
                 self._special_moves.append((op_last_moved_piece.x, op_last_moved_piece.y - 1))
             else:
                 self._special_moves.append((op_last_moved_piece.x, op_last_moved_piece.y + 1))
-
 
     def update_castling(self, board: Board) -> None:
         if self._color == ColorEnum.BLACK:
@@ -210,7 +176,7 @@ class Player:
                     board.is_empty_at(1, 7) and
                     board.is_empty_at(2, 7) and
                     board.is_empty_at(3, 7) and
-                    not board.square_is_attacked_by_white(4, 7) and  # type: ignore
+                    not board.square_is_attacked_by_white(4, 7) and
                     not board.square_is_attacked_by_black(4, 7) and
                     not board.square_is_attacked_by_black(3, 7) and
                     not board.square_is_attacked_by_black(2, 7)):
@@ -335,8 +301,8 @@ class Player:
         self.selected_piece.set_coordinates(to_x, to_y)
         self.reset_en_passant()
 
-
-
-
-
-
+    def get_score(self) -> int:
+        score = 0
+        for piece in self._pieces:
+            score += piece.value
+        return score

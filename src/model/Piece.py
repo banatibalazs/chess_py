@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Tuple
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from src.model.PieceTypeEnum import PieceTypeEnum
 
 
 class Piece(ABC):
@@ -10,6 +11,7 @@ class Piece(ABC):
         self._color = color
         self._x = x
         self._y = y
+        self._value = self._init_value()
 
         self._is_moved = False
         self._is_captured = False
@@ -19,9 +21,27 @@ class Piece(ABC):
         self._is_checkmate = False
         self._is_stalemate = False
 
+    def _init_value(self):
+        if self._type == PieceTypeEnum.PAWN:
+            return 1
+        elif self._type == PieceTypeEnum.KNIGHT:
+            return 3
+        elif self._type == PieceTypeEnum.BISHOP:
+            return 3
+        elif self._type == PieceTypeEnum.ROOK:
+            return 5
+        elif self._type == PieceTypeEnum.QUEEN:
+            return 9
+        elif self._type == PieceTypeEnum.KING:
+            return 0
+
     @abstractmethod
     def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         pass
+
+    @property
+    def value(self) -> int:
+        return self._value
 
     @property
     def is_moved(self):
