@@ -108,17 +108,8 @@ class Player:
     def special_moves(self) -> List[Tuple[int, int]]:
         return self._special_moves
 
-    def update_special_moves(self, board: Board, opponent_player_last_moved_piece) -> None:
+    def reset_special_moves(self) -> None:
         self._special_moves = []
-        # Promotion
-
-        # En passant
-        if isinstance(self.selected_piece, Pawn):
-            self.update_en_passant(opponent_player_last_moved_piece)
-
-        # Castling
-        if isinstance(self.selected_piece, King):
-            self.update_castling(board)
 
     def get_last_moved_piece(self):
         return self._last_moved_piece
@@ -239,15 +230,6 @@ class Player:
     def make_normal_move(self, to_x, to_y) -> None:
         print("Normal move.")
         # Set en passant field if the pawn moves two squares
-        self.reset_en_passant()
-        if isinstance(self.selected_piece, Pawn):
-            if abs(self.selected_piece.y - to_y) == 2:
-                print("En passant variable is set.")
-                self.selected_piece.is_en_passant = True
-
-            if to_y == 0 or to_y == 7:
-                self.promote_pawn(to_x, to_y, PieceTypeEnum.QUEEN)
-                return
 
         self.selected_piece.set_coordinates(to_x, to_y)
         self.selected_piece.is_moved = True

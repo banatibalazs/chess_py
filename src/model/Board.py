@@ -63,7 +63,6 @@ class Board:
         for location in attacked_by_black:
             self._black_attack_board[location[0], location[1]] = True
 
-
     def reset_protection_boards(self):
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
@@ -76,7 +75,6 @@ class Board:
 
         for location in protected_by_black:
             self._black_protection_board[location[1], location[0]] = True
-
 
     def is_normal_move_at(self, x, y):
         return self._coloring_board[y, x] == self.NORMAL_MOVE_SYMBOL
