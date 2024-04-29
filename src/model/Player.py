@@ -108,13 +108,13 @@ class Player:
     def special_moves(self) -> List[Tuple[int, int]]:
         return self._special_moves
 
-    def update_special_moves(self, board: Board) -> None:
+    def update_special_moves(self, board: Board, opponent_player_last_moved_piece) -> None:
         self._special_moves = []
         # Promotion
 
         # En passant
         if isinstance(self.selected_piece, Pawn):
-            self.update_en_passant(board.get_opponent_player_last_moved_piece())
+            self.update_en_passant(opponent_player_last_moved_piece)
 
         # Castling
         if isinstance(self.selected_piece, King):
