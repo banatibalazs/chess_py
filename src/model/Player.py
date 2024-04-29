@@ -175,8 +175,8 @@ class Player:
             rook = self.get_piece_at(0, 0)
             if (isinstance(rook, Rook) and
                     isinstance(king, King) and
-                    not rook.is_moved() and
-                    not king.is_moved() and
+                    not rook.is_moved and
+                    not king.is_moved and
                     board.is_empty_at(1, 0) and
                     board.is_empty_at(2, 0) and
                     board.is_empty_at(3, 0) and
@@ -189,8 +189,8 @@ class Player:
             rook = self.get_piece_at(7, 0)
             if (isinstance(rook, Rook) and
                     isinstance(king, King) and
-                    not rook.is_moved() and
-                    not king.is_moved() and
+                    not rook.is_moved and
+                    not king.is_moved and
                     board.is_empty_at(5, 0) and
                     board.is_empty_at(6, 0) and
                     not board.square_is_attacked_by_black(4, 0) and
@@ -204,8 +204,8 @@ class Player:
             rook = self.get_piece_at(0, 7)
             if (isinstance(rook, Rook) and
                     isinstance(king, King) and
-                    not rook.is_moved() and
-                    not king.is_moved() and
+                    not rook.is_moved and
+                    not king.is_moved and
                     board.is_empty_at(1, 7) and
                     board.is_empty_at(2, 7) and
                     board.is_empty_at(3, 7) and
@@ -218,8 +218,8 @@ class Player:
             rook = self.get_piece_at(7, 7)
             if (isinstance(rook, Rook) and
                     isinstance(king, King) and
-                    not rook.is_moved() and
-                    not king.is_moved() and
+                    not rook.is_moved and
+                    not king.is_moved and
                     board.is_empty_at(5, 7) and
                     board.is_empty_at(6, 7) and
                     not board.square_is_attacked_by_white(4, 7) and
@@ -283,7 +283,7 @@ class Player:
                 return
 
         self.selected_piece.set_coordinates(to_x, to_y)
-        self.selected_piece.set_moved()
+        self.selected_piece.is_moved = True
         self._last_moved_piece = self.selected_piece
 
     def reset_en_passant(self) -> None:

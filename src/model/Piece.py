@@ -23,11 +23,13 @@ class Piece(ABC):
     def get_possible_moves(self, board: Board) -> List[Tuple[int, int]]:
         pass
 
-    def set_moved(self):
-        self._is_moved = True
-
+    @property
     def is_moved(self):
         return self._is_moved
+
+    @is_moved.setter
+    def is_moved(self, value: bool):
+        self._is_moved = value
 
     @property
     def type(self):

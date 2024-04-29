@@ -73,7 +73,8 @@ class Knight(Piece):
     #
     #     return possible_moves, protected_fields
 
-    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    @override
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:  # type: ignore
         possible_moves = []
         protected_fields = []
         x = self.x
@@ -88,11 +89,16 @@ class Knight(Piece):
         for move in move_pattern_list:
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
                 field = board[move[1], move[0]]
-                if field == 0 or (field < 0) if color == ColorEnum.WHITE else (field < 0):
-                    possible_moves.append(move)
-
-                if (field > 0) if color == ColorEnum.WHITE else (field < 0):
-                    protected_fields.append(move)
+                if color == ColorEnum.WHITE:
+                    if field <= 0:
+                        possible_moves.append(move)
+                    else:
+                        protected_fields.append(move)
+                else:
+                    if field >= 0:
+                        possible_moves.append(move)
+                    else:
+                        protected_fields.append(move)
 
 
         return possible_moves, protected_fields
