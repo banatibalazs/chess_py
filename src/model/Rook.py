@@ -29,24 +29,14 @@ class Rook(Piece):
 
         for direction in directions:
             for field in direction:
-                if color == ColorEnum.WHITE:
-                    if board[field[1], field[0]] == 0:
-                        possible_fields.append(field)
-                    elif board[field[1], field[0]] > 0:
-                        protected_fields.append(field)
-                        break
-                    elif board[field[1], field[0]] < 0:
-                        possible_fields.append(field)
-                        break
+                if field in enemy_positions:
+                    possible_fields.append(field)
+                    break
+                if field in friend_positions:
+                    protected_fields.append(field)
+                    break
                 else:
-                    if board[field[1], field[0]] == 0:
-                        possible_fields.append(field)
-                    elif board[field[1], field[0]] < 0:
-                        protected_fields.append(field)
-                        break
-                    elif board[field[1], field[0]] > 0:
-                        possible_fields.append(field)
-                        break
+                    possible_fields.append(field)
 
         return possible_fields, protected_fields
 

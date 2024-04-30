@@ -23,17 +23,15 @@ class King(Piece):
 
         for move in move_pattern_list:
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
-                field = board[move[1], move[0]]
 
-                if color == ColorEnum.WHITE and field <= 0:
-                    possible_moves.append(move)
-                elif color == ColorEnum.BLACK and field >= 0:
+                if move in enemy_positions:
                     possible_moves.append(move)
 
-                if color == ColorEnum.WHITE and field > 0:
+                if move in friend_positions:
                     protected_fields.append(move)
-                elif color == ColorEnum.BLACK and field < 0:
-                    protected_fields.append(move)
+
+                else:
+                    possible_moves.append(move)
 
 
         return possible_moves, protected_fields
