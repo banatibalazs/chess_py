@@ -1,8 +1,4 @@
-from typing import override, Tuple, List, Set
-
-import numpy as np
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from typing import override, Tuple, List
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -57,9 +53,6 @@ class Queen(Piece):
 
 
         return possible_fields, protected_fields
-
-    def get_attacked_fields(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
-            return self.get_possible_moves(board, friend_positions, enemy_positions)
 
     # @override
     # def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:

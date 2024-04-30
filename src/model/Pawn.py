@@ -1,6 +1,4 @@
-from typing import List, Tuple, override, Set
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from typing import List, Tuple, override
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece

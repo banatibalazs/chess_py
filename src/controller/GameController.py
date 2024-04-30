@@ -27,6 +27,20 @@ class GameController:
 
         self.start_game()
 
+    @staticmethod
+    def timer_decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            start_time = time.time()
+            # print(f"Starting {func.__name__} at {start_time}")
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            # print(f"Ending {func.__name__} at {end_time}")
+            print(f"{func.__name__} ran for {(end_time - start_time):.5f} seconds")
+            return result
+
+        return wrapper
+
     def start_game(self):
         self._white_player.init_pieces()
         self._black_player.init_pieces()
@@ -35,14 +49,15 @@ class GameController:
         self.update_players()
         self.update_view()
 
+    @timer_decorator
     def update_players(self):
         # 1. Update possible moves of selected piece
         self._white_player.get_possible_moves_of_selected_piece()
         self._black_player.get_possible_moves_of_selected_piece()
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
-        self._white_player.get_special_moves(self._opponent_player.selected_piece)
-        self._black_player.get_special_moves(self._opponent_player.selected_piece)
+        self._white_player.get_special_moves(self._opponent_player.last_moved_piece)
+        self._black_player.get_special_moves(self._opponent_player.last_moved_piece)
 
         # 3. Update attacked locations
         self._white_player.get_attacked_fields()
@@ -53,6 +68,7 @@ class GameController:
         self._black_player.get_protected_fields()
 
 
+    @timer_decorator
     def update_boards(self) -> None:
         # It has the following boards:
         # 1. Piece board -> the positions of the pieces
@@ -81,24 +97,9 @@ class GameController:
                                           self._current_player.possible_moves_of_selected_piece,
                                           self._current_player.special_moves)
 
-
     def set_pieces(self, white_pieces: List[Piece], black_pieces: List[Piece]):
         self._white_player.set_pieces(white_pieces)
         self._black_player.set_pieces(black_pieces)
-
-    @staticmethod
-    def timer_decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            # print(f"Starting {func.__name__} at {start_time}")
-            result = func(*args, **kwargs)
-            end_time = time.time()
-            # print(f"Ending {func.__name__} at {end_time}")
-            print(f"{func.__name__} ran for {(end_time - start_time):.5f} seconds")
-            return result
-
-        return wrapper
 
     def update_view(self) -> None:
         self.update_players()

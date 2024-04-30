@@ -1,8 +1,4 @@
-from typing import override, Tuple, List, Set
-
-import numpy as np
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from typing import override, Tuple, List
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
