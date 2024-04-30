@@ -35,9 +35,9 @@ class Board:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
 
-        if special_moves is not None:
-            for move in special_moves:
-                self._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
+            if special_moves is not None:
+                for move in special_moves:
+                    self._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
 
     def reset_piece_board(self):
         self._piece_board.fill(0)
@@ -104,6 +104,13 @@ class Board:
 
     def get_white_attack_board(self):
         return self._white_attack_board
+
+    def get_black_protection_board(self):
+        return self._black_protection_board
+
+    def get_white_protection_board(self):
+        return self._white_protection_board
+
 
     def get_opponent_attack_board(self, color):
         if color == 1:

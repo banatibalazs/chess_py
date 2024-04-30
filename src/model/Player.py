@@ -119,6 +119,7 @@ class Player:
     def get_protected_fields(self):
         # These are the fields that are protected by the player's pieces
         # so the opponent cannot capture them with a king
+        self._protected_fields = []
         for piece in self._pieces:
             _, protected_fields = piece.get_possible_moves(self._board)
             self._protected_fields += protected_fields

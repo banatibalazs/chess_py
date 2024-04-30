@@ -5,10 +5,7 @@ from typing import List
 from src.controller import ViewController
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
-from src.model.King import King
-from src.model.Pawn import Pawn
 from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
 
 
@@ -34,6 +31,11 @@ class GameController:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
 
+        self.update_boards()
+        self.update_players()
+        self.update_view()
+
+    def update_players(self):
         # 1. Update possible moves of selected piece
         self._white_player.get_possible_moves_of_selected_piece()
         self._black_player.get_possible_moves_of_selected_piece()
@@ -49,8 +51,6 @@ class GameController:
         # 4. Update protected fields
         self._white_player.get_protected_fields()
         self._black_player.get_protected_fields()
-
-        self.update_view()
 
 
     def update_boards(self) -> None:
@@ -101,7 +101,7 @@ class GameController:
         return wrapper
 
     def update_view(self) -> None:
-
+        self.update_players()
         self.update_boards()
         self._current_player.update_data(self._opponent_player)
         # Update View by sending the updated board to the view controller
