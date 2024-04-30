@@ -26,7 +26,7 @@ class Board:
 
     def update_coloring_board(self, selected_piece: Piece, possible_moves_of_selected_piece: List[Tuple[int,int]],
                               special_moves: List[Tuple[int,int]]):
-
+        self._coloring_board.fill(self.EMPTY_SYMBOL)
         if selected_piece is not None:
             self._coloring_board[selected_piece.y, selected_piece.x] = self.SELECTED_PIECE_SYMBOL
 
@@ -45,6 +45,7 @@ class Board:
 
     def update_piece_board(self, white_player_pieces: List[Piece], black_player_pieces: List[Piece]) -> None:
         # Update the board with the current piece positions
+        self._piece_board.fill(0)
         for piece in white_player_pieces:
             self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
 
@@ -57,6 +58,8 @@ class Board:
 
     def update_attack_boards(self, attacked_by_white: List[Tuple[int, int]],
                              attacked_by_black: List[Tuple[int, int]]) -> None:
+        self._white_attack_board.fill(False)
+        self._black_attack_board.fill(False)
         for location in attacked_by_white:
             self._white_attack_board[location[0], location[1]] = True
 
@@ -69,7 +72,8 @@ class Board:
 
     def update_protection_boards(self, protected_by_white: List[Tuple[int, int]],
                                  protected_by_black: List[Tuple[int, int]]) -> None:
-
+        self._white_protection_board.fill(False)
+        self._black_protection_board.fill(False)
         for location in protected_by_white:
             self._white_protection_board[location[1], location[0]] = True
 

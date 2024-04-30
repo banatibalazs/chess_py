@@ -76,13 +76,6 @@ class GameController:
         # 3. Attack boards -> the attacked fields by the players
         # 4. Protection boards -> the protected fields by the players
 
-        # 1-4. Reset the boards before updating them
-        self._board.reset_piece_board()
-        self._board.reset_coloring_board()
-        self._board.reset_attack_boards()
-        self._board.reset_protection_boards()
-
-        # Update the boards
         if self._current_player._color == ColorEnum.WHITE:
             # The boards methods' parameters are the white player's data first, then the black player's data
             self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)
@@ -96,10 +89,6 @@ class GameController:
         self._board.update_coloring_board(self._current_player.selected_piece,
                                           self._current_player.possible_moves_of_selected_piece,
                                           self._current_player.special_moves)
-
-    def set_pieces(self, white_pieces: List[Piece], black_pieces: List[Piece]):
-        self._white_player.set_pieces(white_pieces)
-        self._black_player.set_pieces(black_pieces)
 
     def update_view(self) -> None:
         self.update_players()
@@ -164,6 +153,10 @@ class GameController:
         #                 self._board._current_player_name, self._board._opponent_player_name]
         # self._board_history_prev.append()
         pass
+
+    def set_pieces(self, white_pieces: List[Piece], black_pieces: List[Piece]):
+        self._white_player.set_pieces(white_pieces)
+        self._black_player.set_pieces(black_pieces)
 
     def load_game_prev(self):
         # self._board_history_fwd.append(self._board)
