@@ -1,4 +1,4 @@
-from typing import List, Tuple, override
+from typing import List, Tuple, override, Set
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.ColorEnum import ColorEnum
@@ -12,7 +12,7 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_fields = []
         protected_fields = []
         x = self.x

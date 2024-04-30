@@ -56,7 +56,6 @@ class Board:
 
     def update_attack_boards(self, attacked_by_white: List[Tuple[int, int]],
                              attacked_by_black: List[Tuple[int, int]]) -> None:
-
         for location in attacked_by_white:
             self._white_attack_board[location[0], location[1]] = True
 

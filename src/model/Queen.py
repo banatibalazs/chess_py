@@ -1,4 +1,4 @@
-from typing import override, Tuple, List
+from typing import override, Tuple, List, Set
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
@@ -10,7 +10,7 @@ class Queen(Piece):
         super().__init__(PieceTypeEnum.QUEEN, color, x, y)
 
     @override
-    def get_possible_moves(self, board: ByteArray8x8) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_fields = []
         protected_fields = []
         x = self.x
