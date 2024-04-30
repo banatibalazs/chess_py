@@ -3,6 +3,7 @@ import time
 from typing import List
 
 from src.controller import ViewController
+from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
@@ -15,6 +16,9 @@ class GameController:
         self._board: Board = Board()
         self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
         self._black_player: Player = Player(black_player_name, ColorEnum.BLACK, self._board)
+
+        self.white_timer = TimerThread(300, white_player_name, self)  # 5 minutes timer
+        self.black_timer = TimerThread(300, black_player_name, self)  # 5 minutes timer
 
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
@@ -49,7 +53,29 @@ class GameController:
         self.update_players()
         self.update_view()
 
-    @timer_decorator
+
+    def next_turn(self):
+        self.update_boards()
+        self.update_players()
+        self.update_view()
+        self.is_white_turn = not self.is_white_turn
+        self.switch_players()
+
+        if not self.is_white_turn:
+            print("--------------------------------------------------------------------------------")
+            print(" Black player's turn")
+            # self._current_player.choose_movable_piece()
+            # print("Selected piece: ", self._current_player.selected_piece)
+            # print("At position: ", self._current_player.selected_piece.x, self._current_player.selected_piece.y)
+            # print("Type: ", self._current_player.selected_piece.type)
+            # print("Color: ", self._current_player.selected_piece.color)
+            # move = self._black_player.choose_step()
+            # print("Move: ", move)
+            # print("--------------------------------------------------------------------------------")
+
+
+
+    # @timer_decorator
     def update_players(self):
         # 1. Update possible moves of selected piece
         self._white_player.get_possible_moves_of_selected_piece()
@@ -66,7 +92,7 @@ class GameController:
 
 
 
-    @timer_decorator
+    # @timer_decorator
     def update_boards(self) -> None:
         # It has the following boards:
         # 1. Piece board -> the positions of the pieces
@@ -91,7 +117,7 @@ class GameController:
     def update_view(self) -> None:
         self.update_players()
         self.update_boards()
-        self._current_player.update_data(self._opponent_player)
+        # self._current_player.update_data(self._opponent_player)
         # Update View by sending the updated board to the view controller
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
@@ -144,7 +170,7 @@ class GameController:
             self._opponent_player.remove_piece_at(x, y)
         # self.update_data()
         self._current_player.reset_selected_piece()
-        self.switch_players()
+        self.next_turn()
 
     def save_game(self):
         # current_data = [self._board._piece_board, self._board._current_player.get_color(),

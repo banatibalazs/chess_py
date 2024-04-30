@@ -1,3 +1,4 @@
+import random
 from typing import Optional, List, Tuple, Set
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
@@ -108,25 +109,6 @@ class Player:
         if isinstance(self.selected_piece, King):
             self.add_castling_moves_to_special_moves()
 
-    # def get_attacked_fields(self):
-    #     self._attacked_fields = []
-    #     for piece in self._pieces:
-    #         # The only exception is the pawn, as it moves forward but captures diagonally
-    #         if isinstance(piece, Pawn):
-    #             attacked_locations = piece.get_attacked_fields()
-    #         else:
-    #             attacked_locations, _ = piece.get_possible_moves(self._board)
-    #         for location in attacked_locations:
-    #             self._attacked_fields.append((location[1], location[0]))
-    #
-    # def get_protected_fields(self):
-    #     # These are the fields that are protected by the player's pieces
-    #     # so the opponent cannot capture them with a king
-    #     self._protected_fields = []
-    #     for piece in self._pieces:
-    #         _, protected_fields = piece.get_possible_moves(self._board)
-    #         self._protected_fields += protected_fields
-
     def update_protected_and_attacked_fields(self):
         self._protected_fields = []
         self._attacked_fields = []
@@ -165,6 +147,31 @@ class Player:
             # return filtered_moves, protected_fields
 
         # return piece.get_possible_moves(self._board)
+    def choose_step(self) -> Optional[Tuple[int, int]]:
+
+        self.selected_piece.get_possible_moves(self._board)
+        # Check if there are any possible moves
+        if not self._possible_moves_of_selected_piece:
+            return None
+        # Select a random move
+        chosen_move = random.choice(self._possible_moves_of_selected_piece)
+        print(f"Chosen move: {chosen_move}")
+        return chosen_move
+
+    def choose_movable_piece(self):
+        movable_pieces = self.get_movable_pieces()
+        if len(movable_pieces) == 0:
+            return None
+        self._selected_piece = random.choice(movable_pieces)
+        return self._selected_piece
+
+    def get_movable_pieces(self):
+        movable_pieces = []
+        for piece in self._pieces:
+            moves = piece.get_possible_moves(self._board)[0]
+            if moves != [] and moves is not None:
+                movable_pieces.append(piece)
+        return movable_pieces
 
     def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
         if op_last_moved_piece is not None and \
@@ -245,7 +252,6 @@ class Player:
         return self._selected_piece.get_possible_moves(self._board)[0]
 
     def make_move(self, to_x, to_y, opponent) -> None:
-        print("Player steps.")
         if self.selected_piece is None:
             raise ValueError("No piece is selected.")
         # Set en passant field if the pawn moves two squares

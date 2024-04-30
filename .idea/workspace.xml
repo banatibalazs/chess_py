@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="clean up code">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="optimization in Player class protected and attacked field update method">
+      <change afterPath="$PROJECT_DIR$/src/controller/TimerThread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -455,7 +458,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714492010905</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="optimization in Player class protected and attacked field update method">
+      <option name="closed" value="true" />
+      <created>1714493009749</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1714493009749</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -470,7 +481,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="start implement castling in Board.py" />
     <MESSAGE value="king can not step onto an attacked square" />
     <MESSAGE value="reorganizing the code" />
     <MESSAGE value="protected fields in pieces" />
@@ -495,7 +505,8 @@
     <MESSAGE value="King protection field bugfix, view and board update bugfix" />
     <MESSAGE value="special move en passant bugfix" />
     <MESSAGE value="clean up code" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean up code" />
+    <MESSAGE value="optimization in Player class protected and attacked field update method" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimization in Player class protected and attacked field update method" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
