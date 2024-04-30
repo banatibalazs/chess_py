@@ -77,10 +77,13 @@ class Player:
         self.get_special_moves(opponent_player_last_moved_piece)
 
         # 3. Update attacked locations
-        self.get_attacked_fields()
+        # self.get_attacked_fields()
 
         # 4. Update protected fields
-        self.get_protected_fields()
+        # self.get_protected_fields()
+
+        # 3-4. Update attacked locations and protected fields
+        self.update_protected_and_attacked_fields()
 
 
         # 5. Update piece coordinates
@@ -105,24 +108,40 @@ class Player:
         if isinstance(self.selected_piece, King):
             self.add_castling_moves_to_special_moves()
 
-    def get_attacked_fields(self):
+    # def get_attacked_fields(self):
+    #     self._attacked_fields = []
+    #     for piece in self._pieces:
+    #         # The only exception is the pawn, as it moves forward but captures diagonally
+    #         if isinstance(piece, Pawn):
+    #             attacked_locations = piece.get_attacked_fields()
+    #         else:
+    #             attacked_locations, _ = piece.get_possible_moves(self._board)
+    #         for location in attacked_locations:
+    #             self._attacked_fields.append((location[1], location[0]))
+    #
+    # def get_protected_fields(self):
+    #     # These are the fields that are protected by the player's pieces
+    #     # so the opponent cannot capture them with a king
+    #     self._protected_fields = []
+    #     for piece in self._pieces:
+    #         _, protected_fields = piece.get_possible_moves(self._board)
+    #         self._protected_fields += protected_fields
+
+    def update_protected_and_attacked_fields(self):
+        self._protected_fields = []
         self._attacked_fields = []
+
         for piece in self._pieces:
+            attacked_fields, protected_fields = piece.get_possible_moves(self._board)
+            self._protected_fields += protected_fields
+
             # The only exception is the pawn, as it moves forward but captures diagonally
             if isinstance(piece, Pawn):
-                attacked_locations = piece.get_attacked_fields()
-            else:
-                attacked_locations, _ = piece.get_possible_moves(self._board)
-            for location in attacked_locations:
+                attacked_fields = piece.get_attacked_fields()
+            for location in attacked_fields:
                 self._attacked_fields.append((location[1], location[0]))
 
-    def get_protected_fields(self):
-        # These are the fields that are protected by the player's pieces
-        # so the opponent cannot capture them with a king
-        self._protected_fields = []
-        for piece in self._pieces:
-            _, protected_fields = piece.get_possible_moves(self._board)
-            self._protected_fields += protected_fields
+
 
     # def get_possible_moves_of_piece(self, piece: Piece) -> Optional[Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]]:
     #     if piece is None:

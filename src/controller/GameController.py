@@ -59,13 +59,11 @@ class GameController:
         self._white_player.get_special_moves(self._opponent_player.last_moved_piece)
         self._black_player.get_special_moves(self._opponent_player.last_moved_piece)
 
-        # 3. Update attacked locations
-        self._white_player.get_attacked_fields()
-        self._black_player.get_attacked_fields()
+        # 3-4. Update attacked locations
+        #      Update protected fields
+        self._white_player.update_protected_and_attacked_fields()
+        self._black_player.update_protected_and_attacked_fields()
 
-        # 4. Update protected fields
-        self._white_player.get_protected_fields()
-        self._black_player.get_protected_fields()
 
 
     @timer_decorator
