@@ -105,6 +105,18 @@ class Board:
     def get_white_attack_board(self):
         return self._white_attack_board
 
+    def get_opponent_attack_board(self, color):
+        if color == 1:
+            return self._black_attack_board
+        else:
+            return self._white_attack_board
+
+    def get_opponent_protection_board(self, color):
+        if color == 1:
+            return self._black_protection_board
+        else:
+            return self._white_protection_board
+
     def get_black_protection_board(self):
         return self._black_protection_board
 

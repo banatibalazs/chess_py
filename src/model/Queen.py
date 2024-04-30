@@ -1,8 +1,12 @@
 from typing import override, Tuple, List, Set
+
+import numpy as np
+
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
+import src.model.Board as Board
 
 
 class Queen(Piece):
@@ -10,12 +14,14 @@ class Queen(Piece):
         super().__init__(PieceTypeEnum.QUEEN, color, x, y)
 
     @override
-    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_fields = []
         protected_fields = []
         x = self.x
         y = self.y
         color = self.color
+
+        piece_board = board.get_piece_board()
 
         vectors = [(1, 0), (-1, 0), (0, 1), (0, -1),
                    (1, 1), (-1, 1), (1, -1), (-1, -1)]
@@ -30,16 +36,30 @@ class Queen(Piece):
 
         for direction in directions:
             for field in direction:
-                if field in enemy_positions:
-                    possible_fields.append(field)
-                    break
-                if field in friend_positions:
-                    protected_fields.append(field)
-                    break
+                if color == ColorEnum.WHITE:
+                    if piece_board[field[1], field[0]] == 0:
+                        possible_fields.append(field)
+                    elif piece_board[field[1], field[0]] < 0:
+                        possible_fields.append(field)
+                        break
+                    else:
+                        protected_fields.append(field)
+                        break
                 else:
-                    possible_fields.append(field)
+                    if piece_board[field[1], field[0]] == 0:
+                        possible_fields.append(field)
+                    elif piece_board[field[1], field[0]] > 0:
+                        possible_fields.append(field)
+                        break
+                    else:
+                        protected_fields.append(field)
+                        break
+
 
         return possible_fields, protected_fields
+
+    def get_attacked_fields(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+            return self.get_possible_moves(board, friend_positions, enemy_positions)
 
     # @override
     # def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:

@@ -1,6 +1,9 @@
 from typing import override, Tuple, List, Set
 
+import numpy as np
+
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -11,27 +14,31 @@ class King(Piece):
         super().__init__(PieceTypeEnum.KING, color, x, y)
 
     @override
-    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int, int]], enemy_positions: Set[Tuple[int, int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_moves = []
         protected_fields = []
         x = self.x
         y = self.y
         color = self.color
 
+        piece_board = board.get_piece_board()
+
         move_pattern_list = [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y),
                              (x - 1, y - 1), (x + 1, y - 1), (x - 1, y + 1), (x + 1, y + 1)]
 
         for move in move_pattern_list:
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
-
-                if move in enemy_positions:
-                    possible_moves.append(move)
-
-                if move in friend_positions:
-                    protected_fields.append(move)
-
+                field = piece_board[move[1], move[0]]
+                if color == ColorEnum.WHITE:
+                    if field <= 0:
+                        possible_moves.append(move)
+                    else:
+                        protected_fields.append(move)
                 else:
-                    possible_moves.append(move)
+                    if field >= 0:
+                        possible_moves.append(move)
+                    else:
+                        protected_fields.append(move)
 
 
         return possible_moves, protected_fields

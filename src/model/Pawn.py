@@ -1,6 +1,7 @@
 from typing import List, Tuple, override, Set
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -12,59 +13,62 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         possible_fields = []
         protected_fields = []
         x = self.x
         y = self.y
         color = self.color
 
+        piece_board = board.get_piece_board()
+
         # Move forward
         if color == ColorEnum.WHITE:
             if y - 1 >= 0:
-                if board[y - 1, x] == 0:
+                if piece_board[y - 1, x] == 0:
                     possible_fields.append((x, y - 1))
         else:
             if y + 1 <= 7:
-                if board[y + 1, x] == 0:
+                if piece_board[y + 1, x] == 0:
                     possible_fields.append((x, y + 1))
 
         # Move two squares forward
         if color == ColorEnum.WHITE and y == 6:
-            if board[y - 1, x] == 0 and board[y - 2, x] == 0:
+            if piece_board[y - 1, x] == 0 and piece_board[y - 2, x] == 0:
                 possible_fields.append((x, y - 2))
         elif color == ColorEnum.BLACK and y == 1:
-            if board[y + 1, x] == 0 and board[y + 2, x] == 0:
+            if piece_board[y + 1, x] == 0 and piece_board[y + 2, x] == 0:
                 possible_fields.append((x, y + 2))
 
         # Diagonal capture
         if color == ColorEnum.WHITE:
             if x - 1 >= 0 and y - 1 >= 0:
-                if board[y - 1, x - 1] < 0:
+                if piece_board[y - 1, x - 1] < 0:
                     possible_fields.append((x - 1, y - 1))
-                if board[y - 1, x - 1] > 0:
+                if piece_board[y - 1, x - 1] > 0:
                     protected_fields.append((x - 1, y - 1))
             if x + 1 <= 7 and y - 1 >= 0:
-                if board[y - 1, x + 1] < 0:
+                if piece_board[y - 1, x + 1] < 0:
                     possible_fields.append((x + 1, y - 1))
-                if board[y - 1, x + 1] > 0:
+                if piece_board[y - 1, x + 1] > 0:
                     protected_fields.append((x + 1, y - 1))
         else:
             if x - 1 >= 0 and y + 1 <= 7:
-                if board[y + 1, x - 1] > 0:
+                if piece_board[y + 1, x - 1] > 0:
                     possible_fields.append((x - 1, y + 1))
-                if board[y + 1, x - 1] < 0:
+                if piece_board[y + 1, x - 1] < 0:
                     protected_fields.append((x - 1, y + 1))
 
             if x + 1 <= 7 and y + 1 <= 7:
-                if board[y + 1, x + 1] > 0:
+                if piece_board[y + 1, x + 1] > 0:
                     possible_fields.append((x + 1, y + 1))
-                if board[y + 1, x + 1] < 0:
+                if piece_board[y + 1, x + 1] < 0:
                     protected_fields.append((x + 1, y + 1))
 
         return possible_fields, protected_fields
 
-    def get_attacked_locations(self) -> List[Tuple[int, int]]:
+
+    def get_attacked_fields(self) ->[Tuple[int, int]]:
 
         attacked_locations = []
         x = self.x

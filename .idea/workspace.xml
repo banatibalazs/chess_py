@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactoring possible moves method in pieces">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="simpler solution for piece logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,17 +47,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.MainWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;alter&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/balaz/Desktop/clone_chess/chess-py&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.MainWindow.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "alter",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/balaz/Desktop/clone_chess/chess-py",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\balaz\Desktop\chess-py\chess-py\resources\images\welcome_page" />
@@ -418,7 +425,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714470807451</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="simpler solution for piece logic">
+      <option name="closed" value="true" />
+      <created>1714472307759</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1714472307759</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -433,7 +448,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new features" />
     <MESSAGE value="change implementation to numpy arrays in ViewController.py" />
     <MESSAGE value="extra buttons and labels in ChessWindow.py" />
     <MESSAGE value="code cleanup in ChessWindow.py" />
@@ -458,7 +472,8 @@
     <MESSAGE value="click on board method in GameController refactor and bugfix" />
     <MESSAGE value="promotion bugfix" />
     <MESSAGE value="refactoring possible moves method in pieces" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring possible moves method in pieces" />
+    <MESSAGE value="simpler solution for piece logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="simpler solution for piece logic" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

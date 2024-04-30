@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Tuple, Set
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+import src.model.Board as Board
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
@@ -36,7 +37,7 @@ class Piece(ABC):
             return 100
 
     @abstractmethod
-    def get_possible_moves(self, board: ByteArray8x8, friend_positions: Set[Tuple[int,int]], enemy_positions: Set[Tuple[int,int]]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
         pass
 
     @property
