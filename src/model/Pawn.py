@@ -1,4 +1,4 @@
-from typing import List, Tuple, override
+from typing import List, Tuple, override, Set
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
@@ -11,7 +11,7 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def update_piece(self, board: Board):
+    def update_piece(self, board: Board) -> None:
         self._possible_fields.clear()
         self._protected_fields.clear()
         x = self.x
@@ -64,9 +64,8 @@ class Pawn(Piece):
                     self._protected_fields.add((x + 1, y + 1))
 
 
-    def get_attacked_fields(self) ->[Tuple[int, int]]:
-
-        attacked_locations = []
+    def get_attacked_fields(self) -> Set[Tuple[int, int]]:
+        attacked_locations = set()
         x = self.x
         y = self.y
         color = self.color
@@ -74,17 +73,17 @@ class Pawn(Piece):
         if color == ColorEnum.WHITE:
             if x - 1 >= 0 and y - 1 >= 0:
                 if x - 1 >= 0 and y - 1 >= 0:
-                    attacked_locations.append((x - 1, y - 1))
+                    attacked_locations.add((x - 1, y - 1))
             if x + 1 <= 7 and y - 1 >= 0:
                 if x + 1 <= 7 and y - 1 >= 0:
-                    attacked_locations.append((x + 1, y - 1))
+                    attacked_locations.add((x + 1, y - 1))
         else:
             if x - 1 >= 0 and y + 1 <= 7:
                 if x - 1 >= 0 and y + 1 <= 7:
-                    attacked_locations.append((x - 1, y + 1))
+                    attacked_locations.add((x - 1, y + 1))
             if x + 1 <= 7 and y + 1 <= 7:
                 if x + 1 <= 7 and y + 1 <= 7:
-                    attacked_locations.append((x + 1, y + 1))
+                    attacked_locations.add((x + 1, y + 1))
 
         return attacked_locations
 
@@ -95,4 +94,9 @@ class Pawn(Piece):
     @is_en_passant.setter
     def is_en_passant(self, value: bool) -> None:
         self._is_en_passant = value
+
+    @override
+    @property
+    def attacked_fields(self) -> Set[Tuple[int, int]]:
+        return self.get_attacked_fields()
 

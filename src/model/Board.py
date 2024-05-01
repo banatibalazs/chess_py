@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 import numpy as np
@@ -24,12 +24,12 @@ class Board:
     def reset_coloring_board(self):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
 
-    def update_coloring_board(self, selected_piece: Piece, special_moves: List[Tuple[int,int]]):
+    def update_coloring_board(self, selected_piece: Piece, special_moves: Set[Tuple[int, int]]):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
         if selected_piece is not None:
             self._coloring_board[selected_piece.y, selected_piece.x] = self.SELECTED_PIECE_SYMBOL
 
-            possible_moves = selected_piece.get_possible_fields()
+            possible_moves = selected_piece.possible_fields
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
@@ -55,22 +55,22 @@ class Board:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
 
-    def update_attack_boards(self, attacked_by_white: List[Tuple[int, int]],
-                             attacked_by_black: List[Tuple[int, int]]) -> None:
+    def update_attack_boards(self, attacked_by_white: Set[Tuple[int, int]],
+                             attacked_by_black: Set[Tuple[int, int]]) -> None:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
         for location in attacked_by_white:
-            self._white_attack_board[location[0], location[1]] = True
+            self._white_attack_board[location[1], location[0]] = True
 
         for location in attacked_by_black:
-            self._black_attack_board[location[0], location[1]] = True
+            self._black_attack_board[location[1], location[0]] = True
 
     def reset_protection_boards(self):
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
 
-    def update_protection_boards(self, protected_by_white: List[Tuple[int, int]],
-                                 protected_by_black: List[Tuple[int, int]]) -> None:
+    def update_protection_boards(self, protected_by_white: Set[Tuple[int, int]],
+                                 protected_by_black: Set[Tuple[int, int]]) -> None:
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
         for location in protected_by_white:
@@ -115,7 +115,6 @@ class Board:
     def get_white_protection_board(self):
         return self._white_protection_board
 
-
     def get_opponent_attack_board(self, color):
         if color == 1:
             return self._black_attack_board
@@ -127,12 +126,3 @@ class Board:
             return self._black_protection_board
         else:
             return self._white_protection_board
-
-    def get_black_protection_board(self):
-        return self._black_protection_board
-
-    def get_white_protection_board(self):
-        return self._white_protection_board
-
-
-

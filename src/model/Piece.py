@@ -38,11 +38,17 @@ class Piece(ABC):
         elif self._type == PieceTypeEnum.KING:
             return 100
 
-    def get_possible_fields(self) -> Set[Tuple[int, int]]:
+    @property
+    def possible_fields(self) -> Set[Tuple[int, int]]:
         return self._possible_fields
 
-    def get_protected_fields(self) -> Set[Tuple[int, int]]:
+    @property
+    def protected_fields(self) -> Set[Tuple[int, int]]:
         return self._protected_fields
+
+    @property
+    def attacked_fields(self) -> Set[Tuple[int, int]]:
+        return self._possible_fields
 
     @abstractmethod
     def update_piece(self, board: Board):

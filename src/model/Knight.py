@@ -1,4 +1,4 @@
-from typing import Tuple, List, override
+from typing import override
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
@@ -36,5 +36,3 @@ class Knight(Piece):
                         self._possible_fields.add(move)
                     else:
                         self._protected_fields.add(move)
-
-

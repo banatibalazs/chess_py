@@ -30,8 +30,8 @@ class King(Piece):
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
                 field = piece_board[move[1], move[0]]
                 if color == ColorEnum.WHITE:
-                    if field <= 0 and not black_protected_fields[ move[1], move[0]] and \
-                            not black_attacked_fields[ move[1], move[0]]:
+                    if field <= 0 and not black_protected_fields[move[1], move[0]] and \
+                            not black_attacked_fields[move[1], move[0]]:
                         self._possible_fields.add(move)
                     elif field > 0:
                         self._protected_fields.add(move)

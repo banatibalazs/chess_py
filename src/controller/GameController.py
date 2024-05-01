@@ -53,13 +53,12 @@ class GameController:
         self.update_players()
         self.update_view()
 
-
     def next_turn(self):
         self.update_boards()
         self.update_players()
         self.update_view()
         self.is_white_turn = not self.is_white_turn
-        self.switch_players()
+        self._current_player, self._opponent_player = self._opponent_player, self._current_player
 
         if not self.is_white_turn:
             print("--------------------------------------------------------------------------------")
@@ -77,12 +76,13 @@ class GameController:
 
     # @timer_decorator
     def update_players(self):
-
+        # 0. Update pieces data
         self._white_player.update_pieces_data()
         self._black_player.update_pieces_data()
+
         # 1. Update possible moves of selected piece
-        self._white_player.get_possible_moves_of_selected_piece()
-        self._black_player.get_possible_moves_of_selected_piece()
+        self._white_player.update_possible_moves_of_selected_piece(self._board)
+        self._black_player.update_possible_moves_of_selected_piece(self._board)
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
         self._white_player.get_special_moves(self._opponent_player.last_moved_piece)
@@ -103,10 +103,11 @@ class GameController:
         # 3. Attack boards -> the attacked fields by the players
         # 4. Protection boards -> the protected fields by the players
 
-        if self._current_player._color == ColorEnum.WHITE:
+        if self._current_player.color == ColorEnum.WHITE:
             # The boards methods' parameters are the white player's data first, then the black player's data
             self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)
             self._board.update_attack_boards(self._current_player.attacked_fields, self._opponent_player.attacked_fields)
+
             self._board.update_protection_boards(self._current_player.protected_fields, self._opponent_player.protected_fields)
         else:
             self._board.update_piece_board(self._opponent_player.pieces, self._current_player.pieces)
@@ -123,11 +124,6 @@ class GameController:
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
         self._view_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()))
-
-    def switch_players(self) -> None:
-        # multiple assignment in Python
-        self._current_player, self._opponent_player = self._opponent_player, self._current_player
-        self._current_player.reset_selected_piece()
 
     def click_on_white_button(self) -> None:
         self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
@@ -157,16 +153,16 @@ class GameController:
 
     def click_on_black_button(self) -> None:
         self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
-        # print("--------------------------------------------------------------------------------\n")
-        # print("Piece board:")
-        # self.print_piece_board()
-        # print("--------------------------------------------------------------------------------\n")
+        print("--------------------------------------------------------------------------------\n")
+        print("Piece board:")
+        self.print_piece_board()
+        print("--------------------------------------------------------------------------------\n")
         # print("Coloring board:")
         # self.print_coloring_board()
         # print("--------------------------------------------------------------------------------\n")
-        # print("Attack board:")
-        # self.print_attack_board()
-        # print("--------------------------------------------------------------------------------\n")
+        print("Attack board:")
+        self.print_attack_board()
+        print("--------------------------------------------------------------------------------\n")
 
     def click_on_white_protection_button(self) -> None:
         self._view_controller.show_protection_board(self._board.get_white_protection_board())
@@ -176,10 +172,13 @@ class GameController:
 
     def click_on_board(self, x: int, y: int) -> None:
 
+        print("Clicked on board at: ", x, y)
+        print("Piece: ", self._board.get_piece_board()[y][x])
+
         # A selected piece is clicked -> deselect it
         if self._current_player.is_selected_piece_at(x, y):
             print("Deselecting piece")
-            self._current_player.reset_selected_piece()
+            self._current_player.selected_piece = None
 
         # Own unselected piece is clicked -> select it
         elif self._current_player.has_piece_at(x, y):
@@ -194,17 +193,16 @@ class GameController:
         # Empty square or opponent's piece -> deselect the selected piece
         else:
             print("Empty.")
-            self._current_player.reset_selected_piece()
+            self._current_player.selected_piece = None
 
         self.update_view()
 
     def make_move(self, x, y):
         self._current_player.make_move(x, y, self._opponent_player)
-        if self._opponent_player.has_piece_at(x, y):
-            self._opponent_player.remove_piece_at(x, y)
         # self.update_data()
-        self._current_player.reset_selected_piece()
+        self._current_player.selected_piece = None
         self.next_turn()
+
 
     def save_game(self):
         # current_data = [self._board._piece_board, self._board._current_player.get_color(),

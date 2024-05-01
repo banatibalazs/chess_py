@@ -25,7 +25,6 @@ class Player:
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
-        self._possible_moves_of_selected_piece: List[Tuple[int, int]] = []
         self._all_possible_move: set[Tuple[int, int]] = set()
         self._protected_fields: set[Tuple[int, int]] = set()
         self._special_moves: set[Tuple[int, int]] = set()
@@ -76,7 +75,7 @@ class Player:
         # 8. Selected piece
 
         # 1. Update possible moves of selected piece
-        self.get_possible_moves_of_selected_piece()
+        self.update_possible_moves_of_selected_piece()
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
         self.get_special_moves(opponent_player_last_moved_piece)
@@ -90,98 +89,75 @@ class Player:
         # As this is a set, it is faster than checking a list, but it is another data that needs to be updated
         self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
 
-    def get_possible_moves_of_selected_piece(self):
+    def update_possible_moves_of_selected_piece(self, board: Board):
         # 1. Update possible moves of selected piece
         if self._selected_piece is not None:
             # If the selected piece is a king, the possible moves need to be filtered
             # so that the king does not move into an attacked field
             # This is handled in the get_possible_moves_of_piece method
-            self._possible_moves_of_selected_piece = self._selected_piece.get_possible_fields()
+            self._selected_piece.update_piece(board)
 
     def get_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
-        self.reset_special_moves()
+        self._special_moves.clear()
         # Add special moves
-        if isinstance(self.selected_piece, Pawn):
+        if isinstance(self._selected_piece, Pawn):
             self.add_en_passant_moves_to_special_moves(opponent_player_last_moved_piece)
-        if isinstance(self.selected_piece, King):
+        if isinstance(self._selected_piece, King):
             self.add_castling_moves_to_special_moves()
 
-    def update_protected_and_attacked_fields(self):
+    def update_protected_and_attacked_fields(self) -> None:
+
         self._protected_fields.clear()
         self._attacked_fields.clear()
 
         for piece in self._pieces:
-            self._protected_fields.union(piece.get_protected_fields())
+            self._protected_fields.update(piece.protected_fields)
 
             # The only exception is the pawn, as it moves forward but captures diagonally
             if isinstance(piece, Pawn):
-                attacked_fields = piece.get_attacked_fields()
-                self._attacked_fields.union(attacked_fields)
+                attacked_fields = piece.attacked_fields
+                self._attacked_fields.update(attacked_fields)
             else:
-                self._attacked_fields.union(piece.get_possible_fields())
-        print(f"Protected fields: {self._protected_fields}")
-        print(f"Attacked fields: {self._attacked_fields}")
-
-
-    # def get_possible_moves_of_piece(self, piece: Piece) -> Optional[Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]]:
-    #     if piece is None:
-    #         return None
-        # If the selected piece is a king, the possible moves need to be filtered
-        # because the king cannot move into an attacked field and can not capture
-        # a piece that is protected by the opponent
-        # if isinstance(piece, King):
-        #     unfiltered_moves, protected_fields = piece.get_possible_moves(self._board)
-        #     filtered_moves = []
-
-            # attack_board = self._board.get_opponent_attack_board(self._color)
-            # protection_board = self._board.get_opponent_protection_board(self._color)
-            # for move in unfiltered_moves:
-            #     if attack_board[move[1], move[0]]:
-            #         continue
-            #     if protection_board[move[1], move[0]]:
-            #         continue
-            #     else:
-            #         filtered_moves.append(move)
-            # return filtered_moves, protected_fields
+                self._attacked_fields.update(piece.possible_fields)
 
         # return piece.get_possible_moves(self._board)
-    def choose_step(self) -> Optional[Tuple[int, int]]:
-
-        # Check if there are any possible moves
-        if not self._possible_moves_of_selected_piece:
-            return None
-        # Select a random move
-        chosen_move = random.choice(self._possible_moves_of_selected_piece)
-        print(f"Chosen move: {chosen_move}")
-        return chosen_move
-
-    def choose_movable_piece(self):
-        movable_pieces = self.get_movable_pieces()
-        if len(movable_pieces) == 0:
-            return None
-        self._selected_piece = random.choice(movable_pieces)
-        return self._selected_piece
-
-    def get_movable_pieces(self):
-        movable_pieces = []
-        for piece in self._pieces:
-            moves = piece.update_piece(self._board)[0]
-            if moves != [] and moves is not None:
-                movable_pieces.append(piece)
-        return movable_pieces
+    # def choose_step(self) -> Optional[Tuple[int, int]]:
+    #
+    #     # Check if there are any possible moves
+    #     if not self._possible_moves_of_selected_piece:
+    #         return None
+    #     # Select a random move
+    #     chosen_move = random.choice(list(self._selected_piece.possible_fields))
+    #     print(f"Chosen move: {chosen_move}")
+    #     return chosen_move
+    #
+    # def choose_movable_piece(self):
+    #     movable_pieces = self.get_movable_pieces()
+    #     if len(movable_pieces) == 0:
+    #         return None
+    #     self._selected_piece = random.choice(movable_pieces)
+    #     return self._selected_piece
+    #
+    # def get_movable_pieces(self):
+    #     movable_pieces = []
+    #     for piece in self._pieces:
+    #         moves = piece.update_piece(self._board)[0]
+    #         if moves != [] and moves is not None:
+    #             movable_pieces.append(piece)
+    #     return movable_pieces
 
     def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
         if op_last_moved_piece is not None and \
                 isinstance(op_last_moved_piece, Pawn) and \
                 op_last_moved_piece.is_en_passant and \
-                self.selected_piece is not None and \
-                self.selected_piece.y == op_last_moved_piece.y and \
-                abs(self.selected_piece.x - op_last_moved_piece.x) == 1:
+                self._selected_piece is not None and \
+                self._selected_piece.y == op_last_moved_piece.y and \
+                abs(self._selected_piece.x - op_last_moved_piece.x) == 1:
             if self._color == ColorEnum.WHITE:
-                self._special_moves.append((op_last_moved_piece.x, op_last_moved_piece.y - 1))
+                self._special_moves.add((op_last_moved_piece.x, op_last_moved_piece.y - 1))
             else:
-                self._special_moves.append((op_last_moved_piece.x, op_last_moved_piece.y + 1))
+                self._special_moves.add((op_last_moved_piece.x, op_last_moved_piece.y + 1))
 
     def add_castling_moves_to_special_moves(self) -> None:
         if self._color == ColorEnum.BLACK:
@@ -199,7 +175,7 @@ class Player:
                     not self._board.square_is_attacked_by_white(4, 0) and
                     not self._board.square_is_attacked_by_white(3, 0) and
                     not self._board.square_is_attacked_by_white(2, 0)):
-                self._special_moves.append((2, 0))
+                self._special_moves.add((2, 0))
 
             rook = self.get_piece_at(7, 0)
             if (isinstance(rook, Rook) and
@@ -212,7 +188,7 @@ class Player:
                     not self._board.square_is_attacked_by_white(4, 0) and
                     not self._board.square_is_attacked_by_white(5, 0) and
                     not self._board.square_is_attacked_by_white(6, 0)):
-                self._special_moves.append((6, 0))
+                self._special_moves.add((6, 0))
 
         else:
             king = self.get_piece_at(4, 7)
@@ -228,7 +204,7 @@ class Player:
                     not self._board.square_is_attacked_by_black(4, 7) and
                     not self._board.square_is_attacked_by_black(3, 7) and
                     not self._board.square_is_attacked_by_black(2, 7)):
-                self._special_moves.append((2, 7))
+                self._special_moves.add((2, 7))
 
             rook = self.get_piece_at(7, 7)
             if (isinstance(rook, Rook) and
@@ -241,37 +217,31 @@ class Player:
                     not self._board.square_is_attacked_by_black(4, 7) and
                     not self._board.square_is_attacked_by_black(5, 7) and
                     not self._board.square_is_attacked_by_black(6, 7)):
-                self._special_moves.append((6, 7))
+                self._special_moves.add((6, 7))
 
-    @property
-    def possible_moves_of_selected_piece(self) -> Optional[Set[Tuple[int, int]]]:
+    def make_move(self, to_x: int, to_y: int, opponent) -> None:
         if self._selected_piece is None:
-            return None
-        return self._selected_piece.get_possible_fields()
-
-    def make_move(self, to_x, to_y, opponent) -> None:
-        if self.selected_piece is None:
-            raise ValueError("No piece is selected.")
+            print("Eror: No piece is selected.")
         # Set en passant field if the pawn moves two squares
         self.reset_en_passant()
         self.set_en_passant(to_y)
         if self.is_promotion(to_x, to_y):
             self.promote_pawn(to_x, to_y, PieceTypeEnum.QUEEN)
-        elif (to_x, to_y) in self.special_moves:
-            if isinstance(self.selected_piece, King):
+        elif (to_x, to_y) in self._special_moves:
+            if isinstance(self._selected_piece, King):
                 self.castling(to_x, to_y)
-            if isinstance(self.selected_piece, Pawn):
+            if isinstance(self._selected_piece, Pawn):
                 self.en_passant(to_x, to_y, opponent)
 
         if opponent is not None and opponent.has_piece_at(to_x, to_y):
             opponent.remove_piece_at(to_x, to_y)
-        self.selected_piece.set_coordinates(to_x, to_y)
-        self.selected_piece.is_moved = True
-        self._last_moved_piece = self.selected_piece
-        self.reset_selected_piece()
+        self._selected_piece.set_coordinates(to_x, to_y)
+        self._selected_piece.is_moved = True
+        self._last_moved_piece = self._selected_piece
+
 
     def is_promotion(self, to_x, to_y):
-        return ((to_y == 0) or (to_y == 7)) and isinstance(self.selected_piece, Pawn)
+        return ((to_y == 0) or (to_y == 7)) and isinstance(self._selected_piece, Pawn)
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
@@ -280,15 +250,15 @@ class Player:
     def set_en_passant(self, to_y):
         # If the selected piece is a pawn and it moves two squares forward, set the en passant variable
         self.reset_en_passant()
-        if isinstance(self.selected_piece, Pawn):
-            if abs(self.selected_piece.y - to_y) == 2:
+        if isinstance(self._selected_piece, Pawn):
+            if abs(self._selected_piece.y - to_y) == 2:
                 print("En passant variable is set.")
-                self.selected_piece.is_en_passant = True
+                self._selected_piece.is_en_passant = True
 
     def promote_pawn(self, to_x: int, to_y: int, piece_type: PieceTypeEnum) -> None:
         print("Promoting pawn")
-        from_x = self.selected_piece.x
-        from_y = self.selected_piece.y
+        from_x = self._selected_piece.x
+        from_y = self._selected_piece.y
         new_piece = None
         self.remove_piece_at(from_x, from_y)
         if piece_type == PieceTypeEnum.QUEEN:
@@ -330,14 +300,9 @@ class Player:
             opponent.remove_piece_at(to_x, to_y + 1)
         else:
             opponent.remove_piece_at(to_x, to_y - 1)
-        self.selected_piece.set_coordinates(to_x, to_y)
+        self._selected_piece.set_coordinates(to_x, to_y)
         self.reset_en_passant()
 
-    def attacks_position(self, x: int, y: int, board: ByteArray8x8):
-        for piece in self._pieces:
-            if (x, y) in piece.update_piece(board):
-                return True
-        return False
 
     def remove_piece_at(self, x: int, y: int) -> None:
         for piece in self._pieces:
@@ -358,66 +323,54 @@ class Player:
         return score
 
     @property
-    def special_moves(self) -> List[Tuple[int, int]]:
+    def special_moves(self) -> Set[Tuple[int, int]]:
         return self._special_moves
-
-    def is_computer(self) -> bool:
-        return self._is_computer
-
-    def get_name(self) -> str:
-        return self._name
-
-    def get_color(self) -> ColorEnum:
-        return self._color
 
     @property
     def pieces(self) -> List[Piece]:
         return self._pieces
 
     def has_piece_at(self, x, y) -> bool:
+        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
         return (x, y) in self._piece_coordinates
 
     def is_selected_piece_at(self, x, y):
-        if self.selected_piece is not None:
-            return self.selected_piece.coordinates == (x, y)
+        if self._selected_piece is not None:
+            return self._selected_piece.coordinates == (x, y)
 
     def is_possible_move(self, x, y):
-        return (x, y) in self.special_moves or (x, y) in self._possible_moves_of_selected_piece
+        if self._selected_piece is None:
+            return False
+        print(f"Possible moves: {self._selected_piece.possible_fields}")
+        return (x, y) in self._special_moves or (x, y) in self._selected_piece.possible_fields
 
     def __str__(self):
         return f"{self._name} ({self._color})"
 
     @property
-    def protected_fields(self) -> List[Tuple[int, int]]:
+    def protected_fields(self) -> Set[Tuple[int, int]]:
         return self._protected_fields
 
     @property
-    def attacked_fields(self) -> List[Tuple[int, int]]:
+    def attacked_fields(self) -> Set[Tuple[int, int]]:
         return self._attacked_fields
 
     @property
     def last_moved_piece(self):
         return self._last_moved_piece
 
-    def reset_special_moves(self) -> None:
-        self._special_moves = []
-
-    def reset_selected_piece(self):
-        self._selected_piece = None
-        self.reset_special_moves()
-        self.reset_normal_moves()
-
-    def reset_normal_moves(self):
-        self._possible_moves_of_selected_piece = []
-        self._special_moves = []
-
     def set_selected_piece(self, x: int, y: int) -> None:
         if self.has_piece_at(x, y):
             self._selected_piece = self.get_piece_at(x, y)
+            print(f"Possible moves: {self._selected_piece.possible_fields}")
 
     @property
     def selected_piece(self):
         return self._selected_piece
+
+    @selected_piece.setter
+    def selected_piece(self, piece: Piece) -> None:
+        self._selected_piece = piece
 
     def get_king(self):
         for piece in self._pieces:
@@ -425,14 +378,9 @@ class Player:
                 return piece
         return None
 
-    def get_king_is_checked(self):
-        return self._king_is_checked
-
-    def set_king_is_checked(self, value):
-        self._king_is_checked = value
-
-    def get_piece_number(self):
-        return len(self._pieces)
+    @property
+    def color(self):
+        return self._color
 
 
 
