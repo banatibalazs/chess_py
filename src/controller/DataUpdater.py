@@ -34,15 +34,14 @@ class DataUpdater:
         ----------------------------------------------
         Players are initialized with the following data:
 
-        - self._pieces: ✔ list is filled with the pieces
-        - self._piece_coordinates: ✔ set is filled with the coordinates of the pieces
-        - self._selected_piece: x
-        - self._last_moved_piece: x
-        - self._possible_moves: x
-        - self._all_possible_move: x
-        - self._protected_fields: x
-        - self._special_moves: x
-        - self._attacked_fields: x
+        1. self._pieces: ✔ list is filled with the pieces
+        2. self._piece_coordinates: ✔ set is filled with the coordinates of the pieces
+        3. self._selected_piece: x
+        4. self._last_moved_piece: x
+        5. self._all_possible_move: x
+        6. self._protected_fields: x
+        7. self._special_moves: x
+        8. self._attacked_fields: x
 
         # DataUpdater class: update() method -> update_players() method ->
         # Player class -> update_pieces_data() method
@@ -65,7 +64,34 @@ class DataUpdater:
         # Player: get_special_moves() method
         ----------------------------------------------
         En passant and castling moves are added to the special_moves list if they are possible.
+        resets the special_moves set and adds the special moves to it.
 
+        6. special_moves: ✔
+
+        # Player: update_protected_and_attacked_fields() method
+        ----------------------------------------------
+        Resets the protected_fields and attacked_fields sets and adds the new data to them.
+
+        5. protected_fields: ✔
+        7. attacked_fields: ✔
+
+        Summary:
+
+        Players are updated with the following data:
+
+        1. self._pieces: ✔
+        2. self._piece_coordinates: ✔
+        3. self._selected_piece: x
+        4. self._last_moved_piece: x
+        5. self._protected_fields: ✔
+        6. self._special_moves: ✔
+        7. self._attacked_fields: ✔
+
+        Pieces are updated with the following data:
+
+        - possible_fields: ✔
+        - protected_fields: ✔
+        - attacked_fields: ✔
 
 
 

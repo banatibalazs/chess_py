@@ -25,7 +25,6 @@ class Player:
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
-        self._all_possible_move: set[Tuple[int, int]] = set()
         self._protected_fields: set[Tuple[int, int]] = set()
         self._special_moves: set[Tuple[int, int]] = set()
         self._attacked_fields: set[Tuple[int, int]] = set()

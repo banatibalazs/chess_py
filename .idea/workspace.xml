@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list">
-      <change afterPath="$PROJECT_DIR$/src/controller/Command.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/Memento.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
-    </list>
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="experiencing with design patterns" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -494,7 +485,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714555960627</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="experiencing with design patterns">
+      <option name="closed" value="true" />
+      <created>1714576092369</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1714576092369</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -509,7 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="protected fields are visualizable with buttons" />
     <MESSAGE value="reorg code" />
     <MESSAGE value="castling bug fix" />
     <MESSAGE value="changed possible step method logic in King and Knight" />
@@ -534,7 +532,8 @@
     <MESSAGE value="timer added" />
     <MESSAGE value="piece update method, new field for pieces to store the possible moves" />
     <MESSAGE value="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list" />
+    <MESSAGE value="experiencing with design patterns" />
+    <option name="LAST_COMMIT_MESSAGE" value="experiencing with design patterns" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
