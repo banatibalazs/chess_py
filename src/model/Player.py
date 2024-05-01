@@ -26,10 +26,10 @@ class Player:
 
         self._pieces: List[Piece] = []
         self._possible_moves_of_selected_piece: List[Tuple[int, int]] = []
-        self._all_possible_move: List[Tuple[int, int]] = []
-        self._protected_fields: List[Tuple[int, int]] = []
-        self._special_moves: List[Tuple[int, int]] = []
-        self._attacked_fields: List[Tuple[int, int]] = []
+        self._all_possible_move: set[Tuple[int, int]] = set()
+        self._protected_fields: set[Tuple[int, int]] = set()
+        self._special_moves: set[Tuple[int, int]] = set()
+        self._attacked_fields: set[Tuple[int, int]] = set()
         self._piece_coordinates: Set[Tuple[int, int]] = set()
 
     def init_pieces(self):
@@ -53,8 +53,12 @@ class Player:
         self._pieces = pieces
 
     def update_data(self, opponent_player: "Player") -> None:
+        self.update_pieces_data()
         self.update_players(opponent_player.last_moved_piece)
 
+    def update_pieces_data(self):
+        for piece in self._pieces:
+            piece.update_piece(self._board)
 
     def update_players(self, opponent_player_last_moved_piece):
         # The game state is encoded in the player objects.
@@ -77,12 +81,6 @@ class Player:
         # 2. Update special moves (castling, en passant) - later maybe promotion
         self.get_special_moves(opponent_player_last_moved_piece)
 
-        # 3. Update attacked locations
-        # self.get_attacked_fields()
-
-        # 4. Update protected fields
-        # self.get_protected_fields()
-
         # 3-4. Update attacked locations and protected fields
         self.update_protected_and_attacked_fields()
 
@@ -98,7 +96,7 @@ class Player:
             # If the selected piece is a king, the possible moves need to be filtered
             # so that the king does not move into an attacked field
             # This is handled in the get_possible_moves_of_piece method
-            self._possible_moves_of_selected_piece = self._selected_piece.get_possible_moves(self._board)[0]
+            self._possible_moves_of_selected_piece = self._selected_piece.get_possible_fields()
 
     def get_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
@@ -110,19 +108,20 @@ class Player:
             self.add_castling_moves_to_special_moves()
 
     def update_protected_and_attacked_fields(self):
-        self._protected_fields = []
-        self._attacked_fields = []
+        self._protected_fields.clear()
+        self._attacked_fields.clear()
 
         for piece in self._pieces:
-            attacked_fields, protected_fields = piece.get_possible_moves(self._board)
-            self._protected_fields += protected_fields
+            self._protected_fields.union(piece.get_protected_fields())
 
             # The only exception is the pawn, as it moves forward but captures diagonally
             if isinstance(piece, Pawn):
                 attacked_fields = piece.get_attacked_fields()
-            for location in attacked_fields:
-                self._attacked_fields.append((location[1], location[0]))
-
+                self._attacked_fields.union(attacked_fields)
+            else:
+                self._attacked_fields.union(piece.get_possible_fields())
+        print(f"Protected fields: {self._protected_fields}")
+        print(f"Attacked fields: {self._attacked_fields}")
 
 
     # def get_possible_moves_of_piece(self, piece: Piece) -> Optional[Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]]:
@@ -149,7 +148,6 @@ class Player:
         # return piece.get_possible_moves(self._board)
     def choose_step(self) -> Optional[Tuple[int, int]]:
 
-        self.selected_piece.get_possible_moves(self._board)
         # Check if there are any possible moves
         if not self._possible_moves_of_selected_piece:
             return None
@@ -168,7 +166,7 @@ class Player:
     def get_movable_pieces(self):
         movable_pieces = []
         for piece in self._pieces:
-            moves = piece.get_possible_moves(self._board)[0]
+            moves = piece.update_piece(self._board)[0]
             if moves != [] and moves is not None:
                 movable_pieces.append(piece)
         return movable_pieces
@@ -246,10 +244,10 @@ class Player:
                 self._special_moves.append((6, 7))
 
     @property
-    def possible_moves_of_selected_piece(self) -> Optional[List[Tuple[int, int]]]:
+    def possible_moves_of_selected_piece(self) -> Optional[Set[Tuple[int, int]]]:
         if self._selected_piece is None:
             return None
-        return self._selected_piece.get_possible_moves(self._board)[0]
+        return self._selected_piece.get_possible_fields()
 
     def make_move(self, to_x, to_y, opponent) -> None:
         if self.selected_piece is None:
@@ -337,7 +335,7 @@ class Player:
 
     def attacks_position(self, x: int, y: int, board: ByteArray8x8):
         for piece in self._pieces:
-            if (x, y) in piece.get_possible_moves(board):
+            if (x, y) in piece.update_piece(board):
                 return True
         return False
 
@@ -406,6 +404,12 @@ class Player:
 
     def reset_selected_piece(self):
         self._selected_piece = None
+        self.reset_special_moves()
+        self.reset_normal_moves()
+
+    def reset_normal_moves(self):
+        self._possible_moves_of_selected_piece = []
+        self._special_moves = []
 
     def set_selected_piece(self, x: int, y: int) -> None:
         if self.has_piece_at(x, y):

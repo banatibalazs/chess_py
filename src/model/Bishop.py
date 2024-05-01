@@ -10,9 +10,9 @@ class Bishop(Piece):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
     @override
-    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
-        possible_fields = []
-        protected_fields = []
+    def update_piece(self, board: Board):
+        self._possible_fields.clear()
+        self._protected_fields.clear()
         x = self.x
         y = self.y
         color = self.color
@@ -33,79 +33,20 @@ class Bishop(Piece):
             for field in direction:
                 if color == ColorEnum.WHITE:
                     if piece_board[field[1], field[0]] == 0:
-                        possible_fields.append(field)
+                        self._possible_fields.add(field)
                     elif piece_board[field[1], field[0]] < 0:
-                        possible_fields.append(field)
+                        self._possible_fields.add(field)
                         break
                     else:
-                        protected_fields.append(field)
+                        self._protected_fields.add(field)
                         break
                 else:
                     if piece_board[field[1], field[0]] == 0:
-                        possible_fields.append(field)
+                        self._possible_fields.add(field)
                     elif piece_board[field[1], field[0]] > 0:
-                        possible_fields.append(field)
+                        self._possible_fields.add(field)
                         break
                     else:
-                        protected_fields.append(field)
+                        self._protected_fields.add(field)
                         break
 
-        return possible_fields, protected_fields
-
-    # @override
-    # def get_possible_moves(self, board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
-    #     possible_moves = []
-    #     protected_fields = []
-    #     x = self.x
-    #     y = self.y
-    #     color = self.color
-    #
-    #     for i in range(1, 8):
-    #         if board.is_empty(x + i, y + i):
-    #             possible_moves.append((x + i, y + i))
-    #         elif board.is_enemy(x + i, y + i, color):
-    #             possible_moves.append((x + i, y + i))
-    #             break
-    #         elif board.is_friend(x + i, y + i, color):
-    #             protected_fields.append((x + i, y + i))
-    #             break
-    #         else:
-    #             break
-    #
-    #     for i in range(1, 8):
-    #         if board.is_empty(x - i, y + i):
-    #             possible_moves.append((x - i, y + i))
-    #         elif board.is_enemy(x - i, y + i, color):
-    #             possible_moves.append((x - i, y + i))
-    #             break
-    #         elif board.is_friend(x - i, y + i, color):
-    #             protected_fields.append((x - i, y + i))
-    #             break
-    #         else:
-    #             break
-    #
-    #     for i in range(1, 8):
-    #         if board.is_empty(x + i, y - i):
-    #             possible_moves.append((x + i, y - i))
-    #         elif board.is_enemy(x + i, y - i, color):
-    #             possible_moves.append((x + i, y - i))
-    #             break
-    #         elif board.is_friend(x + i, y - i, color):
-    #             protected_fields.append((x + i, y - i))
-    #             break
-    #         else:
-    #             break
-    #
-    #     for i in range(1, 8):
-    #         if board.is_empty(x - i, y - i):
-    #             possible_moves.append((x - i, y - i))
-    #         elif board.is_enemy(x - i, y - i, color):
-    #             possible_moves.append((x - i, y - i))
-    #             break
-    #         elif board.is_friend(x - i, y - i, color):
-    #             protected_fields.append((x - i, y - i))
-    #             break
-    #         else:
-    #             break
-    #
-    #     return possible_moves, protected_fields

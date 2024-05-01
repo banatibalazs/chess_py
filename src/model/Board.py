@@ -24,13 +24,12 @@ class Board:
     def reset_coloring_board(self):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
 
-    def update_coloring_board(self, selected_piece: Piece, possible_moves_of_selected_piece: List[Tuple[int,int]],
-                              special_moves: List[Tuple[int,int]]):
+    def update_coloring_board(self, selected_piece: Piece, special_moves: List[Tuple[int,int]]):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
         if selected_piece is not None:
             self._coloring_board[selected_piece.y, selected_piece.x] = self.SELECTED_PIECE_SYMBOL
 
-            possible_moves = possible_moves_of_selected_piece
+            possible_moves = selected_piece.get_possible_fields()
             if possible_moves is not None:
                 for move in possible_moves:
                     self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL

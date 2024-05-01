@@ -13,6 +13,8 @@ class Piece(ABC):
         self._x = x
         self._y = y
         self._value = self._init_value()
+        self._possible_fields = set()
+        self._protected_fields = set()
 
         self._is_moved = False
         self._is_captured = False
@@ -36,8 +38,14 @@ class Piece(ABC):
         elif self._type == PieceTypeEnum.KING:
             return 100
 
+    def get_possible_fields(self) -> Set[Tuple[int, int]]:
+        return self._possible_fields
+
+    def get_protected_fields(self) -> Set[Tuple[int, int]]:
+        return self._protected_fields
+
     @abstractmethod
-    def get_possible_moves(self, board: Board) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def update_piece(self, board: Board):
         pass
 
     @property

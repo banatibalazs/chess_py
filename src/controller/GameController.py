@@ -77,6 +77,9 @@ class GameController:
 
     # @timer_decorator
     def update_players(self):
+
+        self._white_player.update_pieces_data()
+        self._black_player.update_pieces_data()
         # 1. Update possible moves of selected piece
         self._white_player.get_possible_moves_of_selected_piece()
         self._black_player.get_possible_moves_of_selected_piece()
@@ -110,9 +113,7 @@ class GameController:
             self._board.update_attack_boards(self._opponent_player.attacked_fields, self._current_player.attacked_fields)
             self._board.update_protection_boards(self._opponent_player.protected_fields, self._current_player.protected_fields)
 
-        self._board.update_coloring_board(self._current_player.selected_piece,
-                                          self._current_player.possible_moves_of_selected_piece,
-                                          self._current_player.special_moves)
+        self._board.update_coloring_board(self._current_player.selected_piece, self._current_player.special_moves)
 
     def update_view(self) -> None:
         self.update_players()
@@ -131,8 +132,41 @@ class GameController:
     def click_on_white_button(self) -> None:
         self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
 
+    def print_piece_board(self):
+        piece_board = self._board.get_piece_board()
+        for row in piece_board:
+            print(row)
+
+    def print_coloring_board(self):
+        coloring_board = self._board.get_coloring_board()
+        for row in coloring_board:
+            print(row)
+
+    def print_attack_board(self):
+        white_attack_board = self._board.get_white_attack_board()
+        black_attack_board = self._board.get_black_attack_board()
+        print("White attack board:")
+        for row in white_attack_board:
+            print(row)
+
+        print("--------------------------------------------------------------------------------\n")
+
+        print("Black attack board:")
+        for row in black_attack_board:
+            print(row)
+
     def click_on_black_button(self) -> None:
         self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
+        # print("--------------------------------------------------------------------------------\n")
+        # print("Piece board:")
+        # self.print_piece_board()
+        # print("--------------------------------------------------------------------------------\n")
+        # print("Coloring board:")
+        # self.print_coloring_board()
+        # print("--------------------------------------------------------------------------------\n")
+        # print("Attack board:")
+        # self.print_attack_board()
+        # print("--------------------------------------------------------------------------------\n")
 
     def click_on_white_protection_button(self) -> None:
         self._view_controller.show_protection_board(self._board.get_white_protection_board())
