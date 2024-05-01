@@ -1,6 +1,7 @@
 import tkinter as tk
 from typing import Callable
 
+from src.controller.Command import BlackButtonCommand, WhiteButtonCommand
 from src.controller.ViewController import ViewController
 from src.model.Square import Square
 
@@ -81,10 +82,14 @@ class ChessWindow:
             self._chess_board.append(row)
 
     def black_button_click(self):
-        self.view_controller.black_button_click()
+        # self.view_controller.black_button_click()
+        black_button_command = BlackButtonCommand(self.view_controller)
+        self.view_controller.button_clicked(black_button_command)
 
     def white_button_click(self):
-        self.view_controller.white_button_click()
+        # self.view_controller.white_button_click()
+        white_button_command = WhiteButtonCommand(self.view_controller)
+        self.view_controller.button_clicked(white_button_command)
 
     def black_protection_button_click(self):
         self.view_controller.black_protection_button_click()

@@ -46,48 +46,19 @@ class Player:
         self._pieces.append(Knight(color, 6, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Rook(color, 7, 7 if color == ColorEnum.WHITE else 0))
 
-        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
+        self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
 
     def set_pieces(self, pieces: List[Piece]) -> None:
         self._pieces = pieces
 
-    def update_data(self, opponent_player: "Player") -> None:
-        self.update_pieces_data()
-        self.update_players(opponent_player.last_moved_piece)
+    def update_piece_coordinates(self):
+        self._piece_coordinates.clear()
+        self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
 
     def update_pieces_data(self):
         for piece in self._pieces:
             piece.update_piece(self._board)
-
-    def update_players(self, opponent_player_last_moved_piece):
-        # The game state is encoded in the player objects.
-        # The board object is used to update the view.
-
-        # When a move is made, the following data needs to be updated:
-        # Data that needs to be updated:
-        # 1. Possible moves of selected piece
-        # 2. Special moves (castling, en passant)
-        # 3. Attacked locations
-        # 4. Protected fields
-        # 5. Piece coordinates (set)
-        # 6. King is checked
-        # 7. Last moved piece
-        # 8. Selected piece
-
-        # 1. Update possible moves of selected piece
-        self.update_possible_moves_of_selected_piece()
-
-        # 2. Update special moves (castling, en passant) - later maybe promotion
-        self.get_special_moves(opponent_player_last_moved_piece)
-
-        # 3-4. Update attacked locations and protected fields
-        self.update_protected_and_attacked_fields()
-
-
-        # 5. Update piece coordinates
-        # The main purpose of this is to check if a piece is at a certain location
-        # As this is a set, it is faster than checking a list, but it is another data that needs to be updated
-        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
+        self.update_piece_coordinates()
 
     def update_possible_moves_of_selected_piece(self, board: Board):
         # 1. Update possible moves of selected piece
@@ -330,8 +301,8 @@ class Player:
     def pieces(self) -> List[Piece]:
         return self._pieces
 
+
     def has_piece_at(self, x, y) -> bool:
-        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
         return (x, y) in self._piece_coordinates
 
     def is_selected_piece_at(self, x, y):

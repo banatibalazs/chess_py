@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from src.controller.Command import Command
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 from src.controller.GameController import GameController
 import src.view.ChessWindow as ChessWindow
@@ -57,20 +58,23 @@ class ViewController:
         }
         self._game_controller: GameController = GameController(white_player_name, black_player_name, self)
 
+    def button_clicked(self, command: Command) -> None:
+        command.execute()
+
     def click_on_board(self, x: int, y: int) -> None:
         self._game_controller.click_on_board(x, y)
 
     def black_button_click(self) -> None:
         self._game_controller.click_on_black_button()
 
+    def white_button_click(self) -> None:
+        self._game_controller.click_on_white_button()
+
     def black_protection_button_click(self) -> None:
         self._game_controller.click_on_black_protection_button()
 
     def white_protection_button_click(self) -> None:
         self._game_controller.click_on_white_protection_button()
-
-    def white_button_click(self) -> None:
-        self._game_controller.click_on_white_button()
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
