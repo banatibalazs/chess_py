@@ -118,10 +118,6 @@ class GameController:
         # self._board_history_prev.append()
         pass
 
-    def set_pieces(self, white_pieces: List[Piece], black_pieces: List[Piece]):
-        self._white_player.set_pieces(white_pieces)
-        self._black_player.set_pieces(black_pieces)
-
     def load_game_prev(self):
         # self._board_history_fwd.append(self._board)
         # self._board = self._board_history_prev.pop()

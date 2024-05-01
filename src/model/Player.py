@@ -1,7 +1,4 @@
-import random
 from typing import Optional, List, Tuple, Set
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.King import King
@@ -15,6 +12,29 @@ from src.model.Rook import Rook
 
 
 class Player:
+    """
+    Important methods:
+
+        1. init_pieces (called in the constructor)
+        ----------------
+        2. update_piece_coordinates
+        3. update_pieces_data
+        4. update_possible_moves_of_selected_piece
+        ----------------
+        5. get_special_moves
+        6. update_protected_and_attacked_fields
+        7. add_en_passant_moves_to_special_moves
+        8. is_castling_possible
+        9. add_castling_moves_to_special_moves
+        ----------------
+        10. make_move
+        11. is_promotion
+        12. promote_pawn
+        13. castling
+        14. en_passant
+
+    """
+
     def __init__(self, name: str, color: ColorEnum, board: Board):
         self._name: str = name
         self._color: ColorEnum = color
@@ -22,6 +42,7 @@ class Player:
         self._is_computer: bool = False
         self._selected_piece: Optional[Piece] = None
         self._last_moved_piece: Optional[Piece] = None
+        self._king = None
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
@@ -46,9 +67,7 @@ class Player:
         self._pieces.append(Rook(color, 7, 7 if color == ColorEnum.WHITE else 0))
 
         self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
-
-    def set_pieces(self, pieces: List[Piece]) -> None:
-        self._pieces = pieces
+        self._king = self.get_king()
 
     def update_piece_coordinates(self):
         self._piece_coordinates.clear()
@@ -60,11 +79,8 @@ class Player:
         self.update_piece_coordinates()
 
     def update_possible_moves_of_selected_piece(self, board: Board):
-        # 1. Update possible moves of selected piece
+        # TODO: Remove this method if it is not used
         if self._selected_piece is not None:
-            # If the selected piece is a king, the possible moves need to be filtered
-            # so that the king does not move into an attacked field
-            # This is handled in the get_possible_moves_of_piece method
             self._selected_piece.update_piece(board)
 
     def get_special_moves(self, opponent_player_last_moved_piece):
@@ -91,32 +107,6 @@ class Player:
             else:
                 self._attacked_fields.update(piece.possible_fields)
 
-        # return piece.get_possible_moves(self._board)
-    # def choose_step(self) -> Optional[Tuple[int, int]]:
-    #
-    #     # Check if there are any possible moves
-    #     if not self._possible_moves_of_selected_piece:
-    #         return None
-    #     # Select a random move
-    #     chosen_move = random.choice(list(self._selected_piece.possible_fields))
-    #     print(f"Chosen move: {chosen_move}")
-    #     return chosen_move
-    #
-    # def choose_movable_piece(self):
-    #     movable_pieces = self.get_movable_pieces()
-    #     if len(movable_pieces) == 0:
-    #         return None
-    #     self._selected_piece = random.choice(movable_pieces)
-    #     return self._selected_piece
-    #
-    # def get_movable_pieces(self):
-    #     movable_pieces = []
-    #     for piece in self._pieces:
-    #         moves = piece.update_piece(self._board)[0]
-    #         if moves != [] and moves is not None:
-    #             movable_pieces.append(piece)
-    #     return movable_pieces
-
     def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
         if op_last_moved_piece is not None and \
                 isinstance(op_last_moved_piece, Pawn) and \
@@ -129,64 +119,24 @@ class Player:
             else:
                 self._special_moves.add((op_last_moved_piece.x, op_last_moved_piece.y + 1))
 
+    def is_castling_possible(self, rook, squares):
+        return (isinstance(rook, Rook) and
+                not rook.is_moved and
+                not self._king.is_moved and
+                all(self._board.is_empty_at(x, self._king.y) for x in squares) and
+                not any(self._board.get_opponent_attack_board(self._color)[self._king.y, x] for x in squares))
+
     def add_castling_moves_to_special_moves(self) -> None:
+        # Rooks coordinates are (0, 0), (7, 0), (0, 7), (7, 7) for white and black respectively
         if self._color == ColorEnum.BLACK:
-            # Then king is at (4, 0) and rooks are at (0, 0) and (7, 0)
-            king = self.get_piece_at(4, 0)
-            rook = self.get_piece_at(0, 0)
-            if (isinstance(rook, Rook) and
-                    isinstance(king, King) and
-                    not rook.is_moved and
-                    not king.is_moved and
-                    self._board.is_empty_at(1, 0) and
-                    self._board.is_empty_at(2, 0) and
-                    self._board.is_empty_at(3, 0) and
-                    not self._board.square_is_attacked_by_black(4, 0) and
-                    not self._board.square_is_attacked_by_white(4, 0) and
-                    not self._board.square_is_attacked_by_white(3, 0) and
-                    not self._board.square_is_attacked_by_white(2, 0)):
+            if self.is_castling_possible(self.get_piece_at(0, 0), range(1, 4)):
                 self._special_moves.add((2, 0))
-
-            rook = self.get_piece_at(7, 0)
-            if (isinstance(rook, Rook) and
-                    isinstance(king, King) and
-                    not rook.is_moved and
-                    not king.is_moved and
-                    self._board.is_empty_at(5, 0) and
-                    self._board.is_empty_at(6, 0) and
-                    not self._board.square_is_attacked_by_black(4, 0) and
-                    not self._board.square_is_attacked_by_white(4, 0) and
-                    not self._board.square_is_attacked_by_white(5, 0) and
-                    not self._board.square_is_attacked_by_white(6, 0)):
+            if self.is_castling_possible(self.get_piece_at(7, 0), range(5, 7)):
                 self._special_moves.add((6, 0))
-
         else:
-            king = self.get_piece_at(4, 7)
-            rook = self.get_piece_at(0, 7)
-            if (isinstance(rook, Rook) and
-                    isinstance(king, King) and
-                    not rook.is_moved and
-                    not king.is_moved and
-                    self._board.is_empty_at(1, 7) and
-                    self._board.is_empty_at(2, 7) and
-                    self._board.is_empty_at(3, 7) and
-                    not self._board.square_is_attacked_by_white(4, 7) and
-                    not self._board.square_is_attacked_by_black(4, 7) and
-                    not self._board.square_is_attacked_by_black(3, 7) and
-                    not self._board.square_is_attacked_by_black(2, 7)):
+            if self.is_castling_possible(self.get_piece_at(0, 7), range(1, 4)):
                 self._special_moves.add((2, 7))
-
-            rook = self.get_piece_at(7, 7)
-            if (isinstance(rook, Rook) and
-                    isinstance(king, King) and
-                    not rook.is_moved and
-                    not king.is_moved and
-                    self._board.is_empty_at(5, 7) and
-                    self._board.is_empty_at(6, 7) and
-                    not self._board.square_is_attacked_by_white(4, 7) and
-                    not self._board.square_is_attacked_by_black(4, 7) and
-                    not self._board.square_is_attacked_by_black(5, 7) and
-                    not self._board.square_is_attacked_by_black(6, 7)):
+            if self.is_castling_possible(self.get_piece_at(7, 7), range(5, 7)):
                 self._special_moves.add((6, 7))
 
     def make_move(self, to_x: int, to_y: int, opponent) -> None:
@@ -208,7 +158,6 @@ class Player:
         self._selected_piece.set_coordinates(to_x, to_y)
         self._selected_piece.is_moved = True
         self._last_moved_piece = self._selected_piece
-
 
     def is_promotion(self, to_x, to_y):
         return ((to_y == 0) or (to_y == 7)) and isinstance(self._selected_piece, Pawn)
@@ -273,7 +222,6 @@ class Player:
         self._selected_piece.set_coordinates(to_x, to_y)
         self.reset_en_passant()
 
-
     def remove_piece_at(self, x: int, y: int) -> None:
         for piece in self._pieces:
             if piece.coordinates == (x, y):
@@ -299,7 +247,6 @@ class Player:
     @property
     def pieces(self) -> List[Piece]:
         return self._pieces
-
 
     def has_piece_at(self, x, y) -> bool:
         return (x, y) in self._piece_coordinates
@@ -352,5 +299,28 @@ class Player:
     def color(self):
         return self._color
 
-
-
+        # return piece.get_possible_moves(self._board)
+    # def choose_step(self) -> Optional[Tuple[int, int]]:
+    #
+    #     # Check if there are any possible moves
+    #     if not self._possible_moves_of_selected_piece:
+    #         return None
+    #     # Select a random move
+    #     chosen_move = random.choice(list(self._selected_piece.possible_fields))
+    #     print(f"Chosen move: {chosen_move}")
+    #     return chosen_move
+    #
+    # def choose_movable_piece(self):
+    #     movable_pieces = self.get_movable_pieces()
+    #     if len(movable_pieces) == 0:
+    #         return None
+    #     self._selected_piece = random.choice(movable_pieces)
+    #     return self._selected_piece
+    #
+    # def get_movable_pieces(self):
+    #     movable_pieces = []
+    #     for piece in self._pieces:
+    #         moves = piece.update_piece(self._board)[0]
+    #         if moves != [] and moves is not None:
+    #             movable_pieces.append(piece)
+    #     return movable_pieces
