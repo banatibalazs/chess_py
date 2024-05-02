@@ -1,18 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Tuple, Set
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 import src.model.Board as Board
+
+from abc import ABC, abstractmethod
+from typing import Tuple, Set
+
+from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
+
 class Piece(ABC):
-    def __init__(self, piece_type, color, x, y):
+    def __init__(self, piece_type: PieceTypeEnum, color: ColorEnum, x: int, y: int):
         self._type = piece_type
         self._color = color
         self._x = x
         self._y = y
         self._value = self._init_value()
+        self._attacked_fields = set()
         self._possible_fields = set()
         self._protected_fields = set()
 
@@ -51,8 +54,9 @@ class Piece(ABC):
         return self._possible_fields
 
     @abstractmethod
-    def update_piece(self, board: Board):
+    def update_attacked_fields(self, board: Board):
         pass
+
 
     @property
     def value(self) -> int:

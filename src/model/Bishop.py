@@ -1,7 +1,7 @@
-from typing import override, Tuple, List
-from src.model.Board import Board
-from src.model.ColorEnum import ColorEnum
+from typing import override
 from src.model.Piece import Piece
+import src.model.Board as Board
+from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
@@ -10,9 +10,8 @@ class Bishop(Piece):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
     @override
-    def update_piece(self, board: Board):
-        self._possible_fields.clear()
-        self._protected_fields.clear()
+    def update_attacked_fields(self, board: Board):
+        self._attacked_fields.clear()
         x = self.x
         y = self.y
         color = self.color
@@ -32,21 +31,14 @@ class Bishop(Piece):
         for direction in directions:
             for field in direction:
                 if color == ColorEnum.WHITE:
-                    if piece_board[field[1], field[0]] == 0:
-                        self._possible_fields.add(field)
-                    elif piece_board[field[1], field[0]] < 0:
-                        self._possible_fields.add(field)
-                        break
+                    if piece_board[field[1], field[0]] == ColorEnum.NONE.value:
+                        self._attacked_fields.add(field)
                     else:
-                        self._protected_fields.add(field)
+                        self._attacked_fields.add(field)
                         break
                 else:
                     if piece_board[field[1], field[0]] == 0:
-                        self._possible_fields.add(field)
-                    elif piece_board[field[1], field[0]] > 0:
-                        self._possible_fields.add(field)
-                        break
+                        self._attacked_fields.add(field)
                     else:
-                        self._protected_fields.add(field)
+                        self._attacked_fields.add(field)
                         break
-
