@@ -43,9 +43,9 @@ class GameController:
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
 
-        if not self.is_white_turn:
-            print("--------------------------------------------------------------------------------")
-            print(" Black player's turn")
+        # if not self.is_white_turn:
+            # print("--------------------------------------------------------------------------------")
+            # print(" Black player's turn")
             # self._current_player.choose_movable_piece()
             # print("Selected piece: ", self._current_player.selected_piece)
             # print("At position: ", self._current_player.selected_piece.x, self._current_player.selected_piece.y)
@@ -77,7 +77,7 @@ class GameController:
 
     def click_on_board(self, x: int, y: int) -> None:
 
-        print("Clicked on board at: ", x, y)
+        # print("Clicked on board at: ", x, y)
         print("Piece: ", self._board.get_piece_board()[y][x])
 
         # A selected piece is clicked -> deselect it

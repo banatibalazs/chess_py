@@ -15,7 +15,7 @@ class Knight(Piece):
         super().__init__(PieceTypeEnum.KNIGHT, color, x, y)
 
     @override
-    def update_attacked_fields(self, piece_board: ByteArray8x8):
+    def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
@@ -28,4 +28,4 @@ class Knight(Piece):
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
                 self._attacked_fields.add(move)
 
-        self.update_protected_fields(piece_board)
+        self.update_protected_fields(current_player)

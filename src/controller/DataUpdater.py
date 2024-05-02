@@ -170,19 +170,20 @@ class DataUpdater:
                 ===============================================================================
                 """
         # 0. Update pieces data
-        current_player.update_pieces_attacked_fields()
-        opponent_player.update_pieces_attacked_fields()
+        current_player.update_pieces_attacked_fields(opponent_player)
+        opponent_player.update_pieces_attacked_fields(current_player)
+
 
 ###############################################################################################################
         board.update_piece_board(current_player.pieces, opponent_player.pieces)
 ################################################################################################################
 
-        current_player.update_pieces_possible_fields(opponent_player.pieces)
-        opponent_player.update_pieces_possible_fields(current_player.pieces)
+        current_player.update_pieces_possible_fields(opponent_player)
+        opponent_player.update_pieces_possible_fields(current_player)
 
-        # 1. Update possible moves of selected piece
-        current_player.update_possible_moves_of_selected_piece()
-        opponent_player.update_possible_moves_of_selected_piece()
+        # # 1. Update possible moves of selected piece
+        # current_player.update_possible_moves_of_selected_piece()
+        # opponent_player.update_possible_moves_of_selected_piece()
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
         current_player.get_special_moves(opponent_player.last_moved_piece)

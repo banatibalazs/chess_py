@@ -13,7 +13,7 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def update_attacked_fields(self, piece_board: ByteArray8x8):
+    def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
@@ -34,15 +34,17 @@ class Pawn(Piece):
                 if x + 1 <= 7 and y + 1 <= 7:
                     self._attacked_fields.add((x + 1, y + 1))
 
-        self.update_protected_fields(piece_board)
+        self.update_protected_fields(current_player)
 
 
     @override
-    def update_possible_fields(self, piece_board: ByteArray8x8, opponent_pieces) -> None:
+    def update_possible_fields(self, current_player, opponent) -> None:
         self._possible_fields.clear()
         x = self.x
         y = self.y
         color = self.color
+
+        piece_board = current_player._board.get_piece_board()
 
         # Move forward
         if color == ColorEnum.WHITE:
@@ -78,6 +80,24 @@ class Pawn(Piece):
             if x + 1 <= 7 and y + 1 <= 7:
                 if piece_board[y + 1, x + 1] > 0:
                     self._possible_fields.add((x + 1, y + 1))
+
+        self.update_protected_fields(current_player)
+        # Attacks diagonally
+        self.update_attacked_fields(current_player, opponent)
+        # Attacked fields are possible fields only when enemy is there and the king will not be attacked after the move
+        for field in self.attacked_fields:
+            if piece_board[field[1], field[0]] != 0:
+                self._possible_fields.add(field)
+
+
+        filtered = set()
+        # print("Possible fields: ", possible_fields)
+        for field in self._possible_fields:
+            if self.check_if_king_is_attacked_after_move(field, current_player, opponent):
+                filtered.add(field)
+        # print("Filtered: ", filtered)
+        self._possible_fields = self._possible_fields - filtered
+
 
 
 

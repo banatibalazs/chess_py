@@ -16,7 +16,7 @@ class Rook(Piece):
         super().__init__(PieceTypeEnum.ROOK, color, x, y)
 
     @override
-    def update_attacked_fields(self, piece_board: ByteArray8x8):
+    def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
@@ -34,19 +34,13 @@ class Rook(Piece):
 
         for direction in directions:
             for field in direction:
-                if color == ColorEnum.WHITE:
-                    if piece_board[field[1], field[0]] == ColorEnum.NONE.value:
-                        self._attacked_fields.add(field)
-                    else:
-                        self._attacked_fields.add(field)
-                        break
+                if opponent.has_piece_at(field[0], field[1]) or current_player.has_piece_at(field[0], field[1]):
+                    self._attacked_fields.add(field)
+                    break
                 else:
-                    if piece_board[field[1], field[0]] == ColorEnum.NONE.value:
-                        self._attacked_fields.add(field)
-                    else:
-                        self._attacked_fields.add(field)
-                        break
-        self.update_protected_fields(piece_board)
+                    self._attacked_fields.add(field)
+
+        self.update_protected_fields(current_player)
 
 
 

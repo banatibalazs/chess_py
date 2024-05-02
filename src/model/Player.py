@@ -17,7 +17,6 @@ class Player:
 
         1. init_pieces (called in the constructor)
         ----------------
-        2. update_piece_coordinates
         3. update_pieces_data
         4. update_possible_moves_of_selected_piece
         ----------------
@@ -49,7 +48,6 @@ class Player:
         self._protected_fields: set[Tuple[int, int]] = set()
         self._special_moves: set[Tuple[int, int]] = set()
         self._attacked_fields: set[Tuple[int, int]] = set()
-        self._piece_coordinates: Set[Tuple[int, int]] = set()
 
     def init_pieces(self):
         color = self._color
@@ -66,27 +64,18 @@ class Player:
         self._pieces.append(Knight(color, 6, 7 if color == ColorEnum.WHITE else 0))
         self._pieces.append(Rook(color, 7, 7 if color == ColorEnum.WHITE else 0))
 
-        self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
         self._king = self.get_king()
 
-    def update_piece_coordinates(self):
-        self._piece_coordinates.clear()
-        self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
 
-    def update_pieces_attacked_fields(self):
+    def update_pieces_attacked_fields(self, opponent):
         for piece in self._pieces:
-            piece.update_attacked_fields(self._board.get_piece_board())
-        self.update_piece_coordinates()
+            piece.update_attacked_fields(self, opponent)
 
-    def update_pieces_possible_fields(self, opponent_pieces):
+
+    def update_pieces_possible_fields(self, opponent):
         for piece in self._pieces:
-            piece.update_possible_fields(self._board.get_piece_board(), opponent_pieces)
-        self.update_piece_coordinates()
+            piece.update_possible_fields(self, opponent)
 
-    def update_possible_moves_of_selected_piece(self):
-        # TODO: Remove this method if it is not used
-        if self._selected_piece is not None:
-            self._selected_piece.update_attacked_fields(self._board.get_piece_board())
 
     def get_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
@@ -254,7 +243,9 @@ class Player:
         return self._pieces
 
     def has_piece_at(self, x, y) -> bool:
-        return (x, y) in self._piece_coordinates
+        for piece in self._pieces:
+            if piece.coordinates == (x, y):
+                return True
 
     def is_selected_piece_at(self, x, y):
         if self._selected_piece is not None:
@@ -263,7 +254,7 @@ class Player:
     def is_possible_move(self, x, y):
         if self._selected_piece is None:
             return False
-        print(f"Possible moves: {self._selected_piece.possible_fields}")
+        # print(f"Possible moves: {self._selected_piece.possible_fields}")
         return (x, y) in self._special_moves or (x, y) in self._selected_piece.possible_fields
 
     def __str__(self):
@@ -284,7 +275,6 @@ class Player:
     def set_selected_piece(self, x: int, y: int) -> None:
         if self.has_piece_at(x, y):
             self._selected_piece = self.get_piece_at(x, y)
-            print(f"Possible moves: {self._selected_piece.possible_fields}")
 
     @property
     def selected_piece(self):
