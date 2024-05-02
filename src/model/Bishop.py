@@ -37,4 +37,4 @@ class Bishop(Piece):
                     self._attacked_fields.add(field)
 
 
-        self.update_protected_fields(current_player)
+

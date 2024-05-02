@@ -1,7 +1,4 @@
-from typing import List, Tuple, override, Set
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-from src.model.Board import Board
+from typing import Tuple, override, Set
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -34,7 +31,7 @@ class Pawn(Piece):
                 if x + 1 <= 7 and y + 1 <= 7:
                     self._attacked_fields.add((x + 1, y + 1))
 
-        self.update_protected_fields(current_player)
+
 
 
     @override
@@ -81,22 +78,19 @@ class Pawn(Piece):
                 if piece_board[y + 1, x + 1] > 0:
                     self._possible_fields.add((x + 1, y + 1))
 
-        self.update_protected_fields(current_player)
-        # Attacks diagonally
-        self.update_attacked_fields(current_player, opponent)
         # Attacked fields are possible fields only when enemy is there and the king will not be attacked after the move
-        for field in self.attacked_fields:
-            if piece_board[field[1], field[0]] != 0:
-                self._possible_fields.add(field)
 
+        # filtered = set()
+        # for field in self._possible_fields:
+        #     if self.check_if_king_is_attacked_after_move(field, current_player, opponent):
+        #         filtered.add(field)
+        # self._possible_fields = self._possible_fields - filtered
 
-        filtered = set()
-        # print("Possible fields: ", possible_fields)
-        for field in self._possible_fields:
-            if self.check_if_king_is_attacked_after_move(field, current_player, opponent):
-                filtered.add(field)
-        # print("Filtered: ", filtered)
-        self._possible_fields = self._possible_fields - filtered
+    def update_protected_fields(self, current_player):
+        self._protected_fields.clear()
+        for field in self._attacked_fields:
+            if current_player.has_piece_at(field[0], field[1]):
+                self._protected_fields.add(field)
 
 
 

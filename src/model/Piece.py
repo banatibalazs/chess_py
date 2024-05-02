@@ -1,13 +1,5 @@
-import copy
-
-import numpy as np
-
-import src.model.Board as Board
-
 from abc import ABC, abstractmethod
-from typing import Tuple, Set, List
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from typing import Tuple, Set
 from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
 
@@ -67,81 +59,72 @@ class Piece(ABC):
         for field in self._attacked_fields:
             if current_player.has_piece_at(field[0], field[1]):
                 self._protected_fields.add(field)
-
+        # print("Protected fields: ", self._protected_fields)
 
     def update_possible_fields(self, current_player, opponent):
-        possible_fields = self._attacked_fields - self._protected_fields
+        self.update_protected_fields(current_player)
+        # possible_fields = self._attacked_fields - self._protected_fields
+        possible_fields = self._attacked_fields
+
+
         filtered = set()
-        # print("Possible fields: ", possible_fields)
         for field in possible_fields:
             if self.check_if_king_is_attacked_after_move(field, current_player, opponent):
                 filtered.add(field)
-        # print("Filtered: ", filtered)
+
         self._possible_fields = possible_fields - filtered
+
+
+        # if (self.color == ColorEnum.WHITE and self.type == PieceTypeEnum.QUEEN) or \
+        #         (self.type == PieceTypeEnum.KING and self.color == ColorEnum.BLACK):
+        #     print(self.color.name, self.type.name, " at: ", self.coordinates, end=" ")
+        #     print("Possible fields: ", possible_fields)
+        #     print("Deleted fields: ", filtered)
+        #     print("Filtered possible fields: ", self._possible_fields)
 
 
     def check_if_king_is_attacked_after_move(self, field, current_player, opponent) -> bool:
         result = False
-        to_x, to_y = field
+        captured_piece = None
+        # Save the original piece data
+        from_coordinates = self.coordinates
 
-        # Update the piece board
-        # current_player._board.update_piece_board(current_player.pieces, opponent.pieces)
-
-        # Update the attacked fields
-        # current_player.update_pieces_attacked_fields()
-        # opponent.update_pieces_attacked_fields()
-
-        # Change the piece position
-        # self.set_coordinates(to_x, to_y)
-        # if opponent.has_piece_at(to_x, to_y):
-
-
-
-
-
-
-        # # Copy the board
-        # copy_piece_board = copy.deepcopy(current_player._board.get_piece_board())
+        # # Update the attacked fields
+        # current_player.update_pieces_attacked_fields(opponent)
+        # opponent.update_pieces_attacked_fields(current_player)
         #
-        # # Get the king position
-        # if self.color == ColorEnum.WHITE:
-        #     own_king_y, own_king_x = np.where(copy_piece_board == 6)
-        # else:
-        #     own_king_y, own_king_x = np.where(copy_piece_board == -6)
+        # opponent.update_pieces_protected_fields()
+        # current_player.update_pieces_protected_fields()
+
+        # Move the piece
+        self.coordinates = field
+        # If opponent has a piece at the field, remove it
+        if opponent.has_piece_at(field[0], field[1]):
+            captured_piece = opponent.get_piece_at(field[0], field[1])
+            opponent.remove_piece_at(field[0], field[1])
+
+        # opponent.update_pieces_attacked_fields(current_player)
+        # current_player.update_pieces_attacked_fields(opponent)
         #
-        # own_king_y = int(own_king_y[0])
-        # own_king_x = int(own_king_x[0])
-        #
-        # # Moving piece data
-        # from_x, from_y = self.x, self.y
-        # to_x, to_y = move
-        # value = self._type.value
-        # color = self.color
-        #
-        # # Move the piece
-        # copy_piece_board[from_y, from_x] = 0
-        # copy_piece_board[to_y, to_x] = value if color == ColorEnum.WHITE else -value
-        #
-        #
-        # # Update update opponents attack fields
-        # for piece in opponent_pieces:
-        #     piece.update_attacked_fields(copy_piece_board)
-        #
-        # # Check if the king is attacked
-        # for piece in opponent_pieces:
-        #     # If capture happened, omit the captured piece
-        #     if piece.x == to_x and piece.y == to_y:
-        #         continue
-        #     if (own_king_x, own_king_y) in piece._attacked_fields:
-        #         result = True
-        #         print("Own king: ", (own_king_x, own_king_y), "Attacked fields: ", piece._attacked_fields, end=' ')
-        #         print((own_king_x, own_king_y) in piece._attacked_fields)
-        #         # print("King is attacked after move")
-        #         break
-        #
-        # # Restore the original piece data
-        # for piece in opponent_pieces:
-        #     piece.update_attacked_fields(original_piece_board)
+        # opponent.update_pieces_protected_fields()
+        # current_player.update_pieces_protected_fields()
+
+        # Check if the king is attacked
+        king_position = current_player._king.coordinates
+        print("King position: ", king_position)
+
+        for piece in opponent.pieces:
+            piece.update_attacked_fields(current_player, opponent)
+            if king_position in piece.attacked_fields:
+                result = True
+                break
+
+        # Restore the original piece data
+        self.coordinates = from_coordinates
+
+        if captured_piece is not None:
+            opponent.add_piece(captured_piece)
+
 
         return result
 
@@ -173,12 +156,13 @@ class Piece(ABC):
     def color(self):
         return self._color
 
-    def set_coordinates(self, x, y):
-        self._x = x
-        self._y = y
-
     @property
     def coordinates(self):
         return self._x, self._y
+
+    @coordinates.setter
+    def coordinates(self, value):
+        self._x = value[0]
+        self._y = value[1]
 
 

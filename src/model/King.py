@@ -17,7 +17,6 @@ class King(Piece):
     @override
     def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
-        # self._protected_fields.clear()
         x = self.x
         y = self.y
         color = self.color
@@ -29,5 +28,5 @@ class King(Piece):
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
                 self._attacked_fields.add(move)
 
-        self.update_protected_fields(current_player)
+
 

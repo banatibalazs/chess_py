@@ -22,6 +22,7 @@ class DataUpdater:
 
         return wrapper
 
+    # @timer_decorator
     def update(self, current_player, opponent_player, board):
         self.update_players(current_player, opponent_player, board)
         self.update_board(current_player, opponent_player, board)
@@ -173,10 +174,18 @@ class DataUpdater:
         current_player.update_pieces_attacked_fields(opponent_player)
         opponent_player.update_pieces_attacked_fields(current_player)
 
+        current_player.update_pieces_attacked_fields(opponent_player)
+        opponent_player.update_pieces_attacked_fields(current_player)
 
-###############################################################################################################
-        board.update_piece_board(current_player.pieces, opponent_player.pieces)
-################################################################################################################
+        current_player.update_pieces_protected_fields()
+        opponent_player.update_pieces_protected_fields()
+
+        current_player.update_pieces_protected_fields()
+        opponent_player.update_pieces_protected_fields()
+
+
+        current_player.update_pieces_possible_fields(opponent_player)
+        opponent_player.update_pieces_possible_fields(current_player)
 
         current_player.update_pieces_possible_fields(opponent_player)
         opponent_player.update_pieces_possible_fields(current_player)
