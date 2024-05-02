@@ -73,9 +73,13 @@ class Player:
         self._piece_coordinates.clear()
         self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
 
-    def update_pieces_data(self, opponent_pieces):
+    def update_pieces_attacked_fields(self):
         for piece in self._pieces:
             piece.update_attacked_fields(self._board.get_piece_board())
+        self.update_piece_coordinates()
+
+    def update_pieces_possible_fields(self, opponent_pieces):
+        for piece in self._pieces:
             piece.update_possible_fields(self._board.get_piece_board(), opponent_pieces)
         self.update_piece_coordinates()
 

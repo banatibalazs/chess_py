@@ -74,16 +74,21 @@ class Piece(ABC):
                 if piece_board[field[1], field[0]] < 0:
                     self._protected_fields.add(field)
 
-    def check_if_king_is_attacked_after_move(self, piece_board, move: Tuple[int, int],
+    def check_if_king_is_attacked_after_move(self, original_piece_board, move: Tuple[int, int],
                                              opponent_pieces: List["Piece"]) -> bool:
+        result = False
+
         # Copy the board
-        copy_piece_board = copy.deepcopy(piece_board)
+        copy_piece_board = copy.deepcopy(original_piece_board)
 
         # Get the king position
         if self.color == ColorEnum.WHITE:
             own_king_y, own_king_x = np.where(copy_piece_board == 6)
         else:
             own_king_y, own_king_x = np.where(copy_piece_board == -6)
+
+        own_king_y = int(own_king_y[0])
+        own_king_x = int(own_king_x[0])
 
         # Moving piece data
         from_x, from_y = self.x, self.y
@@ -99,15 +104,30 @@ class Piece(ABC):
         for piece in opponent_pieces:
             piece.update_attacked_fields(copy_piece_board)
 
-        return False
+        # Check if the king is attacked
+        for piece in opponent_pieces:
+            if (own_king_x, own_king_y) in piece._attacked_fields:
+                result = True
+                print("Own king: ", (own_king_x, own_king_y), "Attacked fields: ", piece._attacked_fields, end=' ')
+                print((own_king_x, own_king_y) in piece._attacked_fields)
+                # print("King is attacked after move")
+                break
+
+        # Restore the original piece data
+        for piece in opponent_pieces:
+            piece.update_attacked_fields(original_piece_board)
+
+        return result
 
     def update_possible_fields(self, piece_board: ByteArray8x8, opponent_pieces):
         possible_fields = self._attacked_fields - self._protected_fields
+        filtered = set()
+        # print("Possible fields: ", possible_fields)
         for field in possible_fields:
             if self.check_if_king_is_attacked_after_move(piece_board, field, opponent_pieces):
-                possible_fields.remove(field)
-
-        self._possible_fields = possible_fields
+                filtered.add(field)
+        # print("Filtered: ", filtered)
+        self._possible_fields = possible_fields - filtered
 
     @property
     def value(self) -> int:

@@ -23,11 +23,11 @@ class DataUpdater:
         return wrapper
 
     def update(self, current_player, opponent_player, board):
-        self.update_players(current_player, opponent_player)
+        self.update_players(current_player, opponent_player, board)
         self.update_board(current_player, opponent_player, board)
 
 
-    def update_players(self, current_player, opponent_player):
+    def update_players(self, current_player, opponent_player, board):
         """ """
         """
                 When the game starts, first the players are initialized with their pieces
@@ -170,8 +170,15 @@ class DataUpdater:
                 ===============================================================================
                 """
         # 0. Update pieces data
-        current_player.update_pieces_data(opponent_player.pieces)
-        opponent_player.update_pieces_data(current_player.pieces)
+        current_player.update_pieces_attacked_fields()
+        opponent_player.update_pieces_attacked_fields()
+
+###############################################################################################################
+        board.update_piece_board(current_player.pieces, opponent_player.pieces)
+################################################################################################################
+
+        current_player.update_pieces_possible_fields(opponent_player.pieces)
+        opponent_player.update_pieces_possible_fields(current_player.pieces)
 
         # 1. Update possible moves of selected piece
         current_player.update_possible_moves_of_selected_piece()

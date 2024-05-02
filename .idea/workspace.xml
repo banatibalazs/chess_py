@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="piece update">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="updated pieces and player class, delete type hints causing errors">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,14 +129,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00001" summary="all in one">
-      <option name="closed" value="true" />
-      <created>1713953370356</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1713953370356</updated>
     </task>
     <task id="LOCAL-00002" summary="all in">
       <option name="closed" value="true" />
@@ -530,7 +514,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714650589284</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="updated pieces and player class, delete type hints causing errors">
+      <option name="closed" value="true" />
+      <created>1714654695768</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1714654695768</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -545,7 +537,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="knight bugfix and pawn logic change" />
     <MESSAGE value="bugfix and rook logic change" />
     <MESSAGE value="queen and bishop logic change and bugfix" />
     <MESSAGE value="changed input parameter for pieces get_possible_moves method" />
@@ -570,7 +561,8 @@
     <MESSAGE value="commenting DataUpdater.py and remove redundant field from Player.py" />
     <MESSAGE value="add new comment in DataUpdater.py" />
     <MESSAGE value="piece update" />
-    <option name="LAST_COMMIT_MESSAGE" value="piece update" />
+    <MESSAGE value="updated pieces and player class, delete type hints causing errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated pieces and player class, delete type hints causing errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
