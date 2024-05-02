@@ -1,9 +1,7 @@
 import functools
 import time
-
-import src.model.Board as Board
 from src.model.ColorEnum import ColorEnum
-from src.model.Player import Player
+
 
 
 class DataUpdater:
@@ -24,11 +22,12 @@ class DataUpdater:
 
         return wrapper
 
-    def update(self, current_player: Player, opponent_player: Player, board: Board):
-        self.update_players(current_player, opponent_player, board)
+    def update(self, current_player, opponent_player, board):
+        self.update_players(current_player, opponent_player)
         self.update_board(current_player, opponent_player, board)
 
-    def update_players(self, current_player: Player, opponent_player: Player, board: Board):
+
+    def update_players(self, current_player, opponent_player):
         """ """
         """
                 When the game starts, first the players are initialized with their pieces
@@ -171,12 +170,12 @@ class DataUpdater:
                 ===============================================================================
                 """
         # 0. Update pieces data
-        current_player.update_pieces_data()
-        opponent_player.update_pieces_data()
+        current_player.update_pieces_data(opponent_player.pieces)
+        opponent_player.update_pieces_data(current_player.pieces)
 
         # 1. Update possible moves of selected piece
-        current_player.update_possible_moves_of_selected_piece(board)
-        opponent_player.update_possible_moves_of_selected_piece(board)
+        current_player.update_possible_moves_of_selected_piece()
+        opponent_player.update_possible_moves_of_selected_piece()
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
         current_player.get_special_moves(opponent_player.last_moved_piece)
@@ -187,7 +186,7 @@ class DataUpdater:
         current_player.update_protected_and_attacked_fields()
         opponent_player.update_protected_and_attacked_fields()
 
-    def update_board(self, current_player: Player, opponent_player: Player, board: Board):
+    def update_board(self, current_player, opponent_player, board):
         """ """
         """
         Board class:

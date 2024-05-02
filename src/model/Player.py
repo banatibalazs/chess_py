@@ -73,15 +73,16 @@ class Player:
         self._piece_coordinates.clear()
         self._piece_coordinates.update((piece.x, piece.y) for piece in self._pieces)
 
-    def update_pieces_data(self):
+    def update_pieces_data(self, opponent_pieces):
         for piece in self._pieces:
-            piece.update_piece(self._board)
+            piece.update_attacked_fields(self._board.get_piece_board())
+            piece.update_possible_fields(self._board.get_piece_board(), opponent_pieces)
         self.update_piece_coordinates()
 
-    def update_possible_moves_of_selected_piece(self, board: Board):
+    def update_possible_moves_of_selected_piece(self):
         # TODO: Remove this method if it is not used
         if self._selected_piece is not None:
-            self._selected_piece.update_piece(board)
+            self._selected_piece.update_attacked_fields(self._board.get_piece_board())
 
     def get_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
@@ -299,28 +300,3 @@ class Player:
     def color(self):
         return self._color
 
-        # return piece.get_possible_moves(self._board)
-    # def choose_step(self) -> Optional[Tuple[int, int]]:
-    #
-    #     # Check if there are any possible moves
-    #     if not self._possible_moves_of_selected_piece:
-    #         return None
-    #     # Select a random move
-    #     chosen_move = random.choice(list(self._selected_piece.possible_fields))
-    #     print(f"Chosen move: {chosen_move}")
-    #     return chosen_move
-    #
-    # def choose_movable_piece(self):
-    #     movable_pieces = self.get_movable_pieces()
-    #     if len(movable_pieces) == 0:
-    #         return None
-    #     self._selected_piece = random.choice(movable_pieces)
-    #     return self._selected_piece
-    #
-    # def get_movable_pieces(self):
-    #     movable_pieces = []
-    #     for piece in self._pieces:
-    #         moves = piece.update_piece(self._board)[0]
-    #         if moves != [] and moves is not None:
-    #             movable_pieces.append(piece)
-    #     return movable_pieces

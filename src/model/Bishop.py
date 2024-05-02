@@ -1,4 +1,6 @@
 from typing import override
+
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.Piece import Piece
 import src.model.Board as Board
 from src.model.ColorEnum import ColorEnum
@@ -10,13 +12,11 @@ class Bishop(Piece):
         super().__init__(PieceTypeEnum.BISHOP, color, x, y)
 
     @override
-    def update_attacked_fields(self, board: Board):
+    def update_attacked_fields(self, piece_board: ByteArray8x8):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
         color = self.color
-
-        piece_board = board.get_piece_board()
 
         vectors = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
         directions = []
@@ -42,3 +42,5 @@ class Bishop(Piece):
                     else:
                         self._attacked_fields.add(field)
                         break
+
+        self.update_protected_fields(piece_board)

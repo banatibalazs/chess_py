@@ -1,18 +1,15 @@
 from typing import List
 
-from src.controller import ViewController
-from src.controller.Command import Command
 from src.controller.DataUpdater import DataUpdater
 from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
-from src.model.Piece import Piece
 from src.model.Player import Player
 
 
 class GameController:
 
-    def __init__(self, white_player_name: str, black_player_name: str, view_controller: ViewController):  # type: ignore
+    def __init__(self, white_player_name: str, black_player_name: str, view_controller):
         self._board: Board = Board()
         self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
         self._black_player: Player = Player(black_player_name, ColorEnum.BLACK, self._board)
@@ -27,7 +24,7 @@ class GameController:
 
         self.is_white_turn: bool = True
 
-        self._view_controller: ViewController = view_controller
+        self._view_controller = view_controller
         self._board_history_prev: List[Board] = []
         self._board_history_fwd: List[Board] = []
 

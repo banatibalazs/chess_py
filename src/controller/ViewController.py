@@ -3,11 +3,9 @@ from typing import Dict, List
 from src.controller.Command import Command
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 from src.controller.GameController import GameController
-import src.view.ChessWindow as ChessWindow
 import numpy as np
 
 
-# from src.view.ChessWindow import ChessWindow
 
 class ViewController:
     WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
@@ -37,8 +35,8 @@ class ViewController:
     LIGHT_BLUE_COLOR = "#2222ff"
     DARK_BLUE_COLOR = "#8888ff"
 
-    def __init__(self, chess_window: ChessWindow, white_player_name: str, black_player_name: str):
-        self._chess_window: ChessWindow = chess_window
+    def __init__(self, chess_window, white_player_name: str, black_player_name: str):
+        self._chess_window = chess_window
         self._int_to_piece_image_path: Dict[np.byte, str] = {
             -6: ViewController.BL_KING_IMAGE_PATH,
             -5: ViewController.BL_QUEEN_IMAGE_PATH,
