@@ -3,6 +3,7 @@ from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.King import King
+from src.model.Pawn import Pawn
 from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
 
@@ -138,15 +139,85 @@ class TestBishop(unittest.TestCase):
         self.assertEqual(self.bishop._attacked_fields, expected_result)
 
     def test_update_attacked_fields_bishop_on_72_with_starting_board(self):
+        """
+        Bishop on (7, 2) with starting board. As if bishop was white.
+        """
         self.white_player.init_pieces()
         self.black_player.init_pieces()
 
-        self.white_player.remove_piece_at(2, 7)
-        self.bishop.coordinates = (2, 7)
-        print("Bishop coordinates: ", self.bishop.coordinates)
+        self.white_player.remove_piece_at(7, 2)
+        self.bishop.coordinates = (7, 2)
         self.bishop.update_attacked_fields(self.white_player, self.black_player)
         expected_result = set()
-        print(self.bishop._attacked_fields)
+        self.assertEqual(self.bishop._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_bishop_on_75_with_starting_board(self):
+        """
+        Bishop on (7, 5) with starting board, as if bishop was white.
+        """
+
+        self.white_player.init_pieces()
+        self.black_player.init_pieces()
+
+        self.white_player.remove_piece_at(7, 5)
+        self.bishop.coordinates = (7, 5)
+        self.bishop.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = set()
+        self.assertEqual(self.bishop._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_bishop_on_02_with_starting_board(self):
+        """
+        Bishop on (0, 2) with starting board, as if bishop was black.
+        """
+        self.white_player.init_pieces()
+        self.black_player.init_pieces()
+
+        self.white_player.remove_piece_at(0, 2)
+        self.bishop.coordinates = (0, 2)
+        self.bishop.update_attacked_fields(self.black_player, self.white_player)
+        expected_result = set()
+        self.assertEqual(self.bishop._attacked_fields, expected_result)
+
+
+    def test_update_attacked_fields_bishop_on_05_with_starting_board(self):
+        """
+        Bishop on (0, 5) with starting board, as if bishop was black.
+        """
+        self.white_player.init_pieces()
+        self.black_player.init_pieces()
+
+        self.white_player.remove_piece_at(0, 5)
+        self.bishop.coordinates = (0, 5)
+        self.bishop.update_attacked_fields(self.black_player, self.white_player)
+        expected_result = set()
+        self.assertEqual(self.bishop._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_bishop_on_44_surrounded_by_own_pieces(self):
+        """
+        Bishop on (4, 4) surrounded by own pieces.
+        """
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 3, 3))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 3, 5))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 5, 3))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 5, 5))
+
+        self.bishop.coordinates = (4, 4)
+        self.bishop.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = set()
+        self.assertEqual(self.bishop._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_bishop_on_44_surrounded_by_opponent_pieces(self):
+        """
+        Bishop on (4, 4) surrounded by opponent pieces.
+        """
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 3, 3))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 3, 5))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 5, 3))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 5, 5))
+
+        self.bishop.coordinates = (4, 4)
+        self.bishop.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = {(3, 3), (3, 5), (5, 3), (5, 5)}
         self.assertEqual(self.bishop._attacked_fields, expected_result)
 
 

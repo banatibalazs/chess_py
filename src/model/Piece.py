@@ -102,6 +102,10 @@ class Piece(ABC):
     def color(self):
         return self._color
 
+    @color.setter
+    def color(self, value: ColorEnum):
+        self._color = value
+
     @property
     def coordinates(self):
         """
