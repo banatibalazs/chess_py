@@ -1,7 +1,5 @@
 import functools
 import time
-from src.model.ColorEnum import ColorEnum
-
 
 
 class DataUpdater:
@@ -26,7 +24,6 @@ class DataUpdater:
     def update(self, current_player, opponent_player, board):
         self.update_players(current_player, opponent_player, board)
         self.update_board(current_player, opponent_player, board)
-
 
     def update_players(self, current_player, opponent_player, board):
         """ """
@@ -174,21 +171,9 @@ class DataUpdater:
         current_player.update_pieces_attacked_fields(opponent_player)
         opponent_player.update_pieces_attacked_fields(current_player)
 
-        current_player.update_pieces_attacked_fields(opponent_player)
-        opponent_player.update_pieces_attacked_fields(current_player)
-
-        current_player.update_pieces_protected_fields()
-        opponent_player.update_pieces_protected_fields()
-
-        current_player.update_pieces_protected_fields()
-        opponent_player.update_pieces_protected_fields()
-
-
         current_player.update_pieces_possible_fields(opponent_player)
         opponent_player.update_pieces_possible_fields(current_player)
 
-        current_player.update_pieces_possible_fields(opponent_player)
-        opponent_player.update_pieces_possible_fields(current_player)
 
         # # 1. Update possible moves of selected piece
         # current_player.update_possible_moves_of_selected_piece()
@@ -198,10 +183,6 @@ class DataUpdater:
         current_player.get_special_moves(opponent_player.last_moved_piece)
         opponent_player.get_special_moves(current_player.last_moved_piece)
 
-        # 3-4. Update attacked locations
-        #      Update protected fields
-        current_player.update_protected_and_attacked_fields()
-        opponent_player.update_protected_and_attacked_fields()
 
     def update_board(self, current_player, opponent_player, board):
         """ """
@@ -250,8 +231,8 @@ class DataUpdater:
             2. coloring_board: ✔
             3. white attack board: ✔
             4. black attack board: ✔
-            5. white protection board: ✔
-            6. black protection board: ✔
+        ---  5. white protection board: ----
+        ---  6. black protection board: ----
 
         ==============================================
 
@@ -264,20 +245,11 @@ class DataUpdater:
         # 3. Attack boards -> the attacked fields by the players
         # 4. Protection boards -> the protected fields by the players
 
-        if current_player.color == ColorEnum.WHITE:
-            # The boards methods' parameters are the white player's data first, then the black player's data
-            board.update_piece_board(current_player.pieces, opponent_player.pieces)
-            board.update_attack_boards(current_player.attacked_fields,
-                                             opponent_player.attacked_fields)
+        board.update_piece_board(current_player.pieces, opponent_player.pieces)
 
-            board.update_protection_boards(current_player.protected_fields,
-                                                 opponent_player.protected_fields)
-        else:
-            board.update_piece_board(opponent_player.pieces, current_player.pieces)
-            board.update_attack_boards(opponent_player.attacked_fields,
-                                             current_player.attacked_fields)
-            board.update_protection_boards(opponent_player.protected_fields,
-                                                 current_player.protected_fields)
+        board.update_attack_boards(current_player, opponent_player)
+
+        board.update_protection_boards(current_player, opponent_player)
 
         board.update_coloring_board(current_player.selected_piece, current_player.special_moves)
 

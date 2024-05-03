@@ -3,6 +3,7 @@ from typing import List, Tuple, Set
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 import numpy as np
 
+from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 
 
@@ -15,7 +16,7 @@ class Board:
 
     def __init__(self):
         self._piece_board: ByteArray8x8 = np.zeros((8, 8), dtype=np.byte)
-        self._coloring_board: CharArray8x8 = np.zeros((8, 8), dtype=np.character)
+        self._coloring_board: CharArray8x8 = np.zeros((8, 8), dtype=np.str_)
         self._white_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
         self._black_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
         self._white_protection_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
@@ -55,29 +56,51 @@ class Board:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
 
-    def update_attack_boards(self, attacked_by_white: Set[Tuple[int, int]],
-                             attacked_by_black: Set[Tuple[int, int]]) -> None:
+    def update_attack_boards(self, current_player, opponent) -> None:
+
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
-        for location in attacked_by_white:
-            self._white_attack_board[location[1], location[0]] = True
 
-        for location in attacked_by_black:
-            self._black_attack_board[location[1], location[0]] = True
+        if current_player.color == ColorEnum.WHITE:
+            white_selected_piece = current_player.selected_piece
+            black_selected_piece = opponent.selected_piece
+        else:
+            white_selected_piece = opponent.selected_piece
+            black_selected_piece = current_player.selected_piece
 
-    def reset_protection_boards(self):
+        if white_selected_piece is not None:
+            if white_selected_piece._attacked_fields is not None:
+                for location in white_selected_piece._attacked_fields:
+                    self._white_attack_board[location[1], location[0]] = True
+
+        if black_selected_piece is not None:
+            if black_selected_piece._attacked_fields is not None:
+                for location in black_selected_piece._attacked_fields:
+                    self._black_attack_board[location[1], location[0]] = True
+
+
+    def update_protection_boards(self, current_player, opponent) -> None:
+
         self._white_protection_board.fill(False)
         self._black_protection_board.fill(False)
 
-    def update_protection_boards(self, protected_by_white: Set[Tuple[int, int]],
-                                 protected_by_black: Set[Tuple[int, int]]) -> None:
-        self._white_protection_board.fill(False)
-        self._black_protection_board.fill(False)
-        for location in protected_by_white:
-            self._white_protection_board[location[1], location[0]] = True
+        if current_player.color == ColorEnum.WHITE:
+            white_selected_piece = current_player.selected_piece
+            black_selected_piece = opponent.selected_piece
+        else:
+            white_selected_piece = opponent.selected_piece
+            black_selected_piece = current_player.selected_piece
 
-        for location in protected_by_black:
-            self._black_protection_board[location[1], location[0]] = True
+
+        if white_selected_piece is not None:
+            if white_selected_piece.possible_fields is not None:
+                for location in white_selected_piece.possible_fields:
+                    self._white_protection_board[location[1], location[0]] = True
+
+        if black_selected_piece is not None:
+            if black_selected_piece.possible_fields is not None:
+                for location in black_selected_piece.possible_fields:
+                    self._black_protection_board[location[1], location[0]] = True
 
     def is_normal_move_at(self, x, y):
         return self._coloring_board[y, x] == self.NORMAL_MOVE_SYMBOL

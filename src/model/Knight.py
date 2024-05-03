@@ -19,13 +19,17 @@ class Knight(Piece):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
-        color = self.color
 
         move_pattern_list = [(x - 1, y - 2), (x + 1, y - 2), (x - 2, y - 1), (x + 2, y - 1),
                              (x - 2, y + 1), (x + 2, y + 1), (x - 1, y + 2), (x + 1, y + 2)]
 
         for move in move_pattern_list:
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
-                self._attacked_fields.add(move)
+                if opponent.has_piece_at(move[0], move[1]):
+                    self._attacked_fields.add(move)
+                elif current_player.has_piece_at(move[0], move[1]):
+                    pass
+                else:
+                    self._attacked_fields.add(move)
 
 

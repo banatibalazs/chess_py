@@ -16,7 +16,6 @@ class Bishop(Piece):
         self._attacked_fields.clear()
         x = self.x
         y = self.y
-        color = self.color
 
         vectors = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
         directions = []
@@ -30,8 +29,10 @@ class Bishop(Piece):
 
         for direction in directions:
             for field in direction:
-                if opponent.has_piece_at(field[0], field[1]) or current_player.has_piece_at(field[0], field[1]):
+                if opponent.has_piece_at(field[0], field[1]):
                     self._attacked_fields.add(field)
+                    break
+                elif current_player.has_piece_at(field[0], field[1]):
                     break
                 else:
                     self._attacked_fields.add(field)

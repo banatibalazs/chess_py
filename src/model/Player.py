@@ -21,7 +21,6 @@ class Player:
         4. update_possible_moves_of_selected_piece
         ----------------
         5. get_special_moves
-        6. update_protected_and_attacked_fields
         7. add_en_passant_moves_to_special_moves
         8. is_castling_possible
         9. add_castling_moves_to_special_moves
@@ -45,9 +44,9 @@ class Player:
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
-        self._protected_fields: set[Tuple[int, int]] = set()
         self._special_moves: set[Tuple[int, int]] = set()
         self._attacked_fields: set[Tuple[int, int]] = set()
+        self._possible_fields: set[Tuple[int, int]] = set()
 
     def init_pieces(self):
         color = self._color
@@ -66,18 +65,58 @@ class Player:
 
         self._king = self.get_king()
 
-
     def update_pieces_attacked_fields(self, opponent):
+        print("Attacked fields are updated.")
+        self.attacked_fields.clear()
         for piece in self._pieces:
             piece.update_attacked_fields(self, opponent)
-
-    def update_pieces_protected_fields(self):
-        for piece in self._pieces:
-            piece.update_protected_fields(self)
+            self.attacked_fields.update(piece.attacked_fields)
 
     def update_pieces_possible_fields(self, opponent):
+        self._possible_fields.clear()
+        filter = []
         for piece in self._pieces:
             piece.update_possible_fields(self, opponent)
+            filter = piece.possible_fields.copy()
+            for field in piece.possible_fields:
+                if self.check_if_king_is_attacked_after_move(piece, field, opponent):
+                    filter.remove(field)
+                pass
+            piece.possible_fields = set(filter)
+            self._possible_fields.update(piece.possible_fields)
+
+
+
+    def check_if_king_is_attacked_after_move(self, cur_piece, field, opponent) -> bool:
+        result = False
+        captured_piece = None
+        # Save the original piece data
+        from_coordinates = cur_piece.coordinates
+
+        # Move the piece
+        cur_piece.coordinates = field
+        # If opponent has a piece at the field, remove it
+        if opponent.has_piece_at(field[0], field[1]):
+            captured_piece = opponent.get_piece_at(field[0], field[1])
+            opponent.remove_piece_at(field[0], field[1])
+
+
+        # Check if the king is attacked
+        king_position = self._king.coordinates
+
+        for piece in opponent.pieces:
+            piece.update_attacked_fields(self, opponent)
+            if king_position in piece.attacked_fields:
+                result = True
+                break
+
+        # Restore the original piece data
+        cur_piece.coordinates = from_coordinates
+
+        if captured_piece is not None:
+            opponent.add_piece(captured_piece)
+
+        return result
 
     def get_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
@@ -88,20 +127,6 @@ class Player:
         if isinstance(self._selected_piece, King):
             self.add_castling_moves_to_special_moves()
 
-    def update_protected_and_attacked_fields(self) -> None:
-
-        self._protected_fields.clear()
-        self._attacked_fields.clear()
-
-        for piece in self._pieces:
-            self._protected_fields.update(piece.protected_fields)
-
-            # The only exception is the pawn, as it moves forward but captures diagonally
-            if isinstance(piece, Pawn):
-                attacked_fields = piece.attacked_fields
-                self._attacked_fields.update(attacked_fields)
-            else:
-                self._attacked_fields.update(piece.possible_fields)
 
     def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
         if op_last_moved_piece is not None and \
@@ -258,11 +283,6 @@ class Player:
             return False
         # print(f"Possible moves: {self._selected_piece.possible_fields}")
         return (x, y) in self._special_moves or (x, y) in self._selected_piece.possible_fields
-
-
-    @property
-    def protected_fields(self) -> Set[Tuple[int, int]]:
-        return self._protected_fields
 
     @property
     def attacked_fields(self) -> Set[Tuple[int, int]]:

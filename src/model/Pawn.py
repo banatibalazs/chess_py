@@ -18,17 +18,26 @@ class Pawn(Piece):
 
         if color == ColorEnum.WHITE:
             if x - 1 >= 0 and y - 1 >= 0:
-                if x - 1 >= 0 and y - 1 >= 0:
+                if current_player.has_piece_at(x - 1, y - 1):
+                    pass
+                else:
                     self._attacked_fields.add((x - 1, y - 1))
+
             if x + 1 <= 7 and y - 1 >= 0:
-                if x + 1 <= 7 and y - 1 >= 0:
+                if current_player.has_piece_at(x + 1, y - 1):
+                    pass
+                else:
                     self._attacked_fields.add((x + 1, y - 1))
         else:
             if x - 1 >= 0 and y + 1 <= 7:
-                if x - 1 >= 0 and y + 1 <= 7:
+                if current_player.has_piece_at(x - 1, y + 1):
+                    pass
+                else:
                     self._attacked_fields.add((x - 1, y + 1))
             if x + 1 <= 7 and y + 1 <= 7:
-                if x + 1 <= 7 and y + 1 <= 7:
+                if current_player.has_piece_at(x + 1, y + 1):
+                    pass
+                else:
                     self._attacked_fields.add((x + 1, y + 1))
 
 
@@ -77,21 +86,6 @@ class Pawn(Piece):
             if x + 1 <= 7 and y + 1 <= 7:
                 if piece_board[y + 1, x + 1] > 0:
                     self._possible_fields.add((x + 1, y + 1))
-
-        # Attacked fields are possible fields only when enemy is there and the king will not be attacked after the move
-
-        # filtered = set()
-        # for field in self._possible_fields:
-        #     if self.check_if_king_is_attacked_after_move(field, current_player, opponent):
-        #         filtered.add(field)
-        # self._possible_fields = self._possible_fields - filtered
-
-    def update_protected_fields(self, current_player):
-        self._protected_fields.clear()
-        for field in self._attacked_fields:
-            if current_player.has_piece_at(field[0], field[1]):
-                self._protected_fields.add(field)
-
 
 
 

@@ -36,9 +36,9 @@ class ChessWindow:
         # Make the window adapt to its content
         self.root.geometry("")
 
-        self.black_protection_button = self.create_button("Blck protection", self.black_protection_button_click,
+        self.black_protection_button = self.create_button("Bl Possible", self.black_protection_button_click,
                                                           0, 0, 4, 10)
-        self.black_button = self.create_button("Black", self.black_button_click,
+        self.black_button = self.create_button("Bl Attack", self.black_button_click,
                                                0, 7, 2, 10)
         self.black_player_name_label = self.create_label(black_player_name,
                                                0, 5, 1, 10)
@@ -50,9 +50,9 @@ class ChessWindow:
                                                10, 5, 1, 10)
         self.white_player_piece_number_label = self.create_label("16", 10, 6, 1, 10)
 
-        self.white_button = self.create_button("White", self.white_button_click,
+        self.white_button = self.create_button("Wh Attack", self.white_button_click,
                                                10, 7, 2, 10)
-        self.white_protection_button = self.create_button("Wh_protection", self.white_protection_button_click,
+        self.white_protection_button = self.create_button("Wh Possible", self.white_protection_button_click,
                                                           10, 0, 4, 10)
 
     def create_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):

@@ -105,7 +105,7 @@ class GameController:
     def make_move(self, x, y):
         self._current_player.make_move(x, y, self._opponent_player)
         # self.update_data()
-        self._current_player.selected_piece = None
+        # self._current_player.selected_piece = None
         self.next_turn()
 
 

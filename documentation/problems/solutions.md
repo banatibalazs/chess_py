@@ -54,3 +54,15 @@ import src.view.ChessWindow as ChessWindow
 def __init__(self, chess_window: ChessWindow.ChessWindow, white_player_name: str, black_player_name: str):
     self._chess_window: ChessWindow.ChessWindow = chess_window
 ```
+
+
+## Number 3:
+
+### **Description:**
+
+Running test from command line with the following command:
+![img_1.png](img_1.png)
+Have to be in the root directory of the project to run the tests.
+```
+python -m unittest .\tests\test_model\TestBishop.py
+```
