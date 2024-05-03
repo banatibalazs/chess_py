@@ -5,40 +5,40 @@ from src.model.PieceTypeEnum import PieceTypeEnum
 
 
 class Pawn(Piece):
-    def __init__(self, color: ColorEnum, x: int, y: int):
-        super().__init__(PieceTypeEnum.PAWN, color, x, y)
+    def __init__(self, color: ColorEnum, row: int, col: int):
+        super().__init__(PieceTypeEnum.PAWN, color, row, col)
         self._is_en_passant = False
 
     @override
     def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
-        x = self.x
-        y = self.y
+        col = self.col
+        row = self.row
         color = self.color
 
         if color == ColorEnum.WHITE:
-            if x - 1 >= 0 and y - 1 >= 0:
-                if current_player.has_piece_at(x - 1, y - 1):
+            if col - 1 >= 0 and row - 1 >= 0:
+                if current_player.has_piece_at(col - 1, row - 1):
                     pass
                 else:
-                    self._attacked_fields.add((x - 1, y - 1))
+                    self._attacked_fields.add((col - 1, row - 1))
 
-            if x + 1 <= 7 and y - 1 >= 0:
-                if current_player.has_piece_at(x + 1, y - 1):
+            if col + 1 <= 7 and row - 1 >= 0:
+                if current_player.has_piece_at(col + 1, row - 1):
                     pass
                 else:
-                    self._attacked_fields.add((x + 1, y - 1))
+                    self._attacked_fields.add((col + 1, row - 1))
         else:
-            if x - 1 >= 0 and y + 1 <= 7:
-                if current_player.has_piece_at(x - 1, y + 1):
+            if col - 1 >= 0 and row + 1 <= 7:
+                if current_player.has_piece_at(col - 1, row + 1):
                     pass
                 else:
-                    self._attacked_fields.add((x - 1, y + 1))
-            if x + 1 <= 7 and y + 1 <= 7:
-                if current_player.has_piece_at(x + 1, y + 1):
+                    self._attacked_fields.add((col - 1, row + 1))
+            if col + 1 <= 7 and row + 1 <= 7:
+                if current_player.has_piece_at(col + 1, row + 1):
                     pass
                 else:
-                    self._attacked_fields.add((x + 1, y + 1))
+                    self._attacked_fields.add((col + 1, row + 1))
 
 
 
@@ -46,46 +46,46 @@ class Pawn(Piece):
     @override
     def update_possible_fields(self, current_player, opponent) -> None:
         self._possible_fields.clear()
-        x = self.x
-        y = self.y
+        col = self.col
+        row = self.row
         color = self.color
 
         piece_board = current_player._board.get_piece_board()
 
         # Move forward
         if color == ColorEnum.WHITE:
-            if y - 1 >= 0:
-                if piece_board[y - 1, x] == 0:
-                    self._possible_fields.add((x, y - 1))
+            if row - 1 >= 0:
+                if piece_board[row - 1, col] == 0:
+                    self._possible_fields.add((row - 1, col))
         else:
-            if y + 1 <= 7:
-                if piece_board[y + 1, x] == 0:
-                    self._possible_fields.add((x, y + 1))
+            if row + 1 <= 7:
+                if piece_board[row + 1, col] == 0:
+                    self._possible_fields.add((row + 1, col))
 
         # Move two squares forward
-        if color == ColorEnum.WHITE and y == 6:
-            if piece_board[y - 1, x] == 0 and piece_board[y - 2, x] == 0:
-                self._possible_fields.add((x, y - 2))
-        elif color == ColorEnum.BLACK and y == 1:
-            if piece_board[y + 1, x] == 0 and piece_board[y + 2, x] == 0:
-                self._possible_fields.add((x, y + 2))
+        if color == ColorEnum.WHITE and row == 6:
+            if piece_board[row - 1, col] == 0 and piece_board[row - 2, col] == 0:
+                self._possible_fields.add((row - 2, col))
+        elif color == ColorEnum.BLACK and row == 1:
+            if piece_board[row + 1, col] == 0 and piece_board[row + 2, col] == 0:
+                self._possible_fields.add((row + 2, col))
 
         # Diagonal capture
         if color == ColorEnum.WHITE:
-            if x - 1 >= 0 and y - 1 >= 0:
-                if piece_board[y - 1, x - 1] < 0:
-                    self._possible_fields.add((x - 1, y - 1))
-            if x + 1 <= 7 and y - 1 >= 0:
-                if piece_board[y - 1, x + 1] < 0:
-                    self._possible_fields.add((x + 1, y - 1))
+            if col - 1 >= 0 and row - 1 >= 0:
+                if piece_board[row - 1, col - 1] < 0:
+                    self._possible_fields.add((row - 1, col - 1))
+            if col + 1 <= 7 and row - 1 >= 0:
+                if piece_board[row - 1, col + 1] < 0:
+                    self._possible_fields.add((row - 1, col + 1))
         else:
-            if x - 1 >= 0 and y + 1 <= 7:
-                if piece_board[y + 1, x - 1] > 0:
-                    self._possible_fields.add((x - 1, y + 1))
+            if col - 1 >= 0 and row + 1 <= 7:
+                if piece_board[row + 1, col - 1] > 0:
+                    self._possible_fields.add((row + 1, col - 1))
 
-            if x + 1 <= 7 and y + 1 <= 7:
-                if piece_board[y + 1, x + 1] > 0:
-                    self._possible_fields.add((x + 1, y + 1))
+            if col + 1 <= 7 and row + 1 <= 7:
+                if piece_board[row + 1, col + 1] > 0:
+                    self._possible_fields.add((row + 1, col + 1))
 
 
 

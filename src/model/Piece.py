@@ -6,11 +6,11 @@ from src.model.PieceTypeEnum import PieceTypeEnum
 
 
 class Piece(ABC):
-    def __init__(self, piece_type: PieceTypeEnum, color: ColorEnum, x: int, y: int):
+    def __init__(self, piece_type: PieceTypeEnum, color: ColorEnum, row: int, col: int):
         self._type = piece_type
         self._color = color
-        self._x = x
-        self._y = y
+        self._col = col
+        self._row = row
         self._value = self._init_value()
         self._attacked_fields = set()
         self._possible_fields = set()
@@ -83,12 +83,20 @@ class Piece(ABC):
         return self._type
 
     @property
-    def x(self) -> int:
-        return self._x
+    def col(self) -> int:
+        return self._col
+
+    @col.setter
+    def col(self, value: int):
+        self._col = value
 
     @property
-    def y(self) -> int:
-        return self._y
+    def row(self) -> int:
+        return self._row
+
+    @row.setter
+    def row(self, value: int):
+        self._row = value
 
     @property
     def color(self):
@@ -96,11 +104,17 @@ class Piece(ABC):
 
     @property
     def coordinates(self):
-        return self._x, self._y
+        """
+        :return: (y:row, x:column)
+        """
+        return self._row, self._col
 
     @coordinates.setter
     def coordinates(self, value):
-        self._x = value[0]
-        self._y = value[1]
+        """
+        :param value: (y:row, x:column)
+        :return: None
+        """
+        self.row, self.col = value
 
 

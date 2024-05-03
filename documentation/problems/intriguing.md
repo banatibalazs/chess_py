@@ -85,14 +85,14 @@ Here's how you can implement this:
 class Player:
     def __init__(self, name: str, color: ColorEnum):
         # ...
-        self._piece_coordinates = set((piece.x, piece.y) for piece in self._pieces)
+        self._piece_coordinates = set((piece.col, piece.row) for piece in self._pieces)
 
     def has_piece_at(self, x, y):
         return (x, y) in self._piece_coordinates
 
     def make_normal_move(self, to_x, to_y) -> None:
         # ...
-        self._piece_coordinates.remove((self.selected_piece.x, self.selected_piece.y))
+        self._piece_coordinates.remove((self.selected_piece.col, self.selected_piece.row))
         self._piece_coordinates.add((to_x, to_y))
         self.selected_piece.set_coordinates(to_x, to_y)
         # ...

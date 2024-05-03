@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted">
-      <change afterPath="$PROJECT_DIR$/documentation/problems/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_model/TestBishop.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="writing tests for Bishop.py and remove unused field from pieces">
+      <change afterPath="$PROJECT_DIR$/tests/test_model/TestRook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/problems/solutions.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/solutions.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/CustomTypesForTypeHinting.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CustomTypesForTypeHinting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/problems/intriguing.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/intriguing.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
@@ -22,7 +19,9 @@
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Square.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Square.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestBishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestBishop.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +57,7 @@
   "keyToString": {
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor": "Run",
     "Python tests.Python tests in TestBishop.py.executor": "Run",
     "Python.MainWindow.executor": "Run",
@@ -126,21 +126,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="chess-py" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -153,6 +138,21 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -189,10 +189,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board" />
+        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board" />
         <item itemvalue="Python tests.Python tests in TestBishop.py" />
+        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board" />
         <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields" />
       </list>
     </recent_temporary>
   </component>
@@ -211,14 +211,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00004" summary="new features">
-      <option name="closed" value="true" />
-      <created>1713991544914</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1713991544914</updated>
     </task>
     <task id="LOCAL-00005" summary="new features">
       <option name="closed" value="true" />
@@ -604,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714665595603</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="writing tests for Bishop.py and remove unused field from pieces">
+      <option name="closed" value="true" />
+      <created>1714731280804</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1714731280804</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -619,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed input parameter for pieces get_possible_moves method" />
     <MESSAGE value="piece coordinates set in has_piece_at method of Player class and refactor code" />
     <MESSAGE value="bugfix special moves update" />
     <MESSAGE value="extra space" />
@@ -644,9 +643,19 @@
     <MESSAGE value="updated pieces and player class, delete type hints causing errors" />
     <MESSAGE value="check if king is under attack is almost working only the pawn class has some issue" />
     <MESSAGE value="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted" />
-    <option name="LAST_COMMIT_MESSAGE" value="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted" />
+    <MESSAGE value="writing tests for Bishop.py and remove unused field from pieces" />
+    <option name="LAST_COMMIT_MESSAGE" value="writing tests for Bishop.py and remove unused field from pieces" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_model/TestBishop.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self" />

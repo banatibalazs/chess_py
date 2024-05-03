@@ -9,10 +9,10 @@ from src.model.Piece import Piece
 
 class Board:
 
-    NORMAL_MOVE_SYMBOL = b'n'
-    SPECIAL_MOVE_SYMBOL = b's'
-    SELECTED_PIECE_SYMBOL = b'x'
-    EMPTY_SYMBOL = b'o'
+    NORMAL_MOVE_SYMBOL = 'n'
+    SPECIAL_MOVE_SYMBOL = 's'
+    SELECTED_PIECE_SYMBOL = 'x'
+    EMPTY_SYMBOL = 'o'
 
     def __init__(self):
         self._piece_board: ByteArray8x8 = np.zeros((8, 8), dtype=np.byte)
@@ -28,17 +28,17 @@ class Board:
     def update_coloring_board(self, selected_piece: Piece, special_moves: Set[Tuple[int, int]]):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
         if selected_piece is not None:
-            self._coloring_board[selected_piece.y, selected_piece.x] = self.SELECTED_PIECE_SYMBOL
+            self._coloring_board[selected_piece.row, selected_piece.col] = self.SELECTED_PIECE_SYMBOL
 
             possible_moves = selected_piece.possible_fields
             if possible_moves is not None:
                 for move in possible_moves:
-                    self._coloring_board[move[1], move[0]] = self.NORMAL_MOVE_SYMBOL
+                    self._coloring_board[move[0], move[1]] = self.NORMAL_MOVE_SYMBOL
 
             if special_moves is not None:
                 print("Special moves: ", special_moves)
                 for move in special_moves:
-                    self._coloring_board[move[1], move[0]] = self.SPECIAL_MOVE_SYMBOL
+                    self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
 
     def reset_piece_board(self):
         self._piece_board.fill(0)
@@ -47,10 +47,10 @@ class Board:
         # Update the board with the current piece positions
         self._piece_board.fill(0)
         for piece in white_player_pieces:
-            self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
+            self._piece_board[piece.row][piece.col] = piece.type.value * piece.color.value
 
         for piece in black_player_pieces:
-            self._piece_board[piece.y][piece.x] = piece.type.value * piece.color.value
+            self._piece_board[piece.row][piece.col] = piece.type.value * piece.color.value
 
     def reset_attack_boards(self):
         self._white_attack_board.fill(False)
@@ -70,13 +70,13 @@ class Board:
 
         if white_selected_piece is not None:
             if white_selected_piece._attacked_fields is not None:
-                for location in white_selected_piece._attacked_fields:
-                    self._white_attack_board[location[1], location[0]] = True
+                for field in white_selected_piece._attacked_fields:
+                    self._white_attack_board[field[0], field[1]] = True
 
         if black_selected_piece is not None:
             if black_selected_piece._attacked_fields is not None:
-                for location in black_selected_piece._attacked_fields:
-                    self._black_attack_board[location[1], location[0]] = True
+                for field in black_selected_piece._attacked_fields:
+                    self._black_attack_board[field[0], field[1]] = True
 
 
     def update_protection_boards(self, current_player, opponent) -> None:
@@ -94,28 +94,28 @@ class Board:
 
         if white_selected_piece is not None:
             if white_selected_piece.possible_fields is not None:
-                for location in white_selected_piece.possible_fields:
-                    self._white_protection_board[location[1], location[0]] = True
+                for field in white_selected_piece.possible_fields:
+                    self._white_protection_board[field[0], field[1]] = True
 
         if black_selected_piece is not None:
             if black_selected_piece.possible_fields is not None:
-                for location in black_selected_piece.possible_fields:
-                    self._black_protection_board[location[1], location[0]] = True
+                for field in black_selected_piece.possible_fields:
+                    self._black_protection_board[field[0], field[1]] = True
 
-    def is_normal_move_at(self, x, y):
-        return self._coloring_board[y, x] == self.NORMAL_MOVE_SYMBOL
+    def is_normal_move_at(self, row, col):
+        return self._coloring_board[row, col] == self.NORMAL_MOVE_SYMBOL
 
-    def is_special_move_at(self, x, y):
-        return self._coloring_board[y, x] == self.SPECIAL_MOVE_SYMBOL
+    def is_special_move_at(self, row, col):
+        return self._coloring_board[row, col] == self.SPECIAL_MOVE_SYMBOL
 
-    def is_empty_at(self, x: int, y: int) -> bool:
-        return self._piece_board[y][x] == 0
+    def is_empty_at(self, row: int, col: int) -> bool:
+        return self._piece_board[row][col] == 0
 
-    def square_is_attacked_by_white(self, x, y) -> bool:
-        return bool(self._white_attack_board[y, x])
+    def square_is_attacked_by_white(self, row, col) -> bool:
+        return bool(self._white_attack_board[row, col])
 
-    def square_is_attacked_by_black(self, x, y) -> bool:
-        return bool(self._black_attack_board[y, x])
+    def square_is_attacked_by_black(self, row, col) -> bool:
+        return bool(self._black_attack_board[row, col])
 
     def get_coloring_board(self) -> CharArray8x8:
         return self._coloring_board
@@ -123,8 +123,8 @@ class Board:
     def get_piece_board(self) -> ByteArray8x8:
         return self._piece_board
 
-    def is_selected_piece_at(self, x: int, y: int) -> bool:
-        return self._coloring_board[y, x] == self.SELECTED_PIECE_SYMBOL
+    def is_selected_piece_at(self, row: int, col: int) -> bool:
+        return self._coloring_board[row, col] == self.SELECTED_PIECE_SYMBOL
 
     def get_black_attack_board(self):
         return self._black_attack_board

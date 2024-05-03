@@ -2,10 +2,10 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 class Square(tk.Button):
-    def __init__(self, master=None, onclick=None, x=0, y=0, **kw):
-        super().__init__(master, command=lambda: onclick(x, y), **kw)
-        self.x = x
-        self.y = y
+    def __init__(self, master=None, onclick=None, row=0, col=0, **kw):
+        super().__init__(master, command=lambda: onclick(row, col), **kw)
+        self.row = row
+        self.col = col
         self.image_path = None
 
     def set_image(self, piece_image_path):

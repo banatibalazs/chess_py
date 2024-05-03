@@ -72,7 +72,7 @@ class ChessWindow:
             row = []
             for j in range(8):
                 # Create a button for each square
-                square = Square(self.root, width=8, height=4, onclick=self.onclick, x=j, y=i)
+                square = Square(self.root, width=8, height=4, onclick=self.onclick, col=j, row=i)
                 square.grid(row=i + 1, column=j + 1, sticky="nsew")
 
                 # Alternate the button color to create a checker pattern
@@ -100,17 +100,17 @@ class ChessWindow:
     def get_chess_board(self):
         return self._chess_board
 
-    def onclick(self, x, y):
-        self.view_controller.click_on_board(x, y)
+    def onclick(self, row, col):
+        self.view_controller.click_on_board(row, col)
 
     def run(self):
         self.root.mainloop()
 
-    def update_square_image(self, image_path, x, y):
-        self._chess_board[x][y].set_image(image_path)
+    def update_square_image(self, image_path, row, col):
+        self._chess_board[row][col].set_image(image_path)
 
-    def update_square_color(self, color, x, y):
-        self._chess_board[x][y].set_color(color)
+    def update_square_color(self, color, row, col):
+        self._chess_board[row][col].set_color(color)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str):
         self.white_player_piece_number_label.config(text=white_player_piece_number)

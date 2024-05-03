@@ -11,17 +11,17 @@ from src.model.PieceTypeEnum import PieceTypeEnum
 
 
 class King(Piece):
-    def __init__(self, color, x, y):
-        super().__init__(PieceTypeEnum.KING, color, x, y)
+    def __init__(self, color, row, col):
+        super().__init__(PieceTypeEnum.KING, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
-        x = self.x
-        y = self.y
+        col = self.col
+        row = self.row
 
-        move_pattern_list = [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y),
-                             (x - 1, y - 1), (x + 1, y - 1), (x - 1, y + 1), (x + 1, y + 1)]
+        move_pattern_list = [(row, col - 1), (row, col + 1), (row - 1, col), (row + 1, col),
+                             (row - 1, col - 1), (row + 1, col - 1), (row - 1, col + 1), (row + 1, col + 1)]
 
         for move in move_pattern_list:
             if 0 <= move[0] <= 7 and 0 <= move[1] <= 7:

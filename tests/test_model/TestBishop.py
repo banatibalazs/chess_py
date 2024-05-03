@@ -142,9 +142,11 @@ class TestBishop(unittest.TestCase):
         self.black_player.init_pieces()
 
         self.white_player.remove_piece_at(2, 7)
-        self.bishop.coordinates = (7, 2)
+        self.bishop.coordinates = (2, 7)
+        print("Bishop coordinates: ", self.bishop.coordinates)
         self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {}
+        expected_result = set()
+        print(self.bishop._attacked_fields)
         self.assertEqual(self.bishop._attacked_fields, expected_result)
 
 

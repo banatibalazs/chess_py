@@ -59,8 +59,8 @@ class ViewController:
     def button_clicked(self, command: Command) -> None:
         command.execute()
 
-    def click_on_board(self, x: int, y: int) -> None:
-        self._game_controller.click_on_board(x, y)
+    def click_on_board(self, row: int, col: int) -> None:
+        self._game_controller.click_on_board(row, col)
 
     def black_button_click(self) -> None:
         self._game_controller.click_on_black_button()
@@ -116,10 +116,10 @@ class ViewController:
         self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
 
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
-        for i in range(8):
-            for j in range(8):
-                path = self._int_to_piece_image_path[piece_positions_board[i][j]]
-                self._chess_window.update_square_image(path, i, j)
+        for row in range(8):
+            for col in range(8):
+                path = self._int_to_piece_image_path[piece_positions_board[row][col]]
+                self._chess_window.update_square_image(path, row, col)
 
     def update_board_coloring(self, coloring_board: CharArray8x8) -> None:
 
@@ -132,12 +132,12 @@ class ViewController:
 
     def update_selected_piece_color(self, coloring_board: CharArray8x8) -> None:
         # Set the character that represents the selected piece
-        char = 'x'
+        SELECTED_SIGN = 'x'
 
         # Check if exactly one piece is selected
-        if np.count_nonzero(coloring_board == char) == 1:
+        if np.count_nonzero(coloring_board == SELECTED_SIGN) == 1:
             # Get the position of the selected piece
-            _row, _col = np.where(coloring_board == char)
+            _row, _col = np.where(coloring_board == SELECTED_SIGN)
             row = int(_row)
             col = int(_col)
             # Set the color of the square on which the selected piece is located
@@ -166,8 +166,8 @@ class ViewController:
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
-            x, y = positions[i]
-            self._chess_window.update_square_color(color[i], x, y)
+            row, col = positions[i]
+            self._chess_window.update_square_color(color[i], row, col)
 
     def reset_square_colors(self) -> None:
         for i in range(8):
