@@ -167,7 +167,7 @@ class Player:
             print("Eror: No piece is selected.")
         # Set en passant field if the pawn moves two squares
         self.reset_en_passant()
-        self.set_en_passant(to_col)
+        self.set_en_passant(to_row)
         if self.is_promotion(to_row):
             self.promote_pawn(to_row, to_col, PieceTypeEnum.QUEEN)
         elif (to_row, to_col) in self._special_moves:
