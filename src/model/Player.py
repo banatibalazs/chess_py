@@ -201,7 +201,7 @@ class Player:
         print("Promoting pawn")
         from_row = self._selected_piece.row
         from_col = self._selected_piece.col
-        new_piece = None
+
         self.remove_piece_at(from_row, from_col)
         if piece_type == PieceTypeEnum.QUEEN:
             new_piece = Queen(self._color, to_row, to_col)
@@ -219,20 +219,20 @@ class Player:
 
     def castling(self, row: int, col: int):
         print("Castling")
-        if row == 2:
-            rook = self.get_piece_at(0, col)
+        if col == 2:
+            rook = self.get_piece_at(row=row, col=0)
             if rook is not None:
-                rook.coordinates = (3, y)
+                rook.coordinates = (row, 3)
                 rook.set_moved = True
-        elif row == 6:
-            rook = self.get_piece_at(7, y)
+        elif col == 6:
+            rook = self.get_piece_at(row, 7)
             if rook is not None:
-                rook.coordinates = (5, y)
+                rook.coordinates = (row, 5)
                 rook.set_moved = True
 
         king = self.get_king()
         if king is not None:
-            king.coordinates = (x, y)
+            king.coordinates = (row, col)
             king.set_moved = True
         self._last_moved_piece = king
         self.reset_en_passant()
