@@ -146,7 +146,7 @@ class Player:
         return (isinstance(rook, Rook) and
                 not rook.is_moved and
                 not self._king.is_moved and
-                all(self._board.is_empty_at(col, self._king.row) for col in cols) and
+                all(self._board.is_empty_at(self._king.row, col) for col in cols) and
                 not any(self._board.get_opponent_attack_board(self._color)[self._king.row, col] for col in cols))
 
     def add_castling_moves_to_special_moves(self) -> None:
