@@ -2,9 +2,7 @@ import unittest
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
-from src.model.King import King
 from src.model.Pawn import Pawn
-from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
 
 """

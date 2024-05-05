@@ -2,6 +2,7 @@ import unittest
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
 from src.model.King import King
+from src.model.Pawn import Pawn
 from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
 from src.model.Rook import Rook
@@ -61,3 +62,52 @@ class TestBishop(unittest.TestCase):
         expected_result = {(7, 6), (7, 5), (7, 4), (7, 3), (7, 2), (7, 1), (7, 0),
                            (6, 7), (5, 7), (4, 7), (3, 7), (2, 7), (1, 7), (0, 7)}
         self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_01_empty_board(self):
+        self.rook.coordinates = (0, 1)
+        self.rook.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = {(0, 0), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7),
+                           (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)}
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_10_empty_board(self):
+        self.rook.coordinates = (1, 0)
+        self.rook.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = {(0, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0),
+                           (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7)}
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_02_empty_board(self):
+        self.rook.coordinates = (0, 2)
+        self.rook.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = {(0, 0), (0, 1), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7),
+                           (1, 2), (2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (7, 2)}
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_06_empty_board(self):
+        self.rook.coordinates = (0, 6)
+        self.rook.update_attacked_fields(self.white_player, self.black_player)
+        expected_result = {(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 7),
+                           (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)}
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces(self):
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 2, 3))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 3, 2))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 4, 3))
+        self.black_player.add_piece(Pawn(ColorEnum.BLACK, 3, 4))
+        self.rook.coordinates = (3, 3)
+        self.rook.update_attacked_fields(current_player=self.white_player, opponent=self.black_player)
+        expected_result = {(3, 2), (3, 4), (2, 3), (4, 3)}
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+
+    def test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces(self):
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 2, 3))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 3, 2))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 4, 3))
+        self.white_player.add_piece(Pawn(ColorEnum.WHITE, 3, 4))
+        self.rook.coordinates = (3, 3)
+        self.rook.update_attacked_fields(current_player=self.white_player, opponent=self.black_player)
+        expected_result = set()
+        self.assertEqual(self.rook._attacked_fields, expected_result)
+

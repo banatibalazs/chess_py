@@ -18,27 +18,27 @@ class Pawn(Piece):
 
         if color == ColorEnum.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
-                if current_player.has_piece_at(col - 1, row - 1):
+                if current_player.has_piece_at(row - 1, col - 1):
                     pass
                 else:
-                    self._attacked_fields.add((col - 1, row - 1))
+                    self._attacked_fields.add((row - 1, col - 1))
 
             if col + 1 <= 7 and row - 1 >= 0:
-                if current_player.has_piece_at(col + 1, row - 1):
+                if current_player.has_piece_at(row - 1, col + 1):
                     pass
                 else:
-                    self._attacked_fields.add((col + 1, row - 1))
+                    self._attacked_fields.add((row - 1, col + 1))
         else:
             if col - 1 >= 0 and row + 1 <= 7:
-                if current_player.has_piece_at(col - 1, row + 1):
+                if current_player.has_piece_at(row + 1, col - 1):
                     pass
                 else:
-                    self._attacked_fields.add((col - 1, row + 1))
+                    self._attacked_fields.add((row + 1, col - 1))
             if col + 1 <= 7 and row + 1 <= 7:
-                if current_player.has_piece_at(col + 1, row + 1):
+                if current_player.has_piece_at(row + 1, col + 1):
                     pass
                 else:
-                    self._attacked_fields.add((col + 1, row + 1))
+                    self._attacked_fields.add((row + 1, col + 1))
 
 
 

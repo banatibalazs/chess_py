@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="unify the column and row order in functions and their name everywhere" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="Bishop unittests">
+      <change afterPath="$PROJECT_DIR$/tests/test_model/TestKing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestBishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestBishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestRook.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestRook.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,8 +45,19 @@
   "keyToString": {
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_05_with_starting_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_44_surrounded_by_opponent_pieces.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_75_with_starting_board.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_01_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_06_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_10_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_77_empty_board.executor": "Run",
     "Python tests.Python tests in TestBishop.py.executor": "Run",
     "Python.MainWindow.executor": "Run",
     "Python.main.executor": "Run",
@@ -108,7 +125,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -119,11 +136,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board&quot;" />
+      <option name="_new_target" value="&quot;TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestRook.TestBishop" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,11 +151,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board&quot;" />
+      <option name="_new_target" value="&quot;TestRook.TestBishop&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,11 +166,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_update_attacked_fields_on_00&quot;" />
+      <option name="_new_target" value="&quot;TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in TestBishop.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -164,17 +181,17 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_model/TestBishop.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board" />
-        <item itemvalue="Python tests.Python tests in TestBishop.py" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00" />
+        <item itemvalue="Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board" />
+        <item itemvalue="Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces" />
+        <item itemvalue="Python tests.Python tests for TestRook.TestBishop" />
+        <item itemvalue="Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces" />
       </list>
     </recent_temporary>
   </component>
@@ -193,14 +210,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00006" summary="new features">
-      <option name="closed" value="true" />
-      <created>1714048881275</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1714048881275</updated>
     </task>
     <task id="LOCAL-00007" summary="new features">
       <option name="closed" value="true" />
@@ -586,7 +595,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714739882220</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Bishop unittests">
+      <option name="closed" value="true" />
+      <created>1714774489856</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1714774489856</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -601,7 +618,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bugfix special moves update" />
     <MESSAGE value="extra space" />
     <MESSAGE value="overhaul, refactor" />
     <MESSAGE value="refactor, new methods for Board class" />
@@ -626,18 +642,10 @@
     <MESSAGE value="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted" />
     <MESSAGE value="writing tests for Bishop.py and remove unused field from pieces" />
     <MESSAGE value="unify the column and row order in functions and their name everywhere" />
-    <option name="LAST_COMMIT_MESSAGE" value="unify the column and row order in functions and their name everywhere" />
+    <MESSAGE value="Bishop unittests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bishop unittests" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/test_model/TestBishop.py</url>
-          <line>146</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self" />
