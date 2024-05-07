@@ -162,29 +162,6 @@ class Player:
             if self.is_castling_possible(self.get_piece_at(7, 7), range(5, 7)):
                 self._special_moves.add((7, 6))
 
-    def make_move(self, to_row: int, to_col: int, opponent) -> None:
-        if self._selected_piece is None:
-            print("Eror: No piece is selected.")
-        # Set en passant field if the pawn moves two squares
-        self.reset_en_passant()
-        self.set_en_passant(to_row)
-        if self.is_promotion(to_row):
-            self.promote_pawn(to_row, to_col, PieceTypeEnum.QUEEN)
-        elif (to_row, to_col) in self._special_moves:
-            if isinstance(self._selected_piece, King):
-                self.castling(to_row, to_col)
-            if isinstance(self._selected_piece, Pawn):
-                self.en_passant(to_row, to_col, opponent)
-
-        if opponent is not None and opponent.has_piece_at(to_row, to_col):
-            opponent.remove_piece_at(to_row, to_col)
-        self._selected_piece.coordinates = (to_row, to_col)
-        self._selected_piece.is_moved = True
-        self._last_moved_piece = self._selected_piece
-
-    def is_promotion(self, to_row):
-        return ((to_row == 0) or (to_row == 7)) and isinstance(self._selected_piece, Pawn)
-
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
             self._last_moved_piece.is_en_passant = False
@@ -196,54 +173,6 @@ class Player:
             if abs(self._selected_piece.row - to_row) == 2:
                 print("En passant variable is set.")
                 self._selected_piece.is_en_passant = True
-
-    def promote_pawn(self, to_row: int, to_col: int, piece_type: PieceTypeEnum) -> None:
-        print("Promoting pawn")
-        from_row = self._selected_piece.row
-        from_col = self._selected_piece.col
-
-        self.remove_piece_at(from_row, from_col)
-        if piece_type == PieceTypeEnum.QUEEN:
-            new_piece = Queen(self._color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.ROOK:
-            new_piece = Rook(self._color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.BISHOP:
-            new_piece = Bishop(self._color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.KNIGHT:
-            new_piece = Knight(self._color, to_row, to_col)
-        else:
-            raise ValueError("Invalid piece type.")
-        self._pieces.append(new_piece)
-        self._last_moved_piece = new_piece
-        self.reset_en_passant()
-
-    def castling(self, row: int, col: int):
-        print("Castling")
-        if col == 2:
-            rook = self.get_piece_at(row=row, col=0)
-            if rook is not None:
-                rook.coordinates = (row, 3)
-                rook.set_moved = True
-        elif col == 6:
-            rook = self.get_piece_at(row, 7)
-            if rook is not None:
-                rook.coordinates = (row, 5)
-                rook.set_moved = True
-
-        king = self.get_king()
-        if king is not None:
-            king.coordinates = (row, col)
-            king.set_moved = True
-        self._last_moved_piece = king
-        self.reset_en_passant()
-
-    def en_passant(self, to_row, to_col, opponent):
-        if self._color == ColorEnum.WHITE:
-            opponent.remove_piece_at(to_row + 1, to_col)
-        else:
-            opponent.remove_piece_at(to_row - 1, to_col)
-        self._selected_piece.coordinates = (to_row, to_col)
-        self.reset_en_passant()
 
     def remove_piece_at(self, row: int, col: int) -> None:
         for piece in self._pieces:
@@ -270,6 +199,14 @@ class Player:
     @property
     def pieces(self) -> List[Piece]:
         return self._pieces
+
+    @property
+    def last_moved_piece(self):
+        return self._last_moved_piece
+
+    @last_moved_piece.setter
+    def last_moved_piece(self, piece: Piece) -> None:
+        self._last_moved_piece = piece
 
     def has_piece_at(self, row, col) -> bool:
         for piece in self._pieces:

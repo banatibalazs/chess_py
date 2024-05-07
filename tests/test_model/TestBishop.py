@@ -40,101 +40,103 @@ class TestBishop(unittest.TestCase):
                            (6, 2), (7, 1), (3, 5), (2, 6), (1, 7)}
         self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_00_empty_board(self):
-        self.bishop.coordinates = (0, 0)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_white_bishop_attacked_fields_empty_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.WHITE, row, col)
+                self.bishop.update_attacked_fields(self.white_player, self.black_player)
+                expected_result = set()
+                for i in range(1, 8):
+                    if row + i < 8 and col + i < 8:
+                        expected_result.add((row + i, col + i))
+                    if row + i < 8 and col - i >= 0:
+                        expected_result.add((row + i, col - i))
+                    if row - i >= 0 and col + i < 8:
+                        expected_result.add((row - i, col + i))
+                    if row - i >= 0 and col - i >= 0:
+                        expected_result.add((row - i, col - i))
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_01_empty_board(self):
-        self.bishop.coordinates = (0, 1)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (1, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_black_bishop_attacked_fields_empty_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.BLACK, row, col)
+                self.bishop.update_attacked_fields(self.black_player, self.white_player)
+                expected_result = set()
+                for i in range(1, 8):
+                    if row + i < 8 and col + i < 8:
+                        expected_result.add((row + i, col + i))
+                    if row + i < 8 and col - i >= 0:
+                        expected_result.add((row + i, col - i))
+                    if row - i >= 0 and col + i < 8:
+                        expected_result.add((row - i, col + i))
+                    if row - i >= 0 and col - i >= 0:
+                        expected_result.add((row - i, col - i))
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_02_empty_board(self):
-        self.bishop.coordinates = (0, 2)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (1, 1), (2, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_white_bishop_attacked_fields_full_enemy_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.black_player.add_piece(Pawn(ColorEnum.BLACK, row, col))
 
-    def test_update_attacked_fields_bishop_on_03_empty_board(self):
-        self.bishop.coordinates = (0, 3)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 4), (2, 5), (3, 6), (4, 7), (1, 2), (2, 1), (3, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.WHITE, row, col)
+                self.bishop.update_attacked_fields(self.white_player, self.black_player)
+                expected_result = set()
+                if row + 1 < 8 and col + 1 < 8:
+                    expected_result.add((row + 1, col + 1))
+                if row + 1 < 8 and col - 1 >= 0:
+                    expected_result.add((row + 1, col - 1))
+                if row - 1 >= 0 and col + 1 < 8:
+                    expected_result.add((row - 1, col + 1))
+                if row - 1 >= 0 and col - 1 >= 0:
+                    expected_result.add((row - 1, col - 1))
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_04_empty_board(self):
-        self.bishop.coordinates = (0, 4)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 5), (2, 6), (3, 7), (1, 3), (2, 2), (3, 1), (4, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_black_bishop_attacked_fields_full_enemy_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.white_player.add_piece(Pawn(ColorEnum.WHITE, row, col))
 
-    def test_update_attacked_fields_bishop_on_05_empty_board(self):
-        self.bishop.coordinates = (0, 5)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 6), (2, 7), (1, 4), (2, 3), (3, 2), (4, 1), (5, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.BLACK, row, col)
+                self.bishop.update_attacked_fields(self.black_player, self.white_player)
+                expected_result = set()
+                if row + 1 < 8 and col + 1 < 8:
+                    expected_result.add((row + 1, col + 1))
+                if row + 1 < 8 and col - 1 >= 0:
+                    expected_result.add((row + 1, col - 1))
+                if row - 1 >= 0 and col + 1 < 8:
+                    expected_result.add((row - 1, col + 1))
+                if row - 1 >= 0 and col - 1 >= 0:
+                    expected_result.add((row - 1, col - 1))
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_06_empty_board(self):
-        self.bishop.coordinates = (0, 6)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 7), (1, 5), (2, 4), (3, 3), (4, 2), (5, 1), (6, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_white_bishop_attacked_fields_full_friendly_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.white_player.add_piece(Pawn(ColorEnum.WHITE, row, col))
 
-    def test_update_attacked_fields_bishop_on_07_empty_board(self):
-        self.bishop.coordinates = (0, 7)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1), (7, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.WHITE, row, col)
+                self.bishop.update_attacked_fields(self.white_player, self.black_player)
+                expected_result = set()
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
-    def test_update_attacked_fields_bishop_on_70_empty_board(self):
-        self.bishop.coordinates = (7, 0)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 1), (5, 2), (4, 3), (3, 4), (2, 5), (1, 6), (0, 7)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+    def test_black_bishop_attacked_fields_full_friendly_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.black_player.add_piece(Pawn(ColorEnum.BLACK, row, col))
 
-    def test_update_attacked_fields_bishop_on_71_empty_board(self):
-        self.bishop.coordinates = (7, 1)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 2), (5, 3), (4, 4), (3, 5), (2, 6), (1, 7), (6, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_72_empty_board(self):
-        self.bishop.coordinates = (7, 2)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 3), (5, 4), (4, 5), (3, 6), (2, 7), (6, 1), (5, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_73_empty_board(self):
-        self.bishop.coordinates = (7, 3)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 4), (5, 5), (4, 6), (3, 7), (6, 2), (5, 1), (4, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_74_empty_board(self):
-        self.bishop.coordinates = (7, 4)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 5), (5, 6), (4, 7), (6, 3), (5, 2), (4, 1), (3, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_75_empty_board(self):
-        self.bishop.coordinates = (7, 5)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 6), (5, 7), (6, 4), (5, 3), (4, 2), (3, 1), (2, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_76_empty_board(self):
-        self.bishop.coordinates = (7, 6)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 7), (6, 5), (5, 4), (4, 3), (3, 2), (2, 1), (1, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
-
-    def test_update_attacked_fields_bishop_on_77_empty_board(self):
-        self.bishop.coordinates = (7, 7)
-        self.bishop.update_attacked_fields(self.white_player, self.black_player)
-        expected_result = {(6, 6), (5, 5), (4, 4), (3, 3), (2, 2), (1, 1), (0, 0)}
-        self.assertEqual(self.bishop._attacked_fields, expected_result)
+        for row in range(8):
+            for col in range(8):
+                self.bishop = Bishop(ColorEnum.BLACK, row, col)
+                self.bishop.update_attacked_fields(self.black_player, self.white_player)
+                expected_result = set()
+                self.assertEqual(self.bishop._attacked_fields, expected_result)
 
     def test_update_attacked_fields_bishop_on_72_with_starting_board(self):
         """

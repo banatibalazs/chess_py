@@ -2,9 +2,16 @@ from typing import List
 
 from src.controller.DataUpdater import DataUpdater
 from src.controller.TimerThread import TimerThread
+from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
+from src.model.King import King
+from src.model.Knight import Knight
+from src.model.Pawn import Pawn
+from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
+from src.model.Queen import Queen
+from src.model.Rook import Rook
 
 
 class GameController:
@@ -97,10 +104,81 @@ class GameController:
         self.update_view()
 
     def make_move(self, row, col):
-        self._current_player.make_move(row, col, self._opponent_player)
+        self._make_move(row, col)
         # self.update_data()
         # self._current_player.selected_piece = None
         self.next_turn()
+
+    def _make_move(self, to_row: int, to_col: int) -> None:
+        if self._current_player.selected_piece is None:
+            print("Eror: No piece is selected.")
+        # Set en passant field if the pawn moves two squares
+        self._current_player.reset_en_passant()
+        self._current_player.set_en_passant(to_row)
+        if self.is_promotion(to_row):
+            self.do_promotion(to_row, to_col, PieceTypeEnum.QUEEN)
+        elif (to_row, to_col) in self._current_player.special_moves:
+            if isinstance(self._current_player.selected_piece, King):
+                self.do_castling(to_row, to_col)
+            if isinstance(self._current_player.selected_piece, Pawn):
+                self.do_en_passant(to_row, to_col, self._opponent_player)
+
+        if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
+            self._opponent_player.remove_piece_at(to_row, to_col)
+        self._current_player.selected_piece.coordinates = (to_row, to_col)
+        self._current_player.selected_piece.is_moved = True
+        self._last_moved_piece = self._current_player.selected_piece
+
+    def do_castling(self, row: int, col: int):
+        print("Castling")
+        if col == 2:
+            rook = self._current_player.get_piece_at(row=row, col=0)
+            if rook is not None:
+                rook.coordinates = (row, 3)
+                rook.set_moved = True
+        elif col == 6:
+            rook = self._current_player.get_piece_at(row, 7)
+            if rook is not None:
+                rook.coordinates = (row, 5)
+                rook.set_moved = True
+
+        king = self._current_player.get_king()
+        if king is not None:
+            king.coordinates = (row, col)
+            king.set_moved = True
+        self._current_player._last_moved_piece = king
+        self._current_player.reset_en_passant()
+
+    def do_en_passant(self, to_row, to_col, opponent):
+        if self._current_player.color == ColorEnum.WHITE:
+            opponent.remove_piece_at(to_row + 1, to_col)
+        else:
+            opponent.remove_piece_at(to_row - 1, to_col)
+        self._current_player.selected_piece.coordinates = (to_row, to_col)
+        self._current_player.reset_en_passant()
+
+    def is_promotion(self, to_row):
+        return ((to_row == 0) or (to_row == 7)) and isinstance(self._current_player.selected_piece, Pawn)
+
+    def do_promotion(self, to_row: int, to_col: int, piece_type: PieceTypeEnum) -> None:
+        print("Promoting pawn")
+        from_row = self._current_player.selected_piece.row
+        from_col = self._current_player.selected_piece.col
+
+        self._current_player.remove_piece_at(from_row, from_col)
+        if piece_type == PieceTypeEnum.QUEEN:
+            new_piece = Queen(self._current_player.color, to_row, to_col)
+        elif piece_type == PieceTypeEnum.ROOK:
+            new_piece = Rook(self._current_player.color, to_row, to_col)
+        elif piece_type == PieceTypeEnum.BISHOP:
+            new_piece = Bishop(self._current_player.color, to_row, to_col)
+        elif piece_type == PieceTypeEnum.KNIGHT:
+            new_piece = Knight(self._current_player.color, to_row, to_col)
+        else:
+            raise ValueError("Invalid piece type.")
+        self._current_player.pieces.append(new_piece)
+        self._current_player.last_moved_piece = new_piece
+        self._current_player.reset_en_passant()
 
 
     def save_game(self):

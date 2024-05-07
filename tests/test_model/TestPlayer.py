@@ -229,8 +229,8 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.white_player.get_king().possible_fields, expected_result)
 
 ######################################################################################################################
-    def test_king_possible_moves_on_20(self):
-        self.set_king_position_and_update(2, 0)
+    # def test_king_possible_moves_on_20(self):
+    #     self.set_king_position_and_update(2, 0)
         expected_result = {(3, 0), (3, 1)}
     #     self.assertEqual(self.white_player.get_king().possible_fields, expected_result)
     #
