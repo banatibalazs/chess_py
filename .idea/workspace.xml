@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="en passant not showing bugfix">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="King was not considered when calc possible moves">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,14 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00014" summary="bugfixes and properties for pieces">
-      <option name="closed" value="true" />
-      <created>1714244716337</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1714244716337</updated>
     </task>
     <task id="LOCAL-00015" summary="start implement castling in Board.py">
       <option name="closed" value="true" />
@@ -639,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715090170085</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="King was not considered when calc possible moves">
+      <option name="closed" value="true" />
+      <created>1715099310580</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1715099310580</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +645,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor" />
     <MESSAGE value="King protection field bugfix, view and board update bugfix" />
     <MESSAGE value="special move en passant bugfix" />
     <MESSAGE value="clean up code" />
@@ -679,7 +669,8 @@
     <MESSAGE value="player tests" />
     <MESSAGE value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
     <MESSAGE value="en passant not showing bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="en passant not showing bugfix" />
+    <MESSAGE value="King was not considered when calc possible moves" />
+    <option name="LAST_COMMIT_MESSAGE" value="King was not considered when calc possible moves" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
