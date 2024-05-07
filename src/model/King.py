@@ -1,11 +1,4 @@
-import copy
-from typing import override, Tuple, List
-
-import numpy as np
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-from src.model.Board import Board
-from src.model.ColorEnum import ColorEnum
+from typing import override
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
 
@@ -32,5 +25,17 @@ class King(Piece):
                 else:
                     self._attacked_fields.add(move)
 
+    @override
+    def update_possible_fields(self, current_player, opponent) -> None:
+        self._possible_fields.clear()
+        col = self.col
+        row = self.row
 
+        opponent_attacked_fields = set()
+        for piece in opponent._pieces:
+            for field in piece._attacked_fields:
+                opponent_attacked_fields.add(field)
 
+        for move in self._attacked_fields:
+            if move not in opponent_attacked_fields:
+                self._possible_fields.add(move)

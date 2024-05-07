@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Tuple, Set
+from typing import Tuple, Set, List
 from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
 

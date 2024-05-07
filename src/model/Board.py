@@ -36,7 +36,7 @@ class Board:
                     self._coloring_board[move[0], move[1]] = self.NORMAL_MOVE_SYMBOL
 
             if special_moves is not None:
-                print("Special moves: ", special_moves)
+                # print("Special moves: ", special_moves)
                 for move in special_moves:
                     self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
 

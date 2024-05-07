@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="new bishop and pawn tests, refactor make_move method, castling, en passant">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="en passant not showing bugfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,21 +176,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_black_bishop_attacked_fields_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="chess-py" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_black_bishop_attacked_fields_empty_board&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -215,13 +206,28 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces" />
         <item itemvalue="Python.GameController" />
         <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board" />
         <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_black_bishop_attacked_fields_empty_board" />
       </list>
     </recent_temporary>
   </component>
@@ -240,14 +246,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00013" summary="code cleanup in ChessWindow.py">
-      <option name="closed" value="true" />
-      <created>1714240876467</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1714240876467</updated>
     </task>
     <task id="LOCAL-00014" summary="bugfixes and properties for pieces">
       <option name="closed" value="true" />
@@ -633,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715085896413</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="en passant not showing bugfix">
+      <option name="closed" value="true" />
+      <created>1715090170085</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1715090170085</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -648,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="simpler solution for piece logic" />
     <MESSAGE value="refactor" />
     <MESSAGE value="King protection field bugfix, view and board update bugfix" />
     <MESSAGE value="special move en passant bugfix" />
@@ -673,7 +678,8 @@
     <MESSAGE value="en passant special move not showing problem solved" />
     <MESSAGE value="player tests" />
     <MESSAGE value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
-    <option name="LAST_COMMIT_MESSAGE" value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
+    <MESSAGE value="en passant not showing bugfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="en passant not showing bugfix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -44,9 +44,9 @@ class Player:
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
-        self._special_moves: set[Tuple[int, int]] = set()
-        self._attacked_fields: set[Tuple[int, int]] = set()
-        self._possible_fields: set[Tuple[int, int]] = set()
+        self._special_moves: Set[Tuple[int, int]] = set()
+        self._attacked_fields: Set[Tuple[int, int]] = set()
+        self._possible_fields: Set[Tuple[int, int]] = set()
 
     def init_pieces(self):
         color = self._color
@@ -67,57 +67,20 @@ class Player:
 
     def update_pieces_attacked_fields(self, opponent):
         # print("Attacked fields are updated.")
-        self.attacked_fields.clear()
+        self._attacked_fields.clear()
         for piece in self._pieces:
+            if piece.type == PieceTypeEnum.KING:
+                pass
             piece.update_attacked_fields(self, opponent)
-            self.attacked_fields.update(piece.attacked_fields)
+            for field in piece.attacked_fields:
+                self._attacked_fields.add(field)
 
     def update_pieces_possible_fields(self, opponent):
         self._possible_fields.clear()
-        filter = []
-        for piece in self._pieces:
-            piece.update_possible_fields(self, opponent)
-            filter = piece.possible_fields.copy()
-            for field in piece.possible_fields:
-                if self.check_if_king_is_attacked_after_move(piece, field, opponent):
-                    filter.remove(field)
-                pass
-            piece.possible_fields = set(filter)
-            self._possible_fields.update(piece.possible_fields)
+        # self._possible_fields = self._attacked_fields.copy()
 
-
-    def check_if_king_is_attacked_after_move(self, cur_piece, field, opponent) -> bool:
-        row, col = field
-
-        result = False
-        captured_piece = None
-        # Save the original piece data (coordinates: y, x)
-        from_coordinates = cur_piece.coordinates
-
-        # Move the piece
-        cur_piece.coordinates = field
-        # If opponent has a piece at the field, remove it
-        if opponent.has_piece_at(row, col):
-            captured_piece = opponent.get_piece_at(row, col)
-            opponent.remove_piece_at(row, col)
-
-
-        # Check if the king is attacked
-        king_position = self._king.coordinates
-
-        for piece in opponent.pieces:
-            piece.update_attacked_fields(self, opponent)
-            if king_position in piece.attacked_fields:
-                result = True
-                break
-
-        # Restore the original piece data
-        cur_piece.coordinates = from_coordinates
-
-        if captured_piece is not None:
-            opponent.add_piece(captured_piece)
-
-        return result
+    def attacks_field(self, row, col) -> bool:
+        return (row, col) in self._attacked_fields
 
     def update_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
@@ -141,13 +104,6 @@ class Player:
             else:
                 self._special_moves.add((op_last_moved_piece.row + 1, op_last_moved_piece.col))
 
-    def is_castling_possible(self, rook, cols):
-        return (isinstance(rook, Rook) and
-                not rook.is_moved and
-                not self._king.is_moved and
-                all(self._board.is_empty_at(self._king.row, col) for col in cols) and
-                not any(self._board.get_opponent_attack_board(self._color)[self._king.row, col] for col in cols))
-
     def add_castling_moves_to_special_moves(self) -> None:
         # Rooks coordinates are (0, 0), (7, 0), (0, 7), (7, 7) for white and black respectively
         if self._color == ColorEnum.BLACK:
@@ -160,6 +116,13 @@ class Player:
                 self._special_moves.add((7, 2))
             if self.is_castling_possible(self.get_piece_at(7, 7), range(5, 7)):
                 self._special_moves.add((7, 6))
+
+    def is_castling_possible(self, rook, cols):
+        return (isinstance(rook, Rook) and
+                not rook.is_moved and
+                not self._king.is_moved and
+                all(self._board.is_empty_at(self._king.row, col) for col in cols) and
+                not any(self._board.get_opponent_attack_board(self._color)[self._king.row, col] for col in cols))
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
@@ -214,9 +177,6 @@ class Player:
         # print(f"Possible moves: {self._selected_piece.possible_fields}")
         return (row, col) in self._special_moves or (row, col) in self._selected_piece.possible_fields
 
-    @property
-    def attacked_fields(self) -> Set[Tuple[int, int]]:
-        return self._attacked_fields
 
     def set_selected_piece(self, row: int, col: int) -> None:
         if self.has_piece_at(row, col):

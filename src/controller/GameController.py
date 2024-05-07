@@ -101,7 +101,7 @@ class GameController:
 
     def make_move(self, row, col):
         self._make_move(row, col)
-        self._current_player.selected_piece = None
+        # self._current_player.selected_piece = None
         self.next_turn()
 
     def _make_move(self, to_row: int, to_col: int) -> None:
@@ -130,6 +130,7 @@ class GameController:
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.selected_piece.is_moved = True
         self._current_player._last_moved_piece = self._current_player.selected_piece
+        self._current_player.selected_piece.update_attacked_fields(self._current_player, self._opponent_player)
 
     def do_castling(self, row: int, col: int):
         print("Castling")

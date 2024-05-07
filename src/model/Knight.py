@@ -1,10 +1,4 @@
-import copy
-from typing import override, Tuple, List
-
-import numpy as np
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-from src.model.Board import Board
+from typing import override
 from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -19,9 +13,6 @@ class Knight(Piece):
         self._attacked_fields.clear()
         col = self.col
         row = self.row
-
-        # move_pattern_list = [(col - 1, row - 2), (col + 1, row - 2), (col - 2, row - 1), (col + 2, row - 1),
-        #                      (col - 2, row + 1), (col + 2, row + 1), (col - 1, row + 2), (col + 1, row + 2)]
 
         move_pattern_list = [(row - 2, col - 1), (row - 2, col + 1), (row - 1, col - 2), (row - 1, col + 2),
                              (row + 1, col - 2), (row + 1, col + 2), (row + 2, col - 1), (row + 2, col + 1)]

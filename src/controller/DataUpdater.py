@@ -251,6 +251,8 @@ class DataUpdater:
 
         board.update_protection_boards(current_player, opponent_player)
 
+        if current_player.selected_piece is not None:
+            current_player.selected_piece.update_possible_fields(current_player, opponent_player)
         board.update_coloring_board(current_player.selected_piece, current_player.special_moves)
 
         """

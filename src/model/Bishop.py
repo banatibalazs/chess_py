@@ -1,9 +1,5 @@
 from typing import override
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
 from src.model.Piece import Piece
-import src.model.Board as Board
-from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
 
 
@@ -23,7 +19,8 @@ class Bishop(Piece):
         for vector in vectors:
             direction = []
             for i in range(1, 8):
-                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or col + vector[1] * i < 0:
+                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or\
+                        col + vector[1] * i < 0:
                     break
                 direction.append((row + vector[0] * i, col + vector[1] * i))
             directions.append(direction)

@@ -1,10 +1,6 @@
-from typing import override, Tuple, List
-
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-from src.model.ColorEnum import ColorEnum
+from typing import override
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
-import src.model.Board as Board
 
 
 class Queen(Piece):
@@ -23,8 +19,8 @@ class Queen(Piece):
         for vector in vectors:
             direction = []
             for i in range(1, 8):
-                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or col + vector[
-                    1] * i < 0:
+                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or \
+                        col + vector[1] * i < 0:
                     break
                 direction.append((row + vector[0] * i, col + vector[1] * i))
             directions.append(direction)
