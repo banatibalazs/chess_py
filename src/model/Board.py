@@ -22,8 +22,8 @@ class Board:
         self._white_protection_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
         self._black_protection_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
 
-    def reset_coloring_board(self):
-        self._coloring_board.fill(self.EMPTY_SYMBOL)
+    # def reset_coloring_board(self):
+    #     self._coloring_board.fill(self.EMPTY_SYMBOL)
 
     def update_coloring_board(self, selected_piece: Piece, special_moves: Set[Tuple[int, int]]):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
@@ -40,8 +40,8 @@ class Board:
                 for move in special_moves:
                     self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
 
-    def reset_piece_board(self):
-        self._piece_board.fill(0)
+    # def reset_piece_board(self):
+    #     self._piece_board.fill(0)
 
     def update_piece_board(self, white_player_pieces: List[Piece], black_player_pieces: List[Piece]) -> None:
         # Update the board with the current piece positions
@@ -52,9 +52,9 @@ class Board:
         for piece in black_player_pieces:
             self._piece_board[piece.row][piece.col] = piece.type.value * piece.color.value
 
-    def reset_attack_boards(self):
-        self._white_attack_board.fill(False)
-        self._black_attack_board.fill(False)
+    # def reset_attack_boards(self):
+    #     self._white_attack_board.fill(False)
+    #     self._black_attack_board.fill(False)
 
     def update_attack_boards(self, current_player, opponent) -> None:
 

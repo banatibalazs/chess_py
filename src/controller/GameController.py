@@ -1,7 +1,7 @@
 from typing import List
 
 from src.controller.DataUpdater import DataUpdater
-from src.controller.TimerThread import TimerThread
+# from src.controller.TimerThread import TimerThread
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
@@ -18,22 +18,20 @@ class GameController:
 
     def __init__(self, white_player_name: str, black_player_name: str, view_controller):
         self._board: Board = Board()
+
         self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
         self._black_player: Player = Player(black_player_name, ColorEnum.BLACK, self._board)
-
-        self.white_timer = TimerThread(300, white_player_name, self)  # 5 minutes timer
-        self.black_timer = TimerThread(300, black_player_name, self)  # 5 minutes timer
-
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
         self.data_updater = DataUpdater()
-
         self.is_white_turn: bool = True
-
         self._view_controller = view_controller
-        self._board_history_prev: List[Board] = []
-        self._board_history_fwd: List[Board] = []
+
+        # self.black_timer = TimerThread(300, black_player_name, self)  # 5 minutes timer
+        # self.white_timer = TimerThread(300, white_player_name, self)  # 5 minutes timer
+        # self._board_history_prev: List[Board] = []
+        # self._board_history_fwd: List[Board] = []
 
         self.start_game()
 
@@ -50,7 +48,6 @@ class GameController:
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
 
-
     def update_view(self) -> None:
         self.data_updater.update(self._current_player, self._opponent_player, self._board)
 
@@ -58,11 +55,10 @@ class GameController:
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
         self._view_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()))
 
-        print("Board: ", self._board.get_piece_board())
-        print("Coloring: ", self._board.get_coloring_board())
-        print("White attack: ", self._board.get_white_attack_board())
-        print("Black attack: ", self._board.get_black_attack_board())
-
+        # print("Board: ", self._board.get_piece_board())
+        # print("Coloring: ", self._board.get_coloring_board())
+        # print("White attack: ", self._board.get_white_attack_board())
+        # print("Black attack: ", self._board.get_black_attack_board())
 
     def click_on_white_button(self) -> None:
         self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
@@ -78,45 +74,50 @@ class GameController:
 
     def click_on_board(self, row: int, col: int) -> None:
 
-        print("Clicked on board at: ", row, col)
-        print("Piece: ", self._board.get_piece_board()[row][col])
+        # print("Clicked on board at: ", row, col)
+        # print("Piece: ", self._board.get_piece_board()[row][col])
 
         # A selected piece is clicked -> deselect it
         if self._current_player.is_selected_piece_at(row, col):
-            print("Deselecting piece")
+            # print("Deselecting piece")
             self._current_player.selected_piece = None
 
         # Own unselected piece is clicked -> select it
         elif self._current_player.has_piece_at(row, col):
-            print("Selecting piece")
+            # print("Selecting piece")
             self._current_player.set_selected_piece(row, col)
 
         # Selected piece can move to the square -> move it
         elif self._current_player.is_possible_move(row, col):
-            print("Making move")
+            # print("Making move")
             self.make_move(row, col)
 
         # Empty square or opponent's piece -> deselect the selected piece
         else:
-            print("Empty.")
+            # print("Empty.")
             self._current_player.selected_piece = None
 
         self.update_view()
 
     def make_move(self, row, col):
         self._make_move(row, col)
-        # self.update_data()
-        # self._current_player.selected_piece = None
+        self._current_player.selected_piece = None
         self.next_turn()
 
     def _make_move(self, to_row: int, to_col: int) -> None:
         if self._current_player.selected_piece is None:
             print("Eror: No piece is selected.")
+
         # Set en passant field if the pawn moves two squares
         self._current_player.reset_en_passant()
-        self._current_player.set_en_passant(to_row)
+        if isinstance(self._current_player.selected_piece, Pawn):
+            if abs(self._current_player.selected_piece.row - to_row) == 2:
+                print("En passant variable is set.")
+                self._current_player.selected_piece.is_en_passant = True
+
         if self.is_promotion(to_row):
             self.do_promotion(to_row, to_col, PieceTypeEnum.QUEEN)
+
         elif (to_row, to_col) in self._current_player.special_moves:
             if isinstance(self._current_player.selected_piece, King):
                 self.do_castling(to_row, to_col)
@@ -125,9 +126,10 @@ class GameController:
 
         if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
             self._opponent_player.remove_piece_at(to_row, to_col)
+
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.selected_piece.is_moved = True
-        self._last_moved_piece = self._current_player.selected_piece
+        self._current_player._last_moved_piece = self._current_player.selected_piece
 
     def do_castling(self, row: int, col: int):
         print("Castling")

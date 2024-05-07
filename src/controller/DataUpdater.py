@@ -180,8 +180,8 @@ class DataUpdater:
         # opponent_player.update_possible_moves_of_selected_piece()
 
         # 2. Update special moves (castling, en passant) - later maybe promotion
-        current_player.get_special_moves(opponent_player.last_moved_piece)
-        opponent_player.get_special_moves(current_player.last_moved_piece)
+        current_player.update_special_moves(opponent_player.last_moved_piece)
+        opponent_player.update_special_moves(current_player.last_moved_piece)
 
 
     def update_board(self, current_player, opponent_player, board):

@@ -66,7 +66,7 @@ class Player:
         self._king = self.get_king()
 
     def update_pieces_attacked_fields(self, opponent):
-        print("Attacked fields are updated.")
+        # print("Attacked fields are updated.")
         self.attacked_fields.clear()
         for piece in self._pieces:
             piece.update_attacked_fields(self, opponent)
@@ -84,7 +84,6 @@ class Player:
                 pass
             piece.possible_fields = set(filter)
             self._possible_fields.update(piece.possible_fields)
-
 
 
     def check_if_king_is_attacked_after_move(self, cur_piece, field, opponent) -> bool:
@@ -120,7 +119,7 @@ class Player:
 
         return result
 
-    def get_special_moves(self, opponent_player_last_moved_piece):
+    def update_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones
         self._special_moves.clear()
         # Add special moves
@@ -128,7 +127,6 @@ class Player:
             self.add_en_passant_moves_to_special_moves(opponent_player_last_moved_piece)
         if isinstance(self._selected_piece, King):
             self.add_castling_moves_to_special_moves()
-
 
     def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
         if op_last_moved_piece is not None and \
@@ -138,6 +136,7 @@ class Player:
                 self._selected_piece.row == op_last_moved_piece.row and \
                 abs(self._selected_piece.col - op_last_moved_piece.col) == 1:
             if self._color == ColorEnum.WHITE:
+                print("En passant move is added.")
                 self._special_moves.add((op_last_moved_piece.row - 1, op_last_moved_piece.col))
             else:
                 self._special_moves.add((op_last_moved_piece.row + 1, op_last_moved_piece.col))
@@ -165,14 +164,6 @@ class Player:
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
             self._last_moved_piece.is_en_passant = False
-
-    def set_en_passant(self, to_row):
-        # If the selected piece is a pawn and it moves two squares forward, set the en passant variable
-        self.reset_en_passant()
-        if isinstance(self._selected_piece, Pawn):
-            if abs(self._selected_piece.row - to_row) == 2:
-                print("En passant variable is set.")
-                self._selected_piece.is_en_passant = True
 
     def remove_piece_at(self, row: int, col: int) -> None:
         for piece in self._pieces:
@@ -226,10 +217,6 @@ class Player:
     @property
     def attacked_fields(self) -> Set[Tuple[int, int]]:
         return self._attacked_fields
-
-    @property
-    def last_moved_piece(self):
-        return self._last_moved_piece
 
     def set_selected_piece(self, row: int, col: int) -> None:
         if self.has_piece_at(row, col):
