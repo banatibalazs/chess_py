@@ -125,10 +125,7 @@ class GameController:
                 self.do_en_passant(to_row, to_col, self._opponent_player)
 
         if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
-            print("Capturing piece")
-            print("Opponent piece number: ", self._opponent_player.pieces)
             self._opponent_player.remove_piece_at(to_row, to_col)
-            print("Opponent piece number: ", self._opponent_player.pieces)
 
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.selected_piece.is_moved = True

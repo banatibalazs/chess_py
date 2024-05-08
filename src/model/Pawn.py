@@ -46,6 +46,8 @@ class Pawn(Piece):
     @override
     def update_possible_fields(self, current_player, opponent) -> None:
         self._possible_fields.clear()
+        possible_fields = set()
+
         col = self.col
         row = self.row
         color = self.color
@@ -56,36 +58,45 @@ class Pawn(Piece):
         if color == ColorEnum.WHITE:
             if row - 1 >= 0:
                 if piece_board[row - 1, col] == 0:
-                    self._possible_fields.add((row - 1, col))
+                    possible_fields.add((row - 1, col))
         else:
             if row + 1 <= 7:
                 if piece_board[row + 1, col] == 0:
-                    self._possible_fields.add((row + 1, col))
+                    possible_fields.add((row + 1, col))
 
         # Move two squares forward
         if color == ColorEnum.WHITE and row == 6:
             if piece_board[row - 1, col] == 0 and piece_board[row - 2, col] == 0:
-                self._possible_fields.add((row - 2, col))
+                possible_fields.add((row - 2, col))
         elif color == ColorEnum.BLACK and row == 1:
             if piece_board[row + 1, col] == 0 and piece_board[row + 2, col] == 0:
-                self._possible_fields.add((row + 2, col))
+                possible_fields.add((row + 2, col))
 
         # Diagonal capture
         if color == ColorEnum.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
                 if piece_board[row - 1, col - 1] < 0:
-                    self._possible_fields.add((row - 1, col - 1))
+                    possible_fields.add((row - 1, col - 1))
             if col + 1 <= 7 and row - 1 >= 0:
                 if piece_board[row - 1, col + 1] < 0:
-                    self._possible_fields.add((row - 1, col + 1))
+                    possible_fields.add((row - 1, col + 1))
         else:
             if col - 1 >= 0 and row + 1 <= 7:
                 if piece_board[row + 1, col - 1] > 0:
-                    self._possible_fields.add((row + 1, col - 1))
+                    possible_fields.add((row + 1, col - 1))
 
             if col + 1 <= 7 and row + 1 <= 7:
                 if piece_board[row + 1, col + 1] > 0:
-                    self._possible_fields.add((row + 1, col + 1))
+                    possible_fields.add((row + 1, col + 1))
+
+        opponent_attacked_fields = set()
+        for piece in opponent._pieces:
+            for field in piece._attacked_fields:
+                opponent_attacked_fields.add(field)
+
+        for move in possible_fields:
+            if not self.king_in_check_after_move(move, current_player, opponent):
+                self._possible_fields.add(move)
 
 
 

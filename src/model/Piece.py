@@ -55,7 +55,52 @@ class Piece(ABC):
         pass
 
     def update_possible_fields(self, current_player, opponent):
-        self._possible_fields = self._attacked_fields
+        self._possible_fields.clear()
+
+        opponent_attacked_fields = set()
+        for piece in opponent._pieces:
+            for field in piece._attacked_fields:
+                opponent_attacked_fields.add(field)
+
+        for move in self._attacked_fields:
+            if not self.king_in_check_after_move(move, current_player, opponent):
+                self._possible_fields.add(move)
+
+    def king_in_check_after_move(self, move, current_player, opponent) -> bool:
+        result = False
+
+        from_row = self.row
+        from_col = self.col
+
+        self.row = move[0]
+        self.col = move[1]
+
+        captured_piece = None
+        if opponent.has_piece_at(move[0], move[1]):
+            captured_piece = opponent.get_piece_at(move[0], move[1])
+            opponent.remove_piece_at(move[0], move[1])
+
+
+        king_position = current_player.get_king().coordinates
+        print("King position: ", king_position)
+        opponent.update_pieces_attacked_fields(current_player)
+        for piece in opponent._pieces:
+            for field in piece._attacked_fields:
+                if king_position == field:
+                    result = True
+                    break
+
+
+        if captured_piece is not None:
+            opponent.add_piece(captured_piece)
+
+        self.row = from_row
+        self.col = from_col
+
+        for piece in opponent._pieces:
+            piece.update_attacked_fields(current_player, opponent)
+
+        return result
 
 
         # if (self.color == ColorEnum.WHITE and self.type == PieceTypeEnum.QUEEN) or \

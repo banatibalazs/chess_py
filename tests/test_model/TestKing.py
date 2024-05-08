@@ -23,6 +23,7 @@ from src.model.Player import Player
                                              White player's side
 """
 
+
 class TestKing(unittest.TestCase):
     def setUp(self):
         self.king = King(ColorEnum.WHITE, 0, 0)

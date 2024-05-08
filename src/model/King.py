@@ -40,6 +40,7 @@ class King(Piece):
             if move not in opponent_attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)
 
+    @override
     def king_in_check_after_move(self, move, current_player, opponent) -> bool:
         result = False
 

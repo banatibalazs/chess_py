@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="king_in_check_after_move function in King class">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix in king_in_check_after_move function the opponent's piece was not removed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestKing.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestKing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +55,7 @@
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.executor": "Run",
     "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board.executor": "Run",
     "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board.executor": "Run",
     "Python tests.Python tests for TestPawn.TestPawn.test_black_pawn_attacked_fields_with_enemy_pieces.executor": "Run",
@@ -152,7 +154,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestKing.TestKing" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -163,7 +165,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board&quot;" />
+      <option name="_new_target" value="&quot;TestKing.TestKing&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -215,10 +217,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python tests.Python tests for TestKing.TestKing" />
         <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47" />
         <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32" />
         <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31" />
-        <item itemvalue="Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board" />
       </list>
     </recent_temporary>
   </component>
@@ -237,14 +239,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00016" summary="king can not step onto an attacked square">
-      <option name="closed" value="true" />
-      <created>1714265040444</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1714265040444</updated>
     </task>
     <task id="LOCAL-00017" summary="reorganizing the code">
       <option name="closed" value="true" />
@@ -630,7 +624,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715111260643</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="bugfix in king_in_check_after_move function the opponent's piece was not removed">
+      <option name="closed" value="true" />
+      <created>1715176751651</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1715176751652</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -645,7 +647,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="special move en passant bugfix" />
     <MESSAGE value="clean up code" />
     <MESSAGE value="optimization in Player class protected and attacked field update method" />
     <MESSAGE value="timer added" />
@@ -670,7 +671,8 @@
     <MESSAGE value="en passant not showing bugfix" />
     <MESSAGE value="King was not considered when calc possible moves" />
     <MESSAGE value="king_in_check_after_move function in King class" />
-    <option name="LAST_COMMIT_MESSAGE" value="king_in_check_after_move function in King class" />
+    <MESSAGE value="bugfix in king_in_check_after_move function the opponent's piece was not removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix in king_in_check_after_move function the opponent's piece was not removed" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
