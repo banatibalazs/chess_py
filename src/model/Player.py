@@ -79,8 +79,6 @@ class Player:
         self._possible_fields.clear()
         # self._possible_fields = self._attacked_fields.copy()
 
-    def attacks_field(self, row, col) -> bool:
-        return (row, col) in self._attacked_fields
 
     def update_special_moves(self, opponent_player_last_moved_piece):
         # Reset special moves before adding new ones

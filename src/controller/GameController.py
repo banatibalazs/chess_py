@@ -101,7 +101,7 @@ class GameController:
 
     def make_move(self, row, col):
         self._make_move(row, col)
-        # self._current_player.selected_piece = None
+        self._current_player.selected_piece = None
         self.next_turn()
 
     def _make_move(self, to_row: int, to_col: int) -> None:
@@ -125,7 +125,10 @@ class GameController:
                 self.do_en_passant(to_row, to_col, self._opponent_player)
 
         if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
+            print("Capturing piece")
+            print("Opponent piece number: ", self._opponent_player.pieces)
             self._opponent_player.remove_piece_at(to_row, to_col)
+            print("Opponent piece number: ", self._opponent_player.pieces)
 
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.selected_piece.is_moved = True

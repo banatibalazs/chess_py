@@ -31,7 +31,6 @@ class King(Piece):
         col = self.col
         row = self.row
 
-
         opponent_attacked_fields = set()
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
@@ -40,7 +39,6 @@ class King(Piece):
         for move in self._attacked_fields:
             if move not in opponent_attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)
-
 
     def king_in_check_after_move(self, move, current_player, opponent) -> bool:
         result = False
@@ -53,6 +51,7 @@ class King(Piece):
         captured_piece = None
         if opponent.has_piece_at(move[0], move[1]):
             captured_piece = opponent.get_piece_at(move[0], move[1])
+            opponent.remove_piece_at(move[0], move[1])
 
         opponent_attacked_fields = set()
         opponent.update_pieces_attacked_fields(current_player)

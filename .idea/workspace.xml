@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="King was not considered when calc possible moves">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="king_in_check_after_move function in King class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +54,7 @@
     "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board.executor": "Run",
     "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board.executor": "Run",
     "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board.executor": "Run",
     "Python tests.Python tests for TestPawn.TestPawn.test_black_pawn_attacked_fields_with_enemy_pieces.executor": "Run",
     "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_row_7_empty_board.executor": "Run",
@@ -63,8 +67,11 @@
     "Python tests.Python tests for TestPlayer.TestPlayer.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_check_if_king_is_attacked_after_move.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_21.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_37.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_40.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_51.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_52.executor": "Run",
     "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_57.executor": "Run",
@@ -101,28 +108,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="GameController" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="chess-py" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/controller" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/controller/GameController.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="MainWindow" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -167,7 +152,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -178,11 +163,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board&quot;" />
+      <option name="_new_target" value="&quot;TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -193,11 +178,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board&quot;" />
+      <option name="_new_target" value="&quot;TestPlayer.TestPlayer.test_king_possible_moves_on_31&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -208,17 +193,32 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces&quot;" />
+      <option name="_new_target" value="&quot;TestPlayer.TestPlayer.test_king_possible_moves_on_32&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;TestPlayer.TestPlayer.test_king_possible_moves_on_47&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces" />
-        <item itemvalue="Python.GameController" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board" />
-        <item itemvalue="Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board" />
+        <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47" />
+        <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32" />
+        <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31" />
+        <item itemvalue="Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board" />
       </list>
     </recent_temporary>
   </component>
@@ -237,14 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00015" summary="start implement castling in Board.py">
-      <option name="closed" value="true" />
-      <created>1714263641778</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1714263641778</updated>
     </task>
     <task id="LOCAL-00016" summary="king can not step onto an attacked square">
       <option name="closed" value="true" />
@@ -630,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715099310580</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="king_in_check_after_move function in King class">
+      <option name="closed" value="true" />
+      <created>1715111260643</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1715111260643</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -645,7 +645,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="King protection field bugfix, view and board update bugfix" />
     <MESSAGE value="special move en passant bugfix" />
     <MESSAGE value="clean up code" />
     <MESSAGE value="optimization in Player class protected and attacked field update method" />
@@ -670,7 +669,8 @@
     <MESSAGE value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
     <MESSAGE value="en passant not showing bugfix" />
     <MESSAGE value="King was not considered when calc possible moves" />
-    <option name="LAST_COMMIT_MESSAGE" value="King was not considered when calc possible moves" />
+    <MESSAGE value="king_in_check_after_move function in King class" />
+    <option name="LAST_COMMIT_MESSAGE" value="king_in_check_after_move function in King class" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
