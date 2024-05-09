@@ -82,7 +82,7 @@ class Piece(ABC):
 
 
         king_position = current_player.get_king().coordinates
-        print("King position: ", king_position)
+        # print("King position: ", king_position)
         opponent.update_pieces_attacked_fields(current_player)
         for piece in opponent._pieces:
             for field in piece._attacked_fields:

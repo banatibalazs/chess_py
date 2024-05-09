@@ -54,14 +54,12 @@ class King(Piece):
             captured_piece = opponent.get_piece_at(move[0], move[1])
             opponent.remove_piece_at(move[0], move[1])
 
-        opponent_attacked_fields = set()
         opponent.update_pieces_attacked_fields(current_player)
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
-                opponent_attacked_fields.add(field)
-
-        if move in opponent_attacked_fields:
-            result = True
+                if field == move:
+                    result = True
+                    break
 
         if captured_piece is not None:
             opponent.add_piece(captured_piece)
