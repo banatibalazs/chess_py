@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="king class check after move method for cycle breaks when attacked">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DataUpdater.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00018" summary="reorganizing the code">
-      <option name="closed" value="true" />
-      <created>1714294201945</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1714294201945</updated>
     </task>
     <task id="LOCAL-00019" summary="protected fields in pieces">
       <option name="closed" value="true" />
@@ -629,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715201018331</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="king class check after move method for cycle breaks when attacked">
+      <option name="closed" value="true" />
+      <created>1715247568485</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1715247568485</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -644,7 +648,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="optimization in Player class protected and attacked field update method" />
     <MESSAGE value="timer added" />
     <MESSAGE value="piece update method, new field for pieces to store the possible moves" />
     <MESSAGE value="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list" />
@@ -669,7 +672,8 @@
     <MESSAGE value="king_in_check_after_move function in King class" />
     <MESSAGE value="bugfix in king_in_check_after_move function the opponent's piece was not removed" />
     <MESSAGE value="bugfix pieces can only move to a square if their king will not be attacked after the move. Pawn and Piece class modification" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix pieces can only move to a square if their king will not be attacked after the move. Pawn and Piece class modification" />
+    <MESSAGE value="king class check after move method for cycle breaks when attacked" />
+    <option name="LAST_COMMIT_MESSAGE" value="king class check after move method for cycle breaks when attacked" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

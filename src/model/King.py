@@ -1,6 +1,9 @@
 from typing import override
+
+from src.model.ColorEnum import ColorEnum
 from src.model.Piece import Piece
 from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.Rook import Rook
 
 
 class King(Piece):
@@ -28,15 +31,35 @@ class King(Piece):
     @override
     def update_possible_fields(self, current_player, opponent) -> None:
         self._possible_fields.clear()
-        col = self.col
-        row = self.row
+        possible_fields = self._attacked_fields.copy()
 
+        # Add Castling moves
+        def is_castling_possible(rook, cols):
+            return (isinstance(rook, Rook) and
+                    not rook.is_moved and
+                    not self.is_moved and
+                    all(current_player._board.is_empty_at(self.row, col) for col in cols) and
+                    not any(
+                        current_player._board.get_opponent_attack_board(self._color)[self.row, col] for col in cols))
+
+        if self._color == ColorEnum.BLACK:
+            if is_castling_possible(current_player.get_piece_at(0, 0), range(1, 4)):
+                possible_fields.add((0, 2))
+            if is_castling_possible(current_player.get_piece_at(0, 7), range(5, 7)):
+                possible_fields.add((0, 6))
+        else:
+            if is_castling_possible(current_player.get_piece_at(7, 0), range(1, 4)):
+                possible_fields.add((7, 2))
+            if is_castling_possible(current_player.get_piece_at(7, 7), range(5, 7)):
+                possible_fields.add((7, 6))
+
+        # Filter out moves that would put the king in check
         opponent_attacked_fields = set()
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
                 opponent_attacked_fields.add(field)
 
-        for move in self._attacked_fields:
+        for move in possible_fields:
             if move not in opponent_attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)
 
@@ -71,5 +94,6 @@ class King(Piece):
             piece.update_attacked_fields(current_player, opponent)
 
         return result
+
 
 

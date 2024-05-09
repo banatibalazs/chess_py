@@ -112,17 +112,19 @@ class GameController:
         self._current_player.reset_en_passant()
         if isinstance(self._current_player.selected_piece, Pawn):
             if abs(self._current_player.selected_piece.row - to_row) == 2:
-                print("En passant variable is set.")
                 self._current_player.selected_piece.is_en_passant = True
 
+        # Check if the move is a promotion
         if self.is_promotion(to_row):
             self.do_promotion(to_row, to_col, PieceTypeEnum.QUEEN)
 
-        elif (to_row, to_col) in self._current_player.special_moves:
-            if isinstance(self._current_player.selected_piece, King):
-                self.do_castling(to_row, to_col)
-            if isinstance(self._current_player.selected_piece, Pawn):
-                self.do_en_passant(to_row, to_col, self._opponent_player)
+        # Check if the move is a castling
+        if self.is_castling(to_col):
+            self.do_castling(to_row, to_col)
+
+        # Check if the move is an en passant
+        if self.is_en_passant(to_row, to_col):
+            self.do_en_passant(to_row, to_col, self._opponent_player)
 
         if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
             self._opponent_player.remove_piece_at(to_row, to_col)
@@ -153,6 +155,7 @@ class GameController:
         self._current_player.reset_en_passant()
 
     def do_en_passant(self, to_row, to_col, opponent):
+        print("En passant")
         if self._current_player.color == ColorEnum.WHITE:
             opponent.remove_piece_at(to_row + 1, to_col)
         else:
@@ -161,7 +164,18 @@ class GameController:
         self._current_player.reset_en_passant()
 
     def is_promotion(self, to_row):
-        return ((to_row == 0) or (to_row == 7)) and isinstance(self._current_player.selected_piece, Pawn)
+        return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceTypeEnum.PAWN
+
+    def is_en_passant(self, to_row, to_col):
+        selected_piece = self._current_player.selected_piece
+        return (selected_piece.type == PieceTypeEnum.PAWN and
+                to_col != selected_piece.col and
+                not self._opponent_player.has_piece_at(to_row, to_col))
+
+    def is_castling(self, to_col):
+        selected_piece = self._current_player.selected_piece
+        return (selected_piece.type == PieceTypeEnum.KING and
+                abs(selected_piece.col - to_col) > 1)
 
     def do_promotion(self, to_row: int, to_col: int, piece_type: PieceTypeEnum) -> None:
         print("Promoting pawn")

@@ -44,7 +44,6 @@ class Player:
         self._king_is_checked: bool = False
 
         self._pieces: List[Piece] = []
-        self._special_moves: Set[Tuple[int, int]] = set()
         self._attacked_fields: Set[Tuple[int, int]] = set()
         self._possible_fields: Set[Tuple[int, int]] = set()
 
@@ -77,50 +76,7 @@ class Player:
 
     def update_pieces_possible_fields(self, opponent):
         self._possible_fields.clear()
-        # self._possible_fields = self._attacked_fields.copy()
-
-
-    def update_special_moves(self, opponent_player_last_moved_piece):
-        # Reset special moves before adding new ones
-        self._special_moves.clear()
-        # Add special moves
-        if isinstance(self._selected_piece, Pawn):
-            self.add_en_passant_moves_to_special_moves(opponent_player_last_moved_piece)
-        if isinstance(self._selected_piece, King):
-            self.add_castling_moves_to_special_moves()
-
-    def add_en_passant_moves_to_special_moves(self, op_last_moved_piece) -> None:
-        if op_last_moved_piece is not None and \
-                isinstance(op_last_moved_piece, Pawn) and \
-                op_last_moved_piece.is_en_passant and \
-                self._selected_piece is not None and \
-                self._selected_piece.row == op_last_moved_piece.row and \
-                abs(self._selected_piece.col - op_last_moved_piece.col) == 1:
-            if self._color == ColorEnum.WHITE:
-                print("En passant move is added.")
-                self._special_moves.add((op_last_moved_piece.row - 1, op_last_moved_piece.col))
-            else:
-                self._special_moves.add((op_last_moved_piece.row + 1, op_last_moved_piece.col))
-
-    def add_castling_moves_to_special_moves(self) -> None:
-        # Rooks coordinates are (0, 0), (7, 0), (0, 7), (7, 7) for white and black respectively
-        if self._color == ColorEnum.BLACK:
-            if self.is_castling_possible(self.get_piece_at(0, 0), range(1, 4)):
-                self._special_moves.add((0, 2))
-            if self.is_castling_possible(self.get_piece_at(0, 7), range(5, 7)):
-                self._special_moves.add((0, 6))
-        else:
-            if self.is_castling_possible(self.get_piece_at(7, 0), range(1, 4)):
-                self._special_moves.add((7, 2))
-            if self.is_castling_possible(self.get_piece_at(7, 7), range(5, 7)):
-                self._special_moves.add((7, 6))
-
-    def is_castling_possible(self, rook, cols):
-        return (isinstance(rook, Rook) and
-                not rook.is_moved and
-                not self._king.is_moved and
-                all(self._board.is_empty_at(self._king.row, col) for col in cols) and
-                not any(self._board.get_opponent_attack_board(self._color)[self._king.row, col] for col in cols))
+        #TODO: Implement this method
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
@@ -145,15 +101,11 @@ class Player:
         return score
 
     @property
-    def special_moves(self) -> Set[Tuple[int, int]]:
-        return self._special_moves
-
-    @property
     def pieces(self) -> List[Piece]:
         return self._pieces
 
     @property
-    def last_moved_piece(self):
+    def last_moved_piece(self) -> Piece:
         return self._last_moved_piece
 
     @last_moved_piece.setter
@@ -165,37 +117,35 @@ class Player:
             if piece.coordinates == (row, col):
                 return True
 
-    def is_selected_piece_at(self, row, col):
+    def is_selected_piece_at(self, row, col) -> bool:
         if self._selected_piece is not None:
             return self._selected_piece.coordinates == (row, col)
 
-    def is_possible_move(self, row, col):
+    def is_possible_move(self, row, col) -> bool:
         if self._selected_piece is None:
             return False
-        # print(f"Possible moves: {self._selected_piece.possible_fields}")
-        return (row, col) in self._special_moves or (row, col) in self._selected_piece.possible_fields
-
+        return (row, col) in self._selected_piece.possible_fields
 
     def set_selected_piece(self, row: int, col: int) -> None:
         if self.has_piece_at(row, col):
             self._selected_piece = self.get_piece_at(row, col)
 
     @property
-    def selected_piece(self):
+    def selected_piece(self) -> Piece:
         return self._selected_piece
 
     @selected_piece.setter
     def selected_piece(self, piece: Piece) -> None:
         self._selected_piece = piece
 
-    def get_king(self):
+    def get_king(self) -> Optional[Piece]:
         for piece in self._pieces:
             if piece.type == PieceTypeEnum.KING:
                 return piece
         return None
 
     @property
-    def color(self):
+    def color(self) -> ColorEnum:
         return self._color
 
     def add_piece(self, piece: Piece) -> None:

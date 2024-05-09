@@ -1,4 +1,4 @@
-from typing import List, Tuple, Set
+from typing import List
 
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 import numpy as np
@@ -25,7 +25,7 @@ class Board:
     # def reset_coloring_board(self):
     #     self._coloring_board.fill(self.EMPTY_SYMBOL)
 
-    def update_coloring_board(self, selected_piece: Piece, special_moves: Set[Tuple[int, int]]):
+    def update_coloring_board(self, selected_piece: Piece):
         self._coloring_board.fill(self.EMPTY_SYMBOL)
         if selected_piece is not None:
             self._coloring_board[selected_piece.row, selected_piece.col] = self.SELECTED_PIECE_SYMBOL
@@ -35,10 +35,10 @@ class Board:
                 for move in possible_moves:
                     self._coloring_board[move[0], move[1]] = self.NORMAL_MOVE_SYMBOL
 
-            if special_moves is not None:
-                # print("Special moves: ", special_moves)
-                for move in special_moves:
-                    self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
+            # if special_moves is not None:
+            #     # print("Special moves: ", special_moves)
+            #     for move in special_moves:
+            #         self._coloring_board[move[0], move[1]] = self.SPECIAL_MOVE_SYMBOL
 
     # def reset_piece_board(self):
     #     self._piece_board.fill(0)

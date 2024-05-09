@@ -89,6 +89,19 @@ class Pawn(Piece):
                 if piece_board[row + 1, col + 1] > 0:
                     possible_fields.add((row + 1, col + 1))
 
+        # Add en passant if possible
+        if opponent._last_moved_piece is not None and \
+                isinstance(opponent._last_moved_piece, Pawn) and \
+                opponent._last_moved_piece.is_en_passant and \
+                self.row == opponent._last_moved_piece.row and \
+                abs(self.col - opponent._last_moved_piece.col) == 1:
+            if self._color == ColorEnum.WHITE:
+                print("En passant move is added.")
+                possible_fields.add((opponent._last_moved_piece.row - 1, opponent._last_moved_piece.col))
+            else:
+                possible_fields.add((opponent._last_moved_piece.row + 1, opponent._last_moved_piece.col))
+
+        # Check if the move is valid
         opponent_attacked_fields = set()
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
@@ -97,8 +110,6 @@ class Pawn(Piece):
         for move in possible_fields:
             if not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)
-
-
 
     @property
     def is_en_passant(self) -> bool:
