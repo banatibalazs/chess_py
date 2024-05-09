@@ -1,11 +1,6 @@
-from typing import List
-
-from src.controller.DataUpdater import DataUpdater
-# from src.controller.TimerThread import TimerThread
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
-from src.model.King import King
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -24,14 +19,8 @@ class GameController:
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
-        self.data_updater = DataUpdater()
         self.is_white_turn: bool = True
         self._view_controller = view_controller
-
-        # self.black_timer = TimerThread(300, black_player_name, self)  # 5 minutes timer
-        # self.white_timer = TimerThread(300, white_player_name, self)  # 5 minutes timer
-        # self._board_history_prev: List[Board] = []
-        # self._board_history_fwd: List[Board] = []
 
         self.start_game()
 
@@ -39,17 +28,18 @@ class GameController:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
 
-        self.data_updater.update(self._white_player, self._black_player, self._board)
+        self.update(self._white_player, self._black_player, self._board)
         self.update_view()
 
     def next_turn(self):
-        self.data_updater.update(self._current_player, self._opponent_player, self._board)
+        self.update(self._current_player, self._opponent_player, self._board)
         self.update_view()
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
 
     def update_view(self) -> None:
-        self.data_updater.update(self._current_player, self._opponent_player, self._board)
+        # TODO update the players also
+        self.update(self._current_player, self._opponent_player, self._board)
 
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
@@ -127,6 +117,20 @@ class GameController:
         self._current_player._last_moved_piece = self._current_player.selected_piece
         self._current_player.selected_piece.update_attacked_fields(self._current_player, self._opponent_player)
 
+    def is_promotion(self, to_row):
+        return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceTypeEnum.PAWN
+
+    def is_en_passant(self, to_row, to_col):
+        selected_piece = self._current_player.selected_piece
+        return (selected_piece.type == PieceTypeEnum.PAWN and
+                to_col != selected_piece.col and
+                not self._opponent_player.has_piece_at(to_row, to_col))
+
+    def is_castling(self, to_col):
+        selected_piece = self._current_player.selected_piece
+        return (selected_piece.type == PieceTypeEnum.KING and
+                abs(selected_piece.col - to_col) > 1)
+
     def do_castling(self, row: int, col: int):
         print("Castling")
         if col == 2:
@@ -156,20 +160,6 @@ class GameController:
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.reset_en_passant()
 
-    def is_promotion(self, to_row):
-        return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceTypeEnum.PAWN
-
-    def is_en_passant(self, to_row, to_col):
-        selected_piece = self._current_player.selected_piece
-        return (selected_piece.type == PieceTypeEnum.PAWN and
-                to_col != selected_piece.col and
-                not self._opponent_player.has_piece_at(to_row, to_col))
-
-    def is_castling(self, to_col):
-        selected_piece = self._current_player.selected_piece
-        return (selected_piece.type == PieceTypeEnum.KING and
-                abs(selected_piece.col - to_col) > 1)
-
     def do_promotion(self, to_row: int, to_col: int, piece_type: PieceTypeEnum) -> None:
         print("Promoting pawn")
         from_row = self._current_player.selected_piece.row
@@ -190,21 +180,29 @@ class GameController:
         self._current_player.last_moved_piece = new_piece
         self._current_player.reset_en_passant()
 
-
     def save_game(self):
-        # current_data = [self._board._piece_board, self._board._current_player.get_color(),
-        #                 self._board._current_player_name, self._board._opponent_player_name]
-        # self._board_history_prev.append()
         pass
 
     def load_game_prev(self):
-        # self._board_history_fwd.append(self._board)
-        # self._board = self._board_history_prev.pop()
         pass
 
     def load_game_fwd(self):
-        # current_data = [self._board._current_player, self._board._opponent_player]
-        # self._board_history_prev.append()
-        # self._board.load_players(self._board_history_fwd.pop())
         pass
 
+    def update(self, current_player, opponent_player, board):
+        self._update_players(current_player, opponent_player)
+        self._update_board(current_player, opponent_player, board)
+
+    def _update_players(self, current_player, opponent_player):
+        current_player.update_pieces_attacked_fields(opponent_player)
+        opponent_player.update_pieces_attacked_fields(current_player)
+
+    def _update_board(self, current_player, opponent_player, board):
+
+        board.update_piece_board(current_player, opponent_player)
+        board.update_attack_boards(current_player, opponent_player)
+        board.update_possible_moves_boards(current_player, opponent_player)
+
+        if current_player.selected_piece is not None:
+            current_player.selected_piece.update_possible_fields(current_player, opponent_player)
+        board.update_coloring_board(current_player.selected_piece)

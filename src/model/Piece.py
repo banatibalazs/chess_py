@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Tuple, Set, List
+from typing import Tuple, Set
 from src.model.ColorEnum import ColorEnum
 from src.model.PieceTypeEnum import PieceTypeEnum
-
 
 
 class Piece(ABC):
@@ -14,7 +13,6 @@ class Piece(ABC):
         self._value = self._init_value()
         self._attacked_fields = set()
         self._possible_fields = set()
-
 
         self._is_moved = False
         self._is_captured = False
@@ -80,16 +78,13 @@ class Piece(ABC):
             captured_piece = opponent.get_piece_at(move[0], move[1])
             opponent.remove_piece_at(move[0], move[1])
 
-
         king_position = current_player.get_king().coordinates
-        # print("King position: ", king_position)
         opponent.update_pieces_attacked_fields(current_player)
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
                 if king_position == field:
                     result = True
                     break
-
 
         if captured_piece is not None:
             opponent.add_piece(captured_piece)
@@ -101,15 +96,6 @@ class Piece(ABC):
             piece.update_attacked_fields(current_player, opponent)
 
         return result
-
-
-        # if (self.color == ColorEnum.WHITE and self.type == PieceTypeEnum.QUEEN) or \
-        #         (self.type == PieceTypeEnum.KING and self.color == ColorEnum.BLACK):
-        #     print(self.color.name, self.type.name, " at: ", self.coordinates, end=" ")
-        #     print("Possible fields: ", possible_fields)
-        #     print("Deleted fields: ", filtered)
-        #     print("Filtered possible fields: ", self._possible_fields)
-
 
     @property
     def value(self) -> int:
@@ -153,17 +139,8 @@ class Piece(ABC):
 
     @property
     def coordinates(self):
-        """
-        :return: (y:row, x:column)
-        """
         return self._row, self._col
 
     @coordinates.setter
     def coordinates(self, value):
-        """
-        :param value: (y:row, x:column)
-        :return: None
-        """
         self.row, self.col = value
-
-

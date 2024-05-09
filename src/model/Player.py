@@ -74,7 +74,7 @@ class Player:
             for field in piece.attacked_fields:
                 self._attacked_fields.add(field)
 
-    def update_pieces_possible_fields(self, opponent):
+    def update_pieces_possible_fields(self):
         self._possible_fields.clear()
         #TODO: Implement this method
 

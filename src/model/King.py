@@ -35,10 +35,13 @@ class King(Piece):
 
         # Add Castling moves
         def is_castling_possible(rook, cols):
+            # TODO implement this with a Board, so that the check for empty fields would be more efficient
             return (isinstance(rook, Rook) and
                     not rook.is_moved and
                     not self.is_moved and
-                    all(current_player._board.is_empty_at(self.row, col) for col in cols) and
+                    not any(current_player.has_piece_at(self.row, col) for col in cols) and
+                    not any(opponent.has_piece_at(self.row, col) for col in cols) and
+                    # all(current_player._board.is_empty_at(self.row, col) for col in cols) and
                     not any((self.row, col) in opponent._attacked_fields for col in cols))
 
         if self._color == ColorEnum.BLACK:
