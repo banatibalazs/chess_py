@@ -74,27 +74,20 @@ class GameController:
 
     def click_on_board(self, row: int, col: int) -> None:
 
-        # print("Clicked on board at: ", row, col)
-        # print("Piece: ", self._board.get_piece_board()[row][col])
-
         # A selected piece is clicked -> deselect it
         if self._current_player.is_selected_piece_at(row, col):
-            # print("Deselecting piece")
             self._current_player.selected_piece = None
 
         # Own unselected piece is clicked -> select it
         elif self._current_player.has_piece_at(row, col):
-            # print("Selecting piece")
             self._current_player.set_selected_piece(row, col)
 
         # Selected piece can move to the square -> move it
         elif self._current_player.is_possible_move(row, col):
-            # print("Making move")
             self.make_move(row, col)
 
         # Empty square or opponent's piece -> deselect the selected piece
         else:
-            # print("Empty.")
             self._current_player.selected_piece = None
 
         self.update_view()
