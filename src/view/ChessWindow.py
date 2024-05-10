@@ -1,7 +1,5 @@
 import tkinter as tk
 from typing import Callable
-
-from src.controller.Command import BlackButtonCommand, WhiteButtonCommand
 from src.controller.ViewController import ViewController
 from src.model.Square import Square
 
@@ -36,9 +34,9 @@ class ChessWindow:
         # Make the window adapt to its content
         self.root.geometry("")
 
-        self.black_protection_button = self.create_button("Bl Possible", self.black_protection_button_click,
+        self.black_protection_button = self.create_button("Top left", self.top_left_button_click,
                                                           0, 0, 4, 10)
-        self.black_button = self.create_button("Bl Attack", self.black_button_click,
+        self.black_button = self.create_button("Top right", self.top_right_button_click,
                                                0, 7, 2, 10)
         self.black_player_name_label = self.create_label(black_player_name,
                                                0, 5, 1, 10)
@@ -50,9 +48,9 @@ class ChessWindow:
                                                10, 5, 1, 10)
         self.white_player_piece_number_label = self.create_label("16", 10, 6, 1, 10)
 
-        self.white_button = self.create_button("Wh Attack", self.white_button_click,
+        self.white_button = self.create_button("Bottom right", self.bottom_right_button_click,
                                                10, 7, 2, 10)
-        self.white_protection_button = self.create_button("Wh Possible", self.white_protection_button_click,
+        self.white_protection_button = self.create_button("Bottom left", self.bottom_left_button_click,
                                                           10, 0, 4, 10)
 
     def create_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):
@@ -81,21 +79,17 @@ class ChessWindow:
                 row.append(square)
             self._chess_board.append(row)
 
-    def black_button_click(self):
-        # self.view_controller.black_button_click()
-        black_button_command = BlackButtonCommand(self.view_controller)
-        self.view_controller.button_clicked(black_button_command)
+    def top_right_button_click(self):
+        self.view_controller.top_right_button_click()
 
-    def white_button_click(self):
-        # self.view_controller.white_button_click()
-        white_button_command = WhiteButtonCommand(self.view_controller)
-        self.view_controller.button_clicked(white_button_command)
+    def bottom_right_button_click(self):
+        self.view_controller.bottom_right_button_click()
 
-    def black_protection_button_click(self):
-        self.view_controller.black_protection_button_click()
+    def top_left_button_click(self):
+        self.view_controller.top_left_button_click()
 
-    def white_protection_button_click(self):
-        self.view_controller.white_protection_button_click()
+    def bottom_left_button_click(self):
+        self.view_controller.bottom_left_button_click()
 
     def get_chess_board(self):
         return self._chess_board

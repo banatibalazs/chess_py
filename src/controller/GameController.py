@@ -1,6 +1,9 @@
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8
+from src.controller.GameSnapshot import GameSnapshot
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
+from src.model.King import King
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.PieceTypeEnum import PieceTypeEnum
@@ -22,6 +25,11 @@ class GameController:
         self.is_white_turn: bool = True
         self._view_controller = view_controller
 
+        self.game_history_prev = []
+        self.game_history_fwd = []
+
+        self._snapshots = []
+
         self.start_game()
 
     def start_game(self):
@@ -38,29 +46,27 @@ class GameController:
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
 
     def update_view(self) -> None:
-        # TODO update the players also
         self.update(self._current_player, self._opponent_player, self._board)
 
         self._view_controller.update_pieces_on_board(self._board.get_piece_board())
         self._view_controller.update_board_coloring(self._board.get_coloring_board())
         self._view_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()))
 
+        self.save_board(self._board.get_piece_board(), self.is_white_turn)
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
-        # print("White attack: ", self._board.get_white_attack_board())
-        # print("Black attack: ", self._board.get_black_attack_board())
 
-    def click_on_white_button(self) -> None:
+    def bottom_right_button_click(self) -> None:
         self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
 
-    def click_on_black_button(self) -> None:
+    def top_right_button_click(self) -> None:
         self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
 
-    def click_on_white_protection_button(self) -> None:
-        self._view_controller.show_protection_board(self._board.get_white_protection_board())
+    def bottom_left_button_click(self) -> None:
+        pass
 
-    def click_on_black_protection_button(self) -> None:
-        self._view_controller.show_protection_board(self._board.get_black_protection_board())
+    def top_left_button_click(self) -> None:
+        pass
 
     def click_on_board(self, row: int, col: int) -> None:
 
@@ -144,7 +150,7 @@ class GameController:
                 rook.coordinates = (row, 5)
                 rook.set_moved = True
 
-        king = self._current_player.get_king()
+        king = self._current_player.king
         if king is not None:
             king.coordinates = (row, col)
             king.set_moved = True
@@ -180,15 +186,6 @@ class GameController:
         self._current_player.last_moved_piece = new_piece
         self._current_player.reset_en_passant()
 
-    def save_game(self):
-        pass
-
-    def load_game_prev(self):
-        pass
-
-    def load_game_fwd(self):
-        pass
-
     def update(self, current_player, opponent_player, board):
         self._update_players(current_player, opponent_player)
         self._update_board(current_player, opponent_player, board)
@@ -201,8 +198,29 @@ class GameController:
 
         board.update_piece_board(current_player, opponent_player)
         board.update_attack_boards(current_player, opponent_player)
-        board.update_possible_moves_boards(current_player, opponent_player)
+        # board.update_possible_moves_boards(current_player, opponent_player)
 
         if current_player.selected_piece is not None:
             current_player.selected_piece.update_possible_fields(current_player, opponent_player)
         board.update_coloring_board(current_player.selected_piece)
+
+    def save_game(self):
+        pass
+
+    def load_game_prev(self):
+        pass
+
+    def load_game_fwd(self):
+        pass
+
+    def save_snapshot(self):
+        self._snapshots.append(GameSnapshot(self._current_player, self._opponent_player))
+
+    def load_snapshot(self):
+        snapshot = self._snapshots.pop()
+        # self._current_player = Pla
+
+
+    def save_board(self, piece_board: ByteArray8x8, is_white_turn: bool):
+        pass
+

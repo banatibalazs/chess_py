@@ -17,14 +17,11 @@ class Board:
         self._coloring_board: CharArray8x8 = np.zeros((8, 8), dtype=np.str_)
         self._white_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
         self._black_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
-        self._white_possible_moves_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
-        self._black_possible_moves_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
 
     def update(self, current_player, opponent):
         self.update_piece_board( current_player, opponent)
         self.update_coloring_board(current_player.selected_piece)
         self.update_attack_boards(current_player, opponent)
-        self.update_possible_moves_boards(current_player, opponent)
 
     def update_coloring_board(self, selected_piece: Piece) -> None:
         self._coloring_board.fill(self.EMPTY_SYMBOL)
@@ -63,20 +60,6 @@ class Board:
                 for field in piece._attacked_fields:
                     board[field[0], field[1]] = True
 
-    def update_possible_moves_boards(self, current_player, opponent) -> None:
-
-        self._white_possible_moves_board.fill(False)
-        self._black_possible_moves_board.fill(False)
-
-        white_selected_piece = current_player.selected_piece if current_player.color == ColorEnum.WHITE else opponent.selected_piece
-        black_selected_piece = opponent.selected_piece if current_player.color == ColorEnum.WHITE else current_player.selected_piece
-
-        for piece, board in [(white_selected_piece, self._white_possible_moves_board),
-                             (black_selected_piece, self._black_possible_moves_board)]:
-            if piece and piece.possible_fields:
-                for field in piece.possible_fields:
-                    board[field[0], field[1]] = True
-
     def is_normal_move_at(self, row: int, col: int) -> bool:
         return self._coloring_board[row, col] == self.NORMAL_MOVE_SYMBOL
 
@@ -98,20 +81,9 @@ class Board:
     def get_white_attack_board(self) -> BoolArray8x8:
         return self._white_attack_board
 
-    def get_black_protection_board(self) -> BoolArray8x8:
-        return self._black_possible_moves_board
-
-    def get_white_protection_board(self) -> BoolArray8x8:
-        return self._white_possible_moves_board
-
     def get_opponent_attack_board(self, color: ColorEnum) -> BoolArray8x8:
         if color == 1:
             return self._black_attack_board
         else:
             return self._white_attack_board
 
-    def get_opponent_protection_board(self, color: ColorEnum) -> BoolArray8x8:
-        if color == 1:
-            return self._black_possible_moves_board
-        else:
-            return self._white_possible_moves_board

@@ -1,6 +1,4 @@
 from typing import Dict, List
-
-from src.controller.Command import Command
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 from src.controller.GameController import GameController
 import numpy as np
@@ -56,23 +54,20 @@ class ViewController:
         }
         self._game_controller: GameController = GameController(white_player_name, black_player_name, self)
 
-    def button_clicked(self, command: Command) -> None:
-        command.execute()
-
     def click_on_board(self, row: int, col: int) -> None:
         self._game_controller.click_on_board(row, col)
 
-    def black_button_click(self) -> None:
-        self._game_controller.click_on_black_button()
+    def top_right_button_click(self) -> None:
+        self._game_controller.top_right_button_click()
 
-    def white_button_click(self) -> None:
-        self._game_controller.click_on_white_button()
+    def bottom_right_button_click(self) -> None:
+        self._game_controller.bottom_right_button_click()
 
-    def black_protection_button_click(self) -> None:
-        self._game_controller.click_on_black_protection_button()
+    def top_left_button_click(self) -> None:
+        self._game_controller.top_left_button_click()
 
-    def white_protection_button_click(self) -> None:
-        self._game_controller.click_on_white_protection_button()
+    def bottom_left_button_click(self) -> None:
+        self._game_controller.bottom_left_button_click()
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
@@ -99,18 +94,6 @@ class ViewController:
             # Create a list of positions
             positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
             self.update_square_color(colors, positions)
-
-    def show_protection_board(self, protection_board: BoolArray8x8) -> None:
-        self.reset_square_colors()
-
-        rows, cols = np.where(protection_board == True)
-        # Create a list of colors according to the original square colors
-        colors = np.where((rows + cols) % 2 == 0,
-                          ViewController.DARK_BLUE_COLOR,
-                          ViewController.LIGHT_BLUE_COLOR).tolist()
-        # Create a list of positions
-        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-        self.update_square_color(colors, positions)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str) -> None:
         self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
@@ -148,21 +131,16 @@ class ViewController:
             self.update_square_color([color], [[row, col]])
 
     def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
-        # Set the character that represents a possible move
-        # char = b'n'
-
-        for char in ['n', 's']:
+        char = 'n'
         # Check if there are possible moves
-            if np.isin(char, coloring_board):
-                # Get the positions of the possible moves
-                rows, cols = np.where(coloring_board == char)
-                # Create a list of colors according to the original square colors
-                colors = np.where((rows + cols) % 2 == 0,
-                                  ViewController.LIGHT_GREEN if char == 'n' else ViewController.LIGHT_RED_COLOR,
-                                  ViewController.DARK_GREEN if char == 'n' else ViewController.DARK_BLUE_COLOR).tolist()
-                # Create a list of positions
-                positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-                self.update_square_color(colors, positions)
+        if np.isin(char, coloring_board):
+            # Get the positions of the possible moves
+            rows, cols = np.where(coloring_board == char)
+            # Create a list of colors according to the original square colors
+            colors = np.where((rows + cols) % 2 == 0, ViewController.LIGHT_GREEN, ViewController.DARK_GREEN).tolist()
+            # Create a list of positions
+            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+            self.update_square_color(colors, positions)
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):

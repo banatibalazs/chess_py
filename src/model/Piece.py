@@ -15,12 +15,6 @@ class Piece(ABC):
         self._possible_fields = set()
 
         self._is_moved = False
-        self._is_captured = False
-        self._is_castling = False
-        self._is_promotion = False
-        self._is_check = False
-        self._is_checkmate = False
-        self._is_stalemate = False
 
     def _init_value(self):
         if self._type == PieceTypeEnum.PAWN:
@@ -78,7 +72,7 @@ class Piece(ABC):
             captured_piece = opponent.get_piece_at(move[0], move[1])
             opponent.remove_piece_at(move[0], move[1])
 
-        king_position = current_player.get_king().coordinates
+        king_position = current_player.king.coordinates
         opponent.update_pieces_attacked_fields(current_player)
         for piece in opponent._pieces:
             for field in piece._attacked_fields:

@@ -12,26 +12,6 @@ from src.model.Rook import Rook
 
 
 class Player:
-    """
-    Important methods:
-
-        1. init_pieces (called in the constructor)
-        ----------------
-        3. update_pieces_data
-        4. update_possible_moves_of_selected_piece
-        ----------------
-        5. get_special_moves
-        7. add_en_passant_moves_to_special_moves
-        8. is_castling_possible
-        9. add_castling_moves_to_special_moves
-        ----------------
-        10. make_move
-        11. is_promotion
-        12. promote_pawn
-        13. castling
-        14. en_passant
-
-    """
 
     def __init__(self, name: str, color: ColorEnum, board: Board):
         self._name: str = name
@@ -57,12 +37,13 @@ class Player:
         self._pieces.append(Knight(color, 7 if color == ColorEnum.WHITE else 0, 1))
         self._pieces.append(Bishop(color, 7 if color == ColorEnum.WHITE else 0, 2))
         self._pieces.append(Queen(color, 7 if color == ColorEnum.WHITE else 0, 3))
-        self._pieces.append(King(color, 7 if color == ColorEnum.WHITE else 0, 4))
+
+        self._king = King(color, 7 if color == ColorEnum.WHITE else 0, 4)
+        self._pieces.append(self._king)
+
         self._pieces.append(Bishop(color, 7 if color == ColorEnum.WHITE else 0, 5))
         self._pieces.append(Knight(color, 7 if color == ColorEnum.WHITE else 0, 6))
         self._pieces.append(Rook(color, 7 if color == ColorEnum.WHITE else 0, 7))
-
-        self._king = self.get_king()
 
     def update_pieces_attacked_fields(self, opponent):
         # print("Attacked fields are updated.")
@@ -73,10 +54,6 @@ class Player:
             piece.update_attacked_fields(self, opponent)
             for field in piece.attacked_fields:
                 self._attacked_fields.add(field)
-
-    def update_pieces_possible_fields(self):
-        self._possible_fields.clear()
-        #TODO: Implement this method
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
@@ -138,11 +115,9 @@ class Player:
     def selected_piece(self, piece: Piece) -> None:
         self._selected_piece = piece
 
-    def get_king(self) -> Optional[Piece]:
-        for piece in self._pieces:
-            if piece.type == PieceTypeEnum.KING:
-                return piece
-        return None
+    @property
+    def king(self) -> Optional[Piece]:
+        return self._king
 
     @property
     def color(self) -> ColorEnum:

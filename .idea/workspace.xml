@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="King class castling bugfix">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor GameController.py, delete DataUpdater.py">
+      <change afterPath="$PROJECT_DIR$/src/controller/GameSnapshot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/DataUpdater.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Command.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,14 +244,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00021" summary="reorg code">
-      <option name="closed" value="true" />
-      <created>1714341406138</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1714341406138</updated>
     </task>
     <task id="LOCAL-00022" summary="reorg code">
       <option name="closed" value="true" />
@@ -633,7 +629,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715274547095</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="refactor GameController.py, delete DataUpdater.py">
+      <option name="closed" value="true" />
+      <created>1715289472232</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1715289472232</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -648,7 +652,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list" />
     <MESSAGE value="experiencing with design patterns" />
     <MESSAGE value="commenting DataUpdater.py and remove redundant field from Player.py" />
     <MESSAGE value="add new comment in DataUpdater.py" />
@@ -673,7 +676,8 @@
     <MESSAGE value="king class check after move method for cycle breaks when attacked" />
     <MESSAGE value="add is_promotion is_en_passant and is_castling functions in GameController.py used in _make_move method" />
     <MESSAGE value="King class castling bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="King class castling bugfix" />
+    <MESSAGE value="refactor GameController.py, delete DataUpdater.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor GameController.py, delete DataUpdater.py" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

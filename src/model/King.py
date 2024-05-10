@@ -41,7 +41,6 @@ class King(Piece):
                     not self.is_moved and
                     not any(current_player.has_piece_at(self.row, col) for col in cols) and
                     not any(opponent.has_piece_at(self.row, col) for col in cols) and
-                    # all(current_player._board.is_empty_at(self.row, col) for col in cols) and
                     not any((self.row, col) in opponent._attacked_fields for col in cols))
 
         if self._color == ColorEnum.BLACK:
