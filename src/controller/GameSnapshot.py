@@ -6,8 +6,6 @@ class GameSnapshot:
     def __init__(self, current_player, opponent):
         self.current_player_pieces = self._get_pieces_info(current_player)
         self.opponent_pieces = self._get_pieces_info(opponent)
-        self.current_player_name = current_player.name
-        self.opponent_name = opponent.name
         self.current_player_color = current_player.color
         self.opponent_color = opponent.color
 
@@ -17,7 +15,7 @@ class GameSnapshot:
             piece_info = {
                 'coordinates': piece.coordinates,
                 'type': piece.type,
-                'color': piece.color,
+                'color': piece._color,
                 'is_moved': piece.is_moved
             }
             if isinstance(piece, Pawn):
@@ -26,4 +24,4 @@ class GameSnapshot:
         return pieces_info
 
     def get_player(self):
-        return Player()
+        pass

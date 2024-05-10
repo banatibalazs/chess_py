@@ -1,11 +1,11 @@
 from typing import Dict, List
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 from src.controller.GameController import GameController
 import numpy as np
 
 
-
 class ViewController:
+
     WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
     WH_BISHOP_IMAGE_PATH = "../resources/images/pieces/wh_bishop.png"
     WH_ROOK_IMAGE_PATH = "../resources/images/pieces/wh_rook.png"
@@ -104,43 +104,27 @@ class ViewController:
                 path = self._int_to_piece_image_path[piece_positions_board[row][col]]
                 self._chess_window.update_square_image(path, row, col)
 
-    def update_board_coloring(self, coloring_board: CharArray8x8) -> None:
+    def update_board_coloring(self, piece_coordinate, possible_fields) -> None:
 
         # Reset the square colors
         self.reset_square_colors()
-        # Update the selected piece color
-        self.update_selected_piece_color(coloring_board)
-        # Update the possible moves color
-        self.update_possible_moves_color(coloring_board)
 
-    def update_selected_piece_color(self, coloring_board: CharArray8x8) -> None:
-        # Set the character that represents the selected piece
-        SELECTED_SIGN = 'x'
-
-        # Check if exactly one piece is selected
-        if np.count_nonzero(coloring_board == SELECTED_SIGN) == 1:
-            # Get the position of the selected piece
-            _row, _col = np.where(coloring_board == SELECTED_SIGN)
-            row = int(_row)
-            col = int(_col)
-            # Set the color of the square on which the selected piece is located
+        if piece_coordinate is not None:
+            row, col = piece_coordinate
             if (row + col) % 2 == 0:
                 color = ViewController.LIGHT_SELECTED_COLOR
             else:
                 color = ViewController.DARK_SELECTED_COLOR
             self.update_square_color([color], [[row, col]])
 
-    def update_possible_moves_color(self, coloring_board: CharArray8x8) -> None:
-        char = 'n'
-        # Check if there are possible moves
-        if np.isin(char, coloring_board):
-            # Get the positions of the possible moves
-            rows, cols = np.where(coloring_board == char)
-            # Create a list of colors according to the original square colors
-            colors = np.where((rows + cols) % 2 == 0, ViewController.LIGHT_GREEN, ViewController.DARK_GREEN).tolist()
-            # Create a list of positions
-            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-            self.update_square_color(colors, positions)
+        if possible_fields is not None:
+            for field in possible_fields:
+                row, col = field
+                if (row + col) % 2 == 0:
+                    color = ViewController.LIGHT_GREEN
+                else:
+                    color = ViewController.DARK_GREEN
+                self.update_square_color([color], [[row, col]])
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
