@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="wipe out superfluous code lines e.g. possible moves board">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add snapshot to revert step or review the previous steps back and forth">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameSnapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameSnapshot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,14 +235,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00023" summary="castling bug fix">
-      <option name="closed" value="true" />
-      <created>1714342695122</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1714342695122</updated>
     </task>
     <task id="LOCAL-00024" summary="changed possible step method logic in King and Knight">
       <option name="closed" value="true" />
@@ -630,7 +620,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715346140672</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="add snapshot to revert step or review the previous steps back and forth">
+      <option name="closed" value="true" />
+      <created>1715381233186</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715381233186</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -645,7 +643,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="commenting DataUpdater.py and remove redundant field from Player.py" />
     <MESSAGE value="add new comment in DataUpdater.py" />
     <MESSAGE value="piece update" />
     <MESSAGE value="updated pieces and player class, delete type hints causing errors" />
@@ -670,7 +667,8 @@
     <MESSAGE value="King class castling bugfix" />
     <MESSAGE value="refactor GameController.py, delete DataUpdater.py" />
     <MESSAGE value="wipe out superfluous code lines e.g. possible moves board" />
-    <option name="LAST_COMMIT_MESSAGE" value="wipe out superfluous code lines e.g. possible moves board" />
+    <MESSAGE value="add snapshot to revert step or review the previous steps back and forth" />
+    <option name="LAST_COMMIT_MESSAGE" value="add snapshot to revert step or review the previous steps back and forth" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
