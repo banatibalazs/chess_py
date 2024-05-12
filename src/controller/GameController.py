@@ -1,5 +1,5 @@
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8
-from src.controller.GameSnapshot import GameSnapshot
+from src.controller.Snapshot import Snapshot
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
@@ -49,6 +49,7 @@ class GameController:
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
+        print(self.step_history)
 
     def update_view(self) -> None:
         self.update(self._current_player, self._opponent_player, self._board)
@@ -236,39 +237,9 @@ class GameController:
         pass
 
     def save_snapshot(self):
-        self.snapshots.append(GameSnapshot(self._current_player, self._opponent_player))
+        self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
         self.current_snapshot_index = len(self.snapshots) - 1
-        print("Snapshot saved.", len(self.snapshots))
-        print("Current snapshot index: ", self.current_snapshot_index)
-
-    def create_piece(self, piece_type, color, row, col, is_en_passant=False):
-        if piece_type == PieceTypeEnum.PAWN:
-            new_piece = Pawn(color, row, col)
-            new_piece.is_en_passant = is_en_passant
-        elif piece_type == PieceTypeEnum.KNIGHT:
-            new_piece = Knight(color, row, col)
-        elif piece_type == PieceTypeEnum.BISHOP:
-            new_piece = Bishop(color, row, col)
-        elif piece_type == PieceTypeEnum.ROOK:
-            new_piece = Rook(color, row, col)
-        elif piece_type == PieceTypeEnum.QUEEN:
-            new_piece = Queen(color, row, col)
-        elif piece_type == PieceTypeEnum.KING:
-            new_piece = King(color, row, col)
-        else:
-            raise ValueError("Invalid piece type.")
-        return new_piece
-
-    def load_snapshot(self, snapshot, player):
-        player.pieces.clear()
-        for piece in snapshot:
-            row, col = piece["coordinates"]
-            color = piece["color"]
-            _type = piece["type"]
-            is_en_passant = piece.get("is_en_passant", False)
-            new_piece = self.create_piece(_type, color, row, col, is_en_passant)
-            new_piece.is_moved = piece["is_moved"]
-            player.add_piece(new_piece)
+        print("Snapshot saved.", len(self.snapshots) - 1)
 
     def prev_snapshot(self):
         if self.current_snapshot_index > 0:
@@ -276,8 +247,7 @@ class GameController:
 
         snapshot = self.snapshots[self.current_snapshot_index]
         print(f"Loading snapshot {self.current_snapshot_index} / {len(self.snapshots) - 1}")
-        self.load_snapshot(snapshot.current_player_pieces, self._current_player)
-        self.load_snapshot(snapshot.opponent_pieces, self._opponent_player)
+        snapshot.load_players(self._current_player, self._opponent_player)
 
     def next_snapshot(self):
         if self.current_snapshot_index < len(self.snapshots) - 1:
@@ -285,6 +255,5 @@ class GameController:
 
         snapshot = self.snapshots[self.current_snapshot_index]
         print(f"Loading snapshot {self.current_snapshot_index} / {len(self.snapshots) - 1}")
-        self.load_snapshot(snapshot.current_player_pieces, self._current_player)
-        self.load_snapshot(snapshot.opponent_pieces, self._opponent_player)
+        snapshot.load_players(self._current_player, self._opponent_player)
 

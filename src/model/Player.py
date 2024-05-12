@@ -125,3 +125,4 @@ class Player:
 
     def add_piece(self, piece: Piece) -> None:
         self._pieces.append(piece)
+

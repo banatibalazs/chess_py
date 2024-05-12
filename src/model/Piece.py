@@ -16,6 +16,7 @@ class Piece(ABC):
 
         self._is_moved = False
 
+
     def _init_value(self):
         if self._type == PieceTypeEnum.PAWN:
             return 1
@@ -45,6 +46,9 @@ class Piece(ABC):
     @abstractmethod
     def update_attacked_fields(self, current_player, opponent):
         pass
+
+    def is_movable(self):
+        return len(self._possible_fields) > 0
 
     def update_possible_fields(self, current_player, opponent):
         self._possible_fields.clear()

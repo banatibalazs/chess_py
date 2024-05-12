@@ -79,6 +79,9 @@ class ChessWindow:
                 row.append(square)
             self._chess_board.append(row)
 
+    def on_right_click(self, row, col):
+        self.view_controller.right_click_on_board(row, col)
+
     def top_right_button_click(self):
         self.view_controller.top_right_button_click()
 

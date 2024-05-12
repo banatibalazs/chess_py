@@ -138,4 +138,7 @@ class ViewController:
                                                        if (i + j) % 2 == 0
                                                        else ViewController.BLACK_COLOR, j, i)
 
+    def right_click_on_board(self, row, col):
+        print("Right click on board at row: ", row, " col: ", col)
+
 

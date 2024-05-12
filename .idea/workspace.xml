@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add snapshot to revert step or review the previous steps back and forth">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="changed, simplified snapshot logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameSnapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Snapshot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Square.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Square.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,14 +241,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00024" summary="changed possible step method logic in King and Knight">
-      <option name="closed" value="true" />
-      <created>1714383912281</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1714383912281</updated>
     </task>
     <task id="LOCAL-00025" summary="knight bugfix and pawn logic change">
       <option name="closed" value="true" />
@@ -628,7 +626,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715381233186</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="changed, simplified snapshot logic">
+      <option name="closed" value="true" />
+      <created>1715521345772</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1715521345787</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -643,7 +649,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add new comment in DataUpdater.py" />
     <MESSAGE value="piece update" />
     <MESSAGE value="updated pieces and player class, delete type hints causing errors" />
     <MESSAGE value="check if king is under attack is almost working only the pawn class has some issue" />
@@ -668,7 +673,8 @@
     <MESSAGE value="refactor GameController.py, delete DataUpdater.py" />
     <MESSAGE value="wipe out superfluous code lines e.g. possible moves board" />
     <MESSAGE value="add snapshot to revert step or review the previous steps back and forth" />
-    <option name="LAST_COMMIT_MESSAGE" value="add snapshot to revert step or review the previous steps back and forth" />
+    <MESSAGE value="changed, simplified snapshot logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed, simplified snapshot logic" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
