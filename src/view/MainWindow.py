@@ -1,8 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-
-
-from src.view.ChessWindow import ChessWindow
+from src.controller.Game import Game
 
 
 class MainWindow:
@@ -98,10 +96,8 @@ class MainWindow:
         self.result_label.grid(row=5, column=0, columnspan=2)
 
     def open_new_window(self):
-        chess_window = ChessWindow("Chess Game",
-                                  self.white_player_name.get(),
-                                  self.black_player_name.get())
-        chess_window.run()
+        game = Game("Chess Game", self.white_player_name.get(), self.black_player_name.get())
+        game.run()
 
     def run(self):
         self.root.mainloop()

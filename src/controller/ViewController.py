@@ -1,6 +1,5 @@
 from typing import Dict, List
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
-from src.controller.GameController import GameController
 import numpy as np
 
 
@@ -33,7 +32,7 @@ class ViewController:
     LIGHT_BLUE_COLOR = "#2222ff"
     DARK_BLUE_COLOR = "#8888ff"
 
-    def __init__(self, chess_window, white_player_name: str, black_player_name: str):
+    def __init__(self, chess_window):
         self._chess_window = chess_window
         self._int_to_piece_image_path: Dict[np.byte, str] = {
             -6: ViewController.BL_KING_IMAGE_PATH,
@@ -52,22 +51,6 @@ class ViewController:
             2: ViewController.WH_ROOK_IMAGE_PATH,
             1: ViewController.WH_PAWN_IMAGE_PATH
         }
-        self._game_controller: GameController = GameController(white_player_name, black_player_name, self)
-
-    def click_on_board(self, row: int, col: int) -> None:
-        self._game_controller.click_on_board(row, col)
-
-    def top_right_button_click(self) -> None:
-        self._game_controller.top_right_button_click()
-
-    def bottom_right_button_click(self) -> None:
-        self._game_controller.bottom_right_button_click()
-
-    def top_left_button_click(self) -> None:
-        self._game_controller.top_left_button_click()
-
-    def bottom_left_button_click(self) -> None:
-        self._game_controller.bottom_left_button_click()
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
@@ -137,8 +120,5 @@ class ViewController:
                 self._chess_window.update_square_color(ViewController.WHITE_COLOR
                                                        if (i + j) % 2 == 0
                                                        else ViewController.BLACK_COLOR, j, i)
-
-    def right_click_on_board(self, row, col):
-        print("Right click on board at row: ", row, " col: ", col)
 
 
