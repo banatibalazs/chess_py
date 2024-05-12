@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor">
+      <change afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessWindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -238,14 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00026" summary="bugfix and rook logic change">
-      <option name="closed" value="true" />
-      <created>1714389049227</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1714389049227</updated>
     </task>
     <task id="LOCAL-00027" summary="queen and bishop logic change and bugfix">
       <option name="closed" value="true" />
@@ -631,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715528182850</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1715533289161</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1715533289161</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

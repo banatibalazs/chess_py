@@ -13,6 +13,7 @@ from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 from src.model.Square import Square
+from src.view.ChessGui import ChessGui
 
 
 class Game:
@@ -20,17 +21,12 @@ class Game:
     WHITE_COLOR = "#ffffff"
 
     def __init__(self, title, white_player_name: str, black_player_name: str):
-        ##################################################################################
-        self.title: str = title                                                          #
-        self.root = tk.Toplevel()                                                        #
-        self.root.title(self.title)                                                      #
-        self._chess_board: list = []                                                     #
-        self.black_player_piece_number_label = None                                      #
-        self.white_player_piece_number_label = None                                      #
-        self.setup_ui(white_player_name, black_player_name)                              #
-        ##################################################################################
 
-        self._view_controller = ViewController(self)
+        self.gui = ChessGui(title, white_player_name, black_player_name, self.click_on_board,
+                            self.top_left_button_click, self.top_right_button_click,
+                            self.bottom_right_button_click, self.bottom_left_button_click)
+
+        self._view_controller = ViewController(self.gui)
 
         self._board: Board = Board()
         self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
@@ -45,55 +41,6 @@ class Game:
         self.current_snapshot_index = 0
 
         self.start_game()
-#############################################################################################################
-
-    def setup_ui(self, white_player_name: str, black_player_name: str):
-        self.root.minsize(688, 780)
-        self.root.geometry("")
-        self.add_button("Top left", self.top_left_button_click,0, 0, 4, 10)
-        self.add_button("Top right", self.top_right_button_click,0, 7, 2, 10)
-        self.add_label(black_player_name,0, 5, 1, 10)
-        self.black_player_piece_number_label = self.add_label("16", 0, 6, 1, 10)
-        self.create_board()
-        self.add_label(white_player_name,10, 5, 1, 10)
-        self.white_player_piece_number_label = self.add_label("16", 10, 6, 1, 10)
-        self.add_button("Bottom right", self.bottom_right_button_click,10, 7, 2, 10)
-        self.add_button("Bottom left", self.bottom_left_button_click,10, 0, 4, 10)
-
-    def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):
-        button = tk.Button(self.root, text=text, command=command, background="#FFFFFF", foreground='black',
-                           font=('Helvetica', 16), borderwidth=2, relief="groove", width=10, height=1)
-        button.grid(row=row, column=column, columnspan=columnspan, pady=pady)
-
-    def add_label(self, text: str, row: int, column: int, columnspan: int, pady: int):
-        label = tk.Label(self.root, text=text, background="#FFFFFF", font=('Helvetica', 16))
-        label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
-        return label
-
-    def create_board(self):
-        for i in range(8):
-            row = []
-            for j in range(8):
-                square = Square(self.root, width=8, height=4, onclick=self.click_on_board, col=j, row=i)
-                square.grid(row=i + 1, column=j + 1, sticky="nsew")
-                square.config(bg=Game.WHITE_COLOR if (i + j) % 2 == 0 else Game.BLACK_COLOR)
-                row.append(square)
-            self._chess_board.append(row)
-
-    def run(self):
-        self.root.mainloop()
-
-    def update_square_image(self, image_path, row, col):
-        self._chess_board[row][col].set_image(image_path)
-
-    def update_square_color(self, color, row, col):
-        self._chess_board[row][col].set_color(color)
-
-    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str):
-        self.white_player_piece_number_label.config(text=white_player_piece_number)
-        self.black_player_piece_number_label.config(text=black_player_piece_number)
-
-#############################################################################################################
 
     def start_game(self):
         self._white_player.init_pieces()
@@ -127,19 +74,19 @@ class Game:
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
 
-    def bottom_right_button_click(self) -> None:
-        self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
-
-    def top_right_button_click(self) -> None:
-        self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
-
     def bottom_left_button_click(self) -> None:
         self.prev_snapshot()
         self.update_view()
 
-    def top_left_button_click(self) -> None:
+    def bottom_right_button_click(self) -> None:
         self.next_snapshot()
         self.update_view()
+
+    def top_left_button_click(self) -> None:
+        self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
+
+    def top_right_button_click(self) -> None:
+        self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
 
     def click_on_board(self, row: int, col: int) -> None:
 

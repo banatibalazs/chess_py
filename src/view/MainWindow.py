@@ -97,7 +97,7 @@ class MainWindow:
 
     def open_new_window(self):
         game = Game("Chess Game", self.white_player_name.get(), self.black_player_name.get())
-        game.run()
+        # game.run()
 
     def run(self):
         self.root.mainloop()
