@@ -5,7 +5,7 @@ from src.model.Square import Square
 
 
 class ChessGui(tk.Toplevel):
-    BLACK_COLOR = "#4a3434"
+    BLACK_COLOR = "#111111"
     WHITE_COLOR = "#ffffff"
 
     def __init__(self, title, white_player_name, black_player_name, board_click_function: Callable,
@@ -33,19 +33,20 @@ class ChessGui(tk.Toplevel):
                  bottom_left_button_click_function: Callable):
         self.minsize(688, 780)
         self.geometry("")
-        self.top_left_button = self.add_button("Top left", top_left_button_click_function, 0, 0, 4, 10)
+        self.top_left_button = self.add_button("Top left", top_left_button_click_function, 0, 4, 2, 10)
         self.top_right_button = self.add_button("Top right",top_right_button_click_function, 0, 7, 2, 10)
-        self.black_player_name_label = self.add_label(black_player_name, 0, 5, 1, 10)
-        self.black_player_piece_number_label = self.add_label("16", 0, 6, 1, 10)
+        self.black_player_name_label = self.add_label(black_player_name, 0, 1, 1, 10)
+        self.black_player_piece_number_label = self.add_label("16", 0, 2, 1, 10)
         self.create_board(board_click_function=board_click_function)
-        self.white_player_name_label = self.add_label(white_player_name, 10, 5, 1, 10)
-        self.white_player_piece_number_label = self.add_label("16", 10, 6, 1, 10)
+        self.white_player_name_label = self.add_label(white_player_name, 10, 1, 1, 10)
+        self.white_player_piece_number_label = self.add_label("16", 10, 2, 1, 10)
+        self.bottom_left_button = self.add_button("<",bottom_left_button_click_function, 10, 4, 2, 10)
+        self.snapshot_label = self.add_label("1/1", 10, 6, 1, 10)
         self.bottom_right_button = self.add_button(">", bottom_right_button_click_function, 10, 7, 2, 10)
-        self.bottom_left_button = self.add_button("<",bottom_left_button_click_function, 10, 0, 4, 10)
 
     def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):
-        button = tk.Button(self, text=text, command=command, background="#FFFFFF", foreground='black',
-                           font=('Helvetica', 16), borderwidth=2, relief="groove", width=10, height=1)
+        button = tk.Button(self, text=text, command=command, background="#F1F1F1", foreground='black',
+                           font=('Helvetica', 16), borderwidth=0, relief="groove", width=7, height=1)
         button.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return button
 
@@ -64,8 +65,8 @@ class ChessGui(tk.Toplevel):
                 row.append(square)
             self._chess_board.append(row)
 
-    def run(self):
-        self.mainloop()
+    # def run(self):
+    #     self.mainloop()
 
     def update_square_image(self, image_path, row, col):
         self._chess_board[row][col].set_image(image_path)
@@ -73,6 +74,8 @@ class ChessGui(tk.Toplevel):
     def update_square_color(self, color, row, col):
         self._chess_board[row][col].set_color(color)
 
-    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str):
+    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str,
+                      snapshot_number: str, total_snapshot_number: str):
         self.white_player_piece_number_label.config(text=white_player_piece_number)
         self.black_player_piece_number_label.config(text=black_player_piece_number)
+        self.snapshot_label.config(text=f"{snapshot_number}/{total_snapshot_number}")

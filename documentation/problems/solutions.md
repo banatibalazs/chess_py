@@ -50,9 +50,10 @@ to this...
 import src.view.ChessWindow as ChessWindow
 ```
 ### But then it is necessary to change the type hinting:
+
 ```python
 def __init__(self, chess_window: ChessWindow.ChessWindow, white_player_name: str, black_player_name: str):
-    self._chess_window: ChessWindow.ChessWindow = chess_window
+    self._chess_gui: ChessWindow.ChessWindow = chess_window
 ```
 
 

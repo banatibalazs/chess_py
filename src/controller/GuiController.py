@@ -2,8 +2,10 @@ from typing import Dict, List
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
 
+from src.view.ChessGui import ChessGui
 
-class ViewController:
+
+class GuiController:
 
     WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
     WH_BISHOP_IMAGE_PATH = "../resources/images/pieces/wh_bishop.png"
@@ -26,30 +28,33 @@ class ViewController:
     LIGHT_SELECTED_COLOR = "#e0c097"
     DARK_SELECTED_COLOR = "#c29977"
     WHITE_COLOR = "#ffffff"
-    BLACK_COLOR = "#4a3434"
+    BLACK_COLOR = "#5f4f24"
     LIGHT_RED_COLOR = "#ff2222"
     DARK_RED_COLOR = "#ff8888"
     LIGHT_BLUE_COLOR = "#2222ff"
     DARK_BLUE_COLOR = "#8888ff"
+    # Last move color
+    LIGHT_LM_COLOR = "#baff9a"
+    DARK_LM_COLOR = "#6aaa5a"
 
-    def __init__(self, chess_window):
-        self._chess_window = chess_window
+    def __init__(self, chess_gui: ChessGui):
+        self._chess_gui: ChessGui = chess_gui
         self._int_to_piece_image_path: Dict[np.byte, str] = {
-            -6: ViewController.BL_KING_IMAGE_PATH,
-            -5: ViewController.BL_QUEEN_IMAGE_PATH,
-            -4: ViewController.BL_BISHOP_IMAGE_PATH,
-            -3: ViewController.BL_KNIGHT_IMAGE_PATH,
-            -2: ViewController.BL_ROOK_IMAGE_PATH,
-            -1: ViewController.BL_PAWN_IMAGE_PATH,
+            -6: GuiController.BL_KING_IMAGE_PATH,
+            -5: GuiController.BL_QUEEN_IMAGE_PATH,
+            -4: GuiController.BL_BISHOP_IMAGE_PATH,
+            -3: GuiController.BL_KNIGHT_IMAGE_PATH,
+            -2: GuiController.BL_ROOK_IMAGE_PATH,
+            -1: GuiController.BL_PAWN_IMAGE_PATH,
 
-            0: ViewController.EMPTY_SQUARE_IMAGE_PATH,
+            0: GuiController.EMPTY_SQUARE_IMAGE_PATH,
 
-            6: ViewController.WH_KING_IMAGE_PATH,
-            5: ViewController.WH_QUEEN_IMAGE_PATH,
-            4: ViewController.WH_BISHOP_IMAGE_PATH,
-            3: ViewController.WH_KNIGHT_IMAGE_PATH,
-            2: ViewController.WH_ROOK_IMAGE_PATH,
-            1: ViewController.WH_PAWN_IMAGE_PATH
+            6: GuiController.WH_KING_IMAGE_PATH,
+            5: GuiController.WH_QUEEN_IMAGE_PATH,
+            4: GuiController.WH_BISHOP_IMAGE_PATH,
+            3: GuiController.WH_KNIGHT_IMAGE_PATH,
+            2: GuiController.WH_ROOK_IMAGE_PATH,
+            1: GuiController.WH_PAWN_IMAGE_PATH
         }
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
@@ -59,8 +64,8 @@ class ViewController:
         rows, cols = np.where(attack_board == True)
         # Create a list of colors according to the original square colors
         colors = np.where((rows + cols) % 2 == 0,
-                          ViewController.LIGHT_RED_COLOR,
-                          ViewController.DARK_RED_COLOR).tolist()
+                          GuiController.LIGHT_RED_COLOR,
+                          GuiController.DARK_RED_COLOR).tolist()
         # Create a list of positions
         positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
         self.update_square_color(colors, positions)
@@ -72,22 +77,24 @@ class ViewController:
             rows, cols = np.where(attack_board == True)
             # Create a list of colors according to the original square colors
             colors = np.where((rows + cols) % 2 == 0,
-                            ViewController.LIGHT_GREEN,
-                            ViewController.DARK_GREEN).tolist()
+                              GuiController.LIGHT_GREEN,
+                              GuiController.DARK_GREEN).tolist()
             # Create a list of positions
             positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
             self.update_square_color(colors, positions)
 
-    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str) -> None:
-        self._chess_window.update_labels(white_player_piece_number, black_player_piece_number)
+    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str,
+                      snapshot_number: str, total_snapshot_number: str) -> None:
+        self._chess_gui.update_labels(white_player_piece_number, black_player_piece_number,
+                                      snapshot_number, total_snapshot_number)
 
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for row in range(8):
             for col in range(8):
                 path = self._int_to_piece_image_path[piece_positions_board[row][col]]
-                self._chess_window.update_square_image(path, row, col)
+                self._chess_gui.update_square_image(path, row, col)
 
-    def update_board_coloring(self, piece_coordinate, possible_fields) -> None:
+    def update_board_coloring(self, piece_coordinate, possible_fields, last_move) -> None:
 
         # Reset the square colors
         self.reset_square_colors()
@@ -95,30 +102,43 @@ class ViewController:
         if piece_coordinate is not None:
             row, col = piece_coordinate
             if (row + col) % 2 == 0:
-                color = ViewController.LIGHT_SELECTED_COLOR
+                color = GuiController.LIGHT_SELECTED_COLOR
             else:
-                color = ViewController.DARK_SELECTED_COLOR
+                color = GuiController.DARK_SELECTED_COLOR
             self.update_square_color([color], [[row, col]])
 
         if possible_fields is not None:
             for field in possible_fields:
                 row, col = field
                 if (row + col) % 2 == 0:
-                    color = ViewController.LIGHT_GREEN
+                    color = GuiController.LIGHT_GREEN
                 else:
-                    color = ViewController.DARK_GREEN
+                    color = GuiController.DARK_GREEN
                 self.update_square_color([color], [[row, col]])
+
+        if last_move is not None:
+            from_row, from_col, to_row, to_col = last_move
+            if (from_row + from_col) % 2 == 0:
+                color = GuiController.LIGHT_LM_COLOR
+            else:
+                color = GuiController.DARK_LM_COLOR
+            self.update_square_color([color], [[from_row, from_col]])
+            if (to_row + to_col) % 2 == 0:
+                color = GuiController.LIGHT_LM_COLOR
+            else:
+                color = GuiController.DARK_LM_COLOR
+            self.update_square_color([color], [[to_row, to_col]])
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
             row, col = positions[i]
-            self._chess_window.update_square_color(color[i], row, col)
+            self._chess_gui.update_square_color(color[i], row, col)
 
     def reset_square_colors(self) -> None:
         for i in range(8):
             for j in range(8):
-                self._chess_window.update_square_color(ViewController.WHITE_COLOR
+                self._chess_gui.update_square_color(GuiController.WHITE_COLOR
                                                        if (i + j) % 2 == 0
-                                                       else ViewController.BLACK_COLOR, j, i)
+                                                       else GuiController.BLACK_COLOR, j, i)
 
 

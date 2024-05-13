@@ -1,8 +1,6 @@
-from typing import Callable
-
-import tkinter as tk
 from src.controller.Snapshot import Snapshot
-from src.controller.ViewController import ViewController
+from src.controller.GuiController import GuiController
+from src.controller.StepHistory import StepHistory
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.ColorEnum import ColorEnum
@@ -12,21 +10,17 @@ from src.model.PieceTypeEnum import PieceTypeEnum
 from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
-from src.model.Square import Square
 from src.view.ChessGui import ChessGui
 
 
 class Game:
-    BLACK_COLOR = "#4a3434"
-    WHITE_COLOR = "#ffffff"
-
     def __init__(self, title, white_player_name: str, black_player_name: str):
 
-        self.gui = ChessGui(title, white_player_name, black_player_name, self.click_on_board,
-                            self.top_left_button_click, self.top_right_button_click,
-                            self.bottom_right_button_click, self.bottom_left_button_click)
-
-        self._view_controller = ViewController(self.gui)
+        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name,
+                            self.click_on_board, self.top_left_button_click,
+                            self.top_right_button_click, self.bottom_right_button_click,
+                            self.bottom_left_button_click)
+        self._gui_controller = GuiController(self.gui)
 
         self._board: Board = Board()
         self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
@@ -36,7 +30,7 @@ class Game:
 
         self.is_white_turn: bool = True
 
-        self.step_history = []
+        self.step_history: StepHistory = StepHistory()
         self.snapshots = []
         self.current_snapshot_index = 0
 
@@ -46,47 +40,48 @@ class Game:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
 
-        self.update(self._white_player, self._black_player, self._board)
         self.save_snapshot()
-        self.update_view()
+        self.update()
 
     def next_turn(self):
-        self.update(self._current_player, self._opponent_player, self._board)
-        self.update_view()
+        self.update()
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        print(self.step_history)
+        print(self.step_history.get_steps())
 
-    def update_view(self) -> None:
-        self.update(self._current_player, self._opponent_player, self._board)
-        self._view_controller.update_pieces_on_board(self._board.get_piece_board())
+    def _update_gui(self) -> None:
+        self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
 
         coordinates = None
         possible_fields = None
+
         if self._current_player.selected_piece is not None:
             coordinates = self._current_player.selected_piece.coordinates
             possible_fields = self._current_player.selected_piece.possible_fields
-        self._view_controller.update_board_coloring(coordinates, possible_fields)
 
-        self._view_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()))
+        last_move = self._opponent_player.last_move
+
+        self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move)
+        self._gui_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()),
+                                           str(self.current_snapshot_index + 1), str(len(self.snapshots)))
 
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
 
     def bottom_left_button_click(self) -> None:
         self.prev_snapshot()
-        self.update_view()
+        self.update()
 
     def bottom_right_button_click(self) -> None:
         self.next_snapshot()
-        self.update_view()
+        self.update()
 
     def top_left_button_click(self) -> None:
-        self._view_controller.show_white_attack_board(self._board.get_white_attack_board())
+        self._gui_controller.show_white_attack_board(self._board.get_white_attack_board())
 
     def top_right_button_click(self) -> None:
-        self._view_controller.show_black_attack_board(self._board.get_black_attack_board())
+        self._gui_controller.show_black_attack_board(self._board.get_black_attack_board())
 
     def click_on_board(self, row: int, col: int) -> None:
 
@@ -106,7 +101,7 @@ class Game:
         else:
             self._current_player.selected_piece = None
 
-        self.update_view()
+        self.update()
 
     def make_move(self, row, col):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
@@ -147,12 +142,11 @@ class Game:
         if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
             self._opponent_player.remove_piece_at(to_row, to_col)
 
-        self._current_player.selected_piece.coordinates = (to_row, to_col)
-        self._current_player.selected_piece.is_moved = True
-        self._current_player._last_moved_piece = self._current_player.selected_piece
-        self._current_player.selected_piece.update_attacked_fields(self._current_player, self._opponent_player)
+        self._current_player.move_piece(to_row, to_col)
 
-        self.step_history.append((from_row, from_col, to_row, to_col))
+        self.step_history.add_step(self._current_player.selected_piece.type.name,
+                                   self._current_player.selected_piece.color.name,
+                                   from_row, from_col, to_row, to_col)
 
     def is_promotion(self, to_row):
         return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceTypeEnum.PAWN
@@ -217,9 +211,10 @@ class Game:
         self._current_player.last_moved_piece = new_piece
         self._current_player.reset_en_passant()
 
-    def update(self, current_player, opponent_player, board):
-        self._update_players(current_player, opponent_player)
-        self._update_board(current_player, opponent_player, board)
+    def update(self):
+        self._update_players(self._current_player, self._opponent_player)
+        self._update_board(self._current_player, self._opponent_player, self._board)
+        self._update_gui()
 
     def _update_players(self, current_player, opponent_player):
         current_player.update_pieces_attacked_fields(opponent_player)

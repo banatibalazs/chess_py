@@ -2,13 +2,13 @@ import unittest
 from unittest.mock import Mock
 import numpy as np
 
-from src.controller.ViewController import ViewController
+from src.controller.GuiController import GuiController
 
 
 class TestViewController(unittest.TestCase):
 
     def setUp(self):
-        self.view_controller = ViewController()
+        self.view_controller = GuiController()
         self.mock_board = Mock()
 
     def test_update_board_view(self):

@@ -22,6 +22,7 @@ class Player:
         self._last_moved_piece: Optional[Piece] = None
         self._king = None
         self._king_is_checked: bool = False
+        self._last_move = None
 
         self._pieces: List[Piece] = []
         self._attacked_fields: Set[Tuple[int, int]] = set()
@@ -126,3 +127,18 @@ class Player:
     def add_piece(self, piece: Piece) -> None:
         self._pieces.append(piece)
 
+    @property
+    def last_move(self):
+        return self._last_move
+
+    @last_move.setter
+    def last_move(self, move):
+        self._last_move = move
+
+    def move_piece(self, to_row: int, to_col: int) -> None:
+        from_row, from_col = self.selected_piece.coordinates
+        self.last_move = (from_row, from_col, to_row, to_col)
+        self.selected_piece.coordinates = (to_row, to_col)
+        self.selected_piece.is_moved = True
+        self._last_moved_piece = self.selected_piece
+        # self.selected_piece.update_attacked_fields(self, self._opponent_player)

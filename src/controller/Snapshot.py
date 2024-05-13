@@ -14,6 +14,7 @@ class Snapshot:
         self.opponent_pieces = self._get_pieces_info(opponent)
         self.current_player_color = current_player.color
         self.opponent_color = opponent.color
+        self.opponent_last_move = opponent.last_move
 
     def _get_pieces_info(self, player):
         pieces_info = []
@@ -50,6 +51,8 @@ class Snapshot:
             new_piece = self.create_piece(_type, color, row, col, is_en_passant)
             new_piece.is_moved = piece["is_moved"]
             opponent.add_piece(new_piece)
+
+        opponent.last_move = self.opponent_last_move
 
     def create_piece(self, piece_type, color, row, col, is_en_passant=False):
         if piece_type == PieceTypeEnum.PAWN:
