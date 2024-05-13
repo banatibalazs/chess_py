@@ -40,9 +40,6 @@ class Pawn(Piece):
                 else:
                     self._attacked_fields.add((row + 1, col + 1))
 
-
-
-
     @override
     def update_possible_fields(self, current_player, opponent) -> None:
         self._possible_fields.clear()

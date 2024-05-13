@@ -30,7 +30,7 @@ class Player:
 
     def init_pieces(self) -> None:
         color = self._color
-        # Append pawns
+
         for i in range(8):
             self._pieces.append(Pawn(color, 6 if color == Color.WHITE else 1, i))
 
@@ -47,7 +47,6 @@ class Player:
         self._pieces.append(Rook(color, 7 if color == Color.WHITE else 0, 7))
 
     def update_pieces_attacked_fields(self, opponent: 'Player') -> None:
-        # print("Attacked fields are updated.")
         self._attacked_fields.clear()
         for piece in self._pieces:
             if piece.type == PieceType.KING:
@@ -94,10 +93,12 @@ class Player:
         for piece in self._pieces:
             if piece.coordinates == (row, col):
                 return True
+        return False
 
     def is_selected_piece_at(self, row: int, col: int) -> bool:
         if self._selected_piece is not None:
             return self._selected_piece.coordinates == (row, col)
+        return False
 
     def is_possible_move(self, row: int, col: int) -> bool:
         if self._selected_piece is None:
@@ -113,7 +114,7 @@ class Player:
         return self._selected_piece
 
     @selected_piece.setter
-    def selected_piece(self, piece: Piece) -> None:
+    def selected_piece(self, piece: Optional[Piece]) -> None:
         self._selected_piece = piece
 
     @property
@@ -132,7 +133,7 @@ class Player:
         return self._last_move
 
     @last_move.setter
-    def last_move(self, move: Tuple[int, int, int, int] ) -> None:
+    def last_move(self, move: Tuple[int, int, int, int]) -> None:
         self._last_move = move
 
     def move_piece(self, to_row: int, to_col: int) -> None:

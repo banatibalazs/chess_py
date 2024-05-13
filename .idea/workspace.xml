@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="color changed, type hints add">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="changed board coloring, last move is first then comes the possible fields coloring">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Snapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Snapshot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/StepHistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/StepHistory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Color.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Color.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PieceType.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/PieceType.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,14 +243,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00030" summary="bugfix special moves update">
-      <option name="closed" value="true" />
-      <created>1714412267608</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1714412267608</updated>
     </task>
     <task id="LOCAL-00031" summary="extra space">
       <option name="closed" value="true" />
@@ -629,7 +628,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715612158838</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="changed board coloring, last move is first then comes the possible fields coloring">
+      <option name="closed" value="true" />
+      <created>1715612982693</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612982693</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -644,7 +651,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="writing tests for Bishop.py and remove unused field from pieces" />
     <MESSAGE value="unify the column and row order in functions and their name everywhere" />
     <MESSAGE value="Bishop unittests" />
     <MESSAGE value="Pawn move bugfix, king test" />
@@ -669,7 +675,8 @@
     <MESSAGE value="new ChessGui.py class inherited from tk.Toplevel" />
     <MESSAGE value="buttons replaced, last move showed in every snapshot" />
     <MESSAGE value="color changed, type hints add" />
-    <option name="LAST_COMMIT_MESSAGE" value="color changed, type hints add" />
+    <MESSAGE value="changed board coloring, last move is first then comes the possible fields coloring" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed board coloring, last move is first then comes the possible fields coloring" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

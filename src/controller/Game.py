@@ -19,9 +19,10 @@ class Game:
     def __init__(self, title: str, white_player_name: str, black_player_name: str) -> None:
 
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name,
-                            self.click_on_board, self.top_left_button_click,
-                            self.top_right_button_click, self.bottom_right_button_click,
-                            self.bottom_left_button_click)
+                                      self.click_on_board, self.top_left_button_click,
+                                      self.top_right_button_click, self.bottom_right_button_click,
+                                      self.bottom_left_button_click)
+
         self._gui_controller: GuiController = GuiController(self.gui)
 
         self._board: Board = Board()
@@ -80,10 +81,10 @@ class Game:
         self.update()
 
     def top_left_button_click(self) -> None:
-        self._gui_controller.show_white_attack_board(self._board.get_white_attack_board())
+        pass
 
     def top_right_button_click(self) -> None:
-        self._gui_controller.show_black_attack_board(self._board.get_black_attack_board())
+        pass
 
     def click_on_board(self, row: int, col: int) -> None:
 
@@ -118,7 +119,7 @@ class Game:
 
     def _make_move(self, to_row: int, to_col: int) -> None:
         if self._current_player.selected_piece is None:
-            print("Eror: No piece is selected.")
+            print("Error: No piece is selected.")
 
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col
@@ -223,8 +224,7 @@ class Game:
         self._opponent_player.update_pieces_attacked_fields(self._current_player)
 
     def _update_board(self) -> None:
-        self._board.update_piece_board(self._current_player, self._opponent_player)
-        self._board.update_attack_boards(self._current_player, self._opponent_player)
+        self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)
         if self._current_player.selected_piece is not None:
             self._current_player.selected_piece.update_possible_fields(self._current_player, self._opponent_player)
         self._board.update_coloring_board(self._current_player.selected_piece)
@@ -232,14 +232,12 @@ class Game:
     def save_snapshot(self) -> None:
         self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
         self.current_snapshot_index = len(self.snapshots) - 1
-        print("Snapshot saved.", len(self.snapshots) - 1)
 
     def prev_snapshot(self) -> None:
         if self.current_snapshot_index > 0:
             self.current_snapshot_index -= 1
 
         snapshot = self.snapshots[self.current_snapshot_index]
-        print(f"Loading snapshot {self.current_snapshot_index} / {len(self.snapshots) - 1}")
         snapshot.load_players(self._current_player, self._opponent_player)
 
     def next_snapshot(self) -> None:
@@ -247,6 +245,4 @@ class Game:
             self.current_snapshot_index += 1
 
         snapshot = self.snapshots[self.current_snapshot_index]
-        print(f"Loading snapshot {self.current_snapshot_index} / {len(self.snapshots) - 1}")
         snapshot.load_players(self._current_player, self._opponent_player)
-

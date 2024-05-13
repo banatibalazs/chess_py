@@ -38,29 +38,32 @@ class GuiController:
 
     def __init__(self, chess_gui: ChessGui) -> None:
         self._chess_gui: ChessGui = chess_gui
-        self._int_to_piece_image_path: Dict[np.byte, str] = {
-            -6: GuiController.BL_KING_IMAGE_PATH,
-            -5: GuiController.BL_QUEEN_IMAGE_PATH,
-            -4: GuiController.BL_BISHOP_IMAGE_PATH,
-            -3: GuiController.BL_KNIGHT_IMAGE_PATH,
-            -2: GuiController.BL_ROOK_IMAGE_PATH,
-            -1: GuiController.BL_PAWN_IMAGE_PATH,
+        self._byte_to_piece_image_path: Dict[np.byte, str] = {
+            np.byte(-6): GuiController.BL_KING_IMAGE_PATH,
+            np.byte(-5): GuiController.BL_QUEEN_IMAGE_PATH,
+            np.byte(-4): GuiController.BL_BISHOP_IMAGE_PATH,
+            np.byte(-3): GuiController.BL_KNIGHT_IMAGE_PATH,
+            np.byte(-2): GuiController.BL_ROOK_IMAGE_PATH,
+            np.byte(-1): GuiController.BL_PAWN_IMAGE_PATH,
 
-            0: GuiController.EMPTY_SQUARE_IMAGE_PATH,
+            np.byte(0): GuiController.EMPTY_SQUARE_IMAGE_PATH,
 
-            6: GuiController.WH_KING_IMAGE_PATH,
-            5: GuiController.WH_QUEEN_IMAGE_PATH,
-            4: GuiController.WH_BISHOP_IMAGE_PATH,
-            3: GuiController.WH_KNIGHT_IMAGE_PATH,
-            2: GuiController.WH_ROOK_IMAGE_PATH,
-            1: GuiController.WH_PAWN_IMAGE_PATH
+            np.byte(6): GuiController.WH_KING_IMAGE_PATH,
+            np.byte(5): GuiController.WH_QUEEN_IMAGE_PATH,
+            np.byte(4): GuiController.WH_BISHOP_IMAGE_PATH,
+            np.byte(3): GuiController.WH_KNIGHT_IMAGE_PATH,
+            np.byte(2): GuiController.WH_ROOK_IMAGE_PATH,
+            np.byte(1): GuiController.WH_PAWN_IMAGE_PATH
         }
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
+        if attack_board is None:
+            return
+
         self.reset_square_colors()
 
-        rows, cols = np.where(attack_board == True)
+        rows, cols = np.where(attack_board is True)
         # Create a list of colors according to the original square colors
         colors = np.where((rows + cols) % 2 == 0,
                           GuiController.LIGHT_RED_COLOR,
@@ -71,9 +74,12 @@ class GuiController:
 
     def show_white_attack_board(self, attack_board: BoolArray8x8) -> None:
 
+        if attack_board is None:
+            return
+
         self.reset_square_colors()
 
-        rows, cols = np.where(attack_board == True)
+        rows, cols = np.where(attack_board is True)
         # Create a list of colors according to the original square colors
         colors = np.where((rows + cols) % 2 == 0,
                           GuiController.LIGHT_GREEN,
@@ -90,7 +96,7 @@ class GuiController:
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for row in range(8):
             for col in range(8):
-                path = self._int_to_piece_image_path[piece_positions_board[row][col]]
+                path = self._byte_to_piece_image_path[piece_positions_board[row][col]]
                 self._chess_gui.update_square_image(path, row, col)
 
     def update_board_coloring(self, piece_coordinate: Tuple[int, int], possible_fields: Set[Tuple[int, int]],
@@ -128,7 +134,6 @@ class GuiController:
                 else:
                     color = GuiController.DARK_GREEN
                 self.update_square_color([color], [[row, col]])
-
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):

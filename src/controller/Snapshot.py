@@ -22,7 +22,7 @@ class Snapshot:
             piece_info = {
                 'coordinates': piece.coordinates,
                 'type': piece.type,
-                'color': piece._color,
+                'color': piece.color,
                 'is_moved': piece.is_moved
             }
             if isinstance(piece, Pawn):

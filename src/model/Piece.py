@@ -16,7 +16,6 @@ class Piece(ABC):
 
         self._is_moved = False
 
-
     def _init_value(self):
         if self._type == PieceType.PAWN:
             return 1
