@@ -17,7 +17,7 @@ class Board:
         self._black_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
 
     def update(self, current_player, opponent) -> None:
-        self.update_piece_board( current_player, opponent)
+        self.update_piece_board(current_player, opponent)
         self.update_coloring_board(current_player.selected_piece)
         self.update_attack_boards(current_player, opponent)
 

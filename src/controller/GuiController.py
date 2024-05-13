@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Set
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
 
@@ -6,7 +6,6 @@ from src.view.ChessGui import ChessGui
 
 
 class GuiController:
-
     WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
     WH_BISHOP_IMAGE_PATH = "../resources/images/pieces/wh_bishop.png"
     WH_ROOK_IMAGE_PATH = "../resources/images/pieces/wh_rook.png"
@@ -72,16 +71,16 @@ class GuiController:
 
     def show_white_attack_board(self, attack_board: BoolArray8x8) -> None:
 
-            self.reset_square_colors()
+        self.reset_square_colors()
 
-            rows, cols = np.where(attack_board == True)
-            # Create a list of colors according to the original square colors
-            colors = np.where((rows + cols) % 2 == 0,
-                              GuiController.LIGHT_GREEN,
-                              GuiController.DARK_GREEN).tolist()
-            # Create a list of positions
-            positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-            self.update_square_color(colors, positions)
+        rows, cols = np.where(attack_board == True)
+        # Create a list of colors according to the original square colors
+        colors = np.where((rows + cols) % 2 == 0,
+                          GuiController.LIGHT_GREEN,
+                          GuiController.DARK_GREEN).tolist()
+        # Create a list of positions
+        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
+        self.update_square_color(colors, positions)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str,
                       snapshot_number: str, total_snapshot_number: str) -> None:
@@ -94,11 +93,24 @@ class GuiController:
                 path = self._int_to_piece_image_path[piece_positions_board[row][col]]
                 self._chess_gui.update_square_image(path, row, col)
 
-    def update_board_coloring(self, piece_coordinate: Tuple[int, int], possible_fields: List[Tuple[int, int]],
+    def update_board_coloring(self, piece_coordinate: Tuple[int, int], possible_fields: Set[Tuple[int, int]],
                               last_move: Tuple[int, int, int, int]) -> None:
 
         # Reset the square colors
         self.reset_square_colors()
+
+        if last_move is not None:
+            from_row, from_col, to_row, to_col = last_move
+            if (from_row + from_col) % 2 == 0:
+                color = GuiController.LIGHT_LM_COLOR
+            else:
+                color = GuiController.DARK_LM_COLOR
+            self.update_square_color([color], [[from_row, from_col]])
+            if (to_row + to_col) % 2 == 0:
+                color = GuiController.LIGHT_LM_COLOR
+            else:
+                color = GuiController.DARK_LM_COLOR
+            self.update_square_color([color], [[to_row, to_col]])
 
         if piece_coordinate is not None:
             row, col = piece_coordinate
@@ -117,18 +129,6 @@ class GuiController:
                     color = GuiController.DARK_GREEN
                 self.update_square_color([color], [[row, col]])
 
-        if last_move is not None:
-            from_row, from_col, to_row, to_col = last_move
-            if (from_row + from_col) % 2 == 0:
-                color = GuiController.LIGHT_LM_COLOR
-            else:
-                color = GuiController.DARK_LM_COLOR
-            self.update_square_color([color], [[from_row, from_col]])
-            if (to_row + to_col) % 2 == 0:
-                color = GuiController.LIGHT_LM_COLOR
-            else:
-                color = GuiController.DARK_LM_COLOR
-            self.update_square_color([color], [[to_row, to_col]])
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:
         for i in range(len(positions)):
@@ -139,7 +139,5 @@ class GuiController:
         for i in range(8):
             for j in range(8):
                 self._chess_gui.update_square_color(GuiController.WHITE_COLOR
-                                                       if (i + j) % 2 == 0
-                                                       else GuiController.BLACK_COLOR, j, i)
-
-
+                                                    if (i + j) % 2 == 0
+                                                    else GuiController.BLACK_COLOR, j, i)

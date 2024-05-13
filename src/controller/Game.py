@@ -214,22 +214,20 @@ class Game:
         self._current_player.reset_en_passant()
 
     def update(self) -> None:
-        self._update_players(self._current_player, self._opponent_player)
-        self._update_board(self._current_player, self._opponent_player, self._board)
+        self._update_players()
+        self._update_board()
         self._update_gui()
 
-    def _update_players(self, current_player: Player, opponent_player: Player) -> None:
-        current_player.update_pieces_attacked_fields(opponent_player)
-        opponent_player.update_pieces_attacked_fields(current_player)
+    def _update_players(self) -> None:
+        self._current_player.update_pieces_attacked_fields(self._opponent_player)
+        self._opponent_player.update_pieces_attacked_fields(self._current_player)
 
-    def _update_board(self, current_player: Player, opponent_player: Player, board: Board) -> None:
-
-        board.update_piece_board(current_player, opponent_player)
-        board.update_attack_boards(current_player, opponent_player)
-
-        if current_player.selected_piece is not None:
-            current_player.selected_piece.update_possible_fields(current_player, opponent_player)
-        board.update_coloring_board(current_player.selected_piece)
+    def _update_board(self) -> None:
+        self._board.update_piece_board(self._current_player, self._opponent_player)
+        self._board.update_attack_boards(self._current_player, self._opponent_player)
+        if self._current_player.selected_piece is not None:
+            self._current_player.selected_piece.update_possible_fields(self._current_player, self._opponent_player)
+        self._board.update_coloring_board(self._current_player.selected_piece)
 
     def save_snapshot(self) -> None:
         self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
