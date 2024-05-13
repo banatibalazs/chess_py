@@ -8,6 +8,7 @@ from src.model.Board import Board
 from src.model.Color import Color
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
+from src.model.Piece import Piece
 from src.model.PieceType import PieceType
 from src.model.Player import Player
 from src.model.Queen import Queen
@@ -52,6 +53,19 @@ class Game:
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
         print(self.step_history.get_steps())
+        if self._current_player.can_move( self._opponent_player):
+            print("Current player can move.")
+        else:
+            print("Current player can't move.")
+        if self._opponent_player.can_move(self._current_player):
+            print("Opponent player can move.")
+        else:
+            print("Opponent player can't move.")
+            # TODO: implement checkmate
+
+
+    def is_checkmate(self) -> bool:
+        return not self._opponent_player.can_move()
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
@@ -108,7 +122,7 @@ class Game:
 
     def make_move(self, row: int, col: int):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
-        # Or if we'd like to permit the change than the next_snapshots has to be deleted. TODO
+        # Or if we'd like to permit the change than the next_snapshots has to be deleted. TODO: decide
         if len(self.snapshots) - 1 == self.current_snapshot_index:
             self._make_move(row, col)
             self._current_player.selected_piece = None
@@ -133,20 +147,23 @@ class Game:
         # Check if the move is a promotion
         if self.is_promotion(to_row):
             self.do_promotion(to_row, to_col, PieceType.QUEEN)
+            # TODO: Implement promotion dialog
 
         # Check if the move is a castling
-        if self.is_castling(to_col):
+        elif self.is_castling(to_col):
             self.do_castling(to_row, to_col)
 
         # Check if the move is an en passant
-        if self.is_en_passant(to_row, to_col):
+        elif self.is_en_passant(to_row, to_col):
             self.do_en_passant(to_row, to_col, self._opponent_player)
 
-        if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
-            self._opponent_player.remove_piece_at(to_row, to_col)
+        # Normal move
+        else:
+            self._current_player.move_piece(to_row, to_col)
+            if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
+                self._opponent_player.remove_piece_at(to_row, to_col)
 
-        self._current_player.move_piece(to_row, to_col)
-
+        self._current_player.last_move = (from_row, from_col, to_row, to_col)
         self.step_history.add_step(self._current_player.selected_piece.type.name,
                                    self._current_player.selected_piece.color.name,
                                    from_row, from_col, to_row, to_col)
@@ -171,17 +188,17 @@ class Game:
             rook = self._current_player.get_piece_at(row=row, col=0)
             if rook is not None:
                 rook.coordinates = (row, 3)
-                rook.set_moved = True
+                rook.is_moved = True
         elif col == 6:
             rook = self._current_player.get_piece_at(row, 7)
             if rook is not None:
                 rook.coordinates = (row, 5)
-                rook.set_moved = True
+                rook.is_moved = True
 
         king = self._current_player.king
         if king is not None:
             king.coordinates = (row, col)
-            king.set_moved = True
+            king.is_moved = True
         self._current_player._last_moved_piece = king
         self._current_player.reset_en_passant()
 
@@ -199,9 +216,12 @@ class Game:
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col
 
+        if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
+            self._opponent_player.remove_piece_at(to_row, to_col)
+
         self._current_player.remove_piece_at(from_row, from_col)
         if piece_type == PieceType.QUEEN:
-            new_piece = Queen(self._current_player.color, to_row, to_col)
+            new_piece: Piece = Queen(self._current_player.color, to_row, to_col)
         elif piece_type == PieceType.ROOK:
             new_piece = Rook(self._current_player.color, to_row, to_col)
         elif piece_type == PieceType.BISHOP:
@@ -222,6 +242,7 @@ class Game:
     def _update_players(self) -> None:
         self._current_player.update_pieces_attacked_fields(self._opponent_player)
         self._opponent_player.update_pieces_attacked_fields(self._current_player)
+        # TODO update possible fields
 
     def _update_board(self) -> None:
         self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)

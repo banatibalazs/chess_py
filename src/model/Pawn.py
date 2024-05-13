@@ -5,12 +5,12 @@ from src.model.PieceType import PieceType
 
 
 class Pawn(Piece):
-    def __init__(self, color: Color, row: int, col: int):
+    def __init__(self, color: Color, row: int, col: int) -> None:
         super().__init__(PieceType.PAWN, color, row, col)
         self._is_en_passant = False
 
     @override
-    def update_attacked_fields(self, current_player, opponent):
+    def update_attacked_fields(self, current_player, opponent) -> None:
         self._attacked_fields.clear()
         col = self.col
         row = self.row

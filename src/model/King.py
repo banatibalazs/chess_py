@@ -7,7 +7,7 @@ from src.model.Rook import Rook
 
 
 class King(Piece):
-    def __init__(self, color, row, col):
+    def __init__(self, color: Color, row: int, col: int) -> None:
         super().__init__(PieceType.KING, color, row, col)
 
     @override

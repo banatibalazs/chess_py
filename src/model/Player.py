@@ -57,7 +57,8 @@ class Player:
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
-            self._last_moved_piece.is_en_passant = False
+            if isinstance(self._last_moved_piece.type, Pawn):
+                self._last_moved_piece.is_en_passant = False
 
     def remove_piece_at(self, row: int, col: int) -> None:
         for piece in self._pieces:
@@ -70,6 +71,15 @@ class Player:
             if piece.coordinates == (row, col):
                 return piece
         return None
+
+    def can_move(self, opponent) -> bool:
+        result = False
+        for piece in self._pieces:
+            piece.update_possible_fields(self, opponent=opponent)
+            print(f'{piece.type} can move')
+            print(len(piece._possible_fields))
+            result = True
+        return result
 
     def get_score(self) -> int:
         score = 0
@@ -137,9 +147,6 @@ class Player:
         self._last_move = move
 
     def move_piece(self, to_row: int, to_col: int) -> None:
-        from_row, from_col = self.selected_piece.coordinates
-        self.last_move = (from_row, from_col, to_row, to_col)
         self.selected_piece.coordinates = (to_row, to_col)
         self.selected_piece.is_moved = True
         self._last_moved_piece = self.selected_piece
-        # self.selected_piece.update_attacked_fields(self, self._opponent_player)
