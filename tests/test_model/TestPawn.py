@@ -1,6 +1,6 @@
 import unittest
 from src.model.Board import Board
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Pawn import Pawn
 from src.model.Player import Player
 
@@ -27,13 +27,13 @@ class TestPawn(unittest.TestCase):
     def setUp(self):
         self.pawn = None
         self.board = Board()
-        self.white_player = Player("White", ColorEnum.WHITE, self.board)
-        self.black_player = Player("Black", ColorEnum.BLACK, self.board)
+        self.white_player = Player("White", Color.WHITE, self.board)
+        self.black_player = Player("Black", Color.BLACK, self.board)
 
     def test_update_attacked_fields_white_pawn_in_rows_0_to_7_empty_board(self):
         for j in range(8):
             for i in range(8):
-                self.pawn = Pawn(ColorEnum.WHITE, j, i)
+                self.pawn = Pawn(Color.WHITE, j, i)
                 self.pawn.update_attacked_fields(self.white_player, self.black_player)
                 if j == 0:
                     expected_result = set()
@@ -48,7 +48,7 @@ class TestPawn(unittest.TestCase):
     def test_update_attacked_fields_black_pawn_in_rows_0_to_7_empty_board(self):
         for row in range(8):
             for col in range(8):
-                self.pawn = Pawn(ColorEnum.BLACK, row, col)
+                self.pawn = Pawn(Color.BLACK, row, col)
                 self.pawn.update_attacked_fields(self.black_player, self.white_player)
                 if row == 7:
                     expected_result = set()
@@ -63,11 +63,11 @@ class TestPawn(unittest.TestCase):
     def test_white_pawn_attacked_fields_with_enemy_pieces(self):
         for row in range(8):
             for col in range(8):
-                self.black_player.add_piece(Pawn(ColorEnum.BLACK, row, col))
+                self.black_player.add_piece(Pawn(Color.BLACK, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.pawn = Pawn(ColorEnum.WHITE, row, col)
+                self.pawn = Pawn(Color.WHITE, row, col)
                 self.pawn.update_attacked_fields(self.white_player, self.black_player)
                 if row == 0:
                     expected_result = set()
@@ -82,11 +82,11 @@ class TestPawn(unittest.TestCase):
     def test_black_pawn_attacked_fields_with_enemy_pieces(self):
         for row in range(8):
             for col in range(8):
-                self.white_player.add_piece(Pawn(ColorEnum.WHITE, row, col))
+                self.white_player.add_piece(Pawn(Color.WHITE, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.pawn = Pawn(ColorEnum.BLACK, row, col)
+                self.pawn = Pawn(Color.BLACK, row, col)
                 self.pawn.update_attacked_fields(self.black_player, self.white_player)
                 if row == 7:
                     expected_result = set()
@@ -101,22 +101,22 @@ class TestPawn(unittest.TestCase):
     def test_white_pawn_attacked_fields_with_friendly_pieces(self):
         for row in range(8):
             for col in range(8):
-                self.white_player.add_piece(Pawn(ColorEnum.WHITE, row, col))
+                self.white_player.add_piece(Pawn(Color.WHITE, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.pawn = Pawn(ColorEnum.WHITE, row, col)
+                self.pawn = Pawn(Color.WHITE, row, col)
                 self.pawn.update_attacked_fields(self.white_player, self.black_player)
                 self.assertEqual(self.pawn._attacked_fields, set())
 
     def test_black_pawn_attacked_fields_with_friendly_pieces(self):
         for row in range(8):
             for col in range(8):
-                self.black_player.add_piece(Pawn(ColorEnum.BLACK, row, col))
+                self.black_player.add_piece(Pawn(Color.BLACK, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.pawn = Pawn(ColorEnum.BLACK, row, col)
+                self.pawn = Pawn(Color.BLACK, row, col)
                 self.pawn.update_attacked_fields(self.black_player, self.white_player)
                 self.assertEqual(self.pawn._attacked_fields, set())
 

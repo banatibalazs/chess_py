@@ -4,16 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="new ChessGui.py class inherited from tk.Toplevel">
-      <change afterPath="$PROJECT_DIR$/src/controller/StepHistory.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="buttons replaced, last move showed in every snapshot">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/problems/solutions.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/solutions.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Snapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Snapshot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Bishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/ColorEnum.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Color.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/King.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Knight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/PieceTypeEnum.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/PieceType.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Queen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Rook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_controller/TestViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_controller/TestViewController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestBishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestBishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestKing.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestKing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestRook.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestRook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,14 +254,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00028" summary="changed input parameter for pieces get_possible_moves method">
-      <option name="closed" value="true" />
-      <created>1714392602554</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1714392602554</updated>
     </task>
     <task id="LOCAL-00029" summary="piece coordinates set in has_piece_at method of Player class and refactor code">
       <option name="closed" value="true" />
@@ -635,7 +639,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715541711749</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="buttons replaced, last move showed in every snapshot">
+      <option name="closed" value="true" />
+      <created>1715609655770</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1715609655770</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -650,7 +662,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="check if king is under attack is almost working only the pawn class has some issue" />
     <MESSAGE value="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted" />
     <MESSAGE value="writing tests for Bishop.py and remove unused field from pieces" />
     <MESSAGE value="unify the column and row order in functions and their name everywhere" />
@@ -675,7 +686,8 @@
     <MESSAGE value="changed, simplified snapshot logic" />
     <MESSAGE value="refactor" />
     <MESSAGE value="new ChessGui.py class inherited from tk.Toplevel" />
-    <option name="LAST_COMMIT_MESSAGE" value="new ChessGui.py class inherited from tk.Toplevel" />
+    <MESSAGE value="buttons replaced, last move showed in every snapshot" />
+    <option name="LAST_COMMIT_MESSAGE" value="buttons replaced, last move showed in every snapshot" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

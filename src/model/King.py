@@ -1,14 +1,14 @@
 from typing import override
 
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 from src.model.Rook import Rook
 
 
 class King(Piece):
     def __init__(self, color, row, col):
-        super().__init__(PieceTypeEnum.KING, color, row, col)
+        super().__init__(PieceType.KING, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player, opponent):
@@ -43,7 +43,7 @@ class King(Piece):
                     not any(opponent.has_piece_at(self.row, col) for col in cols) and
                     not any((self.row, col) in opponent._attacked_fields for col in cols))
 
-        if self._color == ColorEnum.BLACK:
+        if self._color == Color.BLACK:
             if is_castling_possible(current_player.get_piece_at(0, 0), range(1, 4)):
                 possible_fields.add((0, 2))
             if is_castling_possible(current_player.get_piece_at(0, 7), range(5, 7)):

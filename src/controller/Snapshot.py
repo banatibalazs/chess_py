@@ -2,7 +2,7 @@ from src.model.Bishop import Bishop
 from src.model.King import King
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
@@ -55,18 +55,18 @@ class Snapshot:
         opponent.last_move = self.opponent_last_move
 
     def create_piece(self, piece_type, color, row, col, is_en_passant=False):
-        if piece_type == PieceTypeEnum.PAWN:
+        if piece_type == PieceType.PAWN:
             new_piece = Pawn(color, row, col)
             new_piece.is_en_passant = is_en_passant
-        elif piece_type == PieceTypeEnum.KNIGHT:
+        elif piece_type == PieceType.KNIGHT:
             new_piece = Knight(color, row, col)
-        elif piece_type == PieceTypeEnum.BISHOP:
+        elif piece_type == PieceType.BISHOP:
             new_piece = Bishop(color, row, col)
-        elif piece_type == PieceTypeEnum.ROOK:
+        elif piece_type == PieceType.ROOK:
             new_piece = Rook(color, row, col)
-        elif piece_type == PieceTypeEnum.QUEEN:
+        elif piece_type == PieceType.QUEEN:
             new_piece = Queen(color, row, col)
-        elif piece_type == PieceTypeEnum.KING:
+        elif piece_type == PieceType.KING:
             new_piece = King(color, row, col)
         else:
             raise ValueError("Invalid piece type.")

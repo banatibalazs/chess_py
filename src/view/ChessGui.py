@@ -1,6 +1,7 @@
 import tkinter as tk
-from typing import Callable
+from typing import Callable, Optional
 
+from src.model.Color import Color
 from src.model.Square import Square
 
 
@@ -8,20 +9,24 @@ class ChessGui(tk.Toplevel):
     BLACK_COLOR = "#111111"
     WHITE_COLOR = "#ffffff"
 
-    def __init__(self, title, white_player_name, black_player_name, board_click_function: Callable,
+    def __init__(self, title, white_player_name: str, black_player_name: str, board_click_function: Callable,
                  top_left_button_click_function: Callable, top_right_button_click_function: Callable,
                     bottom_right_button_click_function: Callable, bottom_left_button_click_function: Callable):
         tk.Toplevel.__init__(self)
         self.title("Welcome to Chess Game!")
         self.configure(background="#FFFFFF")
-        self.white_player_name_label = None
-        self.black_player_name_label = None
+        self.white_player_name_label: Optional[tk.Label] = None
+        self.black_player_name_label: Optional[tk.Label] = None
         self._chess_board: list = []
-        self.top_left_button = None
-        self.top_right_button = None
-        self.bottom_right_button = None
-        self.bottom_left_button = None
-        self.result_label = None
+        self.top_left_button: Optional[tk.Button] = None
+        self.top_right_button: Optional[tk.Button] = None
+        self.bottom_right_button: Optional[tk.Button] = None
+        self.bottom_left_button: Optional[tk.Button] = None
+        self.result_label: Optional[tk.Label] = None
+        self.snapshot_label: Optional[tk.Label] = None
+        self.black_player_piece_number_label: Optional[tk.Label] = None
+        self.white_player_piece_number_label: Optional[tk.Label] = None
+
         self.setup_ui(white_player_name, black_player_name,
                       board_click_function, top_left_button_click_function,
                       top_right_button_click_function, bottom_right_button_click_function,
@@ -30,7 +35,7 @@ class ChessGui(tk.Toplevel):
     def setup_ui(self, white_player_name: str, black_player_name: str,
                  board_click_function: Callable, top_left_button_click_function: Callable,
                  top_right_button_click_function: Callable, bottom_right_button_click_function: Callable,
-                 bottom_left_button_click_function: Callable):
+                 bottom_left_button_click_function: Callable) -> None:
         self.minsize(688, 780)
         self.geometry("")
         self.top_left_button = self.add_button("Top left", top_left_button_click_function, 0, 4, 2, 10)
@@ -44,18 +49,18 @@ class ChessGui(tk.Toplevel):
         self.snapshot_label = self.add_label("1/1", 10, 6, 1, 10)
         self.bottom_right_button = self.add_button(">", bottom_right_button_click_function, 10, 7, 2, 10)
 
-    def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int):
+    def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int) -> tk.Button:
         button = tk.Button(self, text=text, command=command, background="#F1F1F1", foreground='black',
                            font=('Helvetica', 16), borderwidth=0, relief="groove", width=7, height=1)
         button.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return button
 
-    def add_label(self, text: str, row: int, column: int, columnspan: int, pady: int):
+    def add_label(self, text: str, row: int, column: int, columnspan: int, pady: int) -> tk.Label:
         label = tk.Label(self, text=text, background="#FFFFFF", font=('Helvetica', 16))
         label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return label
 
-    def create_board(self, board_click_function: Callable):
+    def create_board(self, board_click_function: Callable) -> None:
         for i in range(8):
             row = []
             for j in range(8):
@@ -68,10 +73,10 @@ class ChessGui(tk.Toplevel):
     # def run(self):
     #     self.mainloop()
 
-    def update_square_image(self, image_path, row, col):
+    def update_square_image(self, image_path: str, row: int, col: int) -> None:
         self._chess_board[row][col].set_image(image_path)
 
-    def update_square_color(self, color, row, col):
+    def update_square_color(self, color: str, row: int, col: int) -> None:
         self._chess_board[row][col].set_color(color)
 
     def update_labels(self, white_player_piece_number: str, black_player_piece_number: str,

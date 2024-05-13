@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Tuple, Set
-from src.model.ColorEnum import ColorEnum
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.Color import Color
+from src.model.PieceType import PieceType
 
 
 class Piece(ABC):
-    def __init__(self, piece_type: PieceTypeEnum, color: ColorEnum, row: int, col: int):
+    def __init__(self, piece_type: PieceType, color: Color, row: int, col: int):
         self._type = piece_type
         self._color = color
         self._col = col
@@ -18,17 +18,17 @@ class Piece(ABC):
 
 
     def _init_value(self):
-        if self._type == PieceTypeEnum.PAWN:
+        if self._type == PieceType.PAWN:
             return 1
-        elif self._type == PieceTypeEnum.KNIGHT:
+        elif self._type == PieceType.KNIGHT:
             return 3
-        elif self._type == PieceTypeEnum.BISHOP:
+        elif self._type == PieceType.BISHOP:
             return 3
-        elif self._type == PieceTypeEnum.ROOK:
+        elif self._type == PieceType.ROOK:
             return 5
-        elif self._type == PieceTypeEnum.QUEEN:
+        elif self._type == PieceType.QUEEN:
             return 9
-        elif self._type == PieceTypeEnum.KING:
+        elif self._type == PieceType.KING:
             return 100
 
     @property
@@ -132,7 +132,7 @@ class Piece(ABC):
         return self._color
 
     @color.setter
-    def color(self, value: ColorEnum):
+    def color(self, value: Color):
         self._color = value
 
     @property

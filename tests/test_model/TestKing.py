@@ -1,6 +1,6 @@
 import unittest
 from src.model.Board import Board
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.King import King
 from src.model.Player import Player
 
@@ -26,10 +26,10 @@ from src.model.Player import Player
 
 class TestKing(unittest.TestCase):
     def setUp(self):
-        self.king = King(ColorEnum.WHITE, 0, 0)
+        self.king = King(Color.WHITE, 0, 0)
         self.board = Board()
-        self.white_player = Player("White", ColorEnum.WHITE, self.board)
-        self.black_player = Player("Black", ColorEnum.BLACK, self.board)
+        self.white_player = Player("White", Color.WHITE, self.board)
+        self.black_player = Player("Black", Color.BLACK, self.board)
 
     def test_update_attacked_fields_king_on_00_empty_board(self):
         self.king.coordinates = (0, 0)

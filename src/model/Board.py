@@ -1,8 +1,6 @@
-from typing import List
-
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
 import numpy as np
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Piece import Piece
 
 
@@ -12,13 +10,13 @@ class Board:
     SELECTED_PIECE_SYMBOL = 'x'
     EMPTY_SYMBOL = 'o'
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._piece_board: ByteArray8x8 = np.zeros((8, 8), dtype=np.byte)
         self._coloring_board: CharArray8x8 = np.zeros((8, 8), dtype=np.str_)
         self._white_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
         self._black_attack_board: BoolArray8x8 = np.zeros((8, 8), dtype=np.bool_)
 
-    def update(self, current_player, opponent):
+    def update(self, current_player, opponent) -> None:
         self.update_piece_board( current_player, opponent)
         self.update_coloring_board(current_player.selected_piece)
         self.update_attack_boards(current_player, opponent)
@@ -36,8 +34,8 @@ class Board:
     def update_piece_board(self, current_player, opponent) -> None:
         self._piece_board.fill(0)
 
-        white_player_pieces = current_player.pieces if current_player.color == ColorEnum.WHITE else opponent.pieces
-        black_player_pieces = opponent.pieces if current_player.color == ColorEnum.WHITE else current_player.pieces
+        white_player_pieces = current_player.pieces if current_player.color == Color.WHITE else opponent.pieces
+        black_player_pieces = opponent.pieces if current_player.color == Color.WHITE else current_player.pieces
 
         # Update the board with the current piece positions
         for piece in white_player_pieces:
@@ -51,8 +49,8 @@ class Board:
         self._white_attack_board.fill(False)
         self._black_attack_board.fill(False)
 
-        white_selected_piece = current_player.selected_piece if current_player.color == ColorEnum.WHITE else opponent.selected_piece
-        black_selected_piece = opponent.selected_piece if current_player.color == ColorEnum.WHITE else current_player.selected_piece
+        white_selected_piece = current_player.selected_piece if current_player.color == Color.WHITE else opponent.selected_piece
+        black_selected_piece = opponent.selected_piece if current_player.color == Color.WHITE else current_player.selected_piece
 
         for piece, board in [(white_selected_piece, self._white_attack_board),
                              (black_selected_piece, self._black_attack_board)]:
@@ -81,7 +79,7 @@ class Board:
     def get_white_attack_board(self) -> BoolArray8x8:
         return self._white_attack_board
 
-    def get_opponent_attack_board(self, color: ColorEnum) -> BoolArray8x8:
+    def get_opponent_attack_board(self, color: Color) -> BoolArray8x8:
         if color == 1:
             return self._black_attack_board
         else:

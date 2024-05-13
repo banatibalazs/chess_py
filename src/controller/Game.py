@@ -1,12 +1,14 @@
+from typing import List
+
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
 from src.model.Bishop import Bishop
 from src.model.Board import Board
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
@@ -14,36 +16,36 @@ from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title, white_player_name: str, black_player_name: str):
+    def __init__(self, title: str, white_player_name: str, black_player_name: str) -> None:
 
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name,
                             self.click_on_board, self.top_left_button_click,
                             self.top_right_button_click, self.bottom_right_button_click,
                             self.bottom_left_button_click)
-        self._gui_controller = GuiController(self.gui)
+        self._gui_controller: GuiController = GuiController(self.gui)
 
         self._board: Board = Board()
-        self._white_player: Player = Player(white_player_name, ColorEnum.WHITE, self._board)
-        self._black_player: Player = Player(black_player_name, ColorEnum.BLACK, self._board)
+        self._white_player: Player = Player(white_player_name, Color.WHITE, self._board)
+        self._black_player: Player = Player(black_player_name, Color.BLACK, self._board)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
         self.is_white_turn: bool = True
 
         self.step_history: StepHistory = StepHistory()
-        self.snapshots = []
+        self.snapshots: List[Snapshot] = []
         self.current_snapshot_index = 0
 
         self.start_game()
 
-    def start_game(self):
+    def start_game(self) -> None:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
 
         self.save_snapshot()
         self.update()
 
-    def next_turn(self):
+    def next_turn(self) -> None:
         self.update()
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
@@ -103,7 +105,7 @@ class Game:
 
         self.update()
 
-    def make_move(self, row, col):
+    def make_move(self, row: int, col: int):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
         # Or if we'd like to permit the change than the next_snapshots has to be deleted. TODO
         if len(self.snapshots) - 1 == self.current_snapshot_index:
@@ -129,7 +131,7 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            self.do_promotion(to_row, to_col, PieceTypeEnum.QUEEN)
+            self.do_promotion(to_row, to_col, PieceType.QUEEN)
 
         # Check if the move is a castling
         if self.is_castling(to_col):
@@ -148,21 +150,21 @@ class Game:
                                    self._current_player.selected_piece.color.name,
                                    from_row, from_col, to_row, to_col)
 
-    def is_promotion(self, to_row):
-        return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceTypeEnum.PAWN
+    def is_promotion(self, to_row: int) -> bool:
+        return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceType.PAWN
 
-    def is_en_passant(self, to_row, to_col):
+    def is_en_passant(self, to_row: int, to_col: int) -> bool:
         selected_piece = self._current_player.selected_piece
-        return (selected_piece.type == PieceTypeEnum.PAWN and
+        return (selected_piece.type == PieceType.PAWN and
                 to_col != selected_piece.col and
                 not self._opponent_player.has_piece_at(to_row, to_col))
 
-    def is_castling(self, to_col):
+    def is_castling(self, to_col: int) -> bool:
         selected_piece = self._current_player.selected_piece
-        return (selected_piece.type == PieceTypeEnum.KING and
+        return (selected_piece.type == PieceType.KING and
                 abs(selected_piece.col - to_col) > 1)
 
-    def do_castling(self, row: int, col: int):
+    def do_castling(self, row: int, col: int) -> None:
         print("Castling")
         if col == 2:
             rook = self._current_player.get_piece_at(row=row, col=0)
@@ -182,28 +184,28 @@ class Game:
         self._current_player._last_moved_piece = king
         self._current_player.reset_en_passant()
 
-    def do_en_passant(self, to_row, to_col, opponent):
+    def do_en_passant(self, to_row: int, to_col: int, opponent: Player) -> None:
         print("En passant")
-        if self._current_player.color == ColorEnum.WHITE:
+        if self._current_player.color == Color.WHITE:
             opponent.remove_piece_at(to_row + 1, to_col)
         else:
             opponent.remove_piece_at(to_row - 1, to_col)
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.reset_en_passant()
 
-    def do_promotion(self, to_row: int, to_col: int, piece_type: PieceTypeEnum) -> None:
+    def do_promotion(self, to_row: int, to_col: int, piece_type: PieceType) -> None:
         print("Promoting pawn")
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col
 
         self._current_player.remove_piece_at(from_row, from_col)
-        if piece_type == PieceTypeEnum.QUEEN:
+        if piece_type == PieceType.QUEEN:
             new_piece = Queen(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.ROOK:
+        elif piece_type == PieceType.ROOK:
             new_piece = Rook(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.BISHOP:
+        elif piece_type == PieceType.BISHOP:
             new_piece = Bishop(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceTypeEnum.KNIGHT:
+        elif piece_type == PieceType.KNIGHT:
             new_piece = Knight(self._current_player.color, to_row, to_col)
         else:
             raise ValueError("Invalid piece type.")
@@ -211,16 +213,16 @@ class Game:
         self._current_player.last_moved_piece = new_piece
         self._current_player.reset_en_passant()
 
-    def update(self):
+    def update(self) -> None:
         self._update_players(self._current_player, self._opponent_player)
         self._update_board(self._current_player, self._opponent_player, self._board)
         self._update_gui()
 
-    def _update_players(self, current_player, opponent_player):
+    def _update_players(self, current_player: Player, opponent_player: Player) -> None:
         current_player.update_pieces_attacked_fields(opponent_player)
         opponent_player.update_pieces_attacked_fields(current_player)
 
-    def _update_board(self, current_player, opponent_player, board):
+    def _update_board(self, current_player: Player, opponent_player: Player, board: Board) -> None:
 
         board.update_piece_board(current_player, opponent_player)
         board.update_attack_boards(current_player, opponent_player)
@@ -229,12 +231,12 @@ class Game:
             current_player.selected_piece.update_possible_fields(current_player, opponent_player)
         board.update_coloring_board(current_player.selected_piece)
 
-    def save_snapshot(self):
+    def save_snapshot(self) -> None:
         self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
         self.current_snapshot_index = len(self.snapshots) - 1
         print("Snapshot saved.", len(self.snapshots) - 1)
 
-    def prev_snapshot(self):
+    def prev_snapshot(self) -> None:
         if self.current_snapshot_index > 0:
             self.current_snapshot_index -= 1
 
@@ -242,7 +244,7 @@ class Game:
         print(f"Loading snapshot {self.current_snapshot_index} / {len(self.snapshots) - 1}")
         snapshot.load_players(self._current_player, self._opponent_player)
 
-    def next_snapshot(self):
+    def next_snapshot(self) -> None:
         if self.current_snapshot_index < len(self.snapshots) - 1:
             self.current_snapshot_index += 1
 

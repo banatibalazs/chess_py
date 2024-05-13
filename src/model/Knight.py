@@ -1,12 +1,12 @@
 from typing import override
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 
 
 class Knight(Piece):
-    def __init__(self, color: ColorEnum, row: int, col: int):
-        super().__init__(PieceTypeEnum.KNIGHT, color, row, col)
+    def __init__(self, color: Color, row: int, col: int):
+        super().__init__(PieceType.KNIGHT, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player, opponent):

@@ -1,12 +1,12 @@
 from typing import Tuple, override, Set
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 
 
 class Pawn(Piece):
-    def __init__(self, color: ColorEnum, row: int, col: int):
-        super().__init__(PieceTypeEnum.PAWN, color, row, col)
+    def __init__(self, color: Color, row: int, col: int):
+        super().__init__(PieceType.PAWN, color, row, col)
         self._is_en_passant = False
 
     @override
@@ -16,7 +16,7 @@ class Pawn(Piece):
         row = self.row
         color = self.color
 
-        if color == ColorEnum.WHITE:
+        if color == Color.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
                 if current_player.has_piece_at(row - 1, col - 1):
                     pass
@@ -55,7 +55,7 @@ class Pawn(Piece):
         piece_board = current_player._board.get_piece_board()
 
         # Move forward
-        if color == ColorEnum.WHITE:
+        if color == Color.WHITE:
             if row - 1 >= 0:
                 if piece_board[row - 1, col] == 0:
                     possible_fields.add((row - 1, col))
@@ -65,15 +65,15 @@ class Pawn(Piece):
                     possible_fields.add((row + 1, col))
 
         # Move two squares forward
-        if color == ColorEnum.WHITE and row == 6:
+        if color == Color.WHITE and row == 6:
             if piece_board[row - 1, col] == 0 and piece_board[row - 2, col] == 0:
                 possible_fields.add((row - 2, col))
-        elif color == ColorEnum.BLACK and row == 1:
+        elif color == Color.BLACK and row == 1:
             if piece_board[row + 1, col] == 0 and piece_board[row + 2, col] == 0:
                 possible_fields.add((row + 2, col))
 
         # Diagonal capture
-        if color == ColorEnum.WHITE:
+        if color == Color.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
                 if piece_board[row - 1, col - 1] < 0:
                     possible_fields.add((row - 1, col - 1))
@@ -95,7 +95,7 @@ class Pawn(Piece):
                 opponent._last_moved_piece.is_en_passant and \
                 self.row == opponent._last_moved_piece.row and \
                 abs(self.col - opponent._last_moved_piece.col) == 1:
-            if self._color == ColorEnum.WHITE:
+            if self._color == Color.WHITE:
                 print("En passant move is added.")
                 possible_fields.add((opponent._last_moved_piece.row - 1, opponent._last_moved_piece.col))
             else:

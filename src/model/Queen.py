@@ -1,11 +1,11 @@
 from typing import override
 from src.model.Piece import Piece
-from src.model.PieceTypeEnum import PieceTypeEnum
+from src.model.PieceType import PieceType
 
 
 class Queen(Piece):
     def __init__(self, color, row, col):
-        super().__init__(PieceTypeEnum.QUEEN, color, row, col)
+        super().__init__(PieceType.QUEEN, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player, opponent):

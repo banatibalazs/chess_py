@@ -2,15 +2,15 @@ import unittest
 
 from src.model.King import King
 from src.model.Player import Player
-from src.model.ColorEnum import ColorEnum
+from src.model.Color import Color
 from src.model.Board import Board
 
 class TestPlayer(unittest.TestCase):
     def setUp(self):
         self.board = Board()
         self.king = None
-        self.white_player = Player("White", ColorEnum.WHITE, self.board)
-        self.black_player = Player("Black", ColorEnum.BLACK, self.board)
+        self.white_player = Player("White", Color.WHITE, self.board)
+        self.black_player = Player("Black", Color.BLACK, self.board)
 
     def set_king_position_and_update(self, row, col):
         self.white_player.init_pieces()

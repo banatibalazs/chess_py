@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
 
@@ -34,10 +34,10 @@ class GuiController:
     LIGHT_BLUE_COLOR = "#2222ff"
     DARK_BLUE_COLOR = "#8888ff"
     # Last move color
-    LIGHT_LM_COLOR = "#baff9a"
-    DARK_LM_COLOR = "#6aaa5a"
+    LIGHT_LM_COLOR = "#caca7a"
+    DARK_LM_COLOR = "#949434"
 
-    def __init__(self, chess_gui: ChessGui):
+    def __init__(self, chess_gui: ChessGui) -> None:
         self._chess_gui: ChessGui = chess_gui
         self._int_to_piece_image_path: Dict[np.byte, str] = {
             -6: GuiController.BL_KING_IMAGE_PATH,
@@ -94,7 +94,8 @@ class GuiController:
                 path = self._int_to_piece_image_path[piece_positions_board[row][col]]
                 self._chess_gui.update_square_image(path, row, col)
 
-    def update_board_coloring(self, piece_coordinate, possible_fields, last_move) -> None:
+    def update_board_coloring(self, piece_coordinate: Tuple[int, int], possible_fields: List[Tuple[int, int]],
+                              last_move: Tuple[int, int, int, int]) -> None:
 
         # Reset the square colors
         self.reset_square_colors()
