@@ -34,6 +34,7 @@ class Square(tk.Button):
         self.row = row
         self.col = col
         self.image_path = None
+        self.image = None
 
     def set_image(self, piece_image_path):
         piece_image = Image.open(piece_image_path)

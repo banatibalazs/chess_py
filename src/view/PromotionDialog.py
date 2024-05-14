@@ -1,48 +1,61 @@
 from src.model.PieceType import PieceType
 import tkinter as tk
+from PIL import Image, ImageTk
 
-class PromotionDialog:
-    def __init__(self, root) -> None:
-        self._root: tk.Toplevel = root
-        self._root.title("Promotion")
-        self._root.geometry("200x200")
-        self._root.resizable(False, False)
+from src.model.Square import Square
+
+
+class PromotionDialog(tk.Toplevel):
+    def __init__(self, queen_image_path, rook_image_path, bishop_image_path, knight_image_path) -> None:
+        super().__init__()
+        self.title("Promotion")
+        self.geometry("360x175")
+        self.resizable(False, False)
+
+        self._queen_image_path: str = queen_image_path
+        self._rook_image_path: str = rook_image_path
+        self._bishop_image_path: str = bishop_image_path
+        self._knight_image_path: str = knight_image_path
 
         self._piece_type: PieceType = PieceType.QUEEN
 
-        self._label: tk.Label = tk.Label(self._root, text="Choose a piece:")
+        self._label: tk.Label = tk.Label(self, text="Choose a piece:")
         self._label.pack()
 
-        self._frame: tk.Frame = tk.Frame(self._root)
+        self._frame: tk.Frame = tk.Frame(self)
         self._frame.pack()
 
-        self._rook_button: tk.Button = tk.Button(self._frame, text="Rook", command=self._on_rook)
+        self._rook_button: Square = Square(self, width=8, height=4, onclick=self._on_rook, col=0, row=0)
         self._rook_button.pack(side=tk.LEFT)
+        self._rook_button.set_image(self._rook_image_path)
 
-        self._bishop_button: tk.Button = tk.Button(self._frame, text="Bishop", command=self._on_bishop)
+        self._bishop_button: Square = Square(self, width=8, height=4, onclick=self._on_bishop, col=1, row=0)
         self._bishop_button.pack(side=tk.LEFT)
+        self._bishop_button.set_image(self._bishop_image_path)
 
-        self._knight_button: tk.Button = tk.Button(self._frame, text="Knight", command=self._on_knight)
+        self._knight_button: Square = Square(self, width=8, height=4, onclick=self._on_knight, col=2, row=0)
         self._knight_button.pack(side=tk.LEFT)
+        self._knight_button.set_image(self._knight_image_path)
 
-        self._queen_button: tk.Button = tk.Button(self._frame, text="Queen", command=self._on_queen)
+        self._queen_button: Square = Square(self, width=8, height=4, onclick=self._on_queen, col=3, row=0)
         self._queen_button.pack(side=tk.LEFT)
+        self._queen_button.set_image(self._queen_image_path)
 
-    def _on_rook(self) -> None:
+    def _on_rook(self, *args) -> None:
         self._piece_type = PieceType.ROOK
-        self._root.destroy()
+        self.destroy()
 
-    def _on_bishop(self) -> None:
+    def _on_bishop(self, *args) -> None:
         self._piece_type = PieceType.BISHOP
-        self._root.destroy()
+        self.destroy()
 
-    def _on_knight(self) -> None:
+    def _on_knight(self, *args) -> None:
         self._piece_type = PieceType.KNIGHT
-        self._root.destroy()
+        self.destroy()
 
-    def _on_queen(self) -> None:
+    def _on_queen(self, *args) -> None:
         self._piece_type = PieceType.QUEEN
-        self._root.destroy()
+        self.destroy()
 
-    def get_type(self) -> PieceType:
+    def get_type(self, *args) -> PieceType:
         return self._piece_type

@@ -49,41 +49,41 @@ class Pawn(Piece):
         row = self.row
         color = self.color
 
-        piece_board = current_player._board.get_piece_board()
-
         # Move forward
         if color == Color.WHITE:
             if row - 1 >= 0:
-                if piece_board[row - 1, col] == 0:
+                if not opponent.has_piece_at(row - 1, col) and not current_player.has_piece_at(row - 1, col):
                     possible_fields.add((row - 1, col))
         else:
             if row + 1 <= 7:
-                if piece_board[row + 1, col] == 0:
+                if not opponent.has_piece_at(row + 1, col) and not current_player.has_piece_at(row + 1, col):
                     possible_fields.add((row + 1, col))
 
         # Move two squares forward
         if color == Color.WHITE and row == 6:
-            if piece_board[row - 1, col] == 0 and piece_board[row - 2, col] == 0:
+            if (not opponent.has_piece_at(row - 1, col) and not current_player.has_piece_at(row - 1, col) and
+                    not opponent.has_piece_at(row - 2, col) and not current_player.has_piece_at(row - 2, col)):
                 possible_fields.add((row - 2, col))
         elif color == Color.BLACK and row == 1:
-            if piece_board[row + 1, col] == 0 and piece_board[row + 2, col] == 0:
+            if (not opponent.has_piece_at(row + 1, col) and not current_player.has_piece_at(row + 1, col) and
+             not opponent.has_piece_at(row + 2, col) and not current_player.has_piece_at(row + 2, col)):
                 possible_fields.add((row + 2, col))
 
         # Diagonal capture
         if color == Color.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
-                if piece_board[row - 1, col - 1] < 0:
+                if opponent.has_piece_at(row - 1, col - 1):
                     possible_fields.add((row - 1, col - 1))
             if col + 1 <= 7 and row - 1 >= 0:
-                if piece_board[row - 1, col + 1] < 0:
+                if opponent.has_piece_at(row - 1, col + 1):
                     possible_fields.add((row - 1, col + 1))
         else:
             if col - 1 >= 0 and row + 1 <= 7:
-                if piece_board[row + 1, col - 1] > 0:
+                if opponent.has_piece_at(row + 1, col - 1):
                     possible_fields.add((row + 1, col - 1))
 
             if col + 1 <= 7 and row + 1 <= 7:
-                if piece_board[row + 1, col + 1] > 0:
+                if opponent.has_piece_at(row + 1, col + 1):
                     possible_fields.add((row + 1, col + 1))
 
         # Add en passant if possible
@@ -120,4 +120,3 @@ class Pawn(Piece):
     @property
     def attacked_fields(self) -> Set[Tuple[int, int]]:
         return self._attacked_fields
-

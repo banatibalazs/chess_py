@@ -56,7 +56,8 @@ class Game:
         self.save_snapshot()
         self.update()
         if self._current_player.can_move(self._opponent_player):
-            print("Current player can move.")
+            # print("Current player can move.")
+            pass
         else:
             if self._current_player.king.is_in_check:
                 print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
@@ -152,23 +153,15 @@ class Game:
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col
 
-        # Set en passant field if the pawn moves two squares
+        # Set is_en_passant field if the pawn moves two squares
         self._current_player.reset_en_passant()
         if isinstance(self._current_player.selected_piece, Pawn):
-            if abs(self._current_player.selected_piece.row - to_row) == 2:
+            if abs(from_row - to_row) == 2:
                 self._current_player.selected_piece.is_en_passant = True
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            print("Promotion_start")
-            root = tk.Tk()
-            dialog = PromotionDialog(root)
-            root.wait_window(dialog._root)
-            # Your next line of code
-            print("Promotion")
-            piece_type = dialog.get_type()
-            print("Promotion piece type: ", piece_type)
-            self.do_promotion(to_row, to_col, piece_type)
+            self.do_promotion(to_row, to_col)
 
         # Check if the move is a castling
         elif self.is_castling(to_col):
@@ -233,8 +226,12 @@ class Game:
         self._current_player.selected_piece.coordinates = (to_row, to_col)
         self._current_player.reset_en_passant()
 
-    def do_promotion(self, to_row: int, to_col: int, piece_type: PieceType) -> None:
-        print("Promoting pawn")
+    def do_promotion(self, to_row: int, to_col: int) -> None:
+
+        dialog = self._gui_controller.get_promotion_dialog(self._current_player.color)
+        dialog.wait_window()
+        piece_type = dialog.get_type()
+
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col
 

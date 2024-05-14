@@ -59,8 +59,9 @@ class Player:
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
-            if isinstance(self._last_moved_piece.type, Pawn):
+            if isinstance(self._last_moved_piece, Pawn):
                 self._last_moved_piece.is_en_passant = False
+                print("En passant reset.")
 
     def remove_piece_at(self, row: int, col: int) -> None:
         for piece in self._pieces:

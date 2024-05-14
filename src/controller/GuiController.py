@@ -1,8 +1,13 @@
 from typing import Dict, List, Tuple, Set, Optional
+
+import tkinter as tk
+
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
 
+from src.model.Color import Color
 from src.view.ChessGui import ChessGui
+from src.view.PromotionDialog import PromotionDialog
 
 
 class GuiController:
@@ -55,6 +60,16 @@ class GuiController:
             np.byte(2): GuiController.WH_ROOK_IMAGE_PATH,
             np.byte(1): GuiController.WH_PAWN_IMAGE_PATH
         }
+    def get_promotion_dialog(self, color: Color) -> PromotionDialog:
+        dialog = PromotionDialog(GuiController.WH_QUEEN_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.BL_QUEEN_IMAGE_PATH,
+                                 GuiController.WH_ROOK_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.BL_ROOK_IMAGE_PATH,
+                                 GuiController.WH_BISHOP_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.BL_BISHOP_IMAGE_PATH,
+                                 GuiController.WH_KNIGHT_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.BL_KNIGHT_IMAGE_PATH)
+        return dialog
 
     def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
 
