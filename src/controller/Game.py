@@ -1,5 +1,7 @@
 from typing import List
 
+import tkinter as tk
+
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
@@ -14,6 +16,7 @@ from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 from src.view.ChessGui import ChessGui
+from src.view.PromotionDialog import PromotionDialog
 
 
 class Game:
@@ -48,24 +51,23 @@ class Game:
         self.update()
 
     def next_turn(self) -> None:
-        self.update()
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        print(self.step_history.get_steps())
-        if self._current_player.can_move( self._opponent_player):
+        self.update()
+        if self._current_player.can_move(self._opponent_player):
             print("Current player can move.")
         else:
-            print("Current player can't move.")
-        if self._opponent_player.can_move(self._current_player):
-            print("Opponent player can move.")
-        else:
-            print("Opponent player can't move.")
-            # TODO: implement checkmate
+            if self._current_player.king.is_in_check:
+                print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
+                print(f"{self._opponent_player.name} wins.")
+            else:
+                print(f"{self._current_player.name} can't move.")
+                print("Stalemate.")
+
+        #     # TODO: implement checkmate
 
 
-    def is_checkmate(self) -> bool:
-        return not self._opponent_player.can_move()
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
@@ -78,8 +80,11 @@ class Game:
             possible_fields = self._current_player.selected_piece.possible_fields
 
         last_move = self._opponent_player.last_move
-
-        self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move)
+        if self._current_player.king.is_in_check:
+            checked_king = self._current_player.king.coordinates
+        else:
+            checked_king = None
+        self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king)
         self._gui_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()),
                                            str(self.current_snapshot_index + 1), str(len(self.snapshots)))
 
@@ -95,7 +100,14 @@ class Game:
         self.update()
 
     def top_left_button_click(self) -> None:
-        pass
+        opponent_attacked_fields = set()
+        self._opponent_player.update_pieces_attacked_fields(self._current_player)
+        for piece in self._opponent_player._pieces:
+            for field in piece._attacked_fields:
+                opponent_attacked_fields.add(field)
+
+        self._gui_controller.update_board_coloring(None, opponent_attacked_fields,
+                                                   None, None)
 
     def top_right_button_click(self) -> None:
         pass
@@ -105,10 +117,13 @@ class Game:
         # A selected piece is clicked -> deselect it
         if self._current_player.is_selected_piece_at(row, col):
             self._current_player.selected_piece = None
+            self._update_gui()
 
         # Own unselected piece is clicked -> select it
         elif self._current_player.has_piece_at(row, col):
             self._current_player.set_selected_piece(row, col)
+
+            self._update_gui()
 
         # Selected piece can move to the square -> move it
         elif self._current_player.is_possible_move(row, col):
@@ -117,8 +132,7 @@ class Game:
         # Empty square or opponent's piece -> deselect the selected piece
         else:
             self._current_player.selected_piece = None
-
-        self.update()
+            self._update_gui()
 
     def make_move(self, row: int, col: int):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
@@ -146,8 +160,15 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            self.do_promotion(to_row, to_col, PieceType.QUEEN)
-            # TODO: Implement promotion dialog
+            print("Promotion_start")
+            root = tk.Tk()
+            dialog = PromotionDialog(root)
+            root.wait_window(dialog._root)
+            # Your next line of code
+            print("Promotion")
+            piece_type = dialog.get_type()
+            print("Promotion piece type: ", piece_type)
+            self.do_promotion(to_row, to_col, piece_type)
 
         # Check if the move is a castling
         elif self.is_castling(to_col):
@@ -167,6 +188,7 @@ class Game:
         self.step_history.add_step(self._current_player.selected_piece.type.name,
                                    self._current_player.selected_piece.color.name,
                                    from_row, from_col, to_row, to_col)
+
 
     def is_promotion(self, to_row: int) -> bool:
         return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceType.PAWN
@@ -241,14 +263,12 @@ class Game:
 
     def _update_players(self) -> None:
         self._current_player.update_pieces_attacked_fields(self._opponent_player)
-        self._opponent_player.update_pieces_attacked_fields(self._current_player)
-        # TODO update possible fields
+        self._current_player.update_pieces_possible_fields(self._opponent_player)
 
     def _update_board(self) -> None:
         self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)
         if self._current_player.selected_piece is not None:
-            self._current_player.selected_piece.update_possible_fields(self._current_player, self._opponent_player)
-        self._board.update_coloring_board(self._current_player.selected_piece)
+            self._board.update_coloring_board(self._current_player.selected_piece)
 
     def save_snapshot(self) -> None:
         self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
