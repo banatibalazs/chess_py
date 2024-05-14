@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="en_passant bugfix and pawn class refactor">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="timer label and timer thread">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/TimerThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/TimerThread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,14 +238,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00036" summary="refactoring possible moves method in pieces">
-      <option name="closed" value="true" />
-      <created>1714470807451</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1714470807451</updated>
     </task>
     <task id="LOCAL-00037" summary="simpler solution for piece logic">
       <option name="closed" value="true" />
@@ -632,7 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715699937653</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="timer label and timer thread">
+      <option name="closed" value="true" />
+      <created>1715710851274</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1715710851274</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -647,7 +646,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="en passant special move not showing problem solved" />
     <MESSAGE value="player tests" />
     <MESSAGE value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
     <MESSAGE value="en passant not showing bugfix" />
@@ -672,7 +670,8 @@
     <MESSAGE value="add promotion dialog" />
     <MESSAGE value="bugfix and checkmate checking" />
     <MESSAGE value="en_passant bugfix and pawn class refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="en_passant bugfix and pawn class refactor" />
+    <MESSAGE value="timer label and timer thread" />
+    <option name="LAST_COMMIT_MESSAGE" value="timer label and timer thread" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

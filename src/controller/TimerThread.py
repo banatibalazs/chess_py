@@ -1,8 +1,6 @@
 import threading
 import time
 
-from src.model.Player import Player
-
 
 class TimerThread(threading.Thread):
     def __init__(self, game):

@@ -23,12 +23,12 @@ class GuiController:
 
     EMPTY_SQUARE_IMAGE_PATH = "../resources/images/welcome_page/empty.png"
 
-    DARK_GREEN = "#70b975"
-    LIGHT_GREEN = "#aaffaf"
-    LIGHT_SELECTED_COLOR = "#e0c097"
-    DARK_SELECTED_COLOR = "#c29977"
-    WHITE_COLOR = "#ffffff"
-    BLACK_COLOR = "#5f4f24"
+    LIGHT_POSSIBLE_FIELD_COLOR = "#cadbf1"
+    DARK_POSSIBLE_FIELD_COLOR = "#90a9f5"
+    LIGHT_SELECTED_COLOR = "#c0c0d7"
+    DARK_SELECTED_COLOR = "#a299d7"
+    WHITE_COLOR = "#ffffee"
+    BLACK_COLOR = "#5f915f"
     LIGHT_RED_COLOR = "#ff2222"
     DARK_RED_COLOR = "#ff8888"
     LIGHT_BLUE_COLOR = "#2222ff"
@@ -93,8 +93,8 @@ class GuiController:
         rows, cols = np.where(attack_board is True)
         # Create a list of colors according to the original square colors
         colors = np.where((rows + cols) % 2 == 0,
-                          GuiController.LIGHT_GREEN,
-                          GuiController.DARK_GREEN).tolist()
+                          GuiController.LIGHT_POSSIBLE_FIELD_COLOR,
+                          GuiController.DARK_POSSIBLE_FIELD_COLOR).tolist()
         # Create a list of positions
         positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
         self.update_square_color(colors, positions)
@@ -153,9 +153,9 @@ class GuiController:
             for field in possible_fields:
                 row, col = field
                 if (row + col) % 2 == 0:
-                    color = GuiController.LIGHT_GREEN
+                    color = GuiController.LIGHT_POSSIBLE_FIELD_COLOR
                 else:
-                    color = GuiController.DARK_GREEN
+                    color = GuiController.DARK_POSSIBLE_FIELD_COLOR
                 self.update_square_color([color], [[row, col]])
 
     def update_square_color(self, color: List[str], positions: List[List[int]]) -> None:

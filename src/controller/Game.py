@@ -17,8 +17,9 @@ from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: int = 600) -> None:
+    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: str = "3 min") -> None:
 
+        time = int(time.split(" ")[0]) * 60
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
                                       self.click_on_board, self.top_left_button_click,
                                       self.top_right_button_click, self.bottom_right_button_click,
