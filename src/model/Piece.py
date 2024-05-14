@@ -51,12 +51,6 @@ class Piece(ABC):
 
     def update_possible_fields(self, current_player, opponent):
         self._possible_fields.clear()
-
-        opponent_attacked_fields = set()
-        for piece in opponent._pieces:
-            for field in piece._attacked_fields:
-                opponent_attacked_fields.add(field)
-
         for move in self._attacked_fields:
             if not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)

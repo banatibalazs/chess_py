@@ -15,6 +15,7 @@ class Snapshot:
         self.current_player_color = current_player.color
         self.opponent_color = opponent.color
         self.opponent_last_move = opponent.last_move
+        # self.king_is_in_check = current_player.king.is_in_check
 
     def _get_pieces_info(self, player):
         pieces_info = []

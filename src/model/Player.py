@@ -6,7 +6,6 @@ from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.Color import Color
 from src.model.Piece import Piece
-from src.model.PieceType import PieceType
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 
@@ -49,11 +48,14 @@ class Player:
     def update_pieces_attacked_fields(self, opponent: 'Player') -> None:
         self._attacked_fields.clear()
         for piece in self._pieces:
-            if piece.type == PieceType.KING:
-                pass
             piece.update_attacked_fields(self, opponent)
             for field in piece.attacked_fields:
                 self._attacked_fields.add(field)
+
+    def update_pieces_possible_fields(self, opponent: 'Player') -> None:
+        self._possible_fields.clear()
+        for piece in self._pieces:
+            piece.update_possible_fields(self, opponent)
 
     def reset_en_passant(self) -> None:
         if self._last_moved_piece is not None:
@@ -73,13 +75,10 @@ class Player:
         return None
 
     def can_move(self, opponent) -> bool:
-        result = False
         for piece in self._pieces:
-            piece.update_possible_fields(self, opponent=opponent)
-            print(f'{piece.type} can move')
-            print(len(piece._possible_fields))
-            result = True
-        return result
+            if piece.is_movable():
+                return True
+        return False
 
     def get_score(self) -> int:
         score = 0
@@ -128,7 +127,11 @@ class Player:
         self._selected_piece = piece
 
     @property
-    def king(self) -> Optional[Piece]:
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def king(self) -> Optional[King]:
         return self._king
 
     @property

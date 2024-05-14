@@ -9,6 +9,7 @@ from src.model.Rook import Rook
 class King(Piece):
     def __init__(self, color: Color, row: int, col: int) -> None:
         super().__init__(PieceType.KING, color, row, col)
+        self._is_in_check = False
 
     @override
     def update_attacked_fields(self, current_player, opponent):
@@ -55,10 +56,17 @@ class King(Piece):
                 possible_fields.add((7, 6))
 
         # Filter out moves that would put the king in check
+        opponent.update_pieces_attacked_fields(current_player)
         opponent_attacked_fields = set()
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
                 opponent_attacked_fields.add(field)
+
+        if (self.row, self.col) in opponent_attacked_fields:
+            self._is_in_check = True
+            print('King is in check')
+        else:
+            self._is_in_check = False
 
         for move in possible_fields:
             if move not in opponent_attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
@@ -96,5 +104,8 @@ class King(Piece):
 
         return result
 
+    @property
+    def is_in_check(self) -> bool:
+        return self._is_in_check
 
 
