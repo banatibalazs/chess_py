@@ -1,10 +1,6 @@
 from typing import Dict, List, Tuple, Set, Optional
-
-import tkinter as tk
-
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
-
 from src.model.Color import Color
 from src.view.ChessGui import ChessGui
 from src.view.PromotionDialog import PromotionDialog
@@ -107,6 +103,9 @@ class GuiController:
                       snapshot_number: str, total_snapshot_number: str) -> None:
         self._chess_gui.update_labels(white_player_piece_number, black_player_piece_number,
                                       snapshot_number, total_snapshot_number)
+
+    def update_timer_label(self, time: int, color: Color) -> None:
+        self._chess_gui.update_timer_label(time, color)
 
     def update_pieces_on_board(self, piece_positions_board: ByteArray8x8) -> None:
         for row in range(8):

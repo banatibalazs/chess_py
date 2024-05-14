@@ -12,9 +12,10 @@ from src.model.Rook import Rook
 
 class Player:
 
-    def __init__(self, name: str, color: Color, board: Board) -> None:
+    def __init__(self, name: str, color: Color, board: Board, time: int) -> None:
         self._name: str = name
         self._color: Color = color
+        self._time: int = time
         self._board: Board = board
         self._is_computer: bool = False
         self._selected_piece: Optional[Piece] = None
@@ -75,7 +76,7 @@ class Player:
                 return piece
         return None
 
-    def can_move(self, opponent) -> bool:
+    def can_move(self) -> bool:
         for piece in self._pieces:
             if piece.is_movable():
                 return True
@@ -126,6 +127,14 @@ class Player:
     @selected_piece.setter
     def selected_piece(self, piece: Optional[Piece]) -> None:
         self._selected_piece = piece
+
+    @property
+    def time(self) -> int:
+        return self._time
+
+    @time.setter
+    def time(self, time: int) -> None:
+        self._time = time
 
     @property
     def name(self) -> str:

@@ -1,10 +1,8 @@
 from typing import List
-
-import tkinter as tk
-
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
+from src.controller.TimerThread import TimerThread
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.Color import Color
@@ -16,13 +14,12 @@ from src.model.Player import Player
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 from src.view.ChessGui import ChessGui
-from src.view.PromotionDialog import PromotionDialog
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, black_player_name: str) -> None:
+    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: int = 600) -> None:
 
-        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name,
+        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
                                       self.click_on_board, self.top_left_button_click,
                                       self.top_right_button_click, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
@@ -30,10 +27,11 @@ class Game:
         self._gui_controller: GuiController = GuiController(self.gui)
 
         self._board: Board = Board()
-        self._white_player: Player = Player(white_player_name, Color.WHITE, self._board)
-        self._black_player: Player = Player(black_player_name, Color.BLACK, self._board)
+        self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, time)
+        self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
+        self.timer = TimerThread(self)
 
         self.is_white_turn: bool = True
 
@@ -46,6 +44,7 @@ class Game:
     def start_game(self) -> None:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
+        self.timer.start()
 
         self.save_snapshot()
         self.update()
@@ -55,7 +54,7 @@ class Game:
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
         self.update()
-        if self._current_player.can_move(self._opponent_player):
+        if self._current_player.can_move():
             # print("Current player can move.")
             pass
         else:
@@ -66,9 +65,8 @@ class Game:
                 print(f"{self._current_player.name} can't move.")
                 print("Stalemate.")
 
-        #     # TODO: implement checkmate
-
-
+    def end_game(self, winner) -> None:
+        pass
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
@@ -82,10 +80,10 @@ class Game:
 
         last_move = self._opponent_player.last_move
         if self._current_player.king.is_in_check:
-            checked_king = self._current_player.king.coordinates
+            checked_king_coordinates = self._current_player.king.coordinates
         else:
-            checked_king = None
-        self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king)
+            checked_king_coordinates = None
+        self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
         self._gui_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()),
                                            str(self.current_snapshot_index + 1), str(len(self.snapshots)))
 
