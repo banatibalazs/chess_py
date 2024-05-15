@@ -9,53 +9,31 @@ class ChessGui(tk.Toplevel):
     BLACK_COLOR = "#111111"
     WHITE_COLOR = "#ffffff"
 
-    def __init__(self, title, white_player_name: str, black_player_name: str, time: int, board_click_function: Callable,
+    def __init__(self, title, white_player_name: str, black_player_name: str, time: Optional[int], board_click_function: Callable,
                  top_left_button_click_function: Callable, top_right_button_click_function: Callable,
-                    bottom_right_button_click_function: Callable, bottom_left_button_click_function: Callable):
+                 bottom_right_button_click_function: Callable, bottom_left_button_click_function: Callable):
         tk.Toplevel.__init__(self)
-        (min, sec) = divmod(time, 60)
-        self.time = f"{min:02d}:{sec:02d}"
-        self.title("Welcome to Chess Game!")
-        self.configure(background="#FFFFFF")
-        self.white_player_name_label: Optional[tk.Label] = None
-        self.black_player_name_label: Optional[tk.Label] = None
-        self._chess_board: list = []
-        self.top_left_button: Optional[tk.Button] = None
-        self.top_right_button: Optional[tk.Button] = None
-        self.bottom_right_button: Optional[tk.Button] = None
-        self.bottom_left_button: Optional[tk.Button] = None
-        self.result_label: Optional[tk.Label] = None
-        self.snapshot_label: Optional[tk.Label] = None
-
-        self.black_player_score_label: Optional[tk.Label] = None
-        self.white_player_score_label: Optional[tk.Label] = None
-
-        self.black_player_timer_label: Optional[tk.Label] = None
-        self.white_player_timer_label: Optional[tk.Label] = None
-
-        self.setup_ui(white_player_name, black_player_name,
-                      board_click_function, top_left_button_click_function,
-                      top_right_button_click_function, bottom_right_button_click_function,
-                      bottom_left_button_click_function)
-
-    def setup_ui(self, white_player_name: str, black_player_name: str,
-                 board_click_function: Callable, top_left_button_click_function: Callable,
-                 top_right_button_click_function: Callable, bottom_right_button_click_function: Callable,
-                 bottom_left_button_click_function: Callable) -> None:
+        if time is None:
+            self.time = " "
+        else:
+            (min, sec) = divmod(time, 60)
+            self.time = f"{min:02d}:{sec:02d}"
+        self.title(title)
         self.minsize(688, 780)
         self.geometry("")
-        self.top_left_button = self.add_button("Top left", top_left_button_click_function, 0, 4, 2, 10)
-        self.top_right_button = self.add_button("Top right",top_right_button_click_function, 0, 7, 2, 10)
-        self.black_player_name_label = self.add_label(black_player_name, 0, 1, 1, 10)
-        self.black_player_score_label = self.add_label("16", 0, 2, 1, 10)
-        self.black_player_timer_label = self.add_label(self.time, 0, 3, 1, 10)
-        self.create_board(board_click_function=board_click_function)
-        self.white_player_name_label = self.add_label(white_player_name, 10, 1, 1, 10)
-        self.white_player_score_label = self.add_label("16", 10, 2, 1, 10)
-        self.white_player_timer_label = self.add_label(self.time, 10, 3, 1, 10)
-        self.bottom_left_button = self.add_button("<",bottom_left_button_click_function, 10, 4, 2, 10)
-        self.snapshot_label = self.add_label("1/1", 10, 6, 1, 10)
-        self.bottom_right_button = self.add_button(">", bottom_right_button_click_function, 10, 7, 2, 10)
+        self.configure(background="#FFFFFF")
+        self.white_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 0, 1, 1, 10)
+        self.black_player_score_label: Optional[tk.Label] = self.add_label("16", 0, 2, 1, 10)
+        self.black_player_timer_label: Optional[tk.Label] = self.add_label(self.time, 0, 3, 1, 10)
+        self.top_left_button: Optional[tk.Button] = self.add_button("Top left", top_left_button_click_function, 0, 4, 2, 10)
+        self.top_right_button: Optional[tk.Button] = self.add_button("Top right",top_right_button_click_function, 0, 7, 2, 10)
+        self._chess_board: list = self.create_board(board_click_function)
+        self.black_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 10, 1, 1, 10)
+        self.white_player_score_label: Optional[tk.Label] = self.add_label("16", 10, 2, 1, 10)
+        self.white_player_timer_label: Optional[tk.Label] = self.add_label(self.time, 10, 3, 1, 10)
+        self.bottom_left_button: Optional[tk.Button] = self.add_button("<",bottom_left_button_click_function, 10, 4, 2, 10)
+        self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 10, 6, 1, 10)
+        self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 10, 7, 2, 10)
 
     def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int) -> tk.Button:
         button = tk.Button(self, text=text, command=command, background="#F1F1F1", foreground='black',
@@ -68,7 +46,8 @@ class ChessGui(tk.Toplevel):
         label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return label
 
-    def create_board(self, board_click_function: Callable) -> None:
+    def create_board(self, board_click_function: Callable) -> list:
+        chess_board = []
         for i in range(8):
             row = []
             for j in range(8):
@@ -76,10 +55,8 @@ class ChessGui(tk.Toplevel):
                 square.grid(row=i + 1, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
-            self._chess_board.append(row)
-
-    # def run(self):
-    #     self.mainloop()
+            chess_board.append(row)
+        return chess_board
 
     def update_square_image(self, image_path: str, row: int, col: int) -> None:
         self._chess_board[row][col].set_image(image_path)

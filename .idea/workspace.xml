@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="timer label and timer thread">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="changing colors and add timer in MainWindow.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/TimerThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/TimerThread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -238,14 +239,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00037" summary="simpler solution for piece logic">
-      <option name="closed" value="true" />
-      <created>1714472307759</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1714472307759</updated>
     </task>
     <task id="LOCAL-00038" summary="refactor">
       <option name="closed" value="true" />
@@ -631,7 +624,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715710851274</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="changing colors and add timer in MainWindow.py">
+      <option name="closed" value="true" />
+      <created>1715718174341</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1715718174342</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -646,7 +647,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="player tests" />
     <MESSAGE value="new bishop and pawn tests, refactor make_move method, castling, en passant" />
     <MESSAGE value="en passant not showing bugfix" />
     <MESSAGE value="King was not considered when calc possible moves" />
@@ -671,7 +671,8 @@
     <MESSAGE value="bugfix and checkmate checking" />
     <MESSAGE value="en_passant bugfix and pawn class refactor" />
     <MESSAGE value="timer label and timer thread" />
-    <option name="LAST_COMMIT_MESSAGE" value="timer label and timer thread" />
+    <MESSAGE value="changing colors and add timer in MainWindow.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="changing colors and add timer in MainWindow.py" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

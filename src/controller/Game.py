@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
@@ -17,13 +17,16 @@ from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: str = "3 min") -> None:
+    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: Optional[int] = 180) -> None:
 
-        time = int(time.split(" ")[0]) * 60
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
                                       self.click_on_board, self.top_left_button_click,
                                       self.top_right_button_click, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
+        if time is None:
+            self.timer = None
+        else:
+            self.timer = TimerThread(self)
 
         self._gui_controller: GuiController = GuiController(self.gui)
 
@@ -32,9 +35,9 @@ class Game:
         self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
-        self.timer = TimerThread(self)
 
         self.is_white_turn: bool = True
+        self.is_game_over: bool = False
 
         self.step_history: StepHistory = StepHistory()
         self.snapshots: List[Snapshot] = []
@@ -42,10 +45,16 @@ class Game:
 
         self.start_game()
 
+    def __del__(self):
+        if self.timer is not None:
+            self.timer.stop()
+
     def start_game(self) -> None:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
-        self.timer.start()
+
+        if self.timer is not None:
+            self.timer.start()
 
         self.save_snapshot()
         self.update()
@@ -66,8 +75,16 @@ class Game:
                 print(f"{self._current_player.name} can't move.")
                 print("Stalemate.")
 
+        # if not self.is_white_turn:
+        #     self._current_player.choose_move(self._opponent_player)
+        #     pass TODO
+
     def end_game(self, winner) -> None:
-        pass
+        self.is_game_over = True
+
+    def time_out(self, color: Color) -> None:
+        print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
+        self.end_game()
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
@@ -114,25 +131,26 @@ class Game:
 
     def click_on_board(self, row: int, col: int) -> None:
 
-        # A selected piece is clicked -> deselect it
-        if self._current_player.is_selected_piece_at(row, col):
-            self._current_player.selected_piece = None
-            self._update_gui()
+        if not self.is_game_over:
+            # A selected piece is clicked -> deselect it
+            if self._current_player.is_selected_piece_at(row, col):
+                self._current_player.selected_piece = None
+                self._update_gui()
 
-        # Own unselected piece is clicked -> select it
-        elif self._current_player.has_piece_at(row, col):
-            self._current_player.set_selected_piece(row, col)
+            # Own unselected piece is clicked -> select it
+            elif self._current_player.has_piece_at(row, col):
+                self._current_player.set_selected_piece(row, col)
 
-            self._update_gui()
+                self._update_gui()
 
-        # Selected piece can move to the square -> move it
-        elif self._current_player.is_possible_move(row, col):
-            self.make_move(row, col)
+            # Selected piece can move to the square -> move it
+            elif self._current_player.is_possible_move(row, col):
+                self.make_move(row, col)
 
-        # Empty square or opponent's piece -> deselect the selected piece
-        else:
-            self._current_player.selected_piece = None
-            self._update_gui()
+            # Empty square or opponent's piece -> deselect the selected piece
+            else:
+                self._current_player.selected_piece = None
+                self._update_gui()
 
     def make_move(self, row: int, col: int):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
@@ -227,9 +245,7 @@ class Game:
 
     def do_promotion(self, to_row: int, to_col: int) -> None:
 
-        dialog = self._gui_controller.get_promotion_dialog(self._current_player.color)
-        dialog.wait_window()
-        piece_type = dialog.get_type()
+        piece_type = self._gui_controller.get_type_from_promotion_dialog(self._current_player.color)
 
         from_row = self._current_player.selected_piece.row
         from_col = self._current_player.selected_piece.col

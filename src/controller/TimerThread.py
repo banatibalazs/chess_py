@@ -12,16 +12,17 @@ class TimerThread(threading.Thread):
     def run(self):
         while not self._stop_event.is_set():
             try:
-                if not self._pause_event.is_set() and self.game._current_player.time > 0:
+                if not self._pause_event.is_set():
                     time.sleep(1)
-                    self.game._current_player.time -= 1
-                    self.game._gui_controller.update_timer_label(self.game._current_player.time,
-                                                                 self.game._current_player.color)
+                    if self.game._current_player.time > 0:
+                        self.game._current_player.time -= 1
+                        self.game._gui_controller.update_timer_label(self.game._current_player.time,
+                                                                     self.game._current_player.color)
                 else:
                     time.sleep(1)
                 if self.game._current_player.time == 0:
-                    # self.game_controller.end_game(current_player)
-                    pass
+                    self.game.time_out(self.game._current_player.color)
+                    self.stop()
 
             except Exception as e:
                 print(e)
