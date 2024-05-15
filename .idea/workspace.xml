@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix, MainWindow.py refactor">
-      <change afterPath="$PROJECT_DIR$/resources/images/icon/chess.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/GameResult.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix, refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Square.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Square.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/PromotionDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PromotionDialog.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,14 +236,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00039" summary="King protection field bugfix, view and board update bugfix">
-      <option name="closed" value="true" />
-      <created>1714490626244</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1714490626244</updated>
     </task>
     <task id="LOCAL-00040" summary="special move en passant bugfix">
       <option name="closed" value="true" />
@@ -635,7 +621,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715761534231</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="bugfix, refactor">
+      <option name="closed" value="true" />
+      <created>1715767557360</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1715767557360</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -650,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="en passant not showing bugfix" />
     <MESSAGE value="King was not considered when calc possible moves" />
     <MESSAGE value="king_in_check_after_move function in King class" />
     <MESSAGE value="bugfix in king_in_check_after_move function the opponent's piece was not removed" />
@@ -675,7 +668,8 @@
     <MESSAGE value="timer label and timer thread" />
     <MESSAGE value="changing colors and add timer in MainWindow.py" />
     <MESSAGE value="bugfix, MainWindow.py refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix, MainWindow.py refactor" />
+    <MESSAGE value="bugfix, refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix, refactor" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

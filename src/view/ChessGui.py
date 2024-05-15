@@ -9,8 +9,10 @@ class ChessGui(tk.Toplevel):
     BLACK_COLOR = "#111111"
     WHITE_COLOR = "#ffffff"
     WINDOWS_ICON_PATH = "../resources/images/icon/chess.ico"
-    BUTTON_COLOR = "#E0FFE0"
-    BUTTON_COLOR_HOVER = "#A3FFA3"
+    BUTTON_COLOR = "#e0ffe0"
+    BUTTON_COLOR_HOVER = "#a3ffa3"
+    LABEL_FOREGROUND_COLOR = "#ffffff"
+    BUTTON_FOREGROUND_COLOR = "#000000"
 
     def __init__(self, title, white_player_name: str, black_player_name: str, time: Optional[int], board_click_function: Callable,
                  top_left_button_click_function: Callable, top_right_button_click_function: Callable,
@@ -25,24 +27,25 @@ class ChessGui(tk.Toplevel):
         self.iconbitmap(ChessGui.WINDOWS_ICON_PATH)
         self.minsize(688, 780)
         self.geometry("")
-        self.configure(background="#FFFFFF")
-        self.white_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 0, 1, 10, 10)
-        self.black_player_score_label: Optional[tk.Label] = self.add_label("Score:", 1, 2, 2, 10)
-        self.black_player_timer_label: Optional[tk.Label] = self.add_label(self.time, 2, 2, 2, 10)
-        self.top_left_button: Optional[tk.Button] = self.add_button("Top left", top_left_button_click_function, 1, 4, 2, 10)
-        self.top_right_button: Optional[tk.Button] = self.add_button("Top right",top_right_button_click_function, 1, 7, 2, 10)
+        self.configure(background="#000000")
+        self.black_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 1, 1, 3, 10)
+        self.black_player_score_label: Optional[tk.Label] = self.add_label("Score:", 1, 4, 2, 10)
+        self.black_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 1, 7, 2, 10)
+        # self.top_left_button: Optional[tk.Button] = self.add_button("Top left", top_left_button_click_function, 0, 4, 2, 1,10)
+        # self.top_right_button: Optional[tk.Button] = self.add_button("Top right",top_right_button_click_function, 0, 7, 2, 1, 10)
         self._chess_board: list = self.create_board(board_click_function)
-        self.black_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 11, 1, 10, 10)
-        self.white_player_score_label: Optional[tk.Label] = self.add_label("Score", 12, 2, 2, 10)
-        self.bottom_left_button: Optional[tk.Button] = self.add_button("<",bottom_left_button_click_function, 12, 5, 1, 10)
-        self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 12, 6, 2, 10)
-        self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 12, 8, 1, 10)
-        self.white_player_timer_label: Optional[tk.Label] = self.add_label(self.time, 13, 2, 2, 10)
+        self.white_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 11, 1, 3, 10)
+        self.white_player_score_label: Optional[tk.Label] = self.add_label("Score", 11, 4, 2, 10)
+        self.bottom_left_button: Optional[tk.Button] = self.add_button("<",bottom_left_button_click_function, 6, 0, 1, 2, 10, 15, 3, 3)
+        self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 14, 8, 3, 10)
+        self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 6, 10, 1, 2, 10, 15, 3, 3)
+        self.white_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 11, 7, 2, 10)
 
-    def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, pady: int) -> tk.Button:
-        button = tk.Button(self, text=text, command=command, background=ChessGui.BUTTON_COLOR, foreground='black',
-                           font=('Helvetica', 12, 'bold'), borderwidth=1, relief="ridge", width=7, height=1)
-        button.grid(row=row, column=column, columnspan=columnspan, pady=pady)
+    def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, row_span: int,
+                   pady: int, padx: int = 0, width: int = 7, height: int = 1) -> tk.Button:
+        button = tk.Button(self, text=text, command=command, background=ChessGui.BUTTON_COLOR, foreground=ChessGui.BUTTON_FOREGROUND_COLOR,
+                           font=('Helvetica', 12, 'bold'), borderwidth=1, relief="ridge", width=width, height=height)
+        button.grid(row=row, column=column, columnspan=columnspan, rowspan=row_span, pady=pady, padx=padx)
         button.bind("<Enter>", self.on_enter)
         button.bind("<Leave>", self.on_leave)
         return button
@@ -54,7 +57,7 @@ class ChessGui(tk.Toplevel):
         event.widget.config(background=ChessGui.BUTTON_COLOR)
 
     def add_label(self, text: str, row: int, column: int, columnspan: int, pady: int) -> tk.Label:
-        label = tk.Label(self, text=text, background="#FFFFFF", font=('Helvetica', 12))
+        label = tk.Label(self, text=text, background="#000000", font=('Helvetica', 12), fg=ChessGui.LABEL_FOREGROUND_COLOR)
         label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return label
 
