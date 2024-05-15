@@ -1,3 +1,4 @@
+import random
 from typing import Optional, List, Tuple, Set
 from src.model.Bishop import Bishop
 from src.model.Board import Board
@@ -12,10 +13,10 @@ from src.model.Rook import Rook
 
 class Player:
 
-    def __init__(self, name: str, color: Color, board: Board, time: int) -> None:
+    def __init__(self, name: str, color: Color, board: Board, time: Optional[int]) -> None:
         self._name: str = name
         self._color: Color = color
-        self._time: int = time
+        self._time: Optional[int] = time
         self._board: Board = board
         self._is_computer: bool = False
         self._selected_piece: Optional[Piece] = None
@@ -163,3 +164,19 @@ class Player:
         self.selected_piece.coordinates = (to_row, to_col)
         self.selected_piece.is_moved = True
         self._last_moved_piece = self.selected_piece
+
+    def choose_move(self) -> Tuple[int, int]:
+        return  random.choice(list(self.selected_piece.possible_fields))
+
+    def select_piece(self) -> Optional[Piece]:
+        movable_pieces = self.get_movable_pieces()
+        if len(movable_pieces) == 0:
+            return None
+        self.selected_piece = random.choice(movable_pieces)
+
+    def get_movable_pieces(self) -> List[Piece]:
+        movable_pieces = []
+        for piece in self._pieces:
+            if piece.is_movable():
+                movable_pieces.append(piece)
+        return movable_pieces

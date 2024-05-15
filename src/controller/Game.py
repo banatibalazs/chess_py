@@ -18,7 +18,7 @@ from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: Optional[int] = 180) -> None:
+    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: Optional[int]) -> None:
 
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
                                       self.click_on_board, self.top_left_button_click,
@@ -49,6 +49,8 @@ class Game:
     def __del__(self):
         if self.timer is not None:
             self.timer.stop()
+        # self.gui.destroy()
+        print("Game destroyed.")
 
     def start_game(self) -> None:
         self._white_player.init_pieces()
@@ -71,24 +73,31 @@ class Game:
         else:
             if self._current_player.king.is_in_check:
                 print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
-                self.end_game(GameResult.WHITE_WON if self._current_player.color == Color.BLACK else GameResult.BLACK_WON)
+                self.end_game(GameResult.WHITE_WON_BY_CHECKMATE if
+                              self._current_player.color == Color.BLACK else GameResult.BLACK_WON_BY_CHECKMATE)
             else:
                 print(f"{self._current_player.name} can't move.")
                 self.end_game(GameResult.DRAW)
 
-        # if not self.is_white_turn:
-        #     self._current_player.choose_move(self._opponent_player)
+        if not self.is_white_turn:
+            self._current_player.select_piece()
+            move = self._current_player.choose_move()
+            self.make_move(move[0], move[1])
+
         #     pass TODO
 
     def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
         if self.timer is not None:
             self.timer.stop()
-        if game_result == GameResult.DRAW:
-            print("Draw.")
-        else:
-            winner = self._white_player if game_result == GameResult.WHITE_WON else self._black_player
-            print("Winner: ", winner.name)
+        # if game_result == GameResult.DRAW:
+        #     print("Draw.")
+        # else:
+        #     winner = self._white_player if game_result == GameResult.WHITE_WON else self._black_player
+        #     print("Winner: ", winner.name)
+
+        self._gui_controller.end_game_dialog(game_result)
+
 
     def threefold_repetition(self) -> bool:
         # TODO implement
@@ -97,7 +106,7 @@ class Game:
 
     def time_out(self, color: Color) -> None:
         print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
-        self.end_game(GameResult.WHITE_WON if color == Color.BLACK else GameResult.BLACK_WON)
+        self.end_game(GameResult.WHITE_WON_BY_TIMEOUT if color == Color.BLACK else GameResult.BLACK_WON_BY_TIMEOUT)
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())

@@ -83,7 +83,7 @@ class ChessGui(tk.Toplevel):
                       snapshot_number: str, total_snapshot_number: str) -> None:
         self.white_player_score_label.config(text=f"Score: {white_player_piece_number}")
         self.black_player_score_label.config(text=f"Score: {black_player_piece_number}")
-        self.snapshot_label.config(text=f"Snapshot: {snapshot_number}/{total_snapshot_number}")
+        self.snapshot_label.config(text=f"{snapshot_number}/{total_snapshot_number}")
 
     def update_timer_label(self, time: int, color: Color) -> None:
         (min, sec) = divmod(time, 60)

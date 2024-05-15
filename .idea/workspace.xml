@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix, refactor">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="change ChessGui.py arrangement">
+      <change afterPath="$PROJECT_DIR$/src/view/EndGameDialog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/GameResult.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/GameResult.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,14 +242,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00040" summary="special move en passant bugfix">
-      <option name="closed" value="true" />
-      <created>1714491449713</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1714491449713</updated>
     </task>
     <task id="LOCAL-00041" summary="clean up code">
       <option name="closed" value="true" />
@@ -629,7 +627,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715767557360</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="change ChessGui.py arrangement">
+      <option name="closed" value="true" />
+      <created>1715770156826</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1715770156826</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -644,7 +650,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="King was not considered when calc possible moves" />
     <MESSAGE value="king_in_check_after_move function in King class" />
     <MESSAGE value="bugfix in king_in_check_after_move function the opponent's piece was not removed" />
     <MESSAGE value="bugfix pieces can only move to a square if their king will not be attacked after the move. Pawn and Piece class modification" />
@@ -669,7 +674,8 @@
     <MESSAGE value="changing colors and add timer in MainWindow.py" />
     <MESSAGE value="bugfix, MainWindow.py refactor" />
     <MESSAGE value="bugfix, refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix, refactor" />
+    <MESSAGE value="change ChessGui.py arrangement" />
+    <option name="LAST_COMMIT_MESSAGE" value="change ChessGui.py arrangement" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

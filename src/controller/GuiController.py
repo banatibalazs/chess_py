@@ -2,8 +2,10 @@ from typing import Dict, List, Tuple, Set, Optional
 from src.controller.CustomTypesForTypeHinting import ByteArray8x8, BoolArray8x8
 import numpy as np
 from src.model.Color import Color
+from src.model.GameResult import GameResult
 from src.model.PieceType import PieceType
 from src.view.ChessGui import ChessGui
+from src.view.EndGameDialog import EndGameDialog
 from src.view.PromotionDialog import PromotionDialog
 
 
@@ -57,6 +59,9 @@ class GuiController:
             np.byte(2): GuiController.WH_ROOK_IMAGE_PATH,
             np.byte(1): GuiController.WH_PAWN_IMAGE_PATH
         }
+
+    def end_game_dialog(self, game_result: GameResult) -> None:
+        dialog = EndGameDialog(game_result).wait_window()
 
     def get_type_from_promotion_dialog(self, color: Color) -> PieceType:
         dialog = PromotionDialog(GuiController.WH_QUEEN_IMAGE_PATH if color == Color.WHITE else

@@ -70,9 +70,6 @@ class MainWindow:
         self.combobox.current(1)
         self.combobox.grid(row=3, column=1, sticky="w", padx=5, pady=MainWindow.PADY)
 
-
-
-
         # Bind the <Enter> and <Leave> events to the button
         self.start_button.bind("<Enter>", self.on_enter_startButton)
         self.start_button.bind("<Leave>", self.on_leave_startButton)
@@ -80,9 +77,6 @@ class MainWindow:
         # Bind the <Enter> and <Leave> events to the button
         self.exit_button.bind("<Enter>", self.on_enter_exitButton)
         self.exit_button.bind("<Leave>", self.on_leave_exitButton)
-
-        self.result_label = tk.Label(self.frame, text="Welcome to this game!")
-        self.result_label.grid(row=6, column=0, columnspan=2)
 
     def add_label(self, frame, text: str, row: int, col: int, colspan: int) -> tk.Label:
         label = tk.Label(frame, text=text,

@@ -2,6 +2,10 @@ from enum import Enum
 
 
 class GameResult(Enum):
-    WHITE_WON = 1
-    BLACK_WON = -1
+    WHITE_WON_BY_CHECKMATE = 1
+    BLACK_WON_BY_CHECKMATE = -1
+    WHITE_WON_BY_RESIGNATION = 2
+    BLACK_WON_BY_RESIGNATION = -2
+    WHITE_WON_BY_TIMEOUT = 3
+    BLACK_WON_BY_TIMEOUT = -3
     DRAW = 0
