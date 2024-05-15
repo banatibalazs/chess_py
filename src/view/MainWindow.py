@@ -12,12 +12,14 @@ class MainWindow:
     START_BUTTON_IMAGE_PATH = "../resources/images/welcome_page/start.png"
     CHESS_CLOCK_IMAGE_PATH = "../resources/images/welcome_page/chess-clock.png"
     EMPTY_IMAGE_PATH = "../resources/images/welcome_page/empty.png"
+    WINDOWS_ICON_PATH = "../resources/images/icon/chess.ico"
     TEXT_SIZE = 14
     PADY = (10, 10)
 
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Welcome to Chess Game!")
+        self.root.iconbitmap(MainWindow.WINDOWS_ICON_PATH)
         self.root.configure(background="#FFFFFF")
         self.frame = tk.Frame(self.root, padx=10, pady=10)
         self.frame.configure(background="#FFFFFF")

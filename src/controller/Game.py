@@ -6,6 +6,7 @@ from src.controller.TimerThread import TimerThread
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.Color import Color
+from src.model.GameResult import GameResult
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.Piece import Piece
@@ -70,21 +71,33 @@ class Game:
         else:
             if self._current_player.king.is_in_check:
                 print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
-                print(f"{self._opponent_player.name} wins.")
+                self.end_game(GameResult.WHITE_WON if self._current_player.color == Color.BLACK else GameResult.BLACK_WON)
             else:
                 print(f"{self._current_player.name} can't move.")
-                print("Stalemate.")
+                self.end_game(GameResult.DRAW)
 
         # if not self.is_white_turn:
         #     self._current_player.choose_move(self._opponent_player)
         #     pass TODO
 
-    def end_game(self, winner) -> None:
+    def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
+        if self.timer is not None:
+            self.timer.stop()
+        if game_result == GameResult.DRAW:
+            print("Draw.")
+        else:
+            winner = self._white_player if game_result == GameResult.WHITE_WON else self._black_player
+            print("Winner: ", winner.name)
+
+    def threefold_repetition(self) -> bool:
+        # TODO implement
+        pass
+
 
     def time_out(self, color: Color) -> None:
         print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
-        self.end_game()
+        self.end_game(GameResult.WHITE_WON if color == Color.BLACK else GameResult.BLACK_WON)
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())

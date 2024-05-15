@@ -1,8 +1,7 @@
 from src.model.PieceType import PieceType
 import tkinter as tk
-from PIL import Image, ImageTk
 
-from src.model.Square import Square
+from src.view.Square import Square
 
 
 class PromotionDialog(tk.Toplevel):
