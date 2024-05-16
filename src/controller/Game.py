@@ -6,6 +6,7 @@ from src.controller.TimerThread import TimerThread
 from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.Color import Color
+from src.model.ComputerPlayer import ComputerPlayer
 from src.model.GameResult import GameResult
 from src.model.Knight import Knight
 from src.model.Pawn import Pawn
@@ -79,7 +80,7 @@ class Game:
                 print(f"{self._current_player.name} can't move.")
                 self.end_game(GameResult.DRAW)
 
-        if not self.is_white_turn:
+        if not self.is_game_over and isinstance(self._current_player, ComputerPlayer) and not self.is_white_turn:
             self._current_player.select_piece()
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])

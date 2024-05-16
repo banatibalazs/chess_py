@@ -36,20 +36,24 @@ class MainWindow:
 
     def setup_ui(self) -> None:
 
-        chess_image = Image.open(MainWindow.CHESS_GAME_IMAGE_PATH)
-        chess_clock_image = Image.open(MainWindow.CHESS_CLOCK_IMAGE_PATH)
-
-        # Resize the images
-        chess_image = chess_image.resize((370, 200))
-        chess_clock_image = chess_clock_image.resize((55, 55))
-
-        chess_image_tk = ImageTk.PhotoImage(chess_image)
-        chess_clock_image_tk = ImageTk.PhotoImage(chess_clock_image)
-
         # Create a label and add the image to it
+        chess_image = Image.open(MainWindow.CHESS_GAME_IMAGE_PATH)
+        chess_image = chess_image.resize((370, 200))
+        chess_image_tk = ImageTk.PhotoImage(chess_image)
         image_label = tk.Label(self.frame, image=chess_image_tk)
         image_label.image = chess_image_tk  # keep a reference to the image
         image_label.grid(row=0, column=0, columnspan=2)
+
+        # Resize the images
+        chess_clock_image = Image.open(MainWindow.CHESS_CLOCK_IMAGE_PATH)
+        chess_clock_image = chess_clock_image.resize((55, 55))
+        chess_clock_image_tk = ImageTk.PhotoImage(chess_clock_image)
+        self.timer_label = tk.Label(self.frame, image=chess_clock_image_tk, background="#FFFFFF")
+        self.timer_label.image = chess_clock_image_tk
+        self.timer_label.grid(row=3, column=0, sticky="e", pady=MainWindow.PADY)
+
+
+
 
         white_player_name_label = tk.Label(self.frame, text="WhitePlayer:",
                                         background="#FFFFFF",
@@ -61,14 +65,10 @@ class MainWindow:
                                         font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
         black_player_name_label.grid(row=2, column=0, sticky="e")
 
-        self.timer_label = tk.Label(self.frame, image=chess_clock_image_tk, background="#FFFFFF")
-        self.timer_label.image = chess_clock_image_tk
-        self.timer_label.grid(row=3, column=0, sticky="e", pady=MainWindow.PADY)
-
-        self.combobox = ttk.Combobox(self.frame, values=["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
+        self.timer_box = ttk.Combobox(self.frame, values=["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
                                                     "30 min", "60 min", "90 min"], width=10, state="readonly")
-        self.combobox.current(1)
-        self.combobox.grid(row=3, column=1, sticky="w", padx=5, pady=MainWindow.PADY)
+        self.timer_box.current(1)
+        self.timer_box.grid(row=3, column=1, sticky="w", padx=5, pady=MainWindow.PADY)
 
         # Bind the <Enter> and <Leave> events to the button
         self.start_button.bind("<Enter>", self.on_enter_startButton)
@@ -116,7 +116,7 @@ class MainWindow:
 
     def open_new_window(self):
         try:
-            time: int = int(self.combobox.get().split(" ")[0]) * 60
+            time: int = int(self.timer_box.get().split(" ")[0]) * 60
         except ValueError:
             time = None
         game = Game("Chess Game", self.white_player_name.get(), self.black_player_name.get(), time=time)
