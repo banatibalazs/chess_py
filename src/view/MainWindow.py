@@ -4,6 +4,7 @@ from typing import Callable
 
 from PIL import Image, ImageTk
 from src.controller.Game import Game
+from src.model.enums.PlayerType import PlayerType
 
 
 class MainWindow:
@@ -32,15 +33,15 @@ class MainWindow:
                                                            0, 0, 2, (370, 200))
         self.white_player_name_label = self.add_label_with_image(MainWindow.WHITE_KING_IMAGE_PATH, 1, 0, 1, (70, 70))
         self.white_player_name = self.add_entry(self.frame, 'Player1', 1, 1)
-        self.white_is_ai_var = tk.BooleanVar()
-        self.white_is_computer_checkbox = self.add_checkbox("AI", 1, 2, self.white_is_ai_var)
+        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 1, 3, 0)
 
         self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 2, 0, 1, (70, 70))
         self.black_player_name = self.add_entry(self.frame, 'Player2', 2, 1)
-        self.black_is_ai_var = tk.BooleanVar()
-        self.black_is_computer_checkbox = self.add_checkbox("AI", 2, 2, self.black_is_ai_var)
+        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 3, 0)
 
         self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 3, 0, 1, (55, 55))
+        self.timer_box = self.add_combobox(["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
+                                            "30 min", "60 min", "90 min"], 3, 1, 1)
         self.start_button = self.add_button(self.frame,"Start Game", self.open_new_window,
                                     4, 0, 2, 22, 1, "#CCFFCC")
         self.add_image_to_button(self.start_button, MainWindow.START_BUTTON_IMAGE_PATH)
@@ -51,11 +52,6 @@ class MainWindow:
 
     def setup_ui(self) -> None:
 
-        self.timer_box = ttk.Combobox(self.frame, values=["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
-                                                    "30 min", "60 min", "90 min"], width=10, state="readonly")
-        self.timer_box.current(1)
-        self.timer_box.grid(row=3, column=1, sticky="w", padx=5, pady=MainWindow.PADY)
-
         # Bind the <Enter> and <Leave> events to the button
         self.start_button.bind("<Enter>", self.on_enter_startButton)
         self.start_button.bind("<Leave>", self.on_leave_startButton)
@@ -63,6 +59,12 @@ class MainWindow:
         # Bind the <Enter> and <Leave> events to the button
         self.exit_button.bind("<Enter>", self.on_enter_exitButton)
         self.exit_button.bind("<Leave>", self.on_leave_exitButton)
+
+    def add_combobox(self, values: list, row: int, col: int, current: int) -> ttk.Combobox:
+        combobox = ttk.Combobox(self.frame, values=values, width=10, state="readonly")
+        combobox.grid(row=row, column=col, sticky="w", padx=5)
+        combobox.current(current)
+        return combobox
 
     def add_checkbox(self, text: str, row: int, col: int, variable: tk.BooleanVar) -> tk.Checkbutton:
         checkbox = tk.Checkbutton(self.frame, text=text, variable=variable, onvalue=True, offvalue=False, background="#FFFFFF",
@@ -94,18 +96,9 @@ class MainWindow:
 
     def add_button(self, frame, text: str, command: Callable, row: int, col: int,
                    colspan: int, width: int, height: int, color: str) -> tk.Button:
-        button = tk.Button(frame,
-                           text=text,
-                           command=command,
-                           background=color,
-                           foreground='black',
-                           font=('Helvetica', 16),
-                           borderwidth=2,
-                           relief="groove",
-                           width= width,
-                           height=height)
+        button = tk.Button(frame, text=text, command=command, background=color, foreground='black',
+                           font=('Helvetica', 16), borderwidth=2, relief="groove", width= width, height=height)
         button.grid(row=row, column=col, columnspan=colspan, pady=MainWindow.PADY)
-        # button.config(width=width, height=height)
         return button
 
     def add_image_to_button(self, button, image_path: str):
@@ -120,9 +113,25 @@ class MainWindow:
             time: int = int(self.timer_box.get().split(" ")[0]) * 60
         except ValueError:
             time = None
-        game = Game("Chess Game", self.white_player_name.get(), self.white_is_ai_var.get(),
-                    self.black_player_name.get(), self.black_is_ai_var.get(), time)
+
+        white_player_type = self.str_to_player_type(self.white_player_type.get())
+        black_player_type = self.str_to_player_type(self.black_player_type.get())
+
+        game = Game("Chess Game", self.white_player_name.get(), white_player_type,
+                    self.black_player_name.get(), black_player_type, time)
         # game.run()
+
+    def str_to_player_type(self, player_type: str) -> PlayerType:
+        if player_type == "Human":
+            return PlayerType.HUMAN
+        elif player_type == "Random":
+            return PlayerType.RANDOM
+        elif player_type == "Greedy":
+            return PlayerType.GREEDY
+        elif player_type == "Minimax":
+            return PlayerType.MINIMAX
+        elif player_type == "AlphaBeta":
+            return PlayerType.MINIMAX_WITH_ALPHABETA
 
     def run(self):
         self.root.mainloop()

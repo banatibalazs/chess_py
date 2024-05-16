@@ -1,7 +1,7 @@
 from typing import Tuple, override, Set
-from src.model.Color import Color
-from src.model.Piece import Piece
-from src.model.PieceType import PieceType
+from src.model.enums.Color import Color
+from src.model.pieces.Piece import Piece
+from src.model.enums.PieceType import PieceType
 
 
 class Pawn(Piece):

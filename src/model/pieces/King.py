@@ -1,9 +1,9 @@
 from typing import override
 
-from src.model.Color import Color
-from src.model.Piece import Piece
-from src.model.PieceType import PieceType
-from src.model.Rook import Rook
+from src.model.enums.Color import Color
+from src.model.pieces.Piece import Piece
+from src.model.enums.PieceType import PieceType
+from src.model.pieces.Rook import Rook
 
 
 class King(Piece):
@@ -64,7 +64,7 @@ class King(Piece):
 
         if (self.row, self.col) in opponent_attacked_fields:
             self._is_in_check = True
-            print('King is in check')
+            # print('King is in check')
         else:
             self._is_in_check = False
 

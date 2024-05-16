@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from src.model.GameResult import GameResult
+from src.model.enums.GameResult import GameResult
 
 
 class EndGameDialog(tk.Toplevel):

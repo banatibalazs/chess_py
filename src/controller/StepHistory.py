@@ -1,7 +1,7 @@
 from typing import List, Dict
 
-from src.model.Color import Color
-from src.model.PieceType import PieceType
+from src.model.enums.Color import Color
+from src.model.enums.PieceType import PieceType
 
 
 class StepHistory:

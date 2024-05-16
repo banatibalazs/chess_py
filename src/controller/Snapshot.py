@@ -1,11 +1,11 @@
-from src.model.Bishop import Bishop
-from src.model.King import King
-from src.model.Knight import Knight
-from src.model.Pawn import Pawn
-from src.model.PieceType import PieceType
-from src.model.Player import Player
-from src.model.Queen import Queen
-from src.model.Rook import Rook
+from src.model.pieces.Bishop import Bishop
+from src.model.pieces.King import King
+from src.model.pieces.Knight import Knight
+from src.model.pieces.Pawn import Pawn
+from src.model.enums.PieceType import PieceType
+from src.model.players.Player import Player
+from src.model.pieces.Queen import Queen
+from src.model.pieces.Rook import Rook
 
 
 class Snapshot:

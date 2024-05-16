@@ -1,8 +1,8 @@
 import unittest
 from src.model.Board import Board
-from src.model.Color import Color
-from src.model.King import King
-from src.model.Player import Player
+from src.model.enums.Color import Color
+from src.model.pieces.King import King
+from src.model.players.Player import Player
 
 """
                             Black player's side

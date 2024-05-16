@@ -1,4 +1,4 @@
-from src.model.PieceType import PieceType
+from src.model.enums.PieceType import PieceType
 import tkinter as tk
 
 from src.view.Square import Square

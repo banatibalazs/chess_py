@@ -1,31 +1,32 @@
 import time as tm
+import os
+import psutil
 from typing import List, Optional
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
 from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
-from src.model.Color import Color
-from src.model.ComputerPlayer import ComputerPlayer
-from src.model.GameResult import GameResult
-from src.model.Pawn import Pawn
-from src.model.PieceType import PieceType
-from src.model.Player import Player
+from src.model.enums.Color import Color
+from src.model.players.RandomPlayer import RandomPlayer
+from src.model.enums.GameResult import GameResult
+from src.model.pieces.Pawn import Pawn
+from src.model.enums.PieceType import PieceType
+from src.model.players.Player import Player
+from src.model.enums.PlayerType import PlayerType
 from src.view.BlackGui import BlackGui
 from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, white_is_ai: bool, black_player_name: str, black_is_ai: bool,
-                 _time: Optional[int]) -> None:
+    def __init__(self, title: str, white_player_name: str, white_player_type: PlayerType, black_player_name: str,
+                 black_player_type: PlayerType, _time: Optional[int]) -> None:
 
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, _time,
-                                      self.click_on_board, self.top_left_button_click,
-                                      self.top_right_button_click, self.bottom_right_button_click,
+                                      self.click_on_board, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
         self.black_gui: BlackGui = BlackGui(title, white_player_name, black_player_name, _time,
-                                            self.click_on_board, self.top_left_button_click,
-                                            self.top_right_button_click, self.bottom_right_button_click,
+                                            self.click_on_board, self.bottom_right_button_click,
                                             self.bottom_left_button_click)
         if _time is None:
             self.timer = None
@@ -36,12 +37,17 @@ class Game:
         self._black_gui_controller: GuiController = GuiController(self.black_gui)
 
         self._board: Board = Board()
-        if white_is_ai:
-            self._white_player: Player = ComputerPlayer(white_player_name, Color.WHITE, self._board, _time)
+        if white_player_type == PlayerType.HUMAN:
+            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
+        elif white_player_type == PlayerType.RANDOM:
+            self._white_player: Player = RandomPlayer(white_player_name, Color.WHITE, self._board, _time)
         else:
             self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
-        if black_is_ai:
-            self._black_player: Player = ComputerPlayer(black_player_name, Color.BLACK, self._board, _time)
+
+        if black_player_type == PlayerType.HUMAN:
+            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
+        elif black_player_type == PlayerType.RANDOM:
+            self._black_player: Player = RandomPlayer(black_player_name, Color.BLACK, self._board, _time)
         else:
             self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
@@ -75,16 +81,17 @@ class Game:
         self._update_board()
         self._update_gui()
 
-        if isinstance(self._current_player, ComputerPlayer):
+        if isinstance(self._current_player, RandomPlayer):
             self._current_player.select_piece()
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])
 
     def next_turn(self) -> None:
+        print(f"Memory usage: {self.get_memory_usage()} MB")
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        if isinstance(self._current_player, ComputerPlayer) and isinstance(self._opponent_player, ComputerPlayer):
+        if isinstance(self._current_player, RandomPlayer) and isinstance(self._opponent_player, RandomPlayer):
             self._update_player()
         else:
             self._update_player()
@@ -94,7 +101,7 @@ class Game:
         if self._current_player.can_move():
             if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
                 print("Draw: Only two kings left.")
-                self.end_game(GameResult.DRAW)
+                self.end_game(GameResult.DRAW_BY_INSUFFICIENT_MATERIAL)
         else:
             if self._current_player.king.is_in_check:
                 print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
@@ -102,9 +109,9 @@ class Game:
                               self._current_player.color == Color.BLACK else GameResult.BLACK_WON_BY_CHECKMATE)
             else:
                 print(f"{self._current_player.name} can't move.")
-                self.end_game(GameResult.DRAW)
+                self.end_game(GameResult.DRAW_BY_STALEMATE)
 
-        if not self.is_game_over and isinstance(self._current_player, ComputerPlayer):
+        if not self.is_game_over and isinstance(self._current_player, RandomPlayer):
             self._current_player.select_piece()
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])
@@ -115,6 +122,7 @@ class Game:
             self.timer.stop()
         self._update_board()
         self._update_gui()
+        print(f"Memory usage: {self.get_memory_usage()} MB")
         print("Game lasted: ", tm.time() - self.start_time, " seconds.")
         print("Step number: ", self.step_history.get_step_number())
         print("That is ", self.step_history.get_step_number() / (tm.time() - self.start_time), " steps per second.")
@@ -123,7 +131,13 @@ class Game:
 
     def threefold_repetition(self) -> bool:
         # TODO implement
-        pass
+        self.end_game(GameResult.DRAW_BY_THREEFOLD_REPETITION)
+
+    def get_memory_usage(self):
+        process = psutil.Process(os.getpid())
+        mem_info = process.memory_info()
+        return mem_info.rss / 1024 / 1024  # return memory usage in MB
+
 
     def time_out(self, color: Color) -> None:
         print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
@@ -154,10 +168,6 @@ class Game:
         else:
             white_score = str(self._opponent_player.get_score())
             black_score = str(self._current_player.get_score())
-
-        print("White score: ", white_score)
-        print("Black score: ", black_score)
-        print("Current player: ", self._current_player.color.name)
 
         self._gui_controller.update_labels(white_score, black_score,
                                            str(self.current_snapshot_index + 1), str(len(self.snapshots)))
@@ -242,7 +252,7 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            if isinstance(self._current_player, ComputerPlayer):
+            if isinstance(self._current_player, RandomPlayer):
                 piece_type = PieceType.QUEEN
             else:
                 piece_type: PieceType = self._gui_controller.get_type_from_promotion_dialog(self._current_player.color)

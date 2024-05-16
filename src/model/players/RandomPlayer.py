@@ -1,12 +1,12 @@
 import random
 from typing import Tuple, Optional, List
 
-from src.model.Color import Color
-from src.model.Piece import Piece
-from src.model.Player import Player
+from src.model.enums.Color import Color
+from src.model.pieces.Piece import Piece
+from src.model.players.Player import Player
 
 
-class ComputerPlayer(Player):
+class RandomPlayer(Player):
     def __init__(self, name: str, color: Color, board, time: int):
         super().__init__(name, color, board, time)
 

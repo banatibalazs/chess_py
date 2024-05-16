@@ -1,6 +1,6 @@
 from typing import override
-from src.model.Piece import Piece
-from src.model.PieceType import PieceType
+from src.model.pieces.Piece import Piece
+from src.model.enums.PieceType import PieceType
 
 
 class Rook(Piece):

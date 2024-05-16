@@ -1,15 +1,14 @@
-import random
 from typing import Optional, List, Tuple, Set
-from src.model.Bishop import Bishop
+from src.model.pieces.Bishop import Bishop
 from src.model.Board import Board
-from src.model.King import King
-from src.model.Knight import Knight
-from src.model.Pawn import Pawn
-from src.model.Color import Color
-from src.model.Piece import Piece
-from src.model.PieceType import PieceType
-from src.model.Queen import Queen
-from src.model.Rook import Rook
+from src.model.pieces.King import King
+from src.model.pieces.Knight import Knight
+from src.model.pieces.Pawn import Pawn
+from src.model.enums.Color import Color
+from src.model.pieces.Piece import Piece
+from src.model.enums.PieceType import PieceType
+from src.model.pieces.Queen import Queen
+from src.model.pieces.Rook import Rook
 
 
 class Player:
@@ -71,13 +70,15 @@ class Player:
         if self._last_moved_piece is not None:
             if isinstance(self._last_moved_piece, Pawn):
                 self._last_moved_piece.is_en_passant = False
-                print("En passant reset.")
+                # print("En passant reset.")
 
     def remove_piece_at(self, row: int, col: int) -> None:
-        for piece in self._pieces:
-            if piece.coordinates == (row, col):
-                self._pieces.remove(piece)
-                break
+        if (row, col) in self._piece_coordinates:
+            self._piece_coordinates.remove((row, col))
+            for piece in self._pieces:
+                if piece.coordinates == (row, col):
+                    self._pieces.remove(piece)
+                    break
 
     def get_piece_at(self, row: int, col: int) -> Optional[Piece]:
         for piece in self._pieces:
@@ -170,7 +171,7 @@ class Player:
         self._last_move = move
 
     def do_castling(self, row: int, col: int) -> None:
-        print("Castling")
+        # print("Castling")
         if col == 2:
             rook = self.get_piece_at(row=row, col=0)
             if rook is not None:
@@ -209,17 +210,24 @@ class Player:
         self.pieces.append(new_piece)
         self.last_moved_piece = new_piece
         self.reset_en_passant()
+        # self._piece_coordinates.discard((from_row, from_col))
+        # self._piece_coordinates.add((to_row, to_col))
         self.update_piece_coordinates()
 
     def do_en_passant(self, to_row: int, to_col: int) -> None:
-        print("En passant")
+        # print("En passant")
+        # self._piece_coordinates.discard((self.selected_piece.row, self.selected_piece.col))
         self.selected_piece.coordinates = (to_row, to_col)
+        # self._piece_coordinates.add((to_row, to_col))
         self.reset_en_passant()
         self.update_piece_coordinates()
 
     def move_piece(self, to_row: int, to_col: int) -> None:
+        # self._piece_coordinates.discard(self.selected_piece.coordinates)
         self.selected_piece.coordinates = (to_row, to_col)
+        # self._piece_coordinates.add((to_row, to_col))
         self.selected_piece.is_moved = True
         self._last_moved_piece = self.selected_piece
         self.update_piece_coordinates()
+
 

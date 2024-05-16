@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import Callable, Optional
 
-from src.model.Color import Color
+from src.model.enums.Color import Color
 from src.view.Square import Square
 
 
@@ -15,7 +15,6 @@ class BlackGui(tk.Toplevel):
     BUTTON_FOREGROUND_COLOR = "#000000"
 
     def __init__(self, title, white_player_name: str, black_player_name: str, time: Optional[int], board_click_function: Callable,
-                 top_left_button_click_function: Callable, top_right_button_click_function: Callable,
                  bottom_right_button_click_function: Callable, bottom_left_button_click_function: Callable):
         tk.Toplevel.__init__(self)
         if time is None:

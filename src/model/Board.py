@@ -1,9 +1,8 @@
-from typing import Set, List
+from typing import List
 
-from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8, BoolArray8x8
+from src.controller.CustomTypesForTypeHinting import ByteArray8x8, CharArray8x8
 import numpy as np
-from src.model.Color import Color
-from src.model.Piece import Piece
+from src.model.pieces.Piece import Piece
 
 
 class Board:

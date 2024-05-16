@@ -1,25 +1,25 @@
 from typing import override
-from src.model.Piece import Piece
-from src.model.PieceType import PieceType
+from src.model.pieces.Piece import Piece
+from src.model.enums.PieceType import PieceType
 
 
-class Queen(Piece):
+class Bishop(Piece):
     def __init__(self, color, row, col):
-        super().__init__(PieceType.QUEEN, color, row, col)
+        super().__init__(PieceType.BISHOP, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player, opponent):
         self._attacked_fields.clear()
-        col = self.col
         row = self.row
+        col = self.col
 
-        vectors = [(1, 0), (-1, 0), (0, 1), (0, -1),
-                   (1, 1), (-1, 1), (1, -1), (-1, -1)]
+        #          (row, col)
+        vectors = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
         directions = []
         for vector in vectors:
             direction = []
             for i in range(1, 8):
-                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or \
+                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or\
                         col + vector[1] * i < 0:
                     break
                 direction.append((row + vector[0] * i, col + vector[1] * i))
@@ -36,5 +36,6 @@ class Queen(Piece):
                     break
                 else:
                     self._attacked_fields.add(field)
+
 
 
