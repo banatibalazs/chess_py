@@ -7,6 +7,7 @@ class EndGameDialog(tk.Toplevel):
     CHESS_TIME_IMAGE_PATH = "../resources/images/welcome_page/chess-clock.png"
     WHITE_KING_IMAGE_PATH = "../resources/images/pieces/wh_king.png"
     BLACK_KING_IMAGE_PATH = "../resources/images/pieces/bl_king.png"
+    EMPTY_IMAGE_PATH = "../resources/images/welcome_page/empty.png"
 
     def __init__(self, gameResult: GameResult):
         tk.Toplevel.__init__(self)
@@ -22,7 +23,8 @@ class EndGameDialog(tk.Toplevel):
             image = Image.open(EndGameDialog.WHITE_KING_IMAGE_PATH)
         elif gameResult == GameResult.BLACK_WON_BY_CHECKMATE:
             image = Image.open(EndGameDialog.BLACK_KING_IMAGE_PATH)
-
+        else:
+            image = Image.open(EndGameDialog.EMPTY_IMAGE_PATH)
 
         image = image.resize((100, 100))
         photo = ImageTk.PhotoImage(image)

@@ -1,12 +1,14 @@
 import random
 from typing import Tuple, Optional, List
+
+from src.model.Color import Color
 from src.model.Piece import Piece
 from src.model.Player import Player
 
 
 class ComputerPlayer(Player):
-    def __init__(self, name, color):
-        super().__init__(name, color)
+    def __init__(self, name: str, color: Color, board, time: int):
+        super().__init__(name, color, board, time)
 
     def choose_move(self) -> Tuple[int, int]:
         return  random.choice(list(self.selected_piece.possible_fields))

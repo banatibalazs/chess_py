@@ -1,25 +1,22 @@
+import time
 from typing import List, Optional
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
 from src.controller.StepHistory import StepHistory
 from src.controller.TimerThread import TimerThread
-from src.model.Bishop import Bishop
 from src.model.Board import Board
 from src.model.Color import Color
 from src.model.ComputerPlayer import ComputerPlayer
 from src.model.GameResult import GameResult
-from src.model.Knight import Knight
 from src.model.Pawn import Pawn
-from src.model.Piece import Piece
 from src.model.PieceType import PieceType
 from src.model.Player import Player
-from src.model.Queen import Queen
-from src.model.Rook import Rook
 from src.view.ChessGui import ChessGui
 
 
 class Game:
-    def __init__(self, title: str, white_player_name: str, black_player_name: str, time: Optional[int]) -> None:
+    def __init__(self, title: str, white_player_name: str, white_is_ai: bool, black_player_name: str, black_is_ai: bool,
+                 time: Optional[int]) -> None:
 
         self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
                                       self.click_on_board, self.top_left_button_click,
@@ -33,8 +30,14 @@ class Game:
         self._gui_controller: GuiController = GuiController(self.gui)
 
         self._board: Board = Board()
-        self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, time)
-        self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, time)
+        if white_is_ai:
+            self._white_player: Player = ComputerPlayer(white_player_name, Color.WHITE, self._board, time)
+        else:
+            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, time)
+        if black_is_ai:
+            self._black_player: Player = ComputerPlayer(black_player_name, Color.BLACK, self._board, time)
+        else:
+            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
@@ -61,16 +64,24 @@ class Game:
             self.timer.start()
 
         self.save_snapshot()
-        self.update()
+        self._update_player()
+        self._update_board()
+        self._update_gui()
+
+        if isinstance(self._current_player, ComputerPlayer):
+            self._current_player.select_piece()
+            move = self._current_player.choose_move()
+            self.make_move(move[0], move[1])
 
     def next_turn(self) -> None:
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        self.update()
+        self._update_player()
         if self._current_player.can_move():
-            # print("Current player can move.")
-            pass
+            if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
+                print("Draw: Only two kings left.")
+                self.end_game(GameResult.DRAW)
         else:
             if self._current_player.king.is_in_check:
                 print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
@@ -80,30 +91,23 @@ class Game:
                 print(f"{self._current_player.name} can't move.")
                 self.end_game(GameResult.DRAW)
 
-        if not self.is_game_over and isinstance(self._current_player, ComputerPlayer) and not self.is_white_turn:
+        if not self.is_game_over and isinstance(self._current_player, ComputerPlayer):
             self._current_player.select_piece()
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])
 
-        #     pass TODO
 
     def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
         if self.timer is not None:
             self.timer.stop()
-        # if game_result == GameResult.DRAW:
-        #     print("Draw.")
-        # else:
-        #     winner = self._white_player if game_result == GameResult.WHITE_WON else self._black_player
-        #     print("Winner: ", winner.name)
-
+        self._update_board()
+        self._update_gui()
         self._gui_controller.end_game_dialog(game_result)
-
 
     def threefold_repetition(self) -> bool:
         # TODO implement
         pass
-
 
     def time_out(self, color: Color) -> None:
         print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
@@ -133,11 +137,16 @@ class Game:
 
     def bottom_left_button_click(self) -> None:
         self.prev_snapshot()
-        self.update()
+        self._update_player()
+        self._update_board()
+        self._update_gui()
 
     def bottom_right_button_click(self) -> None:
         self.next_snapshot()
-        self.update()
+        self._update_player()
+        self._update_board()
+        self._update_gui()
+
 
     def top_left_button_click(self) -> None:
         opponent_attacked_fields = set()
@@ -201,15 +210,25 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            self.do_promotion(to_row, to_col)
+            if isinstance(self._current_player, ComputerPlayer):
+                piece_type = PieceType.QUEEN
+            else:
+                piece_type: PieceType = self._gui_controller.get_type_from_promotion_dialog(self._current_player.color)
+            self._current_player.do_promotion(to_row, to_col, piece_type)
+            if self._opponent_player.has_piece_at(to_row, to_col):
+                self._opponent_player.remove_piece_at(to_row, to_col)
 
         # Check if the move is a castling
         elif self.is_castling(to_col):
-            self.do_castling(to_row, to_col)
+            self._current_player.do_castling(to_row, to_col)
 
         # Check if the move is an en passant
         elif self.is_en_passant(to_row, to_col):
-            self.do_en_passant(to_row, to_col, self._opponent_player)
+            self._current_player.do_en_passant(to_row, to_col)
+            if self._current_player.color == Color.WHITE:
+                self._opponent_player.remove_piece_at(to_row + 1, to_col)
+            else:
+                self._opponent_player.remove_piece_at(to_row - 1, to_col)
 
         # Normal move
         else:
@@ -221,7 +240,6 @@ class Game:
         self.step_history.add_step(self._current_player.selected_piece.type.name,
                                    self._current_player.selected_piece.color.name,
                                    from_row, from_col, to_row, to_col)
-
 
     def is_promotion(self, to_row: int) -> bool:
         return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceType.PAWN
@@ -237,66 +255,12 @@ class Game:
         return (selected_piece.type == PieceType.KING and
                 abs(selected_piece.col - to_col) > 1)
 
-    def do_castling(self, row: int, col: int) -> None:
-        print("Castling")
-        if col == 2:
-            rook = self._current_player.get_piece_at(row=row, col=0)
-            if rook is not None:
-                rook.coordinates = (row, 3)
-                rook.is_moved = True
-        elif col == 6:
-            rook = self._current_player.get_piece_at(row, 7)
-            if rook is not None:
-                rook.coordinates = (row, 5)
-                rook.is_moved = True
-
-        king = self._current_player.king
-        if king is not None:
-            king.coordinates = (row, col)
-            king.is_moved = True
-        self._current_player._last_moved_piece = king
-        self._current_player.reset_en_passant()
-
-    def do_en_passant(self, to_row: int, to_col: int, opponent: Player) -> None:
-        print("En passant")
-        if self._current_player.color == Color.WHITE:
-            opponent.remove_piece_at(to_row + 1, to_col)
-        else:
-            opponent.remove_piece_at(to_row - 1, to_col)
-        self._current_player.selected_piece.coordinates = (to_row, to_col)
-        self._current_player.reset_en_passant()
-
-    def do_promotion(self, to_row: int, to_col: int) -> None:
-
-        piece_type = self._gui_controller.get_type_from_promotion_dialog(self._current_player.color)
-
-        from_row = self._current_player.selected_piece.row
-        from_col = self._current_player.selected_piece.col
-
-        if self._opponent_player is not None and self._opponent_player.has_piece_at(to_row, to_col):
-            self._opponent_player.remove_piece_at(to_row, to_col)
-
-        self._current_player.remove_piece_at(from_row, from_col)
-        if piece_type == PieceType.QUEEN:
-            new_piece: Piece = Queen(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceType.ROOK:
-            new_piece = Rook(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceType.BISHOP:
-            new_piece = Bishop(self._current_player.color, to_row, to_col)
-        elif piece_type == PieceType.KNIGHT:
-            new_piece = Knight(self._current_player.color, to_row, to_col)
-        else:
-            raise ValueError("Invalid piece type.")
-        self._current_player.pieces.append(new_piece)
-        self._current_player.last_moved_piece = new_piece
-        self._current_player.reset_en_passant()
-
     def update(self) -> None:
-        self._update_players()
-        self._update_board()
-        self._update_gui()
+        self._update_player()
+        # self._update_board()
+        # self._update_gui()
 
-    def _update_players(self) -> None:
+    def _update_player(self) -> None:
         self._current_player.update_pieces_attacked_fields(self._opponent_player)
         self._current_player.update_pieces_possible_fields(self._opponent_player)
 

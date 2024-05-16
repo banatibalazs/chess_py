@@ -13,6 +13,10 @@ class MainWindow:
     CHESS_CLOCK_IMAGE_PATH = "../resources/images/welcome_page/chess-clock.png"
     EMPTY_IMAGE_PATH = "../resources/images/welcome_page/empty.png"
     WINDOWS_ICON_PATH = "../resources/images/icon/chess.ico"
+    WHITE_KING_IMAGE_PATH = "../resources/images/pieces/wh_king.png"
+    BLACK_KING_IMAGE_PATH = "../resources/images/pieces/bl_king.png"
+    AI_IMAGE_PATH = "../resources/images/welcome_page/ai.png"
+
     TEXT_SIZE = 14
     PADY = (10, 10)
 
@@ -24,8 +28,19 @@ class MainWindow:
         self.frame = tk.Frame(self.root, padx=10, pady=10)
         self.frame.configure(background="#FFFFFF")
         self.frame.pack()
+        self.chess_image_label = self.add_label_with_image(MainWindow.CHESS_GAME_IMAGE_PATH,
+                                                           0, 0, 2, (370, 200))
+        self.white_player_name_label = self.add_label_with_image(MainWindow.WHITE_KING_IMAGE_PATH, 1, 0, 1, (70, 70))
         self.white_player_name = self.add_entry(self.frame, 'Player1', 1, 1)
+        self.white_is_ai_var = tk.BooleanVar()
+        self.white_is_computer_checkbox = self.add_checkbox("AI", 1, 2, self.white_is_ai_var)
+
+        self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 2, 0, 1, (70, 70))
         self.black_player_name = self.add_entry(self.frame, 'Player2', 2, 1)
+        self.black_is_ai_var = tk.BooleanVar()
+        self.black_is_computer_checkbox = self.add_checkbox("AI", 2, 2, self.black_is_ai_var)
+
+        self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 3, 0, 1, (55, 55))
         self.start_button = self.add_button(self.frame,"Start Game", self.open_new_window,
                                     4, 0, 2, 22, 1, "#CCFFCC")
         self.add_image_to_button(self.start_button, MainWindow.START_BUTTON_IMAGE_PATH)
@@ -35,35 +50,6 @@ class MainWindow:
         self.setup_ui()
 
     def setup_ui(self) -> None:
-
-        # Create a label and add the image to it
-        chess_image = Image.open(MainWindow.CHESS_GAME_IMAGE_PATH)
-        chess_image = chess_image.resize((370, 200))
-        chess_image_tk = ImageTk.PhotoImage(chess_image)
-        image_label = tk.Label(self.frame, image=chess_image_tk)
-        image_label.image = chess_image_tk  # keep a reference to the image
-        image_label.grid(row=0, column=0, columnspan=2)
-
-        # Resize the images
-        chess_clock_image = Image.open(MainWindow.CHESS_CLOCK_IMAGE_PATH)
-        chess_clock_image = chess_clock_image.resize((55, 55))
-        chess_clock_image_tk = ImageTk.PhotoImage(chess_clock_image)
-        self.timer_label = tk.Label(self.frame, image=chess_clock_image_tk, background="#FFFFFF")
-        self.timer_label.image = chess_clock_image_tk
-        self.timer_label.grid(row=3, column=0, sticky="e", pady=MainWindow.PADY)
-
-
-
-
-        white_player_name_label = tk.Label(self.frame, text="WhitePlayer:",
-                                        background="#FFFFFF",
-                                        font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
-        white_player_name_label.grid(row=1, column=0, sticky="e", pady=MainWindow.PADY)
-
-        black_player_name_label = tk.Label(self.frame, text="BlackPlayer:",
-                                        background="#FFFFFF",
-                                        font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
-        black_player_name_label.grid(row=2, column=0, sticky="e")
 
         self.timer_box = ttk.Combobox(self.frame, values=["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
                                                     "30 min", "60 min", "90 min"], width=10, state="readonly")
@@ -78,10 +64,25 @@ class MainWindow:
         self.exit_button.bind("<Enter>", self.on_enter_exitButton)
         self.exit_button.bind("<Leave>", self.on_leave_exitButton)
 
-    def add_label(self, frame, text: str, row: int, col: int, colspan: int) -> tk.Label:
-        label = tk.Label(frame, text=text,
+    def add_checkbox(self, text: str, row: int, col: int, variable: tk.BooleanVar) -> tk.Checkbutton:
+        checkbox = tk.Checkbutton(self.frame, text=text, variable=variable, onvalue=True, offvalue=False, background="#FFFFFF",
+                                  font=('Helvetica', MainWindow.TEXT_SIZE))
+        checkbox.grid(row=row, column=col, sticky="w", padx=5)
+        return checkbox
+
+    def add_label(self, text: str, row: int, col: int, colspan: int) -> tk.Label:
+        label = tk.Label(self.frame, text=text,
                          background="#FFFFFF",
                          font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
+        label.grid(row=row, column=col, columnspan=colspan)
+        return label
+
+    def add_label_with_image(self, image_path: str, row: int, col: int, colspan: int, size: tuple) -> tk.Label:
+        image = Image.open(image_path)
+        image = image.resize(size)
+        image_tk = ImageTk.PhotoImage(image)
+        label = tk.Label(self.frame, image=image_tk, background="#FFFFFF")
+        label.image = image_tk
         label.grid(row=row, column=col, columnspan=colspan)
         return label
 
@@ -119,7 +120,8 @@ class MainWindow:
             time: int = int(self.timer_box.get().split(" ")[0]) * 60
         except ValueError:
             time = None
-        game = Game("Chess Game", self.white_player_name.get(), self.black_player_name.get(), time=time)
+        game = Game("Chess Game", self.white_player_name.get(), self.white_is_ai_var.get(),
+                    self.black_player_name.get(), self.black_is_ai_var.get(), time=time)
         # game.run()
 
     def run(self):

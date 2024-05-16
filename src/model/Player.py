@@ -7,6 +7,7 @@ from src.model.Knight import Knight
 from src.model.Pawn import Pawn
 from src.model.Color import Color
 from src.model.Piece import Piece
+from src.model.PieceType import PieceType
 from src.model.Queen import Queen
 from src.model.Rook import Rook
 
@@ -160,23 +161,53 @@ class Player:
     def last_move(self, move: Tuple[int, int, int, int]) -> None:
         self._last_move = move
 
+    def do_castling(self, row: int, col: int) -> None:
+        print("Castling")
+        if col == 2:
+            rook = self.get_piece_at(row=row, col=0)
+            if rook is not None:
+                rook.coordinates = (row, 3)
+                rook.is_moved = True
+        elif col == 6:
+            rook = self.get_piece_at(row, 7)
+            if rook is not None:
+                rook.coordinates = (row, 5)
+                rook.is_moved = True
+
+        king = self.king
+        if king is not None:
+            king.coordinates = (row, col)
+            king.is_moved = True
+        self._last_moved_piece = king
+        self.reset_en_passant()
+
+    def do_promotion(self, to_row: int, to_col: int, piece_type: PieceType) -> None:
+
+        from_row = self.selected_piece.row
+        from_col = self.selected_piece.col
+
+        self.remove_piece_at(from_row, from_col)
+        if piece_type == PieceType.QUEEN:
+            new_piece: Piece = Queen(self.color, to_row, to_col)
+        elif piece_type == PieceType.ROOK:
+            new_piece = Rook(self.color, to_row, to_col)
+        elif piece_type == PieceType.BISHOP:
+            new_piece = Bishop(self.color, to_row, to_col)
+        elif piece_type == PieceType.KNIGHT:
+            new_piece = Knight(self.color, to_row, to_col)
+        else:
+            raise ValueError("Invalid piece type.")
+        self.pieces.append(new_piece)
+        self.last_moved_piece = new_piece
+        self.reset_en_passant()
+
+    def do_en_passant(self, to_row: int, to_col: int) -> None:
+        print("En passant")
+        self.selected_piece.coordinates = (to_row, to_col)
+        self.reset_en_passant()
+
     def move_piece(self, to_row: int, to_col: int) -> None:
         self.selected_piece.coordinates = (to_row, to_col)
         self.selected_piece.is_moved = True
         self._last_moved_piece = self.selected_piece
 
-    def choose_move(self) -> Tuple[int, int]:
-        return  random.choice(list(self.selected_piece.possible_fields))
-
-    def select_piece(self) -> Optional[Piece]:
-        movable_pieces = self.get_movable_pieces()
-        if len(movable_pieces) == 0:
-            return None
-        self.selected_piece = random.choice(movable_pieces)
-
-    def get_movable_pieces(self) -> List[Piece]:
-        movable_pieces = []
-        for piece in self._pieces:
-            if piece.is_movable():
-                movable_pieces.append(piece)
-        return movable_pieces
