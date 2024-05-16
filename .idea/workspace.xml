@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add random player, add checkbox in MainWindow.py to select if player is computer">
-      <change afterPath="$PROJECT_DIR$/src/view/BlackGui.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="snapshot player color not changed bugfix, add chessboard from black player's point of view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/StepHistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/StepHistory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,14 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00044" summary="piece update method, new field for pieces to store the possible moves">
-      <option name="closed" value="true" />
-      <created>1714546350078</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1714546350078</updated>
     </task>
     <task id="LOCAL-00045" summary="bugfix, moved piece could not be moved again, protection and attack board did not get updated after changing for set from list">
       <option name="closed" value="true" />
@@ -636,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715862652934</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="snapshot player color not changed bugfix, add chessboard from black player's point of view">
+      <option name="closed" value="true" />
+      <created>1715869681864</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1715869681864</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -651,7 +645,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bugfix pieces can only move to a square if their king will not be attacked after the move. Pawn and Piece class modification" />
     <MESSAGE value="king class check after move method for cycle breaks when attacked" />
     <MESSAGE value="add is_promotion is_en_passant and is_castling functions in GameController.py used in _make_move method" />
     <MESSAGE value="King class castling bugfix" />
@@ -676,7 +669,8 @@
     <MESSAGE value="black random move choose" />
     <MESSAGE value="refactor" />
     <MESSAGE value="add random player, add checkbox in MainWindow.py to select if player is computer" />
-    <option name="LAST_COMMIT_MESSAGE" value="add random player, add checkbox in MainWindow.py to select if player is computer" />
+    <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
+    <option name="LAST_COMMIT_MESSAGE" value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
