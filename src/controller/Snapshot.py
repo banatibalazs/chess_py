@@ -33,6 +33,8 @@ class Snapshot:
 
     def load_players(self, current_player: Player, opponent: Player):
         current_player.pieces.clear()
+        current_player.color = self.current_player_color
+        opponent.color = self.opponent_color
         opponent.pieces.clear()
 
         for piece in self.current_player_pieces:

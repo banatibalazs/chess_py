@@ -107,9 +107,9 @@ class GuiController:
         positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
         self.update_square_color(colors, positions)
 
-    def update_labels(self, white_player_piece_number: str, black_player_piece_number: str,
+    def update_labels(self, white_player_score: str, black_player_score: str,
                       snapshot_number: str, total_snapshot_number: str) -> None:
-        self._chess_gui.update_labels(white_player_piece_number, black_player_piece_number,
+        self._chess_gui.update_labels(white_player_score, black_player_score,
                                       snapshot_number, total_snapshot_number)
 
     def update_timer_label(self, time: int, color: Color) -> None:

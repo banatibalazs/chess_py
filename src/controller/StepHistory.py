@@ -33,3 +33,6 @@ class StepHistory:
 
     def __str__(self) -> str:
         return str(self.steps)
+
+    def get_step_number(self):
+        return len(self.steps)

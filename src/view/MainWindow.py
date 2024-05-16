@@ -121,7 +121,7 @@ class MainWindow:
         except ValueError:
             time = None
         game = Game("Chess Game", self.white_player_name.get(), self.white_is_ai_var.get(),
-                    self.black_player_name.get(), self.black_is_ai_var.get(), time=time)
+                    self.black_player_name.get(), self.black_is_ai_var.get(), time)
         # game.run()
 
     def run(self):

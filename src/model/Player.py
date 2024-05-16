@@ -107,6 +107,7 @@ class Player:
             if piece.coordinates == (row, col):
                 return True
         return False
+    # TODO change logic
 
     def is_selected_piece_at(self, row: int, col: int) -> bool:
         if self._selected_piece is not None:
@@ -149,6 +150,10 @@ class Player:
     @property
     def color(self) -> Color:
         return self._color
+
+    @color.setter
+    def color(self, color: Color) -> None:
+        self._color = color
 
     def add_piece(self, piece: Piece) -> None:
         self._pieces.append(piece)

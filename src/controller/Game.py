@@ -1,4 +1,4 @@
-import time
+import time as tm
 from typing import List, Optional
 from src.controller.Snapshot import Snapshot
 from src.controller.GuiController import GuiController
@@ -11,33 +11,39 @@ from src.model.GameResult import GameResult
 from src.model.Pawn import Pawn
 from src.model.PieceType import PieceType
 from src.model.Player import Player
+from src.view.BlackGui import BlackGui
 from src.view.ChessGui import ChessGui
 
 
 class Game:
     def __init__(self, title: str, white_player_name: str, white_is_ai: bool, black_player_name: str, black_is_ai: bool,
-                 time: Optional[int]) -> None:
+                 _time: Optional[int]) -> None:
 
-        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, time,
+        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, _time,
                                       self.click_on_board, self.top_left_button_click,
                                       self.top_right_button_click, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
-        if time is None:
+        self.black_gui: BlackGui = BlackGui(title, white_player_name, black_player_name, _time,
+                                            self.click_on_board, self.top_left_button_click,
+                                            self.top_right_button_click, self.bottom_right_button_click,
+                                            self.bottom_left_button_click)
+        if _time is None:
             self.timer = None
         else:
             self.timer = TimerThread(self)
 
         self._gui_controller: GuiController = GuiController(self.gui)
+        self._black_gui_controller: GuiController = GuiController(self.black_gui)
 
         self._board: Board = Board()
         if white_is_ai:
-            self._white_player: Player = ComputerPlayer(white_player_name, Color.WHITE, self._board, time)
+            self._white_player: Player = ComputerPlayer(white_player_name, Color.WHITE, self._board, _time)
         else:
-            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, time)
+            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
         if black_is_ai:
-            self._black_player: Player = ComputerPlayer(black_player_name, Color.BLACK, self._board, time)
+            self._black_player: Player = ComputerPlayer(black_player_name, Color.BLACK, self._board, _time)
         else:
-            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, time)
+            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
@@ -48,6 +54,7 @@ class Game:
         self.snapshots: List[Snapshot] = []
         self.current_snapshot_index = 0
 
+        self.start_time = tm.time()
         self.start_game()
 
     def __del__(self):
@@ -77,7 +84,13 @@ class Game:
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        self._update_player()
+        if isinstance(self._current_player, ComputerPlayer) and isinstance(self._opponent_player, ComputerPlayer):
+            self._update_player()
+        else:
+            self._update_player()
+            self._update_board()
+            self._update_gui()
+
         if self._current_player.can_move():
             if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
                 print("Draw: Only two kings left.")
@@ -96,13 +109,16 @@ class Game:
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])
 
-
     def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
         if self.timer is not None:
             self.timer.stop()
         self._update_board()
         self._update_gui()
+        print("Game lasted: ", tm.time() - self.start_time, " seconds.")
+        print("Step number: ", self.step_history.get_step_number())
+        print("That is ", self.step_history.get_step_number() / (tm.time() - self.start_time), " steps per second.")
+        print("One step takes ", (tm.time() - self.start_time) / self.step_history.get_step_number(), " seconds.")
         self._gui_controller.end_game_dialog(game_result)
 
     def threefold_repetition(self) -> bool:
@@ -115,6 +131,7 @@ class Game:
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
+        self._black_gui_controller.update_pieces_on_board(self._board.get_piece_board())
 
         coordinates = None
         possible_fields = None
@@ -129,8 +146,23 @@ class Game:
         else:
             checked_king_coordinates = None
         self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
-        self._gui_controller.update_labels(str(self._white_player.get_score()), str(self._black_player.get_score()),
+        self._black_gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
+
+        if self._current_player.color == Color.WHITE:
+            white_score = str(self._current_player.get_score())
+            black_score = str(self._opponent_player.get_score())
+        else:
+            white_score = str(self._opponent_player.get_score())
+            black_score = str(self._current_player.get_score())
+
+        print("White score: ", white_score)
+        print("Black score: ", black_score)
+        print("Current player: ", self._current_player.color.name)
+
+        self._gui_controller.update_labels(white_score, black_score,
                                            str(self.current_snapshot_index + 1), str(len(self.snapshots)))
+        self._black_gui_controller.update_labels(white_score, black_score,
+                                                    str(self.current_snapshot_index + 1), str(len(self.snapshots)))
 
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
