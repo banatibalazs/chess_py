@@ -249,7 +249,7 @@ class Game:
         if isinstance(self._current_player.selected_piece, Pawn):
             if abs(from_row - to_row) == 2:
                 self._current_player.selected_piece.is_en_passant = True
-                print("En passant is possible.")
+                # print("En passant is possible.")
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
