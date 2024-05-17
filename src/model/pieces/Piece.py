@@ -38,12 +38,9 @@ class Piece(ABC):
     def possible_fields(self, value: Set[Tuple[int, int]]):
         self._possible_fields = value
 
-    @property
-    def attacked_fields(self) -> Set[Tuple[int, int]]:
-        return self._possible_fields
-
     @abstractmethod
-    def update_attacked_fields(self, current_player, opponent):
+    def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
+                               opponent_piece_coordinates: Set[Tuple[int, int]]):
         pass
 
     def is_movable(self):
@@ -70,7 +67,7 @@ class Piece(ABC):
             opponent.remove_piece_at(move[0], move[1])
 
         king_position = current_player.king.coordinates
-        opponent.update_pieces_attacked_fields(current_player)
+        opponent.update_pieces_attacked_fields(current_player.piece_coordinates)
         for piece in opponent._pieces:
             for field in piece._attacked_fields:
                 if king_position == field:
@@ -83,8 +80,7 @@ class Piece(ABC):
         self.row = from_row
         self.col = from_col
 
-        for piece in opponent._pieces:
-            piece.update_attacked_fields(current_player, opponent)
+        opponent.update_pieces_attacked_fields(current_player.piece_coordinates)
 
         return result
 

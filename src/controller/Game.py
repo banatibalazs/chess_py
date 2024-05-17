@@ -87,16 +87,17 @@ class Game:
             self.make_move(move[0], move[1])
 
     def next_turn(self) -> None:
-        print(f"Memory usage: {self.get_memory_usage()} MB")
+        # print(f"Memory usage: {self.get_memory_usage()} MB")
         self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.save_snapshot()
-        if isinstance(self._current_player, RandomPlayer) and isinstance(self._opponent_player, RandomPlayer):
-            self._update_player()
-        else:
+        if not isinstance(self._current_player, RandomPlayer) or not isinstance(self._opponent_player, RandomPlayer):
             self._update_player()
             self._update_board()
             self._update_gui()
+
+        else:
+            self._update_player()
 
         if self._current_player.can_move():
             if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
@@ -137,7 +138,6 @@ class Game:
         process = psutil.Process(os.getpid())
         mem_info = process.memory_info()
         return mem_info.rss / 1024 / 1024  # return memory usage in MB
-
 
     def time_out(self, color: Color) -> None:
         print(f"Time out: {color.name} {self._current_player.name} ran out of time.")
@@ -192,7 +192,8 @@ class Game:
 
     def top_left_button_click(self) -> None:
         opponent_attacked_fields = set()
-        self._opponent_player.update_pieces_attacked_fields(self._current_player)
+
+        self._opponent_player.update_pieces_attacked_fields(self._current_player.piece_coordinates)
         for piece in self._opponent_player._pieces:
             for field in piece._attacked_fields:
                 opponent_attacked_fields.add(field)
@@ -214,7 +215,6 @@ class Game:
             # Own unselected piece is clicked -> select it
             elif self._current_player.has_piece_at(row, col):
                 self._current_player.set_selected_piece(row, col)
-
                 self._update_gui()
 
             # Selected piece can move to the square -> move it
@@ -303,7 +303,8 @@ class Game:
         # self._update_gui()
 
     def _update_player(self) -> None:
-        self._current_player.update_pieces_attacked_fields(self._opponent_player)
+        self._current_player.update_pieces_attacked_fields(self._opponent_player.piece_coordinates)
+        self._opponent_player.update_pieces_attacked_fields(self._current_player.piece_coordinates)
         self._current_player.update_pieces_possible_fields(self._opponent_player)
 
     def _update_board(self) -> None:

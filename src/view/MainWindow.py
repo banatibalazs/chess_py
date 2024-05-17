@@ -33,11 +33,11 @@ class MainWindow:
                                                            0, 0, 2, (370, 200))
         self.white_player_name_label = self.add_label_with_image(MainWindow.WHITE_KING_IMAGE_PATH, 1, 0, 1, (70, 70))
         self.white_player_name = self.add_entry(self.frame, 'Player1', 1, 1)
-        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 1, 3, 0)
+        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 1, 3, 1)
 
         self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 2, 0, 1, (70, 70))
         self.black_player_name = self.add_entry(self.frame, 'Player2', 2, 1)
-        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 3, 0)
+        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 3, 1)
 
         self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 3, 0, 1, (55, 55))
         self.timer_box = self.add_combobox(["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",

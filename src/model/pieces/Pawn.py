@@ -10,7 +10,8 @@ class Pawn(Piece):
         self._is_en_passant = False
 
     @override
-    def update_attacked_fields(self, current_player, opponent) -> None:
+    def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
+                               opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
         self._attacked_fields.clear()
         col = self.col
         row = self.row
@@ -18,24 +19,24 @@ class Pawn(Piece):
 
         if color == Color.WHITE:
             if col - 1 >= 0 and row - 1 >= 0:
-                if current_player.has_piece_at(row - 1, col - 1):
+                if (row - 1, col - 1) in current_player_piece_coordinates:
                     pass
                 else:
                     self._attacked_fields.add((row - 1, col - 1))
 
             if col + 1 <= 7 and row - 1 >= 0:
-                if current_player.has_piece_at(row - 1, col + 1):
+                if (row - 1, col + 1) in current_player_piece_coordinates:
                     pass
                 else:
                     self._attacked_fields.add((row - 1, col + 1))
         else:
             if col - 1 >= 0 and row + 1 <= 7:
-                if current_player.has_piece_at(row + 1, col - 1):
+                if (row + 1, col - 1) in current_player_piece_coordinates:
                     pass
                 else:
                     self._attacked_fields.add((row + 1, col - 1))
             if col + 1 <= 7 and row + 1 <= 7:
-                if current_player.has_piece_at(row + 1, col + 1):
+                if (row + 1, col + 1) in current_player_piece_coordinates:
                     pass
                 else:
                     self._attacked_fields.add((row + 1, col + 1))

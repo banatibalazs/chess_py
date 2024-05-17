@@ -47,18 +47,15 @@ class Player:
         self._pieces.append(Bishop(color, 7 if color == Color.WHITE else 0, 5))
         self._pieces.append(Knight(color, 7 if color == Color.WHITE else 0, 6))
         self._pieces.append(Rook(color, 7 if color == Color.WHITE else 0, 7))
-        self.update_piece_coordinates()
 
     def update_piece_coordinates(self) -> None:
-        self._piece_coordinates.clear()
-        for piece in self._pieces:
-            self._piece_coordinates.add(piece.coordinates)
+        self._piece_coordinates = {(piece.row, piece.col) for piece in self._pieces}
 
-    def update_pieces_attacked_fields(self, opponent: 'Player') -> None:
+    def update_pieces_attacked_fields(self, opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
         self._attacked_fields.clear()
         for piece in self._pieces:
-            piece.update_attacked_fields(self, opponent)
-            for field in piece.attacked_fields:
+            piece.update_attacked_fields(self.piece_coordinates, opponent_piece_coordinates)
+            for field in piece._attacked_fields:
                 self._attacked_fields.add(field)
 
     def update_pieces_possible_fields(self, opponent: 'Player') -> None:
@@ -73,12 +70,10 @@ class Player:
                 # print("En passant reset.")
 
     def remove_piece_at(self, row: int, col: int) -> None:
-        if (row, col) in self._piece_coordinates:
-            self._piece_coordinates.remove((row, col))
-            for piece in self._pieces:
-                if piece.coordinates == (row, col):
-                    self._pieces.remove(piece)
-                    break
+        for piece in self._pieces:
+            if piece.coordinates == (row, col):
+                self._pieces.remove(piece)
+                break
 
     def get_piece_at(self, row: int, col: int) -> Optional[Piece]:
         for piece in self._pieces:
@@ -97,6 +92,11 @@ class Player:
         for piece in self._pieces:
             score += piece.value
         return score
+
+    @property
+    def piece_coordinates(self) -> Set[Tuple[int, int]]:
+        self.update_piece_coordinates()
+        return self._piece_coordinates
 
     @property
     def pieces(self) -> List[Piece]:
@@ -170,31 +170,30 @@ class Player:
     def last_move(self, move: Tuple[int, int, int, int]) -> None:
         self._last_move = move
 
-    def do_castling(self, row: int, col: int) -> None:
-        # print("Castling")
-        if col == 2:
-            rook = self.get_piece_at(row=row, col=0)
+    def do_castling(self, to_row: int, to_col: int) -> None:
+        print("Castling")
+        from_row, from_col = self.selected_piece.coordinates
+        if to_col == 2:
+            rook = self.get_piece_at(row=to_row, col=0)
             if rook is not None:
-                rook.coordinates = (row, 3)
+                rook.coordinates = (to_row, 3)
                 rook.is_moved = True
-        elif col == 6:
-            rook = self.get_piece_at(row, 7)
+        elif to_col == 6:
+            rook = self.get_piece_at(to_row, 7)
             if rook is not None:
-                rook.coordinates = (row, 5)
+                rook.coordinates = (to_row, 5)
                 rook.is_moved = True
 
         king = self.king
         if king is not None:
-            king.coordinates = (row, col)
+            king.coordinates = (to_row, to_col)
             king.is_moved = True
         self._last_moved_piece = king
         self.reset_en_passant()
-        self.update_piece_coordinates()
 
     def do_promotion(self, to_row: int, to_col: int, piece_type: PieceType) -> None:
 
-        from_row = self.selected_piece.row
-        from_col = self.selected_piece.col
+        from_row, from_col = self.selected_piece.coordinates
 
         self.remove_piece_at(from_row, from_col)
         if piece_type == PieceType.QUEEN:
@@ -207,27 +206,18 @@ class Player:
             new_piece = Knight(self.color, to_row, to_col)
         else:
             raise ValueError("Invalid piece type.")
-        self.pieces.append(new_piece)
+        self._pieces.append(new_piece)
         self.last_moved_piece = new_piece
         self.reset_en_passant()
-        # self._piece_coordinates.discard((from_row, from_col))
-        # self._piece_coordinates.add((to_row, to_col))
-        self.update_piece_coordinates()
 
     def do_en_passant(self, to_row: int, to_col: int) -> None:
-        # print("En passant")
-        # self._piece_coordinates.discard((self.selected_piece.row, self.selected_piece.col))
+        from_row, from_col = self.selected_piece.coordinates
         self.selected_piece.coordinates = (to_row, to_col)
-        # self._piece_coordinates.add((to_row, to_col))
         self.reset_en_passant()
-        self.update_piece_coordinates()
 
     def move_piece(self, to_row: int, to_col: int) -> None:
-        # self._piece_coordinates.discard(self.selected_piece.coordinates)
+        from_row, from_col = self.selected_piece.coordinates
         self.selected_piece.coordinates = (to_row, to_col)
-        # self._piece_coordinates.add((to_row, to_col))
         self.selected_piece.is_moved = True
-        self._last_moved_piece = self.selected_piece
-        self.update_piece_coordinates()
 
 
