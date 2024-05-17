@@ -103,7 +103,7 @@ class Player:
         return self._pieces
 
     @property
-    def last_moved_piece(self) -> Piece:
+    def last_moved_piece(self) -> Optional[Piece]:
         return self._last_moved_piece
 
     @last_moved_piece.setter
@@ -214,10 +214,12 @@ class Player:
         from_row, from_col = self.selected_piece.coordinates
         self.selected_piece.coordinates = (to_row, to_col)
         self.reset_en_passant()
+        self._last_moved_piece = self.selected_piece
 
     def move_piece(self, to_row: int, to_col: int) -> None:
         from_row, from_col = self.selected_piece.coordinates
         self.selected_piece.coordinates = (to_row, to_col)
         self.selected_piece.is_moved = True
+        self._last_moved_piece = self.selected_piece
 
 

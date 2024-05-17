@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor, new package structure">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="update_attacked_fields changed to use piece_coordinates from Player class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Bishop.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Knight.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Pawn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Piece.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Queen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Rook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/players/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00047" summary="commenting DataUpdater.py and remove redundant field from Player.py">
-      <option name="closed" value="true" />
-      <created>1714584182543</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1714584182543</updated>
     </task>
     <task id="LOCAL-00048" summary="add new comment in DataUpdater.py">
       <option name="closed" value="true" />
@@ -639,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715892287845</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="update_attacked_fields changed to use piece_coordinates from Player class">
+      <option name="closed" value="true" />
+      <created>1715945565366</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1715945565366</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +648,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="King class castling bugfix" />
     <MESSAGE value="refactor GameController.py, delete DataUpdater.py" />
     <MESSAGE value="wipe out superfluous code lines e.g. possible moves board" />
     <MESSAGE value="add snapshot to revert step or review the previous steps back and forth" />
@@ -679,7 +672,8 @@
     <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
     <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
     <MESSAGE value="refactor, new package structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor, new package structure" />
+    <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
+    <option name="LAST_COMMIT_MESSAGE" value="update_attacked_fields changed to use piece_coordinates from Player class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

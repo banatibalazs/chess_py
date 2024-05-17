@@ -93,8 +93,8 @@ class Pawn(Piece):
                 opponent._last_moved_piece.is_en_passant and \
                 self.row == opponent._last_moved_piece.row and \
                 abs(self.col - opponent._last_moved_piece.col) == 1:
+            print("En passant move is added.")
             if self._color == Color.WHITE:
-                print("En passant move is added.")
                 possible_fields.add((opponent._last_moved_piece.row - 1, opponent._last_moved_piece.col))
             else:
                 possible_fields.add((opponent._last_moved_piece.row + 1, opponent._last_moved_piece.col))
