@@ -14,31 +14,44 @@ class ChessGui(tk.Toplevel):
     LABEL_FOREGROUND_COLOR = "#ffffff"
     BUTTON_FOREGROUND_COLOR = "#000000"
 
-    def __init__(self, title, white_player_name: str, black_player_name: str, time: Optional[int], board_click_function: Callable,
+    def __init__(self, title, pov: Color, white_player_name: str, black_player_name: str, _time: Optional[int], board_click_function: Callable,
                  bottom_right_button_click_function: Callable, bottom_left_button_click_function: Callable):
         tk.Toplevel.__init__(self)
-        if time is None:
+        if _time is None:
             self.time = " "
         else:
-            (min, sec) = divmod(time, 60)
+            (min, sec) = divmod(_time, 60)
             self.time = f"{min:02d}:{sec:02d}"
         self.title(title)
         self.iconbitmap(ChessGui.WINDOWS_ICON_PATH)
         self.minsize(688, 780)
         self.geometry("")
         self.configure(background="#000000")
-        self.black_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 1, 1, 3, 10)
-        self.black_player_score_label: Optional[tk.Label] = self.add_label("Score:", 1, 4, 2, 10)
-        self.black_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 1, 7, 2, 10)
 
-        self._chess_board: list = self.create_board(board_click_function)
+        if pov == Color.BLACK:
+            self.black_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 11, 1, 3, 10)
+            self.black_player_score_label: Optional[tk.Label] = self.add_label("Score:", 11, 4, 2, 10)
+            self.black_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 11, 7, 2, 10)
+            self._chess_board: list = self.create_board_black_pov(board_click_function)
+            self.white_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 1, 1, 3, 10)
+            self.white_player_score_label: Optional[tk.Label] = self.add_label("Score", 1, 4, 2, 10)
+            self.bottom_left_button: Optional[tk.Button] = self.add_button("<", bottom_left_button_click_function,6, 0, 1, 2, 10, 15, 3, 3)
+            self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 14, 8, 3, 10)
+            self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 6, 10, 1, 2, 10, 15, 3, 3)
+            self.white_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 1, 7, 2, 10)
 
-        self.white_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 11, 1, 3, 10)
-        self.white_player_score_label: Optional[tk.Label] = self.add_label("Score", 11, 4, 2, 10)
-        self.bottom_left_button: Optional[tk.Button] = self.add_button("<",bottom_left_button_click_function, 6, 0, 1, 2, 10, 15, 3, 3)
-        self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 14, 8, 3, 10)
-        self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 6, 10, 1, 2, 10, 15, 3, 3)
-        self.white_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 11, 7, 2, 10)
+        else:
+            self.black_player_name_label: Optional[tk.Label] = self.add_label(black_player_name, 1, 1, 3, 10)
+            self.black_player_score_label: Optional[tk.Label] = self.add_label("Score:", 1, 4, 2, 10)
+            self.black_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 1, 7, 2, 10)
+            self._chess_board: list = self.create_board_white_pov(board_click_function)
+            self.white_player_name_label: Optional[tk.Label] = self.add_label(white_player_name, 11, 1, 3, 10)
+            self.white_player_score_label: Optional[tk.Label] = self.add_label("Score", 11, 4, 2, 10)
+            self.bottom_left_button: Optional[tk.Button] = self.add_button("<",bottom_left_button_click_function, 6, 0, 1, 2, 10, 15, 3, 3)
+            self.snapshot_label: Optional[tk.Label] = self.add_label("1/1", 14, 8, 3, 10)
+            self.bottom_right_button: Optional[tk.Button] = self.add_button(">", bottom_right_button_click_function, 6, 10, 1, 2, 10, 15, 3, 3)
+            self.white_player_timer_label: Optional[tk.Label] = self.add_label(f"Time: {self.time}", 11, 7, 2, 10)
+
 
     def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, row_span: int,
                    pady: int, padx: int = 0, width: int = 7, height: int = 1) -> tk.Button:
@@ -60,12 +73,25 @@ class ChessGui(tk.Toplevel):
         label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return label
 
-    def create_board(self, board_click_function: Callable) -> list:
+    def create_board_white_pov(self, board_click_function: Callable) -> list:
         chess_board = []
         for i in range(8):
             row = []
             for j in range(8):
                 square = Square(self, width=8, height=4, onclick=board_click_function, col=j, row=i)
+                square.grid(row=i + 3, column=j + 1, sticky="nsew")
+                square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
+                row.append(square)
+            chess_board.append(row)
+        return chess_board
+
+    def create_board_black_pov(self, board_click_function: Callable) -> list:
+        chess_board = []
+        offset = 3
+        for i in range(7, -1, -1):
+            row = []
+            for j in range(7, -1, -1):
+                square = Square(self, width=8, height=4, onclick=board_click_function, col=7-j, row=7-i)
                 square.grid(row=i + 3, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
@@ -85,8 +111,11 @@ class ChessGui(tk.Toplevel):
         self.snapshot_label.config(text=f"{snapshot_number}/{total_snapshot_number}")
 
     def update_timer_label(self, time: int, color: Color) -> None:
-        (min, sec) = divmod(time, 60)
-        time_str = f"{min:02d}:{sec:02d}"
+        if time <= 0:
+            time_str = "00:00"
+        else:
+            (min, sec) = divmod(time, 60)
+            time_str = f"{min:02d}:{sec:02d}"
         if color == Color.WHITE:
             self.white_player_timer_label.config(text=f"Time: {time_str}")
         else:

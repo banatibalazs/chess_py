@@ -75,38 +75,6 @@ class GuiController:
         dialog.wait_window()
         return dialog.get_type()
 
-    def show_black_attack_board(self, attack_board: BoolArray8x8) -> None:
-
-        if attack_board is None:
-            return
-
-        self.reset_square_colors()
-
-        rows, cols = np.where(attack_board is True)
-        # Create a list of colors according to the original square colors
-        colors = np.where((rows + cols) % 2 == 0,
-                          GuiController.LIGHT_RED_COLOR,
-                          GuiController.DARK_RED_COLOR).tolist()
-        # Create a list of positions
-        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-        self.update_square_color(colors, positions)
-
-    def show_white_attack_board(self, attack_board: BoolArray8x8) -> None:
-
-        if attack_board is None:
-            return
-
-        self.reset_square_colors()
-
-        rows, cols = np.where(attack_board is True)
-        # Create a list of colors according to the original square colors
-        colors = np.where((rows + cols) % 2 == 0,
-                          GuiController.LIGHT_POSSIBLE_FIELD_COLOR,
-                          GuiController.DARK_POSSIBLE_FIELD_COLOR).tolist()
-        # Create a list of positions
-        positions = np.dstack((rows, cols)).reshape(-1, 2).tolist()
-        self.update_square_color(colors, positions)
-
     def update_labels(self, white_player_score: str, black_player_score: str,
                       snapshot_number: str, total_snapshot_number: str) -> None:
         self._chess_gui.update_labels(white_player_score, black_player_score,

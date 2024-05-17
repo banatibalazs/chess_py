@@ -4,6 +4,7 @@ from typing import Callable
 
 from PIL import Image, ImageTk
 from src.controller.Game import Game
+from src.model.enums.Color import Color
 from src.model.enums.PlayerType import PlayerType
 
 
@@ -32,37 +33,54 @@ class MainWindow:
         self.chess_image_label = self.add_label_with_image(MainWindow.CHESS_GAME_IMAGE_PATH,
                                                            0, 0, 2, (370, 200))
         self.white_player_name_label = self.add_label_with_image(MainWindow.WHITE_KING_IMAGE_PATH, 1, 0, 1, (70, 70))
-        self.white_player_name = self.add_entry(self.frame, 'Player1', 1, 1)
-        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 1, 3, 1)
+        self.white_player_name = self.add_entry(self.frame, 'White Player', 1, 1)
+        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 1, 1)
 
-        self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 2, 0, 1, (70, 70))
-        self.black_player_name = self.add_entry(self.frame, 'Player2', 2, 1)
-        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 3, 1)
+        self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 3, 0, 1, (70, 70))
+        self.black_player_name = self.add_entry(self.frame, 'Black Player', 3, 1)
+        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 4, 1, 1)
 
-        self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 3, 0, 1, (55, 55))
+        self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 5, 0, 1, (55, 55))
         self.timer_box = self.add_combobox(["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
-                                            "30 min", "60 min", "90 min"], 3, 1, 1)
+                                            "30 min", "60 min", "90 min"], 5, 1, 1)
         self.start_button = self.add_button(self.frame,"Start Game", self.open_new_window,
-                                    4, 0, 2, 22, 1, "#CCFFCC")
+                                    6, 0, 2, 22, 1, "#CCFFCC")
         self.add_image_to_button(self.start_button, MainWindow.START_BUTTON_IMAGE_PATH)
         self.exit_button = self.add_button(self.frame,  "Exit", self.exit_button_click,
-                                           5, 0, 2, 22, 1, "#FFFFFF")
+                                           7, 0, 2, 22, 1, "#FFFFFF")
         self.result_label = None
-        self.setup_ui()
+        self.bind_events()
 
-    def setup_ui(self) -> None:
+    def bind_events(self) -> None:
 
         # Bind the <Enter> and <Leave> events to the button
         self.start_button.bind("<Enter>", self.on_enter_startButton)
         self.start_button.bind("<Leave>", self.on_leave_startButton)
 
+        self.white_player_name.bind("<Enter>", self.on_enter)
+        self.white_player_name.bind("<Leave>", self.on_leave)
+
+        self.black_player_name.bind("<Enter>", self.on_enter)
+        self.black_player_name.bind("<Leave>", self.on_leave)
+
+        self.white_player_type.bind("<Enter>", self.on_enter)
+        self.white_player_type.bind("<Leave>", self.on_leave)
+
+        self.black_player_type.bind("<Enter>", self.on_enter)
+        self.black_player_type.bind("<Leave>", self.on_leave)
+
+        self.timer_box.bind("<Enter>", self.on_enter)
+        self.timer_box.bind("<Leave>", self.on_leave)
+
         # Bind the <Enter> and <Leave> events to the button
         self.exit_button.bind("<Enter>", self.on_enter_exitButton)
         self.exit_button.bind("<Leave>", self.on_leave_exitButton)
 
+
+
     def add_combobox(self, values: list, row: int, col: int, current: int) -> ttk.Combobox:
-        combobox = ttk.Combobox(self.frame, values=values, width=10, state="readonly")
-        combobox.grid(row=row, column=col, sticky="w", padx=5)
+        combobox = ttk.Combobox(self.frame, values=values, width=10, state="readonly", font=('Helvetica', 10, 'bold'))
+        combobox.grid(row=row, column=col, sticky="w", padx=10)
         combobox.current(current)
         return combobox
 
@@ -76,7 +94,7 @@ class MainWindow:
         label = tk.Label(self.frame, text=text,
                          background="#FFFFFF",
                          font=('Helvetica', MainWindow.TEXT_SIZE, 'bold'))
-        label.grid(row=row, column=col, columnspan=colspan)
+        label.grid(row=row, column=col, columnspan=colspan,  sticky="w")
         return label
 
     def add_label_with_image(self, image_path: str, row: int, col: int, colspan: int, size: tuple) -> tk.Label:
@@ -85,13 +103,13 @@ class MainWindow:
         image_tk = ImageTk.PhotoImage(image)
         label = tk.Label(self.frame, image=image_tk, background="#FFFFFF")
         label.image = image_tk
-        label.grid(row=row, column=col, columnspan=colspan)
+        label.grid(row=row, column=col, columnspan=colspan, sticky="e")
         return label
 
     def add_entry(self, frame, default_value, row: int, col: int) -> tk.Entry:
-        entry = tk.Entry(frame)
+        entry = tk.Entry(frame, width=15, font=('Helvetica', MainWindow.TEXT_SIZE))
         entry.insert(0, default_value)
-        entry.grid(row=row, column=col, sticky="w", padx=5)
+        entry.grid(row=row, column=col, sticky="w", padx=0)
         return entry
 
     def add_button(self, frame, text: str, command: Callable, row: int, col: int,
@@ -117,8 +135,14 @@ class MainWindow:
         white_player_type = self.str_to_player_type(self.white_player_type.get())
         black_player_type = self.str_to_player_type(self.black_player_type.get())
 
+        if white_player_type == PlayerType.HUMAN and black_player_type != PlayerType.HUMAN:
+            pov = Color.WHITE
+        elif white_player_type != PlayerType.HUMAN and black_player_type == PlayerType.HUMAN:
+            pov = Color.BLACK
+        else:
+            pov = Color.NONE
         game = Game("Chess Game", self.white_player_name.get(), white_player_type,
-                    self.black_player_name.get(), black_player_type, time)
+                    self.black_player_name.get(), black_player_type, time, pov)
         # game.run()
 
     def str_to_player_type(self, player_type: str) -> PlayerType:
@@ -141,19 +165,27 @@ class MainWindow:
 
     def on_enter_startButton(self, event):
         # Change the style of the button when the mouse pointer enters it
-        event.widget.config(background="#88FF88")
+        event.widget.config(background="#88ff88")
 
     def on_leave_startButton(self, event):
         # Change the style of the button back to the original when the mouse pointer leaves it
-        event.widget.config(background="#CCFFCC")
+        event.widget.config(background="#ccffcc")
 
     def on_enter_exitButton(self, event):
         # Change the style of the button when the mouse pointer enters it
-        event.widget.config(background="#FFBBBB")
+        event.widget.config(background="#ff7799")
 
     def on_leave_exitButton(self, event):
         # Change the style of the button back to the original when the mouse pointer leaves it
-        event.widget.config(background="#FFFFFF")
+        event.widget.config(background="#ffffff")
+
+    def on_enter(self, event):
+        # Change the style of the button when the mouse pointer enters it
+        event.widget.config(background="#ccddff")
+
+    def on_leave(self, event):
+        # Change the style of the button back to the original when the mouse pointer leaves it
+        event.widget.config(background="#ffffff")
 
 
 

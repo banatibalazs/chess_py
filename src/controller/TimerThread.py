@@ -1,6 +1,9 @@
 import threading
 import time
 
+from src.model.enums.Color import Color
+from src.model.enums.GameResult import GameResult
+
 
 class TimerThread(threading.Thread):
     def __init__(self, game):
@@ -21,7 +24,10 @@ class TimerThread(threading.Thread):
                 else:
                     time.sleep(1)
                 if self.game._current_player.time == 0:
-                    self.game.time_out(self.game._current_player.color)
+                    if self.game._current_player.color == Color.WHITE:
+                        self.game.end_game(GameResult.BLACK_WON_BY_TIMEOUT)
+                    else:
+                        self.game.end_game(GameResult.WHITE_WON_BY_TIMEOUT)
                     self.stop()
 
             except Exception as e:

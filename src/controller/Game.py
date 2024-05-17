@@ -21,21 +21,21 @@ from src.view.ChessGui import ChessGui
 
 class Game:
     def __init__(self, title: str, white_player_name: str, white_player_type: PlayerType, black_player_name: str,
-                 black_player_type: PlayerType, _time: Optional[int]) -> None:
+                 black_player_type: PlayerType, _time: Optional[int], pov: Color) -> None:
 
-        self.gui: ChessGui = ChessGui(title, white_player_name, black_player_name, _time,
+        self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
                                       self.click_on_board, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
-        self.black_gui: BlackGui = BlackGui(title, white_player_name, black_player_name, _time,
-                                            self.click_on_board, self.bottom_right_button_click,
-                                            self.bottom_left_button_click)
+        # self.black_gui: BlackGui = BlackGui(title, white_player_name, black_player_name, _time,
+        #                                     self.click_on_board, self.bottom_right_button_click,
+        #                                     self.bottom_left_button_click)
         if _time is None:
             self.timer = None
         else:
             self.timer = TimerThread(self)
 
         self._gui_controller: GuiController = GuiController(self.gui)
-        self._black_gui_controller: GuiController = GuiController(self.black_gui)
+        # self._black_gui_controller: GuiController = GuiController(self.black_gui)
 
         self._board: Board = Board()
         if white_player_type == PlayerType.HUMAN:
@@ -56,7 +56,7 @@ class Game:
 
         self.is_game_over: bool = False
 
-        self.step_history: ChessStep = ChessStep()
+        # self.step_history: ChessStep = ChessStep()
         self.game_saver: GameSaver = GameSaver()
 
         self.start_time = tm.time()
@@ -131,9 +131,7 @@ class Game:
         self._update_gui()
         print(f"Memory usage: {self.get_memory_usage()} MB")
         print("Game lasted: ", tm.time() - self.start_time, " seconds.")
-        print("Step number: ", self.step_history.get_step_number())
-        print("That is ", self.step_history.get_step_number() / (tm.time() - self.start_time), " steps per second.")
-        print("One step takes ", (tm.time() - self.start_time) / self.step_history.get_step_number(), " seconds.")
+        print("That is ", self.game_saver.total_states() / (tm.time() - self.start_time), " steps per second.")
         self._gui_controller.end_game_dialog(game_result)
 
     def get_memory_usage(self):
@@ -147,7 +145,7 @@ class Game:
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
-        self._black_gui_controller.update_pieces_on_board(self._board.get_piece_board())
+        # self._black_gui_controller.update_pieces_on_board(self._board.get_piece_board())
 
         coordinates = None
         possible_fields = None
@@ -162,7 +160,7 @@ class Game:
         else:
             checked_king_coordinates = None
         self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
-        self._black_gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
+        # self._black_gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
 
         if self._current_player.color == Color.WHITE:
             white_score = str(self._current_player.get_score())
@@ -173,8 +171,8 @@ class Game:
 
         self._gui_controller.update_labels(white_score, black_score,
                                            str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
-        self._black_gui_controller.update_labels(white_score, black_score,
-                                                 str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
+        # self._black_gui_controller.update_labels(white_score, black_score,
+        #                                          str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
 
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
@@ -281,9 +279,9 @@ class Game:
                 self._opponent_player.remove_piece_at(to_row, to_col)
 
         self._current_player.last_move = (from_row, from_col, to_row, to_col)
-        self.step_history.add_step(self._current_player.selected_piece.type.name,
-                                   self._current_player.selected_piece.color.name,
-                                   from_row, from_col, to_row, to_col)
+        # self.step_history.add_step(self._current_player.selected_piece.type.name,
+        #                            self._current_player.selected_piece.color.name,
+        #                            from_row, from_col, to_row, to_col)
 
     def is_promotion(self, to_row: int) -> bool:
         return ((to_row == 0) or (to_row == 7)) and self._current_player.selected_piece.type == PieceType.PAWN
