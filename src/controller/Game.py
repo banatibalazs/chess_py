@@ -2,9 +2,10 @@ import time as tm
 import os
 import psutil
 from typing import List, Optional
-from src.controller.Snapshot import Snapshot
+
+from src.controller.GameSaver import GameSaver
 from src.controller.GuiController import GuiController
-from src.controller.StepHistory import StepHistory
+from src.controller.ChessStep import ChessStep
 from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
 from src.model.enums.Color import Color
@@ -53,12 +54,10 @@ class Game:
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
-        self.is_white_turn: bool = True
         self.is_game_over: bool = False
 
-        self.step_history: StepHistory = StepHistory()
-        self.snapshots: List[Snapshot] = []
-        self.current_snapshot_index = 0
+        self.step_history: ChessStep = ChessStep()
+        self.game_saver: GameSaver = GameSaver()
 
         self.start_time = tm.time()
         self.start_game()
@@ -76,7 +75,7 @@ class Game:
         if self.timer is not None:
             self.timer.start()
 
-        self.save_snapshot()
+        self.game_saver.save_game(self._current_player, self._opponent_player)
         self._update_player()
         self._update_board()
         self._update_gui()
@@ -88,34 +87,41 @@ class Game:
 
     def next_turn(self) -> None:
         # print(f"Memory usage: {self.get_memory_usage()} MB")
-        self.is_white_turn = not self.is_white_turn
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
-        self.save_snapshot()
+        self.game_saver.save_game(self._current_player, self._opponent_player)
+
         if not isinstance(self._current_player, RandomPlayer) or not isinstance(self._opponent_player, RandomPlayer):
             self._update_player()
             self._update_board()
             self._update_gui()
-
         else:
             self._update_player()
 
-        if self._current_player.can_move():
-            if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
-                print("Draw: Only two kings left.")
-                self.end_game(GameResult.DRAW_BY_INSUFFICIENT_MATERIAL)
-        else:
-            if self._current_player.king.is_in_check:
-                print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
-                self.end_game(GameResult.WHITE_WON_BY_CHECKMATE if
-                              self._current_player.color == Color.BLACK else GameResult.BLACK_WON_BY_CHECKMATE)
-            else:
-                print(f"{self._current_player.name} can't move.")
-                self.end_game(GameResult.DRAW_BY_STALEMATE)
+        print(str(self.game_saver.total_states()))
+        self.check_if_game_over()
 
         if not self.is_game_over and isinstance(self._current_player, RandomPlayer):
             self._current_player.select_piece()
             move = self._current_player.choose_move()
             self.make_move(move[0], move[1])
+
+    def check_if_game_over(self) -> None:
+        if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
+            # print("Draw: Only two kings left.")
+            self.end_game(GameResult.DRAW_BY_INSUFFICIENT_MATERIAL)
+
+        if not self._current_player.can_move():
+            if self._current_player.king.is_in_check:
+                # print(f"Checkmate: {self._current_player.color.name} {self._current_player.name} can't move.")
+                self.end_game(GameResult.WHITE_WON_BY_CHECKMATE if self._current_player.color == Color.BLACK else
+                              GameResult.BLACK_WON_BY_CHECKMATE)
+            else:
+                # print(f"{self._current_player.name} can't move.")
+                self.end_game(GameResult.DRAW_BY_STALEMATE)
+
+        if self.game_saver.is_threefold_repetition:
+            print("Draw: Threefold repetition.")
+            self.end_game(GameResult.DRAW_BY_THREEFOLD_REPETITION)
 
     def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
@@ -129,10 +135,6 @@ class Game:
         print("That is ", self.step_history.get_step_number() / (tm.time() - self.start_time), " steps per second.")
         print("One step takes ", (tm.time() - self.start_time) / self.step_history.get_step_number(), " seconds.")
         self._gui_controller.end_game_dialog(game_result)
-
-    def threefold_repetition(self) -> bool:
-        # TODO implement
-        self.end_game(GameResult.DRAW_BY_THREEFOLD_REPETITION)
 
     def get_memory_usage(self):
         process = psutil.Process(os.getpid())
@@ -170,21 +172,21 @@ class Game:
             black_score = str(self._current_player.get_score())
 
         self._gui_controller.update_labels(white_score, black_score,
-                                           str(self.current_snapshot_index + 1), str(len(self.snapshots)))
+                                           str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
         self._black_gui_controller.update_labels(white_score, black_score,
-                                                    str(self.current_snapshot_index + 1), str(len(self.snapshots)))
+                                                 str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
 
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
 
     def bottom_left_button_click(self) -> None:
-        self.prev_snapshot()
+        self.game_saver.load_previous_state(self._current_player, self._opponent_player)
         self._update_player()
         self._update_board()
         self._update_gui()
 
     def bottom_right_button_click(self) -> None:
-        self.next_snapshot()
+        self.game_saver.load_next_state(self._current_player, self._opponent_player)
         self._update_player()
         self._update_board()
         self._update_gui()
@@ -229,13 +231,12 @@ class Game:
     def make_move(self, row: int, col: int):
         # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
         # Or if we'd like to permit the change than the next_snapshots has to be deleted. TODO: decide
-        if len(self.snapshots) - 1 == self.current_snapshot_index:
+        if self.game_saver.is_current_state():
             self._make_move(row, col)
             self._current_player.selected_piece = None
             self.next_turn()
         else:
             print("Invalid move. You can't make a move in the past.")
-            print("Next snapshots: ", len(self.snapshots))
 
     def _make_move(self, to_row: int, to_col: int) -> None:
         if self._current_player.selected_piece is None:
@@ -313,20 +314,3 @@ class Game:
         if self._current_player.selected_piece is not None:
             self._board.update_coloring_board(self._current_player.selected_piece)
 
-    def save_snapshot(self) -> None:
-        self.snapshots.append(Snapshot(self._current_player, self._opponent_player))
-        self.current_snapshot_index = len(self.snapshots) - 1
-
-    def prev_snapshot(self) -> None:
-        if self.current_snapshot_index > 0:
-            self.current_snapshot_index -= 1
-
-        snapshot = self.snapshots[self.current_snapshot_index]
-        snapshot.load_players(self._current_player, self._opponent_player)
-
-    def next_snapshot(self) -> None:
-        if self.current_snapshot_index < len(self.snapshots) - 1:
-            self.current_snapshot_index += 1
-
-        snapshot = self.snapshots[self.current_snapshot_index]
-        snapshot.load_players(self._current_player, self._opponent_player)

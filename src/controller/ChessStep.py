@@ -4,19 +4,10 @@ from src.model.enums.Color import Color
 from src.model.enums.PieceType import PieceType
 
 
-class StepHistory:
+class ChessStep:
     def __init__(self) -> None:
         self.steps: List[str] = []
-        self._column_map: Dict[int, str] = {
-            0: 'a',
-            1: 'b',
-            2: 'c',
-            3: 'd',
-            4: 'e',
-            5: 'f',
-            6: 'g',
-            7: 'h'
-        }
+        self._column_map: Dict[int, str] = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
         self._reverse_column_map = {v: k for k, v in self._column_map.items()}
 
     def add_step(self, piece_type: PieceType, piece_color: Color,
@@ -27,9 +18,6 @@ class StepHistory:
 
     def get_steps(self) -> List[str]:
         return self.steps
-
-    def clear(self) -> None:
-        self.steps = []
 
     def __str__(self) -> str:
         return str(self.steps)

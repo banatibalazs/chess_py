@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix last_moved_piece was not set after move">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="clean code">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Pawn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Memento.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Memento.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Snapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameSaver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/StepHistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ChessStep.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00049" summary="piece update">
-      <option name="closed" value="true" />
-      <created>1714650589284</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1714650589284</updated>
     </task>
     <task id="LOCAL-00050" summary="updated pieces and player class, delete type hints causing errors">
       <option name="closed" value="true" />
@@ -630,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715946989129</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="clean code">
+      <option name="closed" value="true" />
+      <created>1715947296341</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1715947296341</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -645,7 +648,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="wipe out superfluous code lines e.g. possible moves board" />
     <MESSAGE value="add snapshot to revert step or review the previous steps back and forth" />
     <MESSAGE value="changed, simplified snapshot logic" />
     <MESSAGE value="new ChessGui.py class inherited from tk.Toplevel" />
@@ -670,7 +672,8 @@
     <MESSAGE value="refactor, new package structure" />
     <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
     <MESSAGE value="bugfix last_moved_piece was not set after move" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix last_moved_piece was not set after move" />
+    <MESSAGE value="clean code" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
