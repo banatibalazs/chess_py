@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="implement threefold repetition in new GameSaver.py class using game state hashing">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="chessboard gui is selected according to the human player's point of view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GuiController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/TimerThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/TimerThread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChessGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Piece.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,14 +248,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00051" summary="check if king is under attack is almost working only the pawn class has some issue">
-      <option name="closed" value="true" />
-      <created>1714657862132</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1714657862132</updated>
     </task>
     <task id="LOCAL-00052" summary="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted">
       <option name="closed" value="true" />
@@ -645,7 +633,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715954345416</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="chessboard gui is selected according to the human player's point of view">
+      <option name="closed" value="true" />
+      <created>1715969815742</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1715969815742</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -660,7 +656,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed, simplified snapshot logic" />
     <MESSAGE value="new ChessGui.py class inherited from tk.Toplevel" />
     <MESSAGE value="buttons replaced, last move showed in every snapshot" />
     <MESSAGE value="color changed, type hints add" />
@@ -685,7 +680,8 @@
     <MESSAGE value="bugfix last_moved_piece was not set after move" />
     <MESSAGE value="clean code" />
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement threefold repetition in new GameSaver.py class using game state hashing" />
+    <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
+    <option name="LAST_COMMIT_MESSAGE" value="chessboard gui is selected according to the human player's point of view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

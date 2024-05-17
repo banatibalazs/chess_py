@@ -26,16 +26,12 @@ class Game:
         self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
                                       self.click_on_board, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
-        # self.black_gui: BlackGui = BlackGui(title, white_player_name, black_player_name, _time,
-        #                                     self.click_on_board, self.bottom_right_button_click,
-        #                                     self.bottom_left_button_click)
         if _time is None:
             self.timer = None
         else:
             self.timer = TimerThread(self)
 
         self._gui_controller: GuiController = GuiController(self.gui)
-        # self._black_gui_controller: GuiController = GuiController(self.black_gui)
 
         self._board: Board = Board()
         if white_player_type == PlayerType.HUMAN:
@@ -56,7 +52,6 @@ class Game:
 
         self.is_game_over: bool = False
 
-        # self.step_history: ChessStep = ChessStep()
         self.game_saver: GameSaver = GameSaver()
 
         self.start_time = tm.time()
@@ -65,7 +60,6 @@ class Game:
     def __del__(self):
         if self.timer is not None:
             self.timer.stop()
-        # self.gui.destroy()
         print("Game destroyed.")
 
     def start_game(self) -> None:
@@ -86,7 +80,6 @@ class Game:
             self.make_move(move[0], move[1])
 
     def next_turn(self) -> None:
-        # print(f"Memory usage: {self.get_memory_usage()} MB")
         self._current_player, self._opponent_player = self._opponent_player, self._current_player
         self.game_saver.save_game(self._current_player, self._opponent_player)
 
@@ -129,9 +122,14 @@ class Game:
             self.timer.stop()
         self._update_board()
         self._update_gui()
-        print(f"Memory usage: {self.get_memory_usage()} MB")
-        print("Game lasted: ", tm.time() - self.start_time, " seconds.")
-        print("That is ", self.game_saver.total_states() / (tm.time() - self.start_time), " steps per second.")
+        try:
+            print(f"Memory usage: {self.get_memory_usage()} MB")
+            print("Game lasted: ", tm.time() - self.start_time, " seconds.")
+            print("That is ", self.game_saver.total_states() + 1 / (tm.time() - self.start_time), " steps per second.")
+            print("One step takes ", 1 / (self.game_saver.total_states() + 1 / (tm.time() - self.start_time)), " seconds.")
+        except Exception as e:
+            print(e)
+
         self._gui_controller.end_game_dialog(game_result)
 
     def get_memory_usage(self):
@@ -145,7 +143,6 @@ class Game:
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self._board.get_piece_board())
-        # self._black_gui_controller.update_pieces_on_board(self._board.get_piece_board())
 
         coordinates = None
         possible_fields = None
@@ -160,7 +157,6 @@ class Game:
         else:
             checked_king_coordinates = None
         self._gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
-        # self._black_gui_controller.update_board_coloring(coordinates, possible_fields, last_move, checked_king_coordinates)
 
         if self._current_player.color == Color.WHITE:
             white_score = str(self._current_player.get_score())
@@ -171,8 +167,6 @@ class Game:
 
         self._gui_controller.update_labels(white_score, black_score,
                                            str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
-        # self._black_gui_controller.update_labels(white_score, black_score,
-        #                                          str(self.game_saver.current_state_index()), str(self.game_saver.total_states()))
 
         # print("Board: ", self._board.get_piece_board())
         # print("Coloring: ", self._board.get_coloring_board())
