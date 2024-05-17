@@ -10,18 +10,12 @@ class RandomPlayer(Player):
     def __init__(self, name: str, color: Color, board, time: int):
         super().__init__(name, color, board, time)
 
-    def choose_move(self) -> Tuple[int, int]:
-        return  random.choice(list(self.selected_piece.possible_fields))
-
-    def select_piece(self) -> Optional[Piece]:
+    def choose_move(self, opponent) -> Optional[Piece]:
         movable_pieces = self.get_movable_pieces()
         if len(movable_pieces) == 0:
             return None
         self.selected_piece = random.choice(movable_pieces)
+        return random.choice(list(self.selected_piece.possible_fields))
 
     def get_movable_pieces(self) -> List[Piece]:
-        movable_pieces = []
-        for piece in self._pieces:
-            if piece.is_movable():
-                movable_pieces.append(piece)
-        return movable_pieces
+        return [piece for piece in self._pieces if piece.is_movable()]

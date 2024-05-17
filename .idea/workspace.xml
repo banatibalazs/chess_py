@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="optimize code">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix has_piece_at method">
+      <change afterPath="$PROJECT_DIR$/src/model/players/AlphaBetaPlayer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/King.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Pawn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Piece.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/GreedyPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/GreedyPlayer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/RandomPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/RandomPlayer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00053" summary="writing tests for Bishop.py and remove unused field from pieces">
-      <option name="closed" value="true" />
-      <created>1714731280804</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1714731280804</updated>
     </task>
     <task id="LOCAL-00054" summary="unify the column and row order in functions and their name everywhere">
       <option name="closed" value="true" />
@@ -644,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715970893663</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="bugfix has_piece_at method">
+      <option name="closed" value="true" />
+      <created>1715972967129</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1715972967129</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -659,7 +658,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="buttons replaced, last move showed in every snapshot" />
     <MESSAGE value="color changed, type hints add" />
     <MESSAGE value="changed board coloring, last move is first then comes the possible fields coloring" />
     <MESSAGE value="clean code, delete redundant lines and functions" />
@@ -684,7 +682,8 @@
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
     <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
     <MESSAGE value="optimize code" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimize code" />
+    <MESSAGE value="bugfix has_piece_at method" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix has_piece_at method" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

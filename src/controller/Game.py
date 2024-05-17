@@ -8,6 +8,7 @@ from src.controller.GuiController import GuiController
 from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
 from src.model.enums.Color import Color
+from src.model.players.GreedyPlayer import GreedyPlayer
 from src.model.players.RandomPlayer import RandomPlayer
 from src.model.enums.GameResult import GameResult
 from src.model.pieces.Pawn import Pawn
@@ -36,6 +37,8 @@ class Game:
             self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
         elif white_player_type == PlayerType.RANDOM:
             self._white_player: Player = RandomPlayer(white_player_name, Color.WHITE, self._board, _time)
+        elif white_player_type == PlayerType.GREEDY:
+            self._white_player: Player = GreedyPlayer(white_player_name, Color.WHITE, self._board, _time)
         else:
             self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
 
@@ -43,6 +46,8 @@ class Game:
             self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         elif black_player_type == PlayerType.RANDOM:
             self._black_player: Player = RandomPlayer(black_player_name, Color.BLACK, self._board, _time)
+        elif black_player_type == PlayerType.GREEDY:
+            self._black_player: Player = GreedyPlayer(black_player_name, Color.BLACK, self._board, _time)
         else:
             self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
@@ -72,9 +77,8 @@ class Game:
         self._update_board()
         self._update_gui()
 
-        if isinstance(self._current_player, RandomPlayer):
-            self._current_player.select_piece()
-            move = self._current_player.choose_move()
+        if isinstance(self._current_player, RandomPlayer) or isinstance(self._current_player, GreedyPlayer):
+            move = self._current_player.choose_move(self._opponent_player)
             self.make_move(move[0], move[1])
 
     def next_turn(self) -> None:
@@ -88,13 +92,17 @@ class Game:
         else:
             self._update_player()
 
-        # print(str(self.game_saver.total_states()))
+        print(str(self.game_saver.total_states()))
         self.check_if_game_over()
 
-        if not self.is_game_over and isinstance(self._current_player, RandomPlayer):
-            self._current_player.select_piece()
-            move = self._current_player.choose_move()
-            self.make_move(move[0], move[1])
+        if not self.is_game_over and isinstance(self._current_player, RandomPlayer) or\
+                                                                      isinstance(self._current_player, GreedyPlayer):
+            move = self._current_player.choose_move(self._opponent_player)
+            if move is not None:
+                self.make_move(move[0], move[1])
+            else:
+                print("No possible moves.")
+                self.end_game(GameResult.DRAW_BY_STALEMATE)
 
     def check_if_game_over(self) -> None:
         if len(self._current_player.pieces) == 1 and len(self._opponent_player.pieces) == 1:
@@ -248,7 +256,7 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row):
-            if isinstance(self._current_player, RandomPlayer):
+            if isinstance(self._current_player, RandomPlayer) or isinstance(self._current_player, GreedyPlayer):
                 piece_type = PieceType.QUEEN
             else:
                 piece_type: PieceType = self._gui_controller.get_type_from_promotion_dialog(self._current_player.color)
