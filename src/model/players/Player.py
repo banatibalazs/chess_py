@@ -49,7 +49,7 @@ class Player:
         self._pieces.append(Rook(color, 7 if color == Color.WHITE else 0, 7))
 
     def update_piece_coordinates(self) -> None:
-        self._piece_coordinates = {(piece.row, piece.col) for piece in self._pieces}
+        self._piece_coordinates = {piece.coordinates for piece in self._pieces}
 
     def update_pieces_attacked_fields(self, opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
         self._attacked_fields.clear()
@@ -111,7 +111,7 @@ class Player:
         self._last_moved_piece = piece
 
     def has_piece_at(self, row: int, col: int) -> bool:
-        return (row, col) in self._piece_coordinates
+        return (row, col) in self.piece_coordinates
 
     def is_selected_piece_at(self, row: int, col: int) -> bool:
         if self._selected_piece is not None:
@@ -172,7 +172,6 @@ class Player:
 
     def do_castling(self, to_row: int, to_col: int) -> None:
         print("Castling")
-        from_row, from_col = self.selected_piece.coordinates
         if to_col == 2:
             rook = self.get_piece_at(row=to_row, col=0)
             if rook is not None:

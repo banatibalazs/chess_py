@@ -73,6 +73,7 @@ class Piece(ABC):
         if captured_piece is not None:
             opponent.add_piece(captured_piece)
 
+        # opponent.update_pieces_attacked_fields(current_player.piece_coordinates)
         self.row = from_row
         self.col = from_col
 

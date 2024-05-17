@@ -99,11 +99,11 @@ class Pawn(Piece):
             else:
                 possible_fields.add((opponent._last_moved_piece.row + 1, opponent._last_moved_piece.col))
 
-        # Check if the move is valid
-        opponent_attacked_fields = set()
-        for piece in opponent._pieces:
-            for field in piece._attacked_fields:
-                opponent_attacked_fields.add(field)
+        # # Check if the move is valid
+        # opponent_attacked_fields = set()
+        # for piece in opponent._pieces:
+        #     for field in piece._attacked_fields:
+        #         opponent_attacked_fields.add(field)
 
         for move in possible_fields:
             if not self.king_in_check_after_move(move, current_player, opponent):

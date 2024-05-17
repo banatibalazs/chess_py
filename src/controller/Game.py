@@ -1,11 +1,10 @@
 import time as tm
 import os
 import psutil
-from typing import List, Optional
+from typing import Optional
 
 from src.controller.GameSaver import GameSaver
 from src.controller.GuiController import GuiController
-from src.controller.ChessStep import ChessStep
 from src.controller.TimerThread import TimerThread
 from src.model.Board import Board
 from src.model.enums.Color import Color
@@ -15,7 +14,6 @@ from src.model.pieces.Pawn import Pawn
 from src.model.enums.PieceType import PieceType
 from src.model.players.Player import Player
 from src.model.enums.PlayerType import PlayerType
-from src.view.BlackGui import BlackGui
 from src.view.ChessGui import ChessGui
 
 
@@ -90,7 +88,7 @@ class Game:
         else:
             self._update_player()
 
-        print(str(self.game_saver.total_states()))
+        # print(str(self.game_saver.total_states()))
         self.check_if_game_over()
 
         if not self.is_game_over and isinstance(self._current_player, RandomPlayer):
@@ -199,24 +197,28 @@ class Game:
         pass
 
     def click_on_board(self, row: int, col: int) -> None:
-
+        print(f"Clicked on: {row}, {col}")
         if not self.is_game_over:
             # A selected piece is clicked -> deselect it
             if self._current_player.is_selected_piece_at(row, col):
+                print("Deselecting the piece.")
                 self._current_player.selected_piece = None
                 self._update_gui()
 
             # Own unselected piece is clicked -> select it
             elif self._current_player.has_piece_at(row, col):
                 self._current_player.set_selected_piece(row, col)
+                print("Selecting the piece.")
                 self._update_gui()
 
             # Selected piece can move to the square -> move it
             elif self._current_player.is_possible_move(row, col):
                 self.make_move(row, col)
+                print("Making a move.")
 
             # Empty square or opponent's piece -> deselect the selected piece
             else:
+                print("Invalid square.")
                 self._current_player.selected_piece = None
                 self._update_gui()
 

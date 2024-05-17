@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="chessboard gui is selected according to the human player's point of view">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="optimize code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/King.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Pawn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/Piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,14 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00052" summary="update_attacked_fields method in Piece classes get new parameter, hence their logic reformatted">
-      <option name="closed" value="true" />
-      <created>1714665595603</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1714665595603</updated>
     </task>
     <task id="LOCAL-00053" summary="writing tests for Bishop.py and remove unused field from pieces">
       <option name="closed" value="true" />
@@ -641,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715969815742</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="optimize code">
+      <option name="closed" value="true" />
+      <created>1715970893663</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1715970893663</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -656,7 +659,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new ChessGui.py class inherited from tk.Toplevel" />
     <MESSAGE value="buttons replaced, last move showed in every snapshot" />
     <MESSAGE value="color changed, type hints add" />
     <MESSAGE value="changed board coloring, last move is first then comes the possible fields coloring" />
@@ -681,18 +683,10 @@
     <MESSAGE value="clean code" />
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
     <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
-    <option name="LAST_COMMIT_MESSAGE" value="chessboard gui is selected according to the human player's point of view" />
+    <MESSAGE value="optimize code" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimize code" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/model/pieces/King.py</url>
-          <line>59</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self" />

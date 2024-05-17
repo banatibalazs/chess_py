@@ -56,16 +56,13 @@ class King(Piece):
             if is_castling_possible(current_player.get_piece_at(7, 7), range(5, 7)):
                 possible_fields.add((7, 6))
 
-        # Filter out moves that would put the king in check
-        opponent_attacked_fields = {field for piece in opponent._pieces for field in piece._attacked_fields}
-
-        if (self.row, self.col) in opponent_attacked_fields:
+        if (self.row, self.col) in opponent._attacked_fields:
             self._is_in_check = True
         else:
             self._is_in_check = False
 
         for move in possible_fields:
-            if move not in opponent_attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
+            if move not in opponent._attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):
                 self._possible_fields.add(move)
 
     @property
