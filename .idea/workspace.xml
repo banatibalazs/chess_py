@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="greedy player implemented">
-      <change afterPath="$PROJECT_DIR$/src/main_2.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="first steps to use pygame as gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/BlackGui.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,14 +255,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00055" summary="Bishop unittests">
-      <option name="closed" value="true" />
-      <created>1714774489856</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1714774489856</updated>
     </task>
     <task id="LOCAL-00056" summary="Pawn move bugfix, king test">
       <option name="closed" value="true" />
@@ -650,7 +640,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715980164993</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="first steps to use pygame as gui">
+      <option name="closed" value="true" />
+      <created>1716049251894</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1716049251894</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -665,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed board coloring, last move is first then comes the possible fields coloring" />
     <MESSAGE value="clean code, delete redundant lines and functions" />
     <MESSAGE value="refactor and TODOs" />
     <MESSAGE value="add promotion dialog" />
@@ -690,7 +687,8 @@
     <MESSAGE value="optimize code" />
     <MESSAGE value="bugfix has_piece_at method" />
     <MESSAGE value="greedy player implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="greedy player implemented" />
+    <MESSAGE value="first steps to use pygame as gui" />
+    <option name="LAST_COMMIT_MESSAGE" value="first steps to use pygame as gui" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -42,14 +42,31 @@ class ChessGUI:
                     # Start dragging
                     self.dragging = True
                     self.dragged_object = self.get_object_at_pos(event.pos)
+                    self.original_pos = self.dragged_object.copy()  # Store the original position
                 elif event.type == pygame.MOUSEMOTION:
                     # If we're dragging an object, update its position to follow the mouse
                     if self.dragging and self.dragged_object is not None:
-                        self.dragged_object[0] = event.pos[0] - self.square_size // 2
-                        self.dragged_object[1] = event.pos[1] - self.square_size // 2
+                        new_x = event.pos[0] - self.square_size // 2
+                        new_y = event.pos[1] - self.square_size // 2
+                        # Check if the new position is within the board
+                        if 0 <= new_x + self.square_size // 2 < 8 * self.square_size and 0 <= new_y + self.square_size // 2 < 8 * self.square_size:
+                            self.dragged_object[0] = new_x
+                            self.dragged_object[1] = new_y
                 elif event.type == pygame.MOUSEBUTTONUP:
                     # Stop dragging
                     self.dragging = False
+                    # Snap the image to the center of the square it is above
+                    square_x = (self.dragged_object[0] + self.images[0].get_width() // 2) // self.square_size
+                    square_y = (self.dragged_object[1] + self.images[0].get_height() // 2) // self.square_size
+                    # Check if the new position is within the board
+                    if 0 <= square_x < 8 and 0 <= square_y < 8:
+                        self.dragged_object[0] = square_x * self.square_size + self.square_size // 2 - self.images[
+                            0].get_width() // 2
+                        self.dragged_object[1] = square_y * self.square_size + self.square_size // 2 - self.images[
+                            0].get_height() // 2
+                    else:
+                        # If the new position is not within the board, reset the position of the image to its original position
+                        self.dragged_object = self.original_pos
                     self.dragged_object = None
 
             self.draw_board()
