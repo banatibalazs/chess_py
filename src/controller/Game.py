@@ -131,8 +131,8 @@ class Game:
         try:
             print(f"Memory usage: {self.get_memory_usage()} MB")
             print("Game lasted: ", tm.time() - self.start_time, " seconds.")
-            print("That is ", self.game_saver.total_states() + 1 / (tm.time() - self.start_time), " steps per second.")
-            print("One step takes ", 1 / (self.game_saver.total_states() + 1 / (tm.time() - self.start_time)), " seconds.")
+            print("That is ", (self.game_saver.total_states() + 1) / (tm.time() - self.start_time), " steps per second.")
+            print("One step takes ", 1 / ((self.game_saver.total_states() + 1)/ (tm.time() - self.start_time)), " seconds.")
         except Exception as e:
             print(e)
 
