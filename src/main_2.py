@@ -43,6 +43,12 @@ class ChessGUI:
                     self.dragging = True
                     self.dragged_object = self.get_object_at_pos(event.pos)
                     self.original_pos = self.dragged_object.copy()  # Store the original position
+                    # Store the original square coordinates
+                    self.original_square = (
+                    self.dragged_object[0] // self.square_size, self.dragged_object[1] // self.square_size)
+                    # Change the color of the square that the image was on
+                    self.change_square_color(self.original_square[1], self.original_square[0],
+                                             (255, 0, 0))  # Change to red color
                 elif event.type == pygame.MOUSEMOTION:
                     # If we're dragging an object, update its position to follow the mouse
                     if self.dragging and self.dragged_object is not None:
@@ -67,6 +73,9 @@ class ChessGUI:
                     else:
                         # If the new position is not within the board, reset the position of the image to its original position
                         self.dragged_object = self.original_pos
+                    # Change the color of the original square back to its original color
+                    self.change_square_color(self.original_square[1], self.original_square[0],
+                                             self.original_colors[self.original_square[1]][self.original_square[0]])
                     self.dragged_object = None
 
             self.draw_board()
