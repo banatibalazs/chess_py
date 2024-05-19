@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui drag and drop animation set">
-      <change afterPath="$PROJECT_DIR$/src/alternative/Game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/alternative/PyQtGui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/alternative/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/alternative/kivyGui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/alternative/main_3.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="experimenting with different guis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/alternative/kivyGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/kivyGui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,14 +275,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00060" summary="player tests">
-      <option name="closed" value="true" />
-      <created>1714947399103</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1714947399103</updated>
     </task>
     <task id="LOCAL-00061" summary="new bishop and pawn tests, refactor make_move method, castling, en passant">
       <option name="closed" value="true" />
@@ -673,7 +660,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716127126085</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="experimenting with different guis">
+      <option name="closed" value="true" />
+      <created>1716148690712</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1716148690712</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -688,7 +683,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="en_passant bugfix and pawn class refactor" />
     <MESSAGE value="timer label and timer thread" />
     <MESSAGE value="changing colors and add timer in MainWindow.py" />
     <MESSAGE value="bugfix, MainWindow.py refactor" />
@@ -713,7 +707,8 @@
     <MESSAGE value="pygame gui when image dragged its original square changes its color" />
     <MESSAGE value="pygame gui drag and drop image on click" />
     <MESSAGE value="pygame gui drag and drop animation set" />
-    <option name="LAST_COMMIT_MESSAGE" value="pygame gui drag and drop animation set" />
+    <MESSAGE value="experimenting with different guis" />
+    <option name="LAST_COMMIT_MESSAGE" value="experimenting with different guis" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
