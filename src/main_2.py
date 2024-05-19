@@ -62,8 +62,8 @@ class ChessGUI:
                         if self.dragged_object_pos is not None:
                             start_square = (self.dragged_object_pos[0] // self.square_size,
                                             self.dragged_object_pos[1] // self.square_size)
-                            end_square = (4, 4)  # Replace with the actual end square
-                            self.make_move(start_square, end_square)
+                            # end_square = (4, 4)  # Replace with the actual end square
+                            self.make_move(start_square)
 
                     elif event.button == 3:  # Check if the right mouse button was pressed
                         square = (event.pos[0] // self.square_size, event.pos[1] // self.square_size)
@@ -149,16 +149,20 @@ class ChessGUI:
 
     import time
 
-    def make_move(self, start_square, end_square):
+    def make_move(self, start_square, end_square=(4, 4)):
         # Get the image at the start square
         dragged_object = self.board[start_square[1]][start_square[0]]
         if dragged_object is None:
             print(f"No image at square {start_square}")
             return
 
+        distance = ((end_square[0] - start_square[0]) ** 2 + (end_square[1] - start_square[1]) ** 2) ** 0.5
+        print(f"Moving image from {start_square} to {end_square} in {distance} steps")
+
         # Calculate the distance to move in each step
         dx = (end_square[0] - start_square[0]) * self.square_size / 50.0
         dy = (end_square[1] - start_square[1]) * self.square_size / 50.0
+
 
         # Remove the image from the start square
         self.board[start_square[1]][start_square[0]] = None
@@ -173,7 +177,7 @@ class ChessGUI:
             self.draw_board()
             pygame.display.flip()
             # # Wait a short time
-            time.sleep(0.001)
+            time.sleep(0.0005)
 
             # Draw the board surface onto the screen
             self.screen.blit(self.board_surface, (0, 0))

@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui when image dragged its original square changes its color">
-      <change afterPath="$PROJECT_DIR$/resources/images/pieces/pig.png" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui drag and drop image on click">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_2.py" afterDir="false" />
     </list>
@@ -90,7 +89,7 @@
     "Python.MainWindow.executor": "Run",
     "Python.MonteCarloSim.executor": "Run",
     "Python.main.executor": "Run",
-    "Python.main_2.executor": "Run",
+    "Python.main_2.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
@@ -257,14 +256,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00058" summary="castling special move not showing problem solved">
-      <option name="closed" value="true" />
-      <created>1714933645596</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1714933645596</updated>
     </task>
     <task id="LOCAL-00059" summary="en passant special move not showing problem solved">
       <option name="closed" value="true" />
@@ -650,7 +641,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716100786476</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="pygame gui drag and drop image on click">
+      <option name="closed" value="true" />
+      <created>1716123462944</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1716123462944</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -665,7 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add promotion dialog" />
     <MESSAGE value="bugfix and checkmate checking" />
     <MESSAGE value="en_passant bugfix and pawn class refactor" />
     <MESSAGE value="timer label and timer thread" />
@@ -690,7 +688,8 @@
     <MESSAGE value="first steps to use pygame as gui" />
     <MESSAGE value="pygame gui add drag and drop functionality" />
     <MESSAGE value="pygame gui when image dragged its original square changes its color" />
-    <option name="LAST_COMMIT_MESSAGE" value="pygame gui when image dragged its original square changes its color" />
+    <MESSAGE value="pygame gui drag and drop image on click" />
+    <option name="LAST_COMMIT_MESSAGE" value="pygame gui drag and drop image on click" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
