@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui add drag and drop functionality">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui when image dragged its original square changes its color">
+      <change afterPath="$PROJECT_DIR$/resources/images/pieces/pig.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,65 +41,66 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_bishop_attacked_fields_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_black_bishop_attacked_fields_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_05_with_starting_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_44_surrounded_by_opponent_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_75_with_starting_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestKing.TestKing.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_black_pawn_attacked_fields_with_enemy_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_row_7_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_rows_0_to_7_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_rows_1_to_7_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_white_pawn_in_rows_0_to_7_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_white_pawn_on_00_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_enemy_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_check_if_king_is_attacked_after_move.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_21.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_37.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_40.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_51.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_52.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_57.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_01_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_06_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_10_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_77_empty_board.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in TestBishop.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in TestPawn.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in TestPlayer.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python.GameController.executor&quot;: &quot;Run&quot;,
-    &quot;Python.MainWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Python.MonteCarloSim.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_2.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/balaz/Desktop/pychess/chess-py/resources/images/welcome_page&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for TestBishop.TestBishop.test_bishop_attacked_fields_empty_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_black_bishop_attacked_fields_empty_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_03_empty_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_05_with_starting_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_44_surrounded_by_opponent_pieces.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_72_with_starting_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_bishop_on_75_with_starting_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_update_attacked_fields_on_00.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_enemy_board.executor": "Run",
+    "Python tests.Python tests for TestBishop.TestBishop.test_white_bishop_attacked_fields_full_friendly_board.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_07_empty_board.executor": "Run",
+    "Python tests.Python tests for TestKing.TestKing.test_update_attacked_fields_king_on_33_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_black_pawn_attacked_fields_with_enemy_pieces.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_row_7_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_rows_0_to_7_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_black_pawn_in_rows_1_to_7_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_white_pawn_in_rows_0_to_7_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_update_attacked_fields_white_pawn_on_00_empty_board.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_enemy_pieces.executor": "Run",
+    "Python tests.Python tests for TestPawn.TestPawn.test_white_pawn_attacked_fields_with_friendly_pieces.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_check_if_king_is_attacked_after_move.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_21.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_31.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_32.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_37.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_40.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_51.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_52.executor": "Run",
+    "Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_57.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_01_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_06_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_10_empty_board.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces.executor": "Run",
+    "Python tests.Python tests for TestRook.TestBishop.test_update_attacked_fields_rook_on_77_empty_board.executor": "Run",
+    "Python tests.Python tests in TestBishop.py.executor": "Run",
+    "Python tests.Python tests in TestPawn.py.executor": "Run",
+    "Python tests.Python tests in TestPlayer.py.executor": "Run",
+    "Python.GameController.executor": "Run",
+    "Python.MainWindow.executor": "Run",
+    "Python.MonteCarloSim.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_2.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/balaz/Desktop/pychess/chess-py/resources/images/pieces",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\balaz\Desktop\pychess\chess-py\resources\images\pieces" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\resources\images\welcome_page" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\resources\images\icon" />
       <recent name="C:\Users\balaz\Desktop\chess-py\chess-py\resources\images\welcome_page" />
@@ -254,14 +257,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00057" summary="castling bugfix">
-      <option name="closed" value="true" />
-      <created>1714933049360</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1714933049360</updated>
     </task>
     <task id="LOCAL-00058" summary="castling special move not showing problem solved">
       <option name="closed" value="true" />
@@ -647,7 +642,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716057025008</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="pygame gui when image dragged its original square changes its color">
+      <option name="closed" value="true" />
+      <created>1716100786476</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1716100786476</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -662,7 +665,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor and TODOs" />
     <MESSAGE value="add promotion dialog" />
     <MESSAGE value="bugfix and checkmate checking" />
     <MESSAGE value="en_passant bugfix and pawn class refactor" />
@@ -687,7 +689,8 @@
     <MESSAGE value="greedy player implemented" />
     <MESSAGE value="first steps to use pygame as gui" />
     <MESSAGE value="pygame gui add drag and drop functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="pygame gui add drag and drop functionality" />
+    <MESSAGE value="pygame gui when image dragged its original square changes its color" />
+    <option name="LAST_COMMIT_MESSAGE" value="pygame gui when image dragged its original square changes its color" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
