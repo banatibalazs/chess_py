@@ -1,7 +1,29 @@
+import multiprocessing
+import threading
 import time
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Dict
 
+import numpy as np
 import pygame
+
+from src.alternative.Game import Game
+
+WH_KNIGHT_IMAGE_PATH = "../../resources/images/pieces/wh_knight.png"
+WH_BISHOP_IMAGE_PATH = "../../resources/images/pieces/wh_bishop.png"
+WH_ROOK_IMAGE_PATH = "../../resources/images/pieces/wh_rook.png"
+WH_QUEEN_IMAGE_PATH = "../../resources/images/pieces/wh_queen.png"
+WH_KING_IMAGE_PATH = "../../resources/images/pieces/wh_king.png"
+WH_PAWN_IMAGE_PATH = "../../resources/images/pieces/wh_pawn.png"
+
+EMPTY_SQUARE_IMAGE_PATH = "../../resources/images/welcome_page/empty.png"
+
+BL_KNIGHT_IMAGE_PATH = "../../resources/images/pieces/bl_knight.png"
+BL_BISHOP_IMAGE_PATH = "../../resources/images/pieces/bl_bishop.png"
+BL_ROOK_IMAGE_PATH = "../../resources/images/pieces/bl_rook.png"
+BL_QUEEN_IMAGE_PATH = "../../resources/images/pieces/bl_queen.png"
+BL_KING_IMAGE_PATH = "../../resources/images/pieces/bl_king.png"
+BL_PAWN_IMAGE_PATH = "../../resources/images/pieces/bl_pawn.png"
+
 
 
 class ChessGUI:
@@ -19,11 +41,39 @@ class ChessGUI:
         self.image_size = (self.square_size, self.square_size)  # Define the standard image size
         self.images_pos = [[col * self.square_size, 0] for col in range(8)]  # The positions of the images
         self.board = [[None for _ in range(8)] for _ in range(8)]  # Initialize the board with None
+        self.game = Game()
+        self._byte_to_piece_image_path: Dict[np.byte, str] = {
+            np.byte(-6): BL_KING_IMAGE_PATH,
+            np.byte(-5): BL_QUEEN_IMAGE_PATH,
+            np.byte(-4): BL_BISHOP_IMAGE_PATH,
+            np.byte(-3): BL_KNIGHT_IMAGE_PATH,
+            np.byte(-2): BL_ROOK_IMAGE_PATH,
+            np.byte(-1): BL_PAWN_IMAGE_PATH,
 
-    def set_image(self, row: int, col: int, image_path: str = '../resources/images/pieces/wh_king.png'):
+            np.byte(0): EMPTY_SQUARE_IMAGE_PATH,
+
+            np.byte(6): WH_KING_IMAGE_PATH,
+            np.byte(5): WH_QUEEN_IMAGE_PATH,
+            np.byte(4): WH_BISHOP_IMAGE_PATH,
+            np.byte(3): WH_KNIGHT_IMAGE_PATH,
+            np.byte(2): WH_ROOK_IMAGE_PATH,
+            np.byte(1): WH_PAWN_IMAGE_PATH
+        }
+        self.init_images()
+
+    def set_image(self, row: int, col: int, image_path: str = EMPTY_SQUARE_IMAGE_PATH):
         image = pygame.image.load(image_path)  # Load the image
         image = pygame.transform.scale(image, (self.square_size, self.square_size))  # Scale the image to fit the square
         self.board[row][col] = image  # Store the image at the specified row and column
+
+    def init_images(self):
+        piece_board = self.game.get_piece_board()
+        for row in range(8):
+            for col in range(8):
+                image = pygame.image.load(self._byte_to_piece_image_path[piece_board[row][col]])  # Load the image
+                image = pygame.transform.scale(image, (self.square_size, self.square_size))  # Scale the image to fit the square
+                self.board[row][col] = image
+
 
     def draw_board(self):
         for row in range(8):
@@ -37,7 +87,20 @@ class ChessGUI:
         pygame.display.flip()
 
     def game_loop(self):
+        # Create a clock object
+        clock = pygame.time.Clock()
+
+        # Create a font object
+        font = pygame.font.Font(None, 30)
         while self.running:
+
+            # Cap the frame rate to 60 FPS
+            clock.tick(60)
+            # Get the current FPS
+            fps = clock.get_fps()
+            # Render the FPS on a surface
+            fps_surface = font.render(f"FPS: {fps:.2f}", True, pygame.Color('red'))
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -53,7 +116,7 @@ class ChessGUI:
                             self.original_square = (
                                 self.dragged_object_pos[0] // self.square_size, self.dragged_object_pos[1] // self.square_size)
                             # Change the color of the square that the image was on
-                            self.left_button_clicked(self.original_square, event.pos)
+                            self.left_button_clicked(event)
                             # Remove the image from the original square
                             self.board[self.original_square[1]][self.original_square[0]] = None
 
@@ -67,7 +130,7 @@ class ChessGUI:
 
                     elif event.button == 3:  # Check if the right mouse button was pressed
                         square = (event.pos[0] // self.square_size, event.pos[1] // self.square_size)
-                        self.right_button_clicked(square, event.pos)
+                        self.right_button_clicked(square)
 
                 elif event.type == pygame.MOUSEMOTION:
                     # If we're dragging an object, update its position to follow the mouse
@@ -89,19 +152,16 @@ class ChessGUI:
                             square_y = (self.dragged_object_pos[1] + self.square_size // 2) // self.square_size
                             # Check if the new position is within the board
                             if 0 <= square_x < 8 and 0 <= square_y < 8:
-                                self.dragged_object_pos[0] = square_x * self.square_size + self.square_size // 2 - \
-                                                             self.image_size[0] // 2
-                                self.dragged_object_pos[1] = square_y * self.square_size + self.square_size // 2 - \
-                                                             self.image_size[0] // 2
                                 # Set the image at the new square
                                 self.board[square_y][square_x] = self.dragged_object
-                            else:
-                                # If the new position is not within the board, reset the position of the image to its original position
-                                self.dragged_object_pos = self.original_pos
+
                             # Change the color of the original square back to its original color
                             self.change_square_color(self.original_square[1], self.original_square[0],
                                                      self.original_colors[(self.original_square[1] +
                                                          self.original_square[0]) % 2])
+                            if self.original_pos != self.dragged_object_pos:
+                                self.game.click_on_board(event.pos[1] // self.square_size, event.pos[0] // self.square_size)
+                                # self.reset_square_colors()
                             self.dragged_object_pos = None
 
                 self.draw_board()
@@ -110,6 +170,10 @@ class ChessGUI:
                 # If an image is being dragged, draw it at its current position
                 if self.dragging and self.dragged_object is not None:
                     self.screen.blit(self.dragged_object, tuple(self.dragged_object_pos))
+
+                # Blit the FPS surface onto the screen at position (10, 10)
+                self.screen.blit(fps_surface, (10, 10))
+
                 pygame.display.flip()
 
     def get_object_at_pos(self, pos) -> Optional[List[int]]:
@@ -119,30 +183,46 @@ class ChessGUI:
                     image_pos = [col * self.square_size, row * self.square_size]
                     # Check if the mouse is over the image
                     if pygame.Rect(*image_pos, self.square_size, self.square_size).collidepoint(pos):
-                        print("Image selected for dragging")
+                        # print("Image selected for dragging")
                         return image_pos
         return None
 
-    def right_button_clicked(self, square, pos):
-        print(f"Square {square} clicked at position {pos}!")
-        # Define the image path
-        image_path = '../resources/images/pieces/pig.png'  # Replace with your actual image file path
-        # Set the image at the clicked square
+    def right_button_clicked(self, square):
+        image_path = '../../resources/images/pieces/pig.png'  # Replace with your actual image file path
         self.set_image(square[1], square[0], image_path)
 
+    def left_button_clicked(self, event):
+        self.game.click_on_board(event.pos[1] // self.square_size, event.pos[0] // self.square_size)
 
-    def left_button_clicked(self, square, pos):
-        print(f"Square {square} clicked at position {pos}!")
-        clicked_color = (255, 0, 255) if ((square[1] + square[0]) % 2) == 0 else (0, 255, 255)
+        selected_piece = self.game.get_selected_piece()
+        if selected_piece is None:
+            return
+        position = selected_piece.coordinates
+        possible_fields = selected_piece.possible_fields
+        if possible_fields is not None:
+            for field in possible_fields:
+                row, col = field
+                if (row + col) % 2 == 0:
+                    color = (200, 200, 200)
+                else:
+                    color = (100, 100, 100)
+                self.change_square_color(row, col, color)
 
-        # Check the current color of the square and change it to the other color
-        if self.colors[square[1]][square[0]] == self.original_colors[(square[0] + square[1]) % 2]:
-            self.change_square_color(square[1], square[0], clicked_color)
-        else:
-            self.change_square_color(square[1], square[0], self.original_colors[square[0]][square[1]])
+        if position is not None:
+            row, col = position
+            if (row + col) % 2 == 0:
+                color = (0, 255, 0)
+            else:
+                color = (255, 0, 0)
+            self.change_square_color(row, col, color)
+
+    def reset_square_colors(self):
+        for row in range(8):
+            for col in range(8):
+                self.change_square_color(row, col, self.original_colors[(row + col) % 2])
 
     def change_square_color(self, row, col, new_color: Tuple[int, int, int]):
-        print(f"Changing color of square ({row}, {col}) to {new_color}")
+        # print(f"Changing color of square ({row}, {col}) to {new_color}")
         self.colors[row][col] = new_color
         self.draw_board()
         pygame.display.flip()
@@ -153,22 +233,21 @@ class ChessGUI:
         # Get the image at the start square
         dragged_object = self.board[start_square[1]][start_square[0]]
         if dragged_object is None:
-            print(f"No image at square {start_square}")
+            # print(f"No image at square {start_square}")
             return
 
         distance = ((end_square[0] - start_square[0]) ** 2 + (end_square[1] - start_square[1]) ** 2) ** 0.5
         print(f"Moving image from {start_square} to {end_square} in {distance} steps")
 
         # Calculate the distance to move in each step
-        dx = (end_square[0] - start_square[0]) * self.square_size / 50.0
-        dy = (end_square[1] - start_square[1]) * self.square_size / 50.0
-
+        dx = (end_square[0] - start_square[0]) * self.square_size / 10.0
+        dy = (end_square[1] - start_square[1]) * self.square_size / 10.0
 
         # Remove the image from the start square
         self.board[start_square[1]][start_square[0]] = None
 
         # Move the image in small steps
-        for i in range(50):
+        for i in range(10):
             # Update the position of the image
             self.dragged_object_pos = [start_square[0] * self.square_size + i * dx,
                                        start_square[1] * self.square_size + i * dy]
@@ -177,24 +256,16 @@ class ChessGUI:
             self.draw_board()
             pygame.display.flip()
             # # Wait a short time
-            time.sleep(0.0005)
+            # time.sleep(0.00001)
 
             # Draw the board surface onto the screen
             self.screen.blit(self.board_surface, (0, 0))
-            # If an image is being dragged, draw it at its current position
-            # if self.dragging and self.dragged_object is not None:
-            #     self.screen.blit(image, tuple(self.dragged_object_pos))
-            # pygame.display.flip()
-
-
 
         # # Place the image on the end square
         self.board[end_square[1]][end_square[0]] = dragged_object
-        #
-        # self.draw_board()
 
 
 if __name__ == "__main__":
     gui = ChessGUI()
-    gui.draw_board()  # Draw the board once at the start
-    gui.game_loop()  # Start the game loop
+    gui.game_loop()
+    print("Game over!")

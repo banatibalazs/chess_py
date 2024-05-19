@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui drag and drop image on click">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame gui drag and drop animation set">
+      <change afterPath="$PROJECT_DIR$/src/alternative/Game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/alternative/PyQtGui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/alternative/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/alternative/kivyGui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/alternative/main_3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,16 +90,21 @@
     "Python tests.Python tests in TestBishop.py.executor": "Run",
     "Python tests.Python tests in TestPawn.py.executor": "Run",
     "Python tests.Python tests in TestPlayer.py.executor": "Run",
+    "Python.Game.executor": "Run",
     "Python.GameController.executor": "Run",
     "Python.MainWindow.executor": "Run",
     "Python.MonteCarloSim.executor": "Run",
+    "Python.PyQtGui.executor": "Run",
+    "Python.kivy.executor": "Run",
+    "Python.kivyGui (1).executor": "Run",
     "Python.main.executor": "Run",
-    "Python.main_2.executor": "Debug",
+    "Python.main_2 (1).executor": "Run",
+    "Python.main_2.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/balaz/Desktop/pychess/chess-py/resources/images/pieces",
-    "settings.editor.selected.configurable": "Errors"
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -105,14 +115,36 @@
       <recent name="C:\Users\balaz\Desktop\chess-py\chess-py\resources\images\welcome_page" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\alternative" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\model\enums" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\model\players" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\model\Pieces" />
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\view" />
-      <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_2">
+  <component name="RunManager" selected="Python.kivyGui (1)">
+    <configuration name="Game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/Game.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="MainWindow" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -135,7 +167,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="MonteCarloSim" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="PyQtGui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,11 +176,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_model/MonteCarloSim.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/PyQtGui.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -157,7 +189,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="kivyGui (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -166,11 +198,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/kivyGui.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -179,7 +211,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="kivyGui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -188,11 +220,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main_2.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\balaz\Desktop\pychess\chess-py\src\alternative\kivyGui.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -201,43 +233,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for TestKing.TestKing" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="main_2 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestKing.TestKing&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="chess-py" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;TestPlayer.TestPlayer.test_king_possible_moves_on_47&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/main_2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main_2" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.MonteCarloSim" />
-        <item itemvalue="Python tests.Python tests for TestKing.TestKing" />
-        <item itemvalue="Python tests.Python tests for TestPlayer.TestPlayer.test_king_possible_moves_on_47" />
+        <item itemvalue="Python.kivyGui (1)" />
+        <item itemvalue="Python.kivyGui" />
+        <item itemvalue="Python.PyQtGui" />
+        <item itemvalue="Python.main_2 (1)" />
+        <item itemvalue="Python.Game" />
       </list>
     </recent_temporary>
   </component>
@@ -256,14 +280,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00059" summary="en passant special move not showing problem solved">
-      <option name="closed" value="true" />
-      <created>1714933724441</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1714933724441</updated>
     </task>
     <task id="LOCAL-00060" summary="player tests">
       <option name="closed" value="true" />
@@ -649,7 +665,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716123462944</updated>
     </task>
-    <option name="localTasksCounter" value="108" />
+    <task id="LOCAL-00108" summary="pygame gui drag and drop animation set">
+      <option name="closed" value="true" />
+      <created>1716127126085</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1716127126085</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,7 +688,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bugfix and checkmate checking" />
     <MESSAGE value="en_passant bugfix and pawn class refactor" />
     <MESSAGE value="timer label and timer thread" />
     <MESSAGE value="changing colors and add timer in MainWindow.py" />
@@ -689,7 +712,8 @@
     <MESSAGE value="pygame gui add drag and drop functionality" />
     <MESSAGE value="pygame gui when image dragged its original square changes its color" />
     <MESSAGE value="pygame gui drag and drop image on click" />
-    <option name="LAST_COMMIT_MESSAGE" value="pygame gui drag and drop image on click" />
+    <MESSAGE value="pygame gui drag and drop animation set" />
+    <option name="LAST_COMMIT_MESSAGE" value="pygame gui drag and drop animation set" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
