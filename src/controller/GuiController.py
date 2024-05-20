@@ -7,6 +7,7 @@ from src.model.enums.PieceType import PieceType
 from src.view.ChessGui import ChessGui
 from src.view.EndGameDialog import EndGameDialog
 from src.view.PromotionDialog import PromotionDialog
+from src.view.chess_gui_abs import ChessGuiAbs
 
 
 class GuiController:
@@ -40,8 +41,8 @@ class GuiController:
     LIGHT_LM_COLOR = "#caca7a"
     DARK_LM_COLOR = "#949434"
 
-    def __init__(self, chess_gui: ChessGui) -> None:
-        self._chess_gui: ChessGui = chess_gui
+    def __init__(self, chess_gui: ChessGuiAbs) -> None:
+        self._chess_gui: ChessGuiAbs = chess_gui
         self._byte_to_piece_image_path: Dict[np.byte, str] = {
             np.byte(-6): GuiController.BL_KING_IMAGE_PATH,
             np.byte(-5): GuiController.BL_QUEEN_IMAGE_PATH,

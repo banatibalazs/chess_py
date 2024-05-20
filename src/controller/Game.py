@@ -3,6 +3,7 @@ import os
 import psutil
 from typing import Optional
 
+from src.view.tkinter_cancas_gui import ChessBoard
 from src.controller.GameSaver import GameSaver
 from src.controller.GuiController import GuiController
 from src.controller.TimerThread import TimerThread
@@ -15,16 +16,16 @@ from src.model.pieces.Pawn import Pawn
 from src.model.enums.PieceType import PieceType
 from src.model.players.Player import Player
 from src.model.enums.PlayerType import PlayerType
-from src.view.ChessGui import ChessGui
 
 
 class Game:
     def __init__(self, title: str, white_player_name: str, white_player_type: PlayerType, black_player_name: str,
                  black_player_type: PlayerType, _time: Optional[int], pov: Color) -> None:
 
-        self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
-                                      self.click_on_board, self.bottom_right_button_click,
-                                      self.bottom_left_button_click)
+        # self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
+        #                               self.click_on_board, self.bottom_right_button_click,
+        #                               self.bottom_left_button_click)
+        self.gui: ChessBoard = ChessBoard()
         if _time is None:
             self.timer = None
         else:

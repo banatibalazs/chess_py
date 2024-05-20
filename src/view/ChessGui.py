@@ -3,9 +3,10 @@ from typing import Callable, Optional
 
 from src.model.enums.Color import Color
 from src.view.Square import Square
+from src.view.chess_gui_abs import ChessGuiAbs
 
 
-class ChessGui(tk.Toplevel):
+class ChessGui(ChessGuiAbs):
     BLACK_COLOR = "#111111"
     WHITE_COLOR = "#ffffff"
     WINDOWS_ICON_PATH = "../resources/images/icon/chess.ico"
