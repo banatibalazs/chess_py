@@ -7,6 +7,13 @@
     <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="pygame version changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/alternative/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/bishop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/queen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/rook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/alpha_beta_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/alpha_beta_player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/greedy_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/greedy_player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/players/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +129,7 @@
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\model\Pieces" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_2">
+  <component name="RunManager" selected="Python.main">
     <configuration name="MainWindow" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -323,9 +330,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.main_2" />
         <item itemvalue="Python.stack_overflow_pygame_gui" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.new (1)" />
         <item itemvalue="Python.new" />
       </list>
@@ -346,14 +353,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00065" summary="bugfix in king_in_check_after_move function the opponent's piece was not removed">
-      <option name="closed" value="true" />
-      <created>1715176751651</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1715176751652</updated>
     </task>
     <task id="LOCAL-00066" summary="bugfix pieces can only move to a square if their king will not be attacked after the move. Pawn and Piece class modification">
       <option name="closed" value="true" />
@@ -739,7 +738,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716232285314</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="pygame version changes">
+      <option name="closed" value="true" />
+      <created>1716234846951</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1716234846951</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

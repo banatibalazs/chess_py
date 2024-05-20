@@ -87,6 +87,9 @@ class Player:
                 return True
         return False
 
+    def get_movable_pieces(self):
+        return [piece for piece in self._pieces if piece.is_movable()]
+
     def get_score(self) -> int:
         score = 0
         for piece in self._pieces:

@@ -15,15 +15,11 @@ class Rook(Piece):
         row = self.row
 
         vectors = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        directions = []
-        for vector in vectors:
-            direction = []
-            for i in range(1, 8):
-                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or \
-                        col + vector[1] * i < 0:
-                    break
-                direction.append((row + vector[0] * i, col + vector[1] * i))
-            directions.append(direction)
+        directions = [
+            [(row + vector[0] * i, col + vector[1] * i) for i in range(1, 8)
+             if 0 <= row + vector[0] * i <= 7 and 0 <= col + vector[1] * i <= 7]
+            for vector in vectors
+        ]
 
         for direction in directions:
             for field in direction:

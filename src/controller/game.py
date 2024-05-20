@@ -8,6 +8,7 @@ from src.controller.gui_controller import GuiController
 from src.controller.timer_thread import TimerThread
 from src.model.board import Board
 from src.model.enums.color import Color
+from src.model.players.alpha_beta_player import AlphaBeta
 from src.model.players.greedy_player import GreedyPlayer
 from src.model.players.random_player import RandomPlayer
 from src.model.enums.game_result import GameResult
@@ -39,6 +40,8 @@ class Game:
             self._white_player: Player = RandomPlayer(white_player_name, Color.WHITE, self._board, _time)
         elif white_player_type == PlayerType.GREEDY:
             self._white_player: Player = GreedyPlayer(white_player_name, Color.WHITE, self._board, _time)
+        elif white_player_type == PlayerType.MINIMAX:
+            self._white_player: Player = AlphaBeta(white_player_name, Color.WHITE, self._board, _time)
         else:
             self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
 
@@ -48,6 +51,8 @@ class Game:
             self._black_player: Player = RandomPlayer(black_player_name, Color.BLACK, self._board, _time)
         elif black_player_type == PlayerType.GREEDY:
             self._black_player: Player = GreedyPlayer(black_player_name, Color.BLACK, self._board, _time)
+        elif black_player_type == PlayerType.MINIMAX:
+            self._black_player: Player = AlphaBeta(black_player_name, Color.BLACK, self._board, _time)
         else:
             self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
@@ -95,8 +100,7 @@ class Game:
         print(str(self.game_saver.total_states()))
         self.check_if_game_over()
 
-        if not self.is_game_over and isinstance(self._current_player, RandomPlayer) or\
-                                                                      isinstance(self._current_player, GreedyPlayer):
+        if not self.is_game_over and isinstance(self._current_player, RandomPlayer) or isinstance(self._current_player, GreedyPlayer) or isinstance(self._current_player, AlphaBeta):
             move = self._current_player.choose_move(self._opponent_player)
             if move is not None:
                 self.make_move(move[0], move[1])
