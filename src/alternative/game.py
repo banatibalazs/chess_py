@@ -3,17 +3,17 @@ import os
 import psutil
 from typing import Optional
 
-from src.controller.GameSaver import GameSaver
-from src.controller.TimerThread import TimerThread
-from src.model.Board import Board
-from src.model.enums.Color import Color
-from src.model.players.GreedyPlayer import GreedyPlayer
-from src.model.players.RandomPlayer import RandomPlayer
-from src.model.enums.GameResult import GameResult
-from src.model.pieces.Pawn import Pawn
-from src.model.enums.PieceType import PieceType
-from src.model.players.Player import Player
-from src.model.enums.PlayerType import PlayerType
+from src.controller.game_saver import GameSaver
+from src.controller.timer_thread import TimerThread
+from src.model.board import Board
+from src.model.enums.color import Color
+from src.model.players.greedy_player import GreedyPlayer
+from src.model.players.random_player import RandomPlayer
+from src.model.enums.game_result import GameResult
+from src.model.pieces.pawn import Pawn
+from src.model.enums.piece_type import PieceType
+from src.model.players.player import Player
+from src.model.enums.player_type import PlayerType
 
 
 class Game:

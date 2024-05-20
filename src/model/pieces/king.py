@@ -1,9 +1,9 @@
 from typing import override, Tuple, Set
 
-from src.model.enums.Color import Color
-from src.model.pieces.Piece import Piece
-from src.model.enums.PieceType import PieceType
-from src.model.pieces.Rook import Rook
+from src.model.enums.color import Color
+from src.model.pieces.piece import Piece
+from src.model.enums.piece_type import PieceType
+from src.model.pieces.rook import Rook
 
 
 class King(Piece):
@@ -35,12 +35,19 @@ class King(Piece):
         self._possible_fields.clear()
         possible_fields = self._attacked_fields.copy()
 
+        if (self.row, self.col) in opponent._attacked_fields:
+            self._is_in_check = True
+            print("King is in check")
+        else:
+            self._is_in_check = False
+
         # Add Castling moves
         def is_castling_possible(rook, cols):
             # TODO implement this with a Board, so that the check for empty fields would be more efficient
             return (isinstance(rook, Rook) and
                     not rook.is_moved and
                     not self.is_moved and
+                    not self._is_in_check and
                     not any(current_player.has_piece_at(self.row, col) for col in cols) and
                     not any(opponent.has_piece_at(self.row, col) for col in cols) and
                     not any((self.row, col) in opponent._attacked_fields for col in cols))
@@ -55,11 +62,6 @@ class King(Piece):
                 possible_fields.add((7, 2))
             if is_castling_possible(current_player.get_piece_at(7, 7), range(5, 7)):
                 possible_fields.add((7, 6))
-
-        if (self.row, self.col) in opponent._attacked_fields:
-            self._is_in_check = True
-        else:
-            self._is_in_check = False
 
         for move in possible_fields:
             if move not in opponent._attacked_fields and not self.king_in_check_after_move(move, current_player, opponent):

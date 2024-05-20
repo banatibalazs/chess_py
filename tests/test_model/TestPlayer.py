@@ -1,8 +1,8 @@
 import unittest
 
-from src.model.players.Player import Player
-from src.model.enums.Color import Color
-from src.model.Board import Board
+from src.model.players.player import Player
+from src.model.enums.color import Color
+from src.model.board import Board
 
 class TestPlayer(unittest.TestCase):
     def setUp(self):

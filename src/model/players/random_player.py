@@ -1,9 +1,9 @@
 import random
 from typing import Tuple, Optional, List
 
-from src.model.enums.Color import Color
-from src.model.pieces.Piece import Piece
-from src.model.players.Player import Player
+from src.model.enums.color import Color
+from src.model.pieces.piece import Piece
+from src.model.players.player import Player
 
 
 class RandomPlayer(Player):

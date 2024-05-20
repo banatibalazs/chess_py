@@ -3,29 +3,28 @@ import os
 import psutil
 from typing import Optional
 
-from src.view.tkinter_cancas_gui import ChessBoard
-from src.controller.GameSaver import GameSaver
-from src.controller.GuiController import GuiController
-from src.controller.TimerThread import TimerThread
-from src.model.Board import Board
-from src.model.enums.Color import Color
-from src.model.players.GreedyPlayer import GreedyPlayer
-from src.model.players.RandomPlayer import RandomPlayer
-from src.model.enums.GameResult import GameResult
-from src.model.pieces.Pawn import Pawn
-from src.model.enums.PieceType import PieceType
-from src.model.players.Player import Player
-from src.model.enums.PlayerType import PlayerType
+from src.controller.game_saver import GameSaver
+from src.controller.gui_controller import GuiController
+from src.controller.timer_thread import TimerThread
+from src.model.board import Board
+from src.model.enums.color import Color
+from src.model.players.greedy_player import GreedyPlayer
+from src.model.players.random_player import RandomPlayer
+from src.model.enums.game_result import GameResult
+from src.model.pieces.pawn import Pawn
+from src.model.enums.piece_type import PieceType
+from src.model.players.player import Player
+from src.model.enums.player_type import PlayerType
+from src.view.chess_gui import ChessGui
 
 
 class Game:
     def __init__(self, title: str, white_player_name: str, white_player_type: PlayerType, black_player_name: str,
                  black_player_type: PlayerType, _time: Optional[int], pov: Color) -> None:
 
-        # self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
-        #                               self.click_on_board, self.bottom_right_button_click,
-        #                               self.bottom_left_button_click)
-        self.gui: ChessBoard = ChessBoard()
+        self.gui: ChessGui = ChessGui(title, pov, white_player_name, black_player_name, _time,
+                                      self.click_on_board, self.bottom_right_button_click,
+                                      self.bottom_left_button_click)
         if _time is None:
             self.timer = None
         else:
@@ -316,4 +315,7 @@ class Game:
         self._board.update_piece_board(self._current_player.pieces, self._opponent_player.pieces)
         if self._current_player.selected_piece is not None:
             self._board.update_coloring_board(self._current_player.selected_piece)
+
+    def nothing(self, row, col) -> None:
+        print("Row, col: " ,row, col)
 

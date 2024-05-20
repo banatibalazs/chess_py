@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 import numpy as np
 
-from src.controller.GuiController import GuiController
+from src.controller.gui_controller import GuiController
 
 
 class TestViewController(unittest.TestCase):

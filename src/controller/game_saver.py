@@ -1,14 +1,14 @@
 from typing import List, Dict
 
-from src.controller.Memento import Memento
-from src.model.pieces.Bishop import Bishop
-from src.model.pieces.King import King
-from src.model.pieces.Knight import Knight
-from src.model.pieces.Pawn import Pawn
-from src.model.enums.PieceType import PieceType
-from src.model.players.Player import Player
-from src.model.pieces.Queen import Queen
-from src.model.pieces.Rook import Rook
+from src.controller.memento import Memento
+from src.model.pieces.bishop import Bishop
+from src.model.pieces.king import King
+from src.model.pieces.knight import Knight
+from src.model.pieces.pawn import Pawn
+from src.model.enums.piece_type import PieceType
+from src.model.players.player import Player
+from src.model.pieces.queen import Queen
+from src.model.pieces.rook import Rook
 
 
 class GameSaver:

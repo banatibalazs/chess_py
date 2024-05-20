@@ -1,7 +1,7 @@
-from src.model.enums.PieceType import PieceType
+from src.model.enums.piece_type import PieceType
 import tkinter as tk
 
-from src.view.Square import Square
+from src.view.square import Square
 
 
 class PromotionDialog(tk.Toplevel):

@@ -1,26 +1,25 @@
 from typing import override, Set, Tuple
-from src.model.pieces.Piece import Piece
-from src.model.enums.PieceType import PieceType
+from src.model.pieces.piece import Piece
+from src.model.enums.piece_type import PieceType
 
 
-class Bishop(Piece):
+class Rook(Piece):
     def __init__(self, color, row, col):
-        super().__init__(PieceType.BISHOP, color, row, col)
+        super().__init__(PieceType.ROOK, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
                                opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
         self._attacked_fields.clear()
-        row = self.row
         col = self.col
+        row = self.row
 
-        #          (row, col)
-        vectors = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
+        vectors = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         directions = []
         for vector in vectors:
             direction = []
             for i in range(1, 8):
-                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or\
+                if row + vector[0] * i > 7 or row + vector[0] * i < 0 or col + vector[1] * i > 7 or \
                         col + vector[1] * i < 0:
                     break
                 direction.append((row + vector[0] * i, col + vector[1] * i))
@@ -35,6 +34,3 @@ class Bishop(Piece):
                     break
                 else:
                     self._attacked_fields.add(field)
-
-
-

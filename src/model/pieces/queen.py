@@ -1,11 +1,11 @@
-from typing import override, Set, Tuple
-from src.model.pieces.Piece import Piece
-from src.model.enums.PieceType import PieceType
+from typing import override, Tuple, Set
+from src.model.pieces.piece import Piece
+from src.model.enums.piece_type import PieceType
 
 
-class Rook(Piece):
+class Queen(Piece):
     def __init__(self, color, row, col):
-        super().__init__(PieceType.ROOK, color, row, col)
+        super().__init__(PieceType.QUEEN, color, row, col)
 
     @override
     def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
@@ -14,7 +14,8 @@ class Rook(Piece):
         col = self.col
         row = self.row
 
-        vectors = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        vectors = [(1, 0), (-1, 0), (0, 1), (0, -1),
+                   (1, 1), (-1, 1), (1, -1), (-1, -1)]
         directions = []
         for vector in vectors:
             direction = []
@@ -34,3 +35,5 @@ class Rook(Piece):
                     break
                 else:
                     self._attacked_fields.add(field)
+
+

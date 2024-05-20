@@ -1,8 +1,8 @@
 import tkinter as tk
 from typing import Callable, Optional
 
-from src.model.enums.Color import Color
-from src.view.Square import Square
+from src.model.enums.color import Color
+from src.view.square import Square
 from src.view.chess_gui_abs import ChessGuiAbs
 
 

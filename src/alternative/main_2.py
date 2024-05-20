@@ -6,7 +6,7 @@ from typing import Tuple, List, Optional, Dict
 import numpy as np
 import pygame
 
-from src.alternative.Game import Game
+from src.alternative.game import Game
 
 WH_KNIGHT_IMAGE_PATH = "../../resources/images/pieces/wh_knight.png"
 WH_BISHOP_IMAGE_PATH = "../../resources/images/pieces/wh_bishop.png"

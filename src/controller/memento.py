@@ -1,9 +1,9 @@
 import hashlib
 from typing import List, Dict, Any, Tuple
 
-from src.model.enums.Color import Color
-from src.model.pieces.Pawn import Pawn
-from src.model.players.Player import Player
+from src.model.enums.color import Color
+from src.model.pieces.pawn import Pawn
+from src.model.players.player import Player
 
 
 class Memento:

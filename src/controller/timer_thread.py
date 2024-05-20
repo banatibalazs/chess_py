@@ -1,8 +1,8 @@
 import threading
 import time
 
-from src.model.enums.Color import Color
-from src.model.enums.GameResult import GameResult
+from src.model.enums.color import Color
+from src.model.enums.game_result import GameResult
 
 
 class TimerThread(threading.Thread):

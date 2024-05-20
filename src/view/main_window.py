@@ -3,9 +3,9 @@ from tkinter import ttk
 from typing import Callable
 
 from PIL import Image, ImageTk
-from src.controller.Game import Game
-from src.model.enums.Color import Color
-from src.model.enums.PlayerType import PlayerType
+from src.controller.game import Game
+from src.model.enums.color import Color
+from src.model.enums.player_type import PlayerType
 
 
 class MainWindow:
