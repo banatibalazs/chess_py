@@ -4,50 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="tkinter_cancas_gui.py add functionality">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor">
+      <change afterPath="$PROJECT_DIR$/src/alternative/stack_overflow_pygame_gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/PyQtGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/pyqt_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/alternative/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/alternative/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/main_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ChessStep.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/chess_step.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/CustomTypesForTypeHinting.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/custom_types_for_type_hinting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameSaver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game_saver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GuiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/gui_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Memento.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/memento.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/TimerThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/timer_thread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/board.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/enums/Color.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/enums/color.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/enums/GameResult.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/enums/game_result.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/enums/PieceType.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/enums/piece_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/enums/PlayerType.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/enums/player_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/bishop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/King.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/king.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/knight.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/pawn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/queen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/Rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/rook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/AlphaBetaPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/alpha_beta_player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/GreedyPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/greedy_player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/RandomPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/random_player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ChessGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/chess_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/EndGameDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/end_game_dialog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/main_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/PromotionDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/promotion_dialog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/Square.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/square.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/chess_gui_abs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/chess_gui_abs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/tkinter_cancas_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/tkinter_canvas_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_controller/TestViewController.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_controller/TestViewController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestBishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestBishop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestKing.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestKing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPawn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_model/TestRook.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_model/TestRook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +99,7 @@
     "Python.main_2.executor": "Run",
     "Python.new (1).executor": "Run",
     "Python.new.executor": "Run",
+    "Python.stack_overflow_pygame_gui.executor": "Run",
     "Python.tkinter_cancas_gui (1).executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "dev",
@@ -162,7 +124,7 @@
       <recent name="C:\Users\balaz\Desktop\pychess\chess-py\src\model\Pieces" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main_2">
     <configuration name="MainWindow" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -199,6 +161,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/main_2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -251,6 +235,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="stack_overflow_pygame_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="chess-py" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/alternative/stack_overflow_pygame_gui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="tkinter_cancas_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="chess-py" />
       <option name="ENV_FILES" value="" />
@@ -317,35 +323,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tkinter_canvas_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="chess-py" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/alternative" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\balaz\Desktop\pychess\chess-py\src\alternative\tkinter_canvas_gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_2" />
+        <item itemvalue="Python.stack_overflow_pygame_gui" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.new (1)" />
         <item itemvalue="Python.new" />
-        <item itemvalue="Python.tkinter_canvas_gui" />
-        <item itemvalue="Python.tkinter_canvas_gui" />
       </list>
     </recent_temporary>
   </component>
@@ -364,14 +348,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00063" summary="King was not considered when calc possible moves">
-      <option name="closed" value="true" />
-      <created>1715099310580</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1715099310580</updated>
     </task>
     <task id="LOCAL-00064" summary="king_in_check_after_move function in King class">
       <option name="closed" value="true" />
@@ -757,7 +733,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716205570475</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1716225790408</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1716225790408</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -776,7 +760,6 @@
     <MESSAGE value="bugfix, refactor" />
     <MESSAGE value="change ChessGui.py arrangement" />
     <MESSAGE value="black random move choose" />
-    <MESSAGE value="refactor" />
     <MESSAGE value="add random player, add checkbox in MainWindow.py to select if player is computer" />
     <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
     <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
@@ -797,7 +780,8 @@
     <MESSAGE value="experimenting with different guis" />
     <MESSAGE value="add new func to gui" />
     <MESSAGE value="tkinter_cancas_gui.py add functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="tkinter_cancas_gui.py add functionality" />
+    <MESSAGE value="refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

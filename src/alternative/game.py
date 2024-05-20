@@ -21,43 +21,20 @@ class Game:
                  black_player_name: str = "Black", black_player_type: PlayerType = PlayerType.HUMAN,
                  _time: Optional[int] = 600) -> None:
 
-        if _time is None:
-            self.timer = None
-        else:
-            self.timer = TimerThread(self)
-
         self._board: Board = Board()
-        if white_player_type == PlayerType.HUMAN:
-            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
-        elif white_player_type == PlayerType.RANDOM:
-            self._white_player: Player = RandomPlayer(white_player_name, Color.WHITE, self._board, _time)
-
-        if black_player_type == PlayerType.HUMAN:
-            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
-        else:
-            self._black_player: Player = RandomPlayer(black_player_name, Color.BLACK, self._board, _time)
-
+        self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
+        self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 
         self.is_game_over: bool = False
-
         self.game_saver: GameSaver = GameSaver()
 
-        self.start_time = tm.time()
         self.start_game()
-
-    def __del__(self):
-        if self.timer is not None:
-            self.timer.stop()
-        print("Game destroyed.")
 
     def start_game(self) -> None:
         self._white_player.init_pieces()
         self._black_player.init_pieces()
-
-        if self.timer is not None:
-            self.timer.start()
 
         self.game_saver.save_game(self._current_player, self._opponent_player)
         self._update_player()
@@ -109,16 +86,8 @@ class Game:
 
     def end_game(self, game_result: GameResult) -> None:
         self.is_game_over = True
-        if self.timer is not None:
-            self.timer.stop()
+        print(f"Game over: {game_result.name}")
         self._update_board()
-        try:
-            print(f"Memory usage: {self.get_memory_usage()} MB")
-            print("Game lasted: ", tm.time() - self.start_time, " seconds.")
-            print("That is ", (self.game_saver.total_states() + 1) / (tm.time() - self.start_time), " steps per second.")
-            print("One step takes ", 1 / ((self.game_saver.total_states() + 1)/ (tm.time() - self.start_time)), " seconds.")
-        except Exception as e:
-            print(e)
 
     def get_memory_usage(self):
         process = psutil.Process(os.getpid())
