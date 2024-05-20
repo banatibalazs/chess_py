@@ -49,7 +49,7 @@ class ChessGUI:
         self.board = [[None for _ in range(8)] for _ in range(8)]  # Initialize the board with None
         self.game = Game()
         self.possible_fields = []
-        self.last_clicked_square = None
+        self.selected_piece_pos = None
         self._byte_to_piece_image_path: Dict[np.byte, str] = {
             np.byte(-6): BL_KING_IMAGE_PATH,
             np.byte(-5): BL_QUEEN_IMAGE_PATH,
@@ -160,12 +160,12 @@ class ChessGUI:
                                         (square_y, square_x) in self.possible_fields:
                                     self.board[square_y][square_x] = self.dragged_object
                                     self.game.click_on_board(event.pos[1] // self.square_size, event.pos[0] // self.square_size)
-                                    self.reset_possible_fields()
-                                    self.change_square_color(self.original_square[1], self.original_square[0],
-                                                             self.original_colors[(self.original_square[1] +
-                                                                                   self.original_square[0]) % 2])
                                 else:
                                     self.board[self.original_square[1]][self.original_square[0]] = self.dragged_object
+                                self.change_square_color(self.original_square[1], self.original_square[0],
+                                                         self.original_colors[(self.original_square[1] +
+                                                                               self.original_square[0]) % 2])
+                                self.reset_possible_fields()
                                 # Change the color of the original square back to its original color
 
                             self.dragged_object_pos = None
@@ -214,11 +214,12 @@ class ChessGUI:
 
     def left_button_clicked(self, event):
         print(f"Left button clicked at {event.pos}")
-        if self.last_clicked_square is not None:
-            self.colors[self.last_clicked_square[0]][self.last_clicked_square[1]] = self.original_colors[(self.last_clicked_square[0] + self.last_clicked_square[1]) % 2]
         row, col = event.pos[1] // self.square_size, event.pos[0] // self.square_size
-        self.last_clicked_square = (row, col)
-        self.game.click_on_board(row, col)
+        self.colors[row][col] = self.original_colors[(row + col) % 2]
+        if self.selected_piece_pos != (row, col):
+            self.game.click_on_board(row, col)
+            self.selected_piece_pos = (row, col)
+
         if self.board[row][col] is not None:
             self.set_selected_piece_color(row, col)
 
