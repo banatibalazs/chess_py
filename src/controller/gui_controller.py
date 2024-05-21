@@ -1,9 +1,9 @@
 from typing import Dict, List, Tuple, Set, Optional
 from src.controller.custom_types_for_type_hinting import ByteArray8x8, BoolArray8x8
 import numpy as np
-from src.model.enums.color import Color
-from src.model.enums.game_result import GameResult
-from src.model.enums.piece_type import PieceType
+from src.model.enums.enums import Color
+from src.model.enums.enums import GameResult
+from src.model.enums.enums import PieceType
 from src.view.end_game_dialog import EndGameDialog
 from src.view.promotion_dialog import PromotionDialog
 from src.view.chess_gui_abs import ChessGuiAbs
@@ -64,13 +64,13 @@ class GuiController:
         dialog = EndGameDialog(game_result).wait_window()
 
     def get_type_from_promotion_dialog(self, color: Color) -> PieceType:
-        dialog = PromotionDialog(GuiController.WH_QUEEN_IMAGE_PATH if color == Color.WHITE else
+        dialog = PromotionDialog(GuiController.WH_QUEEN_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_QUEEN_IMAGE_PATH,
-                                 GuiController.WH_ROOK_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.WH_ROOK_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_ROOK_IMAGE_PATH,
-                                 GuiController.WH_BISHOP_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.WH_BISHOP_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_BISHOP_IMAGE_PATH,
-                                 GuiController.WH_KNIGHT_IMAGE_PATH if color == Color.WHITE else
+                                 GuiController.WH_KNIGHT_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_KNIGHT_IMAGE_PATH)
         dialog.wait_window()
         return dialog.get_type()

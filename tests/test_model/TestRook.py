@@ -1,6 +1,6 @@
 import unittest
 from src.model.board import Board
-from src.model.enums.color import Color
+from src.model.enums.enums import Color
 from src.model.pieces.pawn import Pawn
 from src.model.players.player import Player
 from src.model.pieces.rook import Rook
@@ -27,10 +27,10 @@ from src.model.pieces.rook import Rook
 class TestBishop(unittest.TestCase):
 
     def setUp(self):
-        self.rook = Rook(Color.WHITE, 0, 0)
+        self.rook = Rook(Color.W, 0, 0)
         self.board = Board()
-        self.white_player = Player("White", Color.WHITE, self.board)
-        self.black_player = Player("Black", Color.BLACK, self.board)
+        self.white_player = Player("White", Color.W, self.board)
+        self.black_player = Player("Black", Color.B, self.board)
 
 
     def test_update_attacked_fields_rook_on_00_empty_board(self):
@@ -90,20 +90,20 @@ class TestBishop(unittest.TestCase):
         self.assertEqual(self.rook._attacked_fields, expected_result)
 
     def test_update_attacked_fields_rook_on_33_surrounded_by_opponent_pieces(self):
-        self.black_player.add_piece(Pawn(Color.BLACK, 2, 3))
-        self.black_player.add_piece(Pawn(Color.BLACK, 3, 2))
-        self.black_player.add_piece(Pawn(Color.BLACK, 4, 3))
-        self.black_player.add_piece(Pawn(Color.BLACK, 3, 4))
+        self.black_player.add_piece(Pawn(Color.B, 2, 3))
+        self.black_player.add_piece(Pawn(Color.B, 3, 2))
+        self.black_player.add_piece(Pawn(Color.B, 4, 3))
+        self.black_player.add_piece(Pawn(Color.B, 3, 4))
         self.rook.coordinates = (3, 3)
         self.rook.update_attacked_fields(current_player=self.white_player, opponent=self.black_player)
         expected_result = {(3, 2), (3, 4), (2, 3), (4, 3)}
         self.assertEqual(self.rook._attacked_fields, expected_result)
 
     def test_update_attacked_fields_rook_on_33_surrounded_by_own_pieces(self):
-        self.white_player.add_piece(Pawn(Color.WHITE, 2, 3))
-        self.white_player.add_piece(Pawn(Color.WHITE, 3, 2))
-        self.white_player.add_piece(Pawn(Color.WHITE, 4, 3))
-        self.white_player.add_piece(Pawn(Color.WHITE, 3, 4))
+        self.white_player.add_piece(Pawn(Color.W, 2, 3))
+        self.white_player.add_piece(Pawn(Color.W, 3, 2))
+        self.white_player.add_piece(Pawn(Color.W, 4, 3))
+        self.white_player.add_piece(Pawn(Color.W, 3, 4))
         self.rook.coordinates = (3, 3)
         self.rook.update_attacked_fields(current_player=self.white_player, opponent=self.black_player)
         expected_result = set()

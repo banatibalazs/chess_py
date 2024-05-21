@@ -1,7 +1,7 @@
 import unittest
 from src.model.pieces.bishop import Bishop
 from src.model.board import Board
-from src.model.enums.color import Color
+from src.model.enums.enums import Color
 from src.model.pieces.pawn import Pawn
 from src.model.players.player import Player
 
@@ -26,10 +26,10 @@ from src.model.players.player import Player
 
 class TestBishop(unittest.TestCase):
     def setUp(self):
-        self.bishop = Bishop(Color.WHITE, 0, 0)
+        self.bishop = Bishop(Color.W, 0, 0)
         self.board = Board()
-        self.white_player = Player("White", Color.WHITE, self.board)
-        self.black_player = Player("Black", Color.BLACK, self.board)
+        self.white_player = Player("White", Color.W, self.board)
+        self.black_player = Player("Black", Color.B, self.board)
         # self.current_player.add_piece(King(ColorEnum.WHITE, 4, 7))
         # self.opponent.add_piece(King(ColorEnum.BLACK, 4, 0))
 
@@ -43,7 +43,7 @@ class TestBishop(unittest.TestCase):
     def test_white_bishop_attacked_fields_empty_board(self):
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.WHITE, row, col)
+                self.bishop = Bishop(Color.W, row, col)
                 self.bishop.update_attacked_fields(self.white_player, self.black_player)
                 expected_result = set()
                 for i in range(1, 8):
@@ -60,7 +60,7 @@ class TestBishop(unittest.TestCase):
     def test_black_bishop_attacked_fields_empty_board(self):
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.BLACK, row, col)
+                self.bishop = Bishop(Color.B, row, col)
                 self.bishop.update_attacked_fields(self.black_player, self.white_player)
                 expected_result = set()
                 for i in range(1, 8):
@@ -77,11 +77,11 @@ class TestBishop(unittest.TestCase):
     def test_white_bishop_attacked_fields_full_enemy_board(self):
         for row in range(8):
             for col in range(8):
-                self.black_player.add_piece(Pawn(Color.BLACK, row, col))
+                self.black_player.add_piece(Pawn(Color.B, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.WHITE, row, col)
+                self.bishop = Bishop(Color.W, row, col)
                 self.bishop.update_attacked_fields(self.white_player, self.black_player)
                 expected_result = set()
                 if row + 1 < 8 and col + 1 < 8:
@@ -97,11 +97,11 @@ class TestBishop(unittest.TestCase):
     def test_black_bishop_attacked_fields_full_enemy_board(self):
         for row in range(8):
             for col in range(8):
-                self.white_player.add_piece(Pawn(Color.WHITE, row, col))
+                self.white_player.add_piece(Pawn(Color.W, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.BLACK, row, col)
+                self.bishop = Bishop(Color.B, row, col)
                 self.bishop.update_attacked_fields(self.black_player, self.white_player)
                 expected_result = set()
                 if row + 1 < 8 and col + 1 < 8:
@@ -117,11 +117,11 @@ class TestBishop(unittest.TestCase):
     def test_white_bishop_attacked_fields_full_friendly_board(self):
         for row in range(8):
             for col in range(8):
-                self.white_player.add_piece(Pawn(Color.WHITE, row, col))
+                self.white_player.add_piece(Pawn(Color.W, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.WHITE, row, col)
+                self.bishop = Bishop(Color.W, row, col)
                 self.bishop.update_attacked_fields(self.white_player, self.black_player)
                 expected_result = set()
                 self.assertEqual(self.bishop._attacked_fields, expected_result)
@@ -129,11 +129,11 @@ class TestBishop(unittest.TestCase):
     def test_black_bishop_attacked_fields_full_friendly_board(self):
         for row in range(8):
             for col in range(8):
-                self.black_player.add_piece(Pawn(Color.BLACK, row, col))
+                self.black_player.add_piece(Pawn(Color.B, row, col))
 
         for row in range(8):
             for col in range(8):
-                self.bishop = Bishop(Color.BLACK, row, col)
+                self.bishop = Bishop(Color.B, row, col)
                 self.bishop.update_attacked_fields(self.black_player, self.white_player)
                 expected_result = set()
                 self.assertEqual(self.bishop._attacked_fields, expected_result)
@@ -196,10 +196,10 @@ class TestBishop(unittest.TestCase):
         """
         Bishop on (4, 4) surrounded by own pieces.
         """
-        self.white_player.add_piece(Pawn(Color.WHITE, 3, 3))
-        self.white_player.add_piece(Pawn(Color.WHITE, 3, 5))
-        self.white_player.add_piece(Pawn(Color.WHITE, 5, 3))
-        self.white_player.add_piece(Pawn(Color.WHITE, 5, 5))
+        self.white_player.add_piece(Pawn(Color.W, 3, 3))
+        self.white_player.add_piece(Pawn(Color.W, 3, 5))
+        self.white_player.add_piece(Pawn(Color.W, 5, 3))
+        self.white_player.add_piece(Pawn(Color.W, 5, 5))
 
         self.bishop.coordinates = (4, 4)
         self.bishop.update_attacked_fields(self.white_player, self.black_player)
@@ -210,10 +210,10 @@ class TestBishop(unittest.TestCase):
         """
         Bishop on (4, 4) surrounded by opponent pieces.
         """
-        self.black_player.add_piece(Pawn(Color.BLACK, 3, 3))
-        self.black_player.add_piece(Pawn(Color.BLACK, 3, 5))
-        self.black_player.add_piece(Pawn(Color.BLACK, 5, 3))
-        self.black_player.add_piece(Pawn(Color.BLACK, 5, 5))
+        self.black_player.add_piece(Pawn(Color.B, 3, 3))
+        self.black_player.add_piece(Pawn(Color.B, 3, 5))
+        self.black_player.add_piece(Pawn(Color.B, 5, 3))
+        self.black_player.add_piece(Pawn(Color.B, 5, 5))
 
         self.bishop.coordinates = (4, 4)
         self.bishop.update_attacked_fields(self.white_player, self.black_player)

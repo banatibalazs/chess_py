@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Tuple, Set
-from src.model.enums.color import Color
-from src.model.enums.piece_type import PieceType
+from src.model.enums.enums import Color
+from src.model.enums.enums import PieceType
 
 
 class Piece(ABC):

@@ -4,8 +4,8 @@ from typing import Callable
 
 from PIL import Image, ImageTk
 from src.controller.game import Game
-from src.model.enums.color import Color
-from src.model.enums.player_type import PlayerType
+from src.model.enums.enums import Color
+from src.model.enums.enums import PlayerType
 
 
 class MainWindow:
@@ -136,11 +136,11 @@ class MainWindow:
         black_player_type = self.str_to_player_type(self.black_player_type.get())
 
         if white_player_type == PlayerType.HUMAN and black_player_type != PlayerType.HUMAN:
-            pov = Color.WHITE
+            pov = Color.W
         elif white_player_type != PlayerType.HUMAN and black_player_type == PlayerType.HUMAN:
-            pov = Color.BLACK
+            pov = Color.B
         else:
-            pov = Color.NONE
+            pov = Color.N
         game = Game("Chess Game", self.white_player_name.get(), white_player_type,
                     self.black_player_name.get(), black_player_type, time, pov)
         # game.run()

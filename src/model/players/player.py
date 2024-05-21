@@ -4,9 +4,9 @@ from src.model.board import Board
 from src.model.pieces.king import King
 from src.model.pieces.knight import Knight
 from src.model.pieces.pawn import Pawn
-from src.model.enums.color import Color
+from src.model.enums.enums import Color
 from src.model.pieces.piece import Piece
-from src.model.enums.piece_type import PieceType
+from src.model.enums.enums import PieceType
 from src.model.pieces.queen import Queen
 from src.model.pieces.rook import Rook
 
@@ -34,19 +34,19 @@ class Player:
         color = self._color
 
         for i in range(8):
-            self._pieces.append(Pawn(color, 6 if color == Color.WHITE else 1, i))
+            self._pieces.append(Pawn(color, 6 if color == Color.W else 1, i))
 
-        self._pieces.append(Rook(color, 7 if color == Color.WHITE else 0, 0))
-        self._pieces.append(Knight(color, 7 if color == Color.WHITE else 0, 1))
-        self._pieces.append(Bishop(color, 7 if color == Color.WHITE else 0, 2))
-        self._pieces.append(Queen(color, 7 if color == Color.WHITE else 0, 3))
+        self._pieces.append(Rook(color, 7 if color == Color.W else 0, 0))
+        self._pieces.append(Knight(color, 7 if color == Color.W else 0, 1))
+        self._pieces.append(Bishop(color, 7 if color == Color.W else 0, 2))
+        self._pieces.append(Queen(color, 7 if color == Color.W else 0, 3))
 
-        self._king = King(color, 7 if color == Color.WHITE else 0, 4)
+        self._king = King(color, 7 if color == Color.W else 0, 4)
         self._pieces.append(self._king)
 
-        self._pieces.append(Bishop(color, 7 if color == Color.WHITE else 0, 5))
-        self._pieces.append(Knight(color, 7 if color == Color.WHITE else 0, 6))
-        self._pieces.append(Rook(color, 7 if color == Color.WHITE else 0, 7))
+        self._pieces.append(Bishop(color, 7 if color == Color.W else 0, 5))
+        self._pieces.append(Knight(color, 7 if color == Color.W else 0, 6))
+        self._pieces.append(Rook(color, 7 if color == Color.W else 0, 7))
 
     def update_piece_coordinates(self) -> None:
         self._piece_coordinates = {piece.coordinates for piece in self._pieces}

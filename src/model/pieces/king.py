@@ -1,8 +1,8 @@
 from typing import override, Tuple, Set
 
-from src.model.enums.color import Color
+from src.model.enums.enums import Color
 from src.model.pieces.piece import Piece
-from src.model.enums.piece_type import PieceType
+from src.model.enums.enums import PieceType
 from src.model.pieces.rook import Rook
 
 
@@ -52,7 +52,7 @@ class King(Piece):
                     not any(opponent.has_piece_at(self.row, col) for col in cols) and
                     not any((self.row, col) in opponent._attacked_fields for col in cols))
 
-        if self._color == Color.BLACK:
+        if self._color == Color.B:
             if is_castling_possible(current_player.get_piece_at(0, 0), range(1, 4)):
                 possible_fields.add((0, 2))
             if is_castling_possible(current_player.get_piece_at(0, 7), range(5, 7)):
