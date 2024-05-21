@@ -34,15 +34,15 @@ class MainWindow:
                                                            0, 0, 2, (370, 200))
         self.white_player_name_label = self.add_label_with_image(MainWindow.WHITE_KING_IMAGE_PATH, 1, 0, 1, (70, 70))
         self.white_player_name = self.add_entry(self.frame, 'White Player', 1, 1)
-        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 1, 1)
+        self.white_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 2, 1, 0)
 
         self.black_player_name_label = self.add_label_with_image(MainWindow.BLACK_KING_IMAGE_PATH, 3, 0, 1, (70, 70))
         self.black_player_name = self.add_entry(self.frame, 'Black Player', 3, 1)
-        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 4, 1, 1)
+        self.black_player_type = self.add_combobox(["Human", "Random", "Greedy", "Minimax", "AlphaBeta"], 4, 1, 3)
 
         self.timer_label = self.add_label_with_image(MainWindow.CHESS_CLOCK_IMAGE_PATH, 5, 0, 1, (55, 55))
         self.timer_box = self.add_combobox(["-", "1 min", "3 min", "5 min", "10 min", "15 min", "20 min", "25 min",
-                                            "30 min", "60 min", "90 min"], 5, 1, 1)
+                                            "30 min", "60 min", "90 min"], 5, 1, 0)
         self.start_button = self.add_button(self.frame,"Start Game", self.open_new_window,
                                     6, 0, 2, 22, 1, "#CCFFCC")
         self.add_image_to_button(self.start_button, MainWindow.START_BUTTON_IMAGE_PATH)

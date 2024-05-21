@@ -70,6 +70,7 @@ class Player:
                 # print("En passant reset.")
 
     def remove_piece_at(self, row: int, col: int) -> None:
+        # if (row, col) in self._piece_coordinates:
         for piece in self._pieces:
             if piece.coordinates == (row, col):
                 self._pieces.remove(piece)

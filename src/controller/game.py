@@ -100,7 +100,9 @@ class Game:
         print(str(self.game_saver.total_states()))
         self.check_if_game_over()
 
-        if not self.is_game_over and isinstance(self._current_player, RandomPlayer) or isinstance(self._current_player, GreedyPlayer) or isinstance(self._current_player, AlphaBeta):
+        if not self.is_game_over and (isinstance(self._current_player, RandomPlayer) or\
+                isinstance(self._current_player, GreedyPlayer) or\
+                isinstance(self._current_player, AlphaBeta)):
             move = self._current_player.choose_move(self._opponent_player)
             if move is not None:
                 self.make_move(move[0], move[1])
@@ -119,7 +121,7 @@ class Game:
                 self.end_game(GameResult.WHITE_WON_BY_CHECKMATE if self._current_player.color == Color.BLACK else
                               GameResult.BLACK_WON_BY_CHECKMATE)
             else:
-                # print(f"{self._current_player.name} can't move.")
+                print(f"{self._current_player.name} can't move.")
                 self.end_game(GameResult.DRAW_BY_STALEMATE)
 
         if self.game_saver.is_threefold_repetition:

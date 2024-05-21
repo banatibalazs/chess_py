@@ -41,6 +41,9 @@ class GameSaver:
         self._memento_list.append(memento)
         self._memento_index = len(self._memento_list) - 1
 
+    def load_last_state(self, current_player: Player, opponent: Player):
+        self._load_state(current_player, opponent, self._memento_list[-1])
+
     def load_previous_state(self, current_player: Player, opponent: Player):
         if self._memento_index > 0:
             self._memento_index -= 1
