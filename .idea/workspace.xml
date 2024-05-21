@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="alpha_beta_player.py implement">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/game_saver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game_saver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/alpha_beta_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/alpha_beta_player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/players/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/main_window.py" afterDir="false" />
-    </list>
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="alpha_beta_player.py changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -350,14 +343,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00067" summary="king class check after move method for cycle breaks when attacked">
-      <option name="closed" value="true" />
-      <created>1715247568485</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1715247568485</updated>
     </task>
     <task id="LOCAL-00068" summary="add is_promotion is_en_passant and is_castling functions in GameController.py used in _make_move method">
       <option name="closed" value="true" />
@@ -743,7 +728,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716241658546</updated>
     </task>
-    <option name="localTasksCounter" value="116" />
+    <task id="LOCAL-00116" summary="alpha_beta_player.py changes">
+      <option name="closed" value="true" />
+      <created>1716296577883</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1716296577884</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -758,7 +751,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="change ChessGui.py arrangement" />
     <MESSAGE value="black random move choose" />
     <MESSAGE value="add random player, add checkbox in MainWindow.py to select if player is computer" />
     <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
@@ -783,7 +775,8 @@
     <MESSAGE value="refactor" />
     <MESSAGE value="pygame version changes" />
     <MESSAGE value="alpha_beta_player.py implement" />
-    <option name="LAST_COMMIT_MESSAGE" value="alpha_beta_player.py implement" />
+    <MESSAGE value="alpha_beta_player.py changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="alpha_beta_player.py changes" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
