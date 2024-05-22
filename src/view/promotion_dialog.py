@@ -1,11 +1,11 @@
-from src.model.enums.enums import PieceType
+from src.model.enums.enums import PieceType, Color
 import tkinter as tk
 
 from src.view.square import Square
 
 
 class PromotionDialog(tk.Toplevel):
-    def __init__(self, queen_image_path, rook_image_path, bishop_image_path, knight_image_path) -> None:
+    def __init__(self, queen_image_path, rook_image_path, bishop_image_path, knight_image_path, color) -> None:
         super().__init__()
         self.title("Promotion")
         self.geometry("360x175")
@@ -16,7 +16,11 @@ class PromotionDialog(tk.Toplevel):
         self._bishop_image_path: str = bishop_image_path
         self._knight_image_path: str = knight_image_path
 
-        self._piece_type: PieceType = PieceType.QUEEN
+        self.color = color
+        if color == Color.W:
+            self._piece_type: PieceType = PieceType.WH_QUEEN
+        else:
+            self._piece_type: PieceType = PieceType.BL_QUEEN
 
         self._label: tk.Label = tk.Label(self, text="Choose a piece:")
         self._label.pack()
@@ -41,20 +45,20 @@ class PromotionDialog(tk.Toplevel):
         self._queen_button.set_image(self._queen_image_path)
 
     def _on_rook(self, *args) -> None:
-        self._piece_type = PieceType.ROOK
+        self._piece_type = PieceType.WH_ROOK if self.color == Color.W else PieceType.BL_ROOK
         self.destroy()
 
     def _on_bishop(self, *args) -> None:
-        self._piece_type = PieceType.BISHOP
+        self._piece_type = PieceType.WH_BISHOP if self.color == Color.W else PieceType.BL_BISHOP
         self.destroy()
 
     def _on_knight(self, *args) -> None:
-        self._piece_type = PieceType.KNIGHT
+        self._piece_type = PieceType.WH_KNIGHT if self.color == Color.W else PieceType.BL_KNIGHT
         self.destroy()
 
     def _on_queen(self, *args) -> None:
-        self._piece_type = PieceType.QUEEN
+        self._piece_type = PieceType.WH_QUEEN if self.color == Color.W else PieceType.BL_QUEEN
         self.destroy()
 
-    def get_type(self, *args) -> PieceType:
-        return self._piece_type
+    def get_type(self, *args) -> int:
+        return self._piece_type.value

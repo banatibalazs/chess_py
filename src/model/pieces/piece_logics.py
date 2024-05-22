@@ -187,39 +187,68 @@ class PieceLogics:
         else:
             unfiltered_fields = PieceLogics.get_attacked_fields(board, position)
 
-        possible_fields = set()
+        filtered_fields = set()
         for move in unfiltered_fields:
-            # if not PieceLogics.king_in_check_after_move(move):
-            possible_fields.add(move)
+            if not PieceLogics.king_in_check_after_move(position, move, board):
+                filtered_fields.add(move)
 
-        return possible_fields
+        return filtered_fields
 
     @staticmethod
-    def king_in_check_after_move(move, board) -> bool:
+    def king_in_check_after_move(from_position, to_position, board) -> bool:
         result = False
 
-        from_row, from_col = move
+        from_row, from_col = from_position
+        to_row, to_col = to_position
+        moving_piece = board[from_row, from_col]
+        captured_piece = board[to_row, to_col]
+        is_white = moving_piece > 0
 
-        self.row = move[0]
-        self.col = move[1]
+        board[to_row, to_col] = moving_piece
 
-        captured_piece = None
-        if opponent.has_piece_at(move[0], move[1]):
-            captured_piece = opponent.get_piece_at(move[0], move[1])
-            opponent.remove_piece_at(move[0], move[1])
+        if is_white:
+            king_position = tuple(np.argwhere(board == 6)[0])
+        else:
+            king_position = tuple(np.argwhere(board == -6)[0])
 
-        opponent.update_pieces_attacked_fields(current_player.piece_coordinates)
-        if current_player.king.coordinates in opponent._attacked_fields:
+        # Get opponent's attacked fields
+        opponent_attacked_fields = PieceLogics.get_opponents_attacked_fields(board, is_white)
+        if king_position in opponent_attacked_fields:
             result = True
 
-        if captured_piece is not None:
-            opponent.add_piece(captured_piece)
-
-        # opponent.update_pieces_attacked_fields(current_player.piece_coordinates)
-        self.row = from_row
-        self.col = from_col
+        board[to_row, to_col] = captured_piece
+        board[from_row, from_col] = moving_piece
 
         return result
+
+    @staticmethod
+    def get_opponents_attacked_fields(board, is_white) -> Set[Tuple[int, int]]:
+        # Initialize an empty set to store the attacked fields
+        attacked_fields = set()
+
+        # Get the positions of the opponent's pieces
+        if is_white:
+            opponent_pieces_positions = np.argwhere(board < 0)
+        else:
+            opponent_pieces_positions = np.argwhere(board > 0)
+
+        # For each opponent piece, calculate the fields it can attack
+        for position in opponent_pieces_positions:
+            piece_type = abs(board[tuple(position)])
+            if piece_type == 1:
+                attacked_fields.update(PieceLogics.pawn_attacked_fields(board, tuple(position)))
+            elif piece_type == 2:
+                attacked_fields.update(PieceLogics.rook_attacked_fields(board, tuple(position)))
+            elif piece_type == 3:
+                attacked_fields.update(PieceLogics.knight_attacked_fields(board, tuple(position)))
+            elif piece_type == 4:
+                attacked_fields.update(PieceLogics.bishop_attacked_fields(board, tuple(position)))
+            elif piece_type == 5:
+                attacked_fields.update(PieceLogics.queen_attacked_fields(board, tuple(position)))
+            elif piece_type == 6:
+                attacked_fields.update(PieceLogics.king_attacked_fields(board, tuple(position)))
+
+        return attacked_fields
 
     @staticmethod
     def get_pawn_possible_moves(board, position) -> Set[Tuple[int, int]]:
@@ -262,8 +291,6 @@ class PieceLogics:
                 if board[row + 1, col + 1] > 0:
                     possible_fields.add((row + 1, col + 1))
 
-        return possible_fields
-
         # # Add en passant if possible
         # if last_moved_piece is not None and \
         #         isinstance(last_moved_piece, Pawn) and \
@@ -276,12 +303,4 @@ class PieceLogics:
         #     else:
         #         possible_fields.add((last_moved_piece.row + 1, last_moved_piece.col))
 
-        # # Check if the move is valid
-        # opponent_attacked_fields = set()
-        # for piece in opponent._pieces:
-        #     for field in piece._attacked_fields:
-        #         opponent_attacked_fields.add(field)
-
-        # for move in possible_fields:
-        #     if not self.king_in_check_after_move(move, current_player, opponent):
-        #         self._possible_fields.add(move)
+        return possible_fields

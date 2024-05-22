@@ -63,7 +63,7 @@ class GuiController:
     def end_game_dialog(self, game_result: GameResult) -> None:
         dialog = EndGameDialog(game_result).wait_window()
 
-    def get_type_from_promotion_dialog(self, color: Color) -> PieceType:
+    def get_type_from_promotion_dialog(self, color: Color) -> int:
         dialog = PromotionDialog(GuiController.WH_QUEEN_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_QUEEN_IMAGE_PATH,
                                  GuiController.WH_ROOK_IMAGE_PATH if color == Color.W else
@@ -71,7 +71,7 @@ class GuiController:
                                  GuiController.WH_BISHOP_IMAGE_PATH if color == Color.W else
                                  GuiController.BL_BISHOP_IMAGE_PATH,
                                  GuiController.WH_KNIGHT_IMAGE_PATH if color == Color.W else
-                                 GuiController.BL_KNIGHT_IMAGE_PATH)
+                                 GuiController.BL_KNIGHT_IMAGE_PATH, color)
         dialog.wait_window()
         return dialog.get_type()
 

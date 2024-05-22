@@ -127,8 +127,7 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row, piece):
-            piece_type: PieceType = self._gui_controller.get_type_from_promotion_dialog(color) # TODO change this
-            piece = piece_type.value
+            piece: int = self._gui_controller.get_type_from_promotion_dialog(color) # TODO change this
             self.do_promotion(from_row, from_col, to_row, to_col, piece)
             # self.board[to_row, to_col] = 0
 
@@ -138,12 +137,13 @@ class Game:
 
         # Check if the move is an en passant
         elif self.is_en_passant(from_col, to_row, to_col, piece):
+            print("En passant")
             self.board[from_row, from_col] = 0
             self.board[to_row, to_col] = piece
             if color == Color.W:
-                self.board[to_row - 1, to_col] = 0
-            else:
                 self.board[to_row + 1, to_col] = 0
+            else:
+                self.board[to_row - 1, to_col] = 0
 
         # Normal move
         else:
@@ -162,11 +162,11 @@ class Game:
         if self.is_white_turn:
             return (piece == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] > 0)
+                    not self.board[to_row, to_col] > 0 and self._is_en_passant)
         else:
             return (piece == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] < 0)
+                    not self.board[to_row, to_col] < 0 and self._is_en_passant)
 
     def is_castling(self, from_col: int, to_col: int, piece) -> bool:
         return abs(piece) == 6 and abs(from_col - to_col) > 1
@@ -192,20 +192,11 @@ class Game:
         self.board[to_row, to_col] = king
         # king.is_moved = True TODO
 
-    def do_promotion(self, from_row, from_col, to_row: int, to_col: int, piece_type: PieceType) -> None:
+    def do_promotion(self, from_row, from_col, to_row: int, to_col: int, piece_type: int) -> None:
         print("Promotion")
         self.board[from_row, from_col] = 0
-        self.board[to_row, to_col] = piece_type.value
+        self.board[to_row, to_col] = piece_type
 
     def get_possible_fields(self) -> None:
-        attacked_fields = PieceLogics.get_attacked_fields(self.board, self.step_from)
         self._possible_fields = PieceLogics.get_possible_fields(self.board, self.step_from)
         print("Possible fields: ", self._possible_fields)
-
-    def update_possible_fields(self, current_player, opponent, board):
-        self._possible_fields.clear()
-        for move in self._attacked_fields:
-            if not self.king_in_check_after_move(move, current_player, opponent):
-                self._possible_fields.add(move)
-
-

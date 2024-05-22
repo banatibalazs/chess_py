@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="refactor, refactor, refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/enums/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/enums/enums.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/bishop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/bishop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/king.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/king.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/knight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/knight.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/pawn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/pawn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/piece.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/gui_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/gui_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/queen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/queen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/rook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/promotion_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/promotion_dialog.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -360,14 +354,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00069" summary="King class castling bugfix">
-      <option name="closed" value="true" />
-      <created>1715274547095</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1715274547095</updated>
     </task>
     <task id="LOCAL-00070" summary="refactor GameController.py, delete DataUpdater.py">
       <option name="closed" value="true" />
@@ -753,7 +739,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716311035158</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="refactor, refactor, refactor">
+      <option name="closed" value="true" />
+      <created>1716398233217</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1716398233217</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -768,7 +762,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="black random move choose" />
     <MESSAGE value="add random player, add checkbox in MainWindow.py to select if player is computer" />
     <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
     <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
@@ -793,7 +786,8 @@
     <MESSAGE value="alpha_beta_player.py implement" />
     <MESSAGE value="alpha_beta_player.py changes" />
     <MESSAGE value="refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
+    <MESSAGE value="refactor, refactor, refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor, refactor, refactor" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
