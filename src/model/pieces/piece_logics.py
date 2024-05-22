@@ -1,4 +1,6 @@
-from typing import Set, Tuple
+from typing import Set, Tuple, List
+
+from src.controller.custom_types_for_type_hinting import ByteArray8x8
 from src.model.enums.enums import PieceType
 import numpy as np
 
@@ -192,27 +194,32 @@ class PieceLogics:
             if not PieceLogics.king_in_check_after_move(position, move, board):
                 filtered_fields.add(move)
 
+        print("Filtered: ", filtered_fields)
         return filtered_fields
 
     @staticmethod
-    def king_in_check_after_move(from_position, to_position, board) -> bool:
+    def king_in_check_after_move(from_position: Tuple[int, int],
+                                 to_position: Tuple[int, int],
+                                 board: ByteArray8x8) -> bool:
         result = False
 
         from_row, from_col = from_position
         to_row, to_col = to_position
-        moving_piece = board[from_row, from_col]
-        captured_piece = board[to_row, to_col]
-        is_white = moving_piece > 0
 
+        # move the piece
+        moving_piece = board[from_row, from_col]
+        board[from_row, from_col] = 0
+        captured_piece = board[to_row, to_col]
         board[to_row, to_col] = moving_piece
 
-        if is_white:
-            king_position = tuple(np.argwhere(board == 6)[0])
-        else:
-            king_position = tuple(np.argwhere(board == -6)[0])
+        is_white = moving_piece > 0
 
+        king_position = tuple(np.argwhere(board == 6)[0]) if is_white else tuple(np.argwhere(board == -6)[0])
+        print(board)
         # Get opponent's attacked fields
         opponent_attacked_fields = PieceLogics.get_opponents_attacked_fields(board, is_white)
+        print("Opponent: ", opponent_attacked_fields)
+        print("King: ", king_position)
         if king_position in opponent_attacked_fields:
             result = True
 
@@ -222,7 +229,7 @@ class PieceLogics:
         return result
 
     @staticmethod
-    def get_opponents_attacked_fields(board, is_white) -> Set[Tuple[int, int]]:
+    def get_opponents_attacked_fields(board: ByteArray8x8, is_white: bool) -> Set[Tuple[int, int]]:
         # Initialize an empty set to store the attacked fields
         attacked_fields = set()
 
@@ -290,17 +297,5 @@ class PieceLogics:
             if col + 1 <= 7 and row + 1 <= 7:
                 if board[row + 1, col + 1] > 0:
                     possible_fields.add((row + 1, col + 1))
-
-        # # Add en passant if possible
-        # if last_moved_piece is not None and \
-        #         isinstance(last_moved_piece, Pawn) and \
-        #         last_moved_piece.is_en_passant and \
-        #         self.row == last_moved_piece.row and \
-        #         abs(self.col - last_moved_piece.col) == 1:
-        #     # print("En passant move is added.")
-        #     if self._color == Color.W:
-        #         possible_fields.add((last_moved_piece.row - 1, last_moved_piece.col))
-        #     else:
-        #         possible_fields.add((last_moved_piece.row + 1, last_moved_piece.col))
 
         return possible_fields

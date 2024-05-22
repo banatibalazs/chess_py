@@ -127,7 +127,7 @@ class Game:
 
         # Check if the move is a promotion
         if self.is_promotion(to_row, piece):
-            piece: int = self._gui_controller.get_type_from_promotion_dialog(color) # TODO change this
+            piece = self._gui_controller.get_type_from_promotion_dialog(color) # TODO change this
             self.do_promotion(from_row, from_col, to_row, to_col, piece)
             # self.board[to_row, to_col] = 0
 
@@ -200,3 +200,49 @@ class Game:
     def get_possible_fields(self) -> None:
         self._possible_fields = PieceLogics.get_possible_fields(self.board, self.step_from)
         print("Possible fields: ", self._possible_fields)
+
+    def add_castling_moves(self):
+        # # Add Castling moves
+        # def is_castling_possible(rook, cols):
+        #     # TODO implement this with a Board, so that the check for empty fields would be more efficient
+        #     return (isinstance(rook, Rook) and
+        #             not rook.is_moved and
+        #             not self.is_moved and
+        #             not self._is_in_check and
+        #             not any(current_player.has_piece_at(self.row, col) for col in cols) and
+        #             not any(opponent.has_piece_at(self.row, col) for col in cols) and
+        #             not any((self.row, col) in opponent._attacked_fields for col in cols))
+        #
+        # if self._color == Color.B:
+        #     if is_castling_possible(current_player.get_piece_at(0, 0), range(1, 4)):
+        #         possible_fields.add((0, 2))
+        #     if is_castling_possible(current_player.get_piece_at(0, 7), range(5, 7)):
+        #         possible_fields.add((0, 6))
+        # else:
+        #     if is_castling_possible(current_player.get_piece_at(7, 0), range(1, 4)):
+        #         possible_fields.add((7, 2))
+        #     if is_castling_possible(current_player.get_piece_at(7, 7), range(5, 7)):
+        #         possible_fields.add((7, 6))
+        #
+        # for move in possible_fields:
+        #     if move not in opponent._attacked_fields and not self.king_in_check_after_move(move, current_player,
+        #                                                                                    opponent):
+        #         self._possible_fields.add(move)
+        pass
+
+    def add_en_passant_moves(self):
+        # # Add en passant if possible
+        # if last_moved_piece is not None and \
+        #         isinstance(last_moved_piece, Pawn) and \
+        #         last_moved_piece.is_en_passant and \
+        #         self.row == last_moved_piece.row and \
+        #         abs(self.col - last_moved_piece.col) == 1:
+        #     # print("En passant move is added.")
+        #     if self._color == Color.W:
+        #         possible_fields.add((last_moved_piece.row - 1, last_moved_piece.col))
+        #     else:
+        #         possible_fields.add((last_moved_piece.row + 1, last_moved_piece.col))
+        pass
+
+
+
