@@ -88,16 +88,16 @@ class Pawn(Piece):
         self._possible_fields = possible_fields
 
         # # Add en passant if possible
-        # if opponent._last_moved_piece is not None and \
-        #         isinstance(opponent._last_moved_piece, Pawn) and \
-        #         opponent._last_moved_piece.is_en_passant and \
-        #         self.row == opponent._last_moved_piece.row and \
-        #         abs(self.col - opponent._last_moved_piece.col) == 1:
+        # if last_moved_piece is not None and \
+        #         isinstance(last_moved_piece, Pawn) and \
+        #         last_moved_piece.is_en_passant and \
+        #         self.row == last_moved_piece.row and \
+        #         abs(self.col - last_moved_piece.col) == 1:
         #     # print("En passant move is added.")
         #     if self._color == Color.W:
-        #         possible_fields.add((opponent._last_moved_piece.row - 1, opponent._last_moved_piece.col))
+        #         possible_fields.add((last_moved_piece.row - 1, last_moved_piece.col))
         #     else:
-        #         possible_fields.add((opponent._last_moved_piece.row + 1, opponent._last_moved_piece.col))
+        #         possible_fields.add((last_moved_piece.row + 1, last_moved_piece.col))
 
         # # Check if the move is valid
         # opponent_attacked_fields = set()

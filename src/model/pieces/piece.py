@@ -39,14 +39,14 @@ class Piece(ABC):
         self._possible_fields = value
 
     @abstractmethod
-    def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
-                               opponent_piece_coordinates: Set[Tuple[int, int]]):
+    def update_attacked_fields(current_player_piece_coordinates: Set[Tuple[int, int]],
+                               opponent_piece_coordinates: Set[Tuple[int, int]], board) -> None:
         pass
 
     def is_movable(self):
         return len(self._possible_fields) > 0
 
-    def update_possible_fields(self, current_player, opponent):
+    def update_possible_fields(self, current_player, opponent, board):
         self._possible_fields.clear()
         for move in self._attacked_fields:
             if not self.king_in_check_after_move(move, current_player, opponent):

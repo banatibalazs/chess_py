@@ -9,7 +9,7 @@ class Bishop(Piece):
 
     @override
     def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
-                               opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
+                               opponent_piece_coordinates: Set[Tuple[int, int]], board) -> None:
         self._attacked_fields.clear()
         row = self.row
         col = self.col

@@ -13,7 +13,7 @@ class King(Piece):
 
     @override
     def update_attacked_fields(self, current_player_piece_coordinates: Set[Tuple[int, int]],
-                               opponent_piece_coordinates: Set[Tuple[int, int]]) -> None:
+                               opponent_piece_coordinates: Set[Tuple[int, int]], board) -> None:
         self._attacked_fields.clear()
         col = self.col
         row = self.row
@@ -31,7 +31,7 @@ class King(Piece):
                     self._attacked_fields.add(move)
 
     @override
-    def update_possible_fields(self, current_player, opponent) -> None:
+    def update_possible_fields(self, current_player, opponent, board) -> None:
         self._possible_fields.clear()
         possible_fields = self._attacked_fields.copy()
 
