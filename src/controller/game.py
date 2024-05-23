@@ -215,6 +215,17 @@ class Game:
                 self.board[to_row, 5] = rook
                 # rook.is_moved = True TODO
 
+        if to_row == 0:
+            if to_col == 2:
+                self._rook_00_is_moved = True
+            elif to_col == 6:
+                self._rook_07_is_moved = True
+        elif to_row == 7:
+            if to_col == 2:
+                self._rook_70_is_moved = True
+            elif to_col == 6:
+                self._rook_77_is_moved = True
+
         king = self.board[from_row, from_col]
         self.board[from_row, from_col] = 0
         self.board[to_row, to_col] = king
