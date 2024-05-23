@@ -45,6 +45,19 @@ class Game:
         self._last_move = None
         self._last_moved_piece = None
 
+        # black king
+        self._king_04_is_moved = False
+        # white king
+        self._king_74_is_moved = False
+        # black rooks
+        self._rook_00_is_moved = False
+        self._rook_07_is_moved = False
+        # white rooks
+        self._rook_70_is_moved = False
+        self._rook_77_is_moved = False
+
+        self._is_en_passant = False
+
         self.is_white_turn: bool = True
         self.is_game_over: bool = False
 
@@ -60,10 +73,9 @@ class Game:
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self.board)
 
-        last_move = self._last_move
         self._gui_controller.update_board_coloring(self.step_from,
                                                    self._possible_fields,
-                                                   last_move,
+                                                   self._last_move,
                                                    None)
         # print("Board: ", self._board.get_piece_board())
 
@@ -74,11 +86,11 @@ class Game:
         self._update_gui()
 
     def click_on_board(self, row: int, col: int) -> None:
-        print(f"Clicked on: {row}, {col}")
+        # print(f"Clicked on: {row}, {col}")
         if not self.is_game_over:
             # A selected piece is clicked -> deselect it
             if self.step_from == (row, col):
-                print("Deselecting the piece.")
+                # print("Deselecting the piece.")
                 self.step_from = None
                 self._update_gui()
 
@@ -87,7 +99,7 @@ class Game:
                   not self.is_white_turn and self.board[row, col] < 0):
                 self.step_from = (row, col)
                 self.get_possible_fields()
-                print("Selecting white the piece.")
+                # print("Selecting white the piece.")
                 self._update_gui()
 
             # Selected piece can move to the square -> move it
@@ -95,7 +107,7 @@ class Game:
                 if (row, col) in self._possible_fields:
                     self.step_to = (row, col)
                     self.make_move()
-                    print("Making a move.")
+                    # print("Making a move.")
 
             # Empty square or opponent's piece -> deselect the selected piece
             else:
@@ -117,6 +129,21 @@ class Game:
         to_row, to_col = self.step_to
         color = Color.W if self.is_white_turn else Color.B
         piece = self.board[from_row, from_col]
+
+        if piece == -6:
+            self._king_04_is_moved = True
+        elif piece == 6:
+            self._king_74_is_moved = True
+        elif piece == -2:
+            if self.step_from == (0, 0):
+                self._rook_00_is_moved = True
+            elif self.step_from == (0, 7):
+                self._rook_07_is_moved = True
+        elif piece == 2:
+            if self.step_from == (7, 0):
+                self._rook_70_is_moved = True
+            elif self.step_from == (7, 7):
+                self._rook_77_is_moved = True
 
         # Set is_en_passant field if the pawn moves two squares
         self._is_en_passant = False
@@ -150,7 +177,7 @@ class Game:
             self.board[from_row, from_col] = 0
             self.board[to_row, to_col] = piece
 
-        self.last_move = (from_row, from_col, to_row, to_col)
+        self._last_move = (from_row, from_col, to_row, to_col)
         self.last_moved_piece = piece
         self._possible_fields.clear()
         self.step_from = None
@@ -159,14 +186,15 @@ class Game:
         return ((to_row == 0) or (to_row == 7)) and abs(piece) == 1
 
     def is_en_passant(self, from_col: int, to_row: int, to_col: int, piece) -> bool:
+        print("Is en passant function.")
         if self.is_white_turn:
-            return (piece == 1 and
+            return (abs(piece) == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] > 0 and self._is_en_passant)
+                    not self.board[to_row, to_col] > 0)
         else:
-            return (piece == 1 and
+            return (abs(piece) == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] < 0 and self._is_en_passant)
+                    not self.board[to_row, to_col] < 0)
 
     def is_castling(self, from_col: int, to_col: int, piece) -> bool:
         return abs(piece) == 6 and abs(from_col - to_col) > 1
@@ -198,51 +226,8 @@ class Game:
         self.board[to_row, to_col] = piece_type
 
     def get_possible_fields(self) -> None:
-        self._possible_fields = PieceLogics.get_possible_fields(self.board, self.step_from)
-        print("Possible fields: ", self._possible_fields)
-
-    def add_castling_moves(self):
-        # # Add Castling moves
-        # def is_castling_possible(rook, cols):
-        #     # TODO implement this with a Board, so that the check for empty fields would be more efficient
-        #     return (isinstance(rook, Rook) and
-        #             not rook.is_moved and
-        #             not self.is_moved and
-        #             not self._is_in_check and
-        #             not any(current_player.has_piece_at(self.row, col) for col in cols) and
-        #             not any(opponent.has_piece_at(self.row, col) for col in cols) and
-        #             not any((self.row, col) in opponent._attacked_fields for col in cols))
-        #
-        # if self._color == Color.B:
-        #     if is_castling_possible(current_player.get_piece_at(0, 0), range(1, 4)):
-        #         possible_fields.add((0, 2))
-        #     if is_castling_possible(current_player.get_piece_at(0, 7), range(5, 7)):
-        #         possible_fields.add((0, 6))
-        # else:
-        #     if is_castling_possible(current_player.get_piece_at(7, 0), range(1, 4)):
-        #         possible_fields.add((7, 2))
-        #     if is_castling_possible(current_player.get_piece_at(7, 7), range(5, 7)):
-        #         possible_fields.add((7, 6))
-        #
-        # for move in possible_fields:
-        #     if move not in opponent._attacked_fields and not self.king_in_check_after_move(move, current_player,
-        #                                                                                    opponent):
-        #         self._possible_fields.add(move)
-        pass
-
-    def add_en_passant_moves(self):
-        # # Add en passant if possible
-        # if last_moved_piece is not None and \
-        #         isinstance(last_moved_piece, Pawn) and \
-        #         last_moved_piece.is_en_passant and \
-        #         self.row == last_moved_piece.row and \
-        #         abs(self.col - last_moved_piece.col) == 1:
-        #     # print("En passant move is added.")
-        #     if self._color == Color.W:
-        #         possible_fields.add((last_moved_piece.row - 1, last_moved_piece.col))
-        #     else:
-        #         possible_fields.add((last_moved_piece.row + 1, last_moved_piece.col))
-        pass
-
-
-
+        self._possible_fields = PieceLogics.get_possible_fields(self.board, self.step_from,
+                                                                self._king_04_is_moved, self._king_74_is_moved,
+                                                                self._rook_00_is_moved, self._rook_07_is_moved,
+                                                                self._rook_70_is_moved, self._rook_77_is_moved,
+                                                                self._is_en_passant, self._last_move)
