@@ -2,8 +2,8 @@ from typing import Optional, Tuple, Set
 import numpy as np
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
 from src.controller.gui_controller import GuiController
-from src.model.enums.enums import Color, GameResult
-from src.model.enums.enums import PlayerType
+from src.model.utility.enums import Color, GameResult
+from src.model.utility.enums import PlayerType
 from src.view.chess_gui import ChessGui
 from src.model.pieces.piece_logics import PieceLogics
 import time

@@ -2,7 +2,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from typing import Callable, Optional
 
-from src.model.enums.enums import Color
+from src.model.utility import colors
+from src.model.utility.enums import Color
 from src.view.square import Square
 from src.view.chess_gui_abs import ChessGuiAbs
 
@@ -116,7 +117,7 @@ class ChessGui(ChessGuiAbs):
             square.config(bg=square.original_color)
         else:
             # If the square is not toggled, change its color
-            square.config(bg="#ff0000" if (row + col) % 2 == 1 else "#ff7f7f")
+            square.config(bg=colors.LIGHT_RED_COLOR if (row + col) % 2 == 0 else colors.DARK_RED_COLOR)
         # Toggle the 'toggled' attribute
         square.toggled = not square.toggled
 

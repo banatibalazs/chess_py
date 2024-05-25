@@ -4,17 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add castling and en passant to piece_logics.py">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="bugfix en passant">
+      <change afterPath="$PROJECT_DIR$/src/model/utility/colors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/utility/image_paths.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_piece_logic/test_rook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/gui_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/gui_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/board.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/king.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/pieces/piece.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/enums/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/utility/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/enums/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/utility/enums.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/players/player.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/chess_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/chess_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/square.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/square.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/end_game_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/end_game_dialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/main_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/promotion_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/promotion_dialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_controller/TestViewController.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestBishop.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestKing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPawn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestPlayer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_model/TestRook.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -316,22 +325,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00074" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1715528182850</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1715528182850</updated>
-    </task>
-    <task id="LOCAL-00075" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1715533289161</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1715533289161</updated>
     </task>
     <task id="LOCAL-00076" summary="new ChessGui.py class inherited from tk.Toplevel">
       <option name="closed" value="true" />
@@ -709,7 +702,23 @@
       <option name="project" value="LOCAL" />
       <updated>1716472997162</updated>
     </task>
-    <option name="localTasksCounter" value="123" />
+    <task id="LOCAL-00123" summary="simplifying gui">
+      <option name="closed" value="true" />
+      <created>1716662236161</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1716662236171</updated>
+    </task>
+    <task id="LOCAL-00124" summary="bugfix en passant">
+      <option name="closed" value="true" />
+      <created>1716662262480</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1716662262480</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -724,8 +733,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
-    <MESSAGE value="refactor, new package structure" />
     <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
     <MESSAGE value="bugfix last_moved_piece was not set after move" />
     <MESSAGE value="clean code" />
@@ -749,7 +756,9 @@
     <MESSAGE value="refactor, refactor, refactor" />
     <MESSAGE value="adjusting piece_logics.py" />
     <MESSAGE value="add castling and en passant to piece_logics.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="add castling and en passant to piece_logics.py" />
+    <MESSAGE value="simplifying gui" />
+    <MESSAGE value="bugfix en passant" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix en passant" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

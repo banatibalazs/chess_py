@@ -1,0 +1,15 @@
+WH_KNIGHT_IMAGE_PATH = "../resources/images/pieces/wh_knight.png"
+WH_BISHOP_IMAGE_PATH = "../resources/images/pieces/wh_bishop.png"
+WH_ROOK_IMAGE_PATH = "../resources/images/pieces/wh_rook.png"
+WH_QUEEN_IMAGE_PATH = "../resources/images/pieces/wh_queen.png"
+WH_KING_IMAGE_PATH = "../resources/images/pieces/wh_king.png"
+WH_PAWN_IMAGE_PATH = "../resources/images/pieces/wh_pawn.png"
+
+BL_KNIGHT_IMAGE_PATH = "../resources/images/pieces/bl_knight.png"
+BL_BISHOP_IMAGE_PATH = "../resources/images/pieces/bl_bishop.png"
+BL_ROOK_IMAGE_PATH = "../resources/images/pieces/bl_rook.png"
+BL_QUEEN_IMAGE_PATH = "../resources/images/pieces/bl_queen.png"
+BL_KING_IMAGE_PATH = "../resources/images/pieces/bl_king.png"
+BL_PAWN_IMAGE_PATH = "../resources/images/pieces/bl_pawn.png"
+
+EMPTY_SQUARE_IMAGE_PATH = "../resources/images/welcome_page/empty.png"

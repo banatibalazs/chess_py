@@ -1,7 +1,7 @@
 from typing import Set, Tuple, List, Optional
 
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
-from src.model.enums.enums import PieceType
+from src.model.utility.enums import PieceType
 import numpy as np
 
 

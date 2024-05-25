@@ -4,8 +4,8 @@ from typing import Callable
 
 from PIL import Image, ImageTk
 from src.controller.game import Game
-from src.model.enums.enums import Color
-from src.model.enums.enums import PlayerType
+from src.model.utility.enums import Color
+from src.model.utility.enums import PlayerType
 
 
 class MainWindow:
