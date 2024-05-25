@@ -1,6 +1,7 @@
 from typing import Set, Tuple, List, Optional
 
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
+from src.controller.game_state import GameState
 from src.model.utility.enums import PieceType
 import numpy as np
 
@@ -176,27 +177,31 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
-    def get_possible_moves_of_piece(board: ByteArray8x8, position: Tuple[int, int],
-                                    king_04_is_moved: bool, king_74_is_moved: bool, rook_00_is_moved: bool,
-                                    rook_07_is_moved: bool, rook_70_is_moved: bool, rook_77_is_moved: bool,
-                                    is_en_passant, last_move) -> Set[Tuple[int, int]]:
-        piece_type = abs(board[position[0], position[1]])
-        is_white = board[position[0], position[1]] > 0
+    def get_possible_moves_of_piece(game_state: GameState, position) -> Set[Tuple[int, int]]:
+        piece_type = abs(game_state.board[position[0], position[1]])
+        is_white = game_state.board[position[0], position[1]] > 0
 
         if piece_type == 1:
-            unfiltered_fields = PieceLogics.get_pawn_possible_moves(board, position, is_white,
-                                                                    is_en_passant, last_move)
+            unfiltered_fields = PieceLogics.get_pawn_possible_moves(game_state.board, position,
+                                                                    is_white,
+                                                                    game_state.is_en_passant,
+                                                                    game_state.last_move)
         else:
-            unfiltered_fields = PieceLogics.get_attacked_fields(board, position, is_white)
+            unfiltered_fields = PieceLogics.get_attacked_fields(game_state.board, position,
+                                                                is_white)
         if piece_type == 6:
-            unfiltered_fields.update(PieceLogics.get_castling_moves(board, king_04_is_moved,
-                                                                    king_74_is_moved, rook_00_is_moved,
-                                                                    rook_07_is_moved, rook_70_is_moved,
-                                                                    rook_77_is_moved, is_white))
+            unfiltered_fields.update(PieceLogics.get_castling_moves(game_state.board,
+                                                                    game_state.king_04_is_moved,
+                                                                    game_state.king_74_is_moved,
+                                                                    game_state.rook_00_is_moved,
+                                                                    game_state.rook_07_is_moved,
+                                                                    game_state.rook_70_is_moved,
+                                                                    game_state.rook_77_is_moved,
+                                                                    is_white))
 
         filtered_fields = set()
         for move in unfiltered_fields:
-            if not PieceLogics.king_in_check_after_move(position, move, board):
+            if not PieceLogics.king_in_check_after_move(position, move, game_state.board):
                 filtered_fields.add(move)
         return filtered_fields
 
@@ -258,17 +263,12 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
-    def get_all_possible_moves(board, is_white, king_04_is_moved, king_74_is_moved, rook_00_is_moved,
-                               rook_07_is_moved, rook_70_is_moved, rook_77_is_moved, is_en_passant, last_move):
+    def get_all_possible_moves(game_state: GameState):
 
-        piece_positions = np.argwhere(board > 0) if is_white else np.argwhere(board < 0)
+        piece_positions = np.argwhere(game_state.board > 0) if game_state.is_white_turn else np.argwhere(game_state.board < 0)
         possible_moves = set()
         for pos in piece_positions:
-            possible_moves.update(PieceLogics.get_possible_moves_of_piece(board, pos,
-                                                                          king_04_is_moved, king_74_is_moved,
-                                                                          rook_00_is_moved, rook_07_is_moved,
-                                                                          rook_70_is_moved, rook_77_is_moved,
-                                                                          is_en_passant, last_move))
+            possible_moves.update(PieceLogics.get_possible_moves_of_piece(game_state, pos))
         return possible_moves
 
     @staticmethod
