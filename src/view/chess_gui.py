@@ -1,4 +1,5 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 from typing import Callable, Optional
 
 from src.model.enums.enums import Color
@@ -28,12 +29,13 @@ class ChessGui(ChessGuiAbs):
         self.minsize(688, 780)
         self.geometry("")
         self.configure(background="#000000")
+        self.board_click_function = board_click_function
 
         if pov == Color.B:
-            self._chess_board: list = self.create_board_black_pov(board_click_function)
+            self._chess_board: list = self.create_board_black_pov()
 
         else:
-            self._chess_board: list = self.create_board_white_pov(board_click_function)
+            self._chess_board: list = self.create_board_white_pov()
 
 
     def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, row_span: int,
@@ -56,33 +58,79 @@ class ChessGui(ChessGuiAbs):
         label.grid(row=row, column=column, columnspan=columnspan, pady=pady)
         return label
 
-    def create_board_white_pov(self, board_click_function: Callable) -> list:
+    def create_board_white_pov(self) -> list:
         chess_board = []
         for i in range(8):
             row = []
             for j in range(8):
-                square = Square(self, width=8, height=4, onclick=board_click_function, col=j, row=i)
+                # square = Square(self, width=8, height=4, onclick=board_click_function, col=j, row=i)
+                square = Square(self, width=8, height=4, col=j, row=i)
+                square.bind("<Button-1>", self.on_square_click)
+                square.bind("<Button-3>", self.on_right_click)
                 square.grid(row=i + 3, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
             chess_board.append(row)
         return chess_board
 
-    def create_board_black_pov(self, board_click_function: Callable) -> list:
+    def create_board_black_pov(self) -> list:
         chess_board = []
         offset = 3
         for i in range(7, -1, -1):
             row = []
             for j in range(7, -1, -1):
-                square = Square(self, width=8, height=4, onclick=board_click_function, col=7-j, row=7-i)
+                # square = Square(self, width=8, height=4, onclick=board_click_function, col=7-j, row=7-i)
+                square = Square(self, width=8, height=4, col=7 - j, row=7 - i)
+                square.bind("<Button-1>",self.on_square_click)
                 square.grid(row=i + 3, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
             chess_board.append(row)
         return chess_board
 
+    def on_square_click(self, event):
+        # Get the Square widget that was clicked
+        square = event.widget
+        # Get the row and column of the Square
+        row = square.row
+        col = square.col
+        # Call the board_click_function with the row and column
+        self.board_click_function(row, col)
+
+    def on_right_click(self, event):
+        # Get the Square widget that was clicked
+        square = event.widget
+        # Get the row and column of the Square
+        row = square.row
+        col = square.col
+        # Check if the square has an attribute 'original_color'
+        if not hasattr(square, 'original_color'):
+            # If not, store the current color as the original color
+            square.original_color = square.cget('bg')
+        # Check if the square has an attribute 'toggled'
+        if not hasattr(square, 'toggled'):
+            # If not, set it to False
+            square.toggled = False
+        # If the square is toggled, set its color back to the original color
+        if square.toggled:
+            square.config(bg=square.original_color)
+        else:
+            # If the square is not toggled, change its color
+            square.config(bg="#ff0000" if (row + col) % 2 == 1 else "#ff7f7f")
+        # Toggle the 'toggled' attribute
+        square.toggled = not square.toggled
+
+    def set_image(self, piece_image_path, row, col):
+        piece_image = Image.open(piece_image_path)
+        piece_image = piece_image.resize((105, 110))
+        piece_image_tk = ImageTk.PhotoImage(piece_image)  # Use ImageTk.PhotoImage here
+        self._chess_board[row][
+            col].image = piece_image_tk  # Keep a reference to the image to prevent it from being garbage collected
+        self._chess_board[row][col].config(image=piece_image_tk, width="80", height="80")
+
     def update_square_image(self, image_path: str, row: int, col: int) -> None:
-        self._chess_board[row][col].set_image(image_path)
+        # self._chess_board[row][col].set_image(image_path)
+        self.set_image(image_path, row, col)
 
     def update_square_color(self, color: str, row: int, col: int) -> None:
         self._chess_board[row][col].set_color(color)

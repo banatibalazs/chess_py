@@ -1,9 +1,8 @@
 from typing import Dict, List, Tuple, Set, Optional
-from src.controller.custom_types_for_type_hinting import ByteArray8x8, BoolArray8x8
+from src.controller.custom_types_for_type_hinting import ByteArray8x8
 import numpy as np
 from src.model.enums.enums import Color
 from src.model.enums.enums import GameResult
-from src.model.enums.enums import PieceType
 from src.view.end_game_dialog import EndGameDialog
 from src.view.promotion_dialog import PromotionDialog
 from src.view.chess_gui_abs import ChessGuiAbs
