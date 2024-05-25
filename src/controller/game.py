@@ -1,16 +1,23 @@
 from typing import Optional, Tuple, Set
-
 import numpy as np
-
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
 from src.controller.gui_controller import GuiController
-from src.model.enums.enums import Color
-from src.model.enums.enums import PieceType
+from src.model.enums.enums import Color, GameResult
 from src.model.enums.enums import PlayerType
-from src.model.pieces.piece import Piece
 from src.view.chess_gui import ChessGui
 from src.model.pieces.piece_logics import PieceLogics
+import time
 
+import time
+
+def timer_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Function {func.__name__} took {end_time - start_time} seconds to execute.")
+        return result
+    return wrapper
 
 
 class Game:
@@ -69,6 +76,31 @@ class Game:
     def next_turn(self) -> None:
         self.is_white_turn = not self.is_white_turn
         self._update_gui()
+        self.check_if_game_over()
+
+    def check_if_game_over(self) -> None:
+        if self.is_white_turn:
+            possible_moves = PieceLogics.get_all_possible_moves(self.board, True, self._king_04_is_moved,
+                                                                self._king_74_is_moved, self._rook_00_is_moved,
+                                                                self._rook_07_is_moved, self._rook_70_is_moved,
+                                                                self._rook_77_is_moved, self._is_en_passant,
+                                                                self._last_move)
+        else:
+            possible_moves = PieceLogics.get_all_possible_moves(self.board, False, self._king_04_is_moved,
+                                                                self._king_74_is_moved, self._rook_00_is_moved,
+                                                                self._rook_07_is_moved, self._rook_70_is_moved,
+                                                                self._rook_77_is_moved, self._is_en_passant,
+                                                                self._last_move)
+        print(f"All possible moves: {possible_moves}")
+        if len(possible_moves) == 0:
+            if self.is_white_turn:
+                self.end_game(GameResult.BLACK_WON_BY_CHECKMATE)
+            else:
+                self.end_game(GameResult.WHITE_WON_BY_CHECKMATE)
+
+    def end_game(self, game_result: GameResult) -> None:
+        self.is_game_over = True
+        self._gui_controller.end_game_dialog(game_result)
 
     def _update_gui(self) -> None:
         self._gui_controller.update_pieces_on_board(self.board)
@@ -76,8 +108,19 @@ class Game:
         self._gui_controller.update_board_coloring(self.step_from,
                                                    self._possible_fields,
                                                    self._last_move,
-                                                   None)
+                                                   self.get_checked_king_coordinates())
         # print("Board: ", self._board.get_piece_board())
+
+    def get_checked_king_coordinates(self) -> Optional[Tuple[int, int]]:
+        attacked_fields = PieceLogics.get_opponents_attacked_fields(self.board, self.is_white_turn)
+        if self.is_white_turn:
+            king_coordinates = tuple(np.argwhere(self.board == 6)[0])
+        else:
+            king_coordinates = tuple(np.argwhere(self.board == -6)[0])
+
+        if king_coordinates in attacked_fields:
+            return king_coordinates
+        return None
 
     def bottom_left_button_click(self) -> None:
         self._update_gui()
@@ -115,13 +158,7 @@ class Game:
                 self._possible_fields = set()
                 self._update_gui()
 
-    def make_move(self):
-        # If next_snapshots isn't an empty list that means that we see a previous state, so it is invalid to make a move
-        # Or if we'd like to permit the change than the next_snapshots has to be deleted. TODO: decide
-        self._make_move()
-        self.next_turn()
-
-    def _make_move(self) -> None:
+    def make_move(self) -> None:
         if self.step_from is None or self.step_to is None:
             return
 
@@ -130,27 +167,15 @@ class Game:
         color = Color.W if self.is_white_turn else Color.B
         piece = self.board[from_row, from_col]
 
-        if piece == -6:
-            self._king_04_is_moved = True
-        elif piece == 6:
-            self._king_74_is_moved = True
-        elif piece == -2:
-            if self.step_from == (0, 0):
-                self._rook_00_is_moved = True
-            elif self.step_from == (0, 7):
-                self._rook_07_is_moved = True
-        elif piece == 2:
-            if self.step_from == (7, 0):
-                self._rook_70_is_moved = True
-            elif self.step_from == (7, 7):
-                self._rook_77_is_moved = True
+        # Set is_moved flags for kings and rooks
+        self.set_is_moved_flags(piece)
 
         # Set is_en_passant field if the pawn moves two squares
         self._is_en_passant = False
         if abs(self.board[from_row, from_col]) == 1:
             if abs(from_row - to_row) == 2:
                 self._is_en_passant = True
-                print("En passant is possible.")
+                print("Is_en_passant variable is set to True.")
 
         # Check if the move is a promotion
         if self.is_promotion(to_row, piece):
@@ -182,19 +207,41 @@ class Game:
         self._possible_fields.clear()
         self.step_from = None
 
+        self.next_turn()
+
+    def set_is_moved_flags(self, piece) -> None:
+        if piece == -6:
+            self._king_04_is_moved = True
+        elif piece == 6:
+            self._king_74_is_moved = True
+        elif piece == -2:
+            if self.step_from == (0, 0):
+                self._rook_00_is_moved = True
+            elif self.step_from == (0, 7):
+                self._rook_07_is_moved = True
+        elif piece == 2:
+            if self.step_from == (7, 0):
+                self._rook_70_is_moved = True
+            elif self.step_from == (7, 7):
+                self._rook_77_is_moved = True
+
     def is_promotion(self, to_row: int, piece) -> bool:
         return ((to_row == 0) or (to_row == 7)) and abs(piece) == 1
 
     def is_en_passant(self, from_col: int, to_row: int, to_col: int, piece) -> bool:
         print("Is en passant function.")
+        print("Is en passant: ", self._is_en_passant)
+        if self._last_move is None:
+            return False
+        last_from_row, last_from_col, last_to_row, last_to_col = self._last_move
         if self.is_white_turn:
-            return (abs(piece) == 1 and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] > 0)
+                    not self.board[to_row, to_col] > 0 and self.board[to_row + 1, to_col] < 0)
         else:
-            return (abs(piece) == 1 and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == 1 and
                     to_col != from_col and
-                    not self.board[to_row, to_col] < 0)
+                    not self.board[to_row, to_col] < 0 and self.board[to_row - 1, to_col] > 0)
 
     def is_castling(self, from_col: int, to_col: int, piece) -> bool:
         return abs(piece) == 6 and abs(from_col - to_col) > 1
@@ -207,13 +254,11 @@ class Game:
             if abs(rook) == 2:
                 self.board[to_row, 0] = 0
                 self.board[to_row, 3] = rook
-                # rook.is_moved = True TODO
         elif to_col == 6:
             rook = self.board[to_row, 7]
             if abs(rook) == 2:
                 self.board[to_row, 7] = 0
                 self.board[to_row, 5] = rook
-                # rook.is_moved = True TODO
 
         if to_row == 0:
             if to_col == 2:
@@ -237,8 +282,8 @@ class Game:
         self.board[to_row, to_col] = piece_type
 
     def get_possible_fields(self) -> None:
-        self._possible_fields = PieceLogics.get_possible_fields(self.board, self.step_from,
-                                                                self._king_04_is_moved, self._king_74_is_moved,
-                                                                self._rook_00_is_moved, self._rook_07_is_moved,
-                                                                self._rook_70_is_moved, self._rook_77_is_moved,
-                                                                self._is_en_passant, self._last_move)
+        self._possible_fields = PieceLogics.get_possible_moves_of_piece(self.board, self.step_from,
+                                                                        self._king_04_is_moved, self._king_74_is_moved,
+                                                                        self._rook_00_is_moved, self._rook_07_is_moved,
+                                                                        self._rook_70_is_moved, self._rook_77_is_moved,
+                                                                        self._is_en_passant, self._last_move)

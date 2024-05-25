@@ -29,8 +29,8 @@ from PIL import Image, ImageTk
 #
 
 class Square(tk.Button):
-    def __init__(self, master=None, onclick=None, row=0, col=0, **kw):
-        super().__init__(master, command=lambda: onclick(row, col), **kw)
+    def __init__(self, master=None, row=0, col=0, **kw):
+        super().__init__(master, **kw)
         self.row = row
         self.col = col
         self.image_path = None

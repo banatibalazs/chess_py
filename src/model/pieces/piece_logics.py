@@ -176,10 +176,10 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
-    def get_possible_fields(board: ByteArray8x8, position: Tuple[int, int],
-                            king_04_is_moved: bool, king_74_is_moved: bool, rook_00_is_moved: bool,
-                            rook_07_is_moved: bool, rook_70_is_moved: bool, rook_77_is_moved: bool,
-                            is_en_passant, last_move) -> Set[Tuple[int, int]]:
+    def get_possible_moves_of_piece(board: ByteArray8x8, position: Tuple[int, int],
+                                    king_04_is_moved: bool, king_74_is_moved: bool, rook_00_is_moved: bool,
+                                    rook_07_is_moved: bool, rook_70_is_moved: bool, rook_77_is_moved: bool,
+                                    is_en_passant, last_move) -> Set[Tuple[int, int]]:
         piece_type = abs(board[position[0], position[1]])
         is_white = board[position[0], position[1]] > 0
 
@@ -187,18 +187,12 @@ class PieceLogics:
             unfiltered_fields = PieceLogics.get_pawn_possible_moves(board, position, is_white,
                                                                     is_en_passant, last_move)
         else:
-            unfiltered_fields = PieceLogics.get_attacked_fields(board,
-                                                                position,
-                                                                is_white)
+            unfiltered_fields = PieceLogics.get_attacked_fields(board, position, is_white)
         if piece_type == 6:
-            unfiltered_fields.update(PieceLogics.get_castling_moves(board,
-                                                                    king_04_is_moved,
-                                                                    king_74_is_moved,
-                                                                    rook_00_is_moved,
-                                                                    rook_07_is_moved,
-                                                                    rook_70_is_moved,
-                                                                    rook_77_is_moved,
-                                                                    is_white))
+            unfiltered_fields.update(PieceLogics.get_castling_moves(board, king_04_is_moved,
+                                                                    king_74_is_moved, rook_00_is_moved,
+                                                                    rook_07_is_moved, rook_70_is_moved,
+                                                                    rook_77_is_moved, is_white))
 
         filtered_fields = set()
         for move in unfiltered_fields:
@@ -264,6 +258,20 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
+    def get_all_possible_moves(board, is_white, king_04_is_moved, king_74_is_moved, rook_00_is_moved,
+                               rook_07_is_moved, rook_70_is_moved, rook_77_is_moved, is_en_passant, last_move):
+
+        piece_positions = np.argwhere(board > 0) if is_white else np.argwhere(board < 0)
+        possible_moves = set()
+        for pos in piece_positions:
+            possible_moves.update(PieceLogics.get_possible_moves_of_piece(board, pos,
+                                                                          king_04_is_moved, king_74_is_moved,
+                                                                          rook_00_is_moved, rook_07_is_moved,
+                                                                          rook_70_is_moved, rook_77_is_moved,
+                                                                          is_en_passant, last_move))
+        return possible_moves
+
+    @staticmethod
     def get_pawn_possible_moves(board, position, is_white, is_en_passant, last_move) -> Set[Tuple[int, int]]:
         possible_fields = set()
         row, col = position
@@ -318,6 +326,7 @@ class PieceLogics:
     @staticmethod
     def get_castling_moves(board, king_04_is_moved, king_74_is_moved, rook_00_is_moved,
                            rook_07_is_moved, rook_70_is_moved, rook_77_is_moved, is_white) -> Optional[Set[Tuple[int, int]]]:
+
         opponent_attacked_fields = PieceLogics.get_opponents_attacked_fields(board, is_white)
         possible_fields = set()
         if is_white:
@@ -343,11 +352,5 @@ class PieceLogics:
                             0, 6) not in opponent_attacked_fields and (0, 4) not in opponent_attacked_fields:
                         possible_fields.add((0, 6))
 
-        print("king_04_is_moved", king_04_is_moved)
-        print("king_74_is_moved", king_74_is_moved)
-        print("rook_00_is_moved", rook_00_is_moved)
-        print("rook_07_is_moved", rook_07_is_moved)
-        print("rook_70_is_moved", rook_70_is_moved)
-        print("rook_77_is_moved", rook_77_is_moved)
         return possible_fields
 
