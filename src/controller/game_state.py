@@ -34,6 +34,15 @@ class GameState:
         self._is_en_passant: bool = False
         self.is_white_turn: bool = True
         self.is_game_over: bool = False
+        self._state_count: int = 0
+
+    @property
+    def state_count(self):
+        return self._state_count
+
+    @state_count.setter
+    def state_count(self, value):
+        self._state_count = value
 
     @property
     def last_move(self):

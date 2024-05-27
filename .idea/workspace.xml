@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add new game_state.py class">
-      <change afterPath="$PROJECT_DIR$/src/controller/ai.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="ad ai module and bugfix promotion_dialog.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ai.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/game_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/promotion_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/promotion_dialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/main_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_piece_logic/test_rook.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_piece_logic/test_rook.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,14 +285,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00078" summary="color changed, type hints add">
-      <option name="closed" value="true" />
-      <created>1715612158838</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1715612158838</updated>
     </task>
     <task id="LOCAL-00079" summary="changed board coloring, last move is first then comes the possible fields coloring">
       <option name="closed" value="true" />
@@ -676,7 +670,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716671068434</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="ad ai module and bugfix promotion_dialog.py">
+      <option name="closed" value="true" />
+      <created>1716822951433</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1716822951434</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -691,7 +693,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clean code" />
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
     <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
     <MESSAGE value="optimize code" />
@@ -716,33 +717,10 @@
     <MESSAGE value="bugfix en passant" />
     <MESSAGE value="new test file, delete old tests, new color and image_paths.py file" />
     <MESSAGE value="add new game_state.py class" />
-    <option name="LAST_COMMIT_MESSAGE" value="add new game_state.py class" />
+    <MESSAGE value="ad ai module and bugfix promotion_dialog.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="ad ai module and bugfix promotion_dialog.py" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/view/promotion_dialog.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/view/promotion_dialog.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/view/promotion_dialog.py</url>
-          <line>45</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/view/promotion_dialog.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self" />

@@ -1,6 +1,7 @@
 from typing import Optional, Tuple, Set
 import numpy as np
-from src.controller.custom_types_for_type_hinting import ByteArray8x8
+
+from src.controller.ai import RandomAI, GreedyAI
 from src.controller.game_state import GameState
 from src.controller.gui_controller import GuiController
 from src.model.utility.enums import Color, GameResult
@@ -28,29 +29,60 @@ class Game:
                                       self.click_on_board, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
 
-        self.white_player_name: str = white_player_name
-        self.white_player_type: PlayerType = white_player_type
-        self.black_player_name: str = black_player_name
-        self.black_player_type: PlayerType = black_player_type
+        if white_player_type == PlayerType.RANDOM:
+            self.white_ai = RandomAI(is_white=True)
+            self.white_player_name = "Random AI"
+        elif white_player_type == PlayerType.GREEDY:
+            self.white_ai = GreedyAI(is_white=True)
+            self.white_player_name = "Greedy AI"
+        else:
+            self.white_ai = None
+            self.white_player_name: str = white_player_name
+
+        if black_player_type == PlayerType.RANDOM:
+            self.black_ai = RandomAI(is_white=False)
+            self.black_player_name = "Random AI"
+        elif black_player_type == PlayerType.GREEDY:
+            self.black_ai = GreedyAI(is_white=False)
+            self.black_player_name = "Greedy AI"
+        else:
+            self.black_ai = None
+            self.black_player_name: str = black_player_name
 
         self._gui_controller: GuiController = GuiController(self.gui)
         self.game_state = GameState()
+        # self.saved_states = []
         self.start_game()
 
     def start_game(self) -> None:
         self._update_gui()
 
+    # @timer_decorator
     def next_turn(self) -> None:
         self.game_state.is_white_turn = not self.game_state.is_white_turn
-        self._update_gui()
+        if self.white_ai and self.black_ai:
+            pass
+        else:
+            self._update_gui()
         self.check_if_game_over()
+        self.game_state.state_count += 1
+        print(self.game_state.state_count)
+        if not self.game_state.is_game_over:
+            if self.game_state.is_white_turn and self.white_ai:
+                self.game_state.step_from, self.game_state.step_to = self.white_ai.get_move(self.game_state)
+                self.make_move()
+            elif not self.game_state.is_white_turn and self.black_ai:
+                self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
+                self.make_move()
+
+            # self.saved_states.append(self.game_state.board.copy())
 
     def check_if_game_over(self) -> None:
         if self.game_state.is_white_turn:
-            possible_moves = PieceLogics.get_all_possible_moves(self.game_state)
+            possible_moves = PieceLogics.get_all_legal_moves(self.game_state)
         else:
-            possible_moves = PieceLogics.get_all_possible_moves(self.game_state)
-        print(f"All possible moves: {possible_moves}")
+            possible_moves = PieceLogics.get_all_legal_moves(self.game_state)
+        # print(f"All possible moves: {possible_moves}")
         if len(possible_moves) == 0:
             if self.game_state.is_white_turn:
                 self.end_game(GameResult.BLACK_WON_BY_CHECKMATE)
@@ -59,6 +91,7 @@ class Game:
 
     def end_game(self, game_result: GameResult) -> None:
         self.game_state.is_game_over = True
+        self._update_gui()
         self._gui_controller.end_game_dialog(game_result)
 
     def _update_gui(self) -> None:
@@ -88,7 +121,7 @@ class Game:
         self._update_gui()
 
     def click_on_board(self, row: int, col: int) -> None:
-        print(f"Clicked on: {row}, {col}")
+        # print(f"Clicked on: {row}, {col}")
         if not self.game_state.is_game_over:
             # A selected piece is clicked -> deselect it
             if self.game_state.step_from == (row, col):
@@ -117,6 +150,7 @@ class Game:
                 self.game_state.possible_fields = set()
                 self._update_gui()
 
+    # @timer_decorator
     def make_move(self) -> None:
         if self.game_state.step_from is None or self.game_state.step_to is None:
             return
@@ -134,7 +168,7 @@ class Game:
         if abs(self.game_state.board[from_row, from_col]) == 1:
             if abs(from_row - to_row) == 2:
                 self.game_state.is_en_passant = True
-                print("Is_en_passant variable is set to True.")
+                # print("Is_en_passant variable is set to True.")
 
         # Check if the move is a promotion
         if self.is_promotion(to_row, piece):
@@ -148,7 +182,7 @@ class Game:
 
         # Check if the move is an en passant
         elif self.is_en_passant(from_col, to_row, to_col, piece):
-            print("En passant")
+            # print("En passant")
             self.game_state.board[from_row, from_col] = 0
             self.game_state.board[to_row, to_col] = piece
             if color == Color.W:
@@ -168,6 +202,8 @@ class Game:
         self.next_turn()
 
     def set_is_moved_flags(self, piece) -> None:
+        # print("self.game_state.step_from: ", self.game_state.step_from)
+        # print("self.game_state.step_to: ", self.game_state.step_to)
         if piece == -6:
             self.game_state.king_04_is_moved = True
         elif piece == 6:
@@ -187,8 +223,8 @@ class Game:
         return ((to_row == 0) or (to_row == 7)) and abs(piece) == 1
 
     def is_en_passant(self, from_col: int, to_row: int, to_col: int, piece) -> bool:
-        print("Is en passant function.")
-        print("Is en passant: ", self.game_state.is_en_passant)
+        # print("Is en passant function.")
+        # print("Is en passant: ", self.game_state.is_en_passant)
         if self.game_state.last_move is None:
             return False
         last_from_row, last_from_col, last_to_row, last_to_col = self.game_state.last_move
@@ -205,7 +241,7 @@ class Game:
         return abs(piece) == 6 and abs(from_col - to_col) > 1
 
     def do_castling(self, from_row: int, from_col: int, to_row: int, to_col: int) -> None:
-        print("Castling")
+        # print("Castling")
 
         if to_col == 2:
             rook = self.game_state.board[to_row, 0]
@@ -235,10 +271,10 @@ class Game:
         # king.is_moved = True TODO
 
     def do_promotion(self, from_row, from_col, to_row: int, to_col: int, piece_type: int) -> None:
-        print("Promotion")
+        # print("Promotion")
         self.game_state.board[from_row, from_col] = 0
         self.game_state.board[to_row, to_col] = piece_type
 
     def get_possible_fields(self) -> None:
-        self.game_state.possible_fields = PieceLogics.get_possible_moves_of_piece(self.game_state,
-                                                                                  self.game_state.step_from)
+        self.game_state.possible_fields = PieceLogics.get_legal_moves_of_piece(self.game_state,
+                                                                               self.game_state.step_from)

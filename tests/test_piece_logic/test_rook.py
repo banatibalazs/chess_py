@@ -39,11 +39,11 @@ class TestPieceLogics(unittest.TestCase):
         moving_piece_position = (0, 0)
 
         # Test legal moves for the rook
-        legal_moves = self.piece_logic.get_possible_moves_of_piece(self.board, moving_piece_position,
-                                                                   self._king_04_is_moved, self._king_74_is_moved,
-                                                                   self._rook_00_is_moved, self._rook_07_is_moved,
-                                                                   self._rook_70_is_moved, self._rook_77_is_moved,
-                                                                   self._is_en_passant, self._last_move)
+        legal_moves = self.piece_logic.get_legal_moves_of_piece(self.board, moving_piece_position,
+                                                                self._king_04_is_moved, self._king_74_is_moved,
+                                                                self._rook_00_is_moved, self._rook_07_is_moved,
+                                                                self._rook_70_is_moved, self._rook_77_is_moved,
+                                                                self._is_en_passant, self._last_move)
         expected_moves = set()
         self.assertEqual(set(legal_moves), set(expected_moves))
 

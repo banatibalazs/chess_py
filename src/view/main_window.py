@@ -140,7 +140,7 @@ class MainWindow:
         elif white_player_type != PlayerType.HUMAN and black_player_type == PlayerType.HUMAN:
             pov = Color.B
         else:
-            pov = Color.N
+            pov = Color.W
         game = Game("Chess Game", self.white_player_name.get(), white_player_type,
                     self.black_player_name.get(), black_player_type, time, pov)
         # game.run()

@@ -177,7 +177,7 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
-    def get_possible_moves_of_piece(game_state: GameState, position) -> Set[Tuple[int, int]]:
+    def get_legal_moves_of_piece(game_state: GameState, position) -> Set[Tuple[int, int]]:
         piece_type = abs(game_state.board[position[0], position[1]])
         is_white = game_state.board[position[0], position[1]] > 0
 
@@ -204,6 +204,36 @@ class PieceLogics:
             if not PieceLogics.king_in_check_after_move(position, move, game_state.board):
                 filtered_fields.add(move)
         return filtered_fields
+
+    @staticmethod
+    def piece_has_legal_move(game_state: GameState, position: Tuple[int, int]) -> bool:
+        piece_type = abs(game_state.board[position[0], position[1]])
+        is_white = game_state.board[position[0], position[1]] > 0
+
+        if piece_type == 1:
+            unfiltered_fields = PieceLogics.get_pawn_possible_moves(game_state.board, position,
+                                                                    is_white,
+                                                                    game_state.is_en_passant,
+                                                                    game_state.last_move)
+        else:
+            unfiltered_fields = PieceLogics.get_attacked_fields(game_state.board, position,
+                                                                is_white)
+        if piece_type == 6:
+            unfiltered_fields.update(PieceLogics.get_castling_moves(game_state.board,
+                                                                    game_state.king_04_is_moved,
+                                                                    game_state.king_74_is_moved,
+                                                                    game_state.rook_00_is_moved,
+                                                                    game_state.rook_07_is_moved,
+                                                                    game_state.rook_70_is_moved,
+                                                                    game_state.rook_77_is_moved,
+                                                                    is_white))
+
+        filtered_fields = set()
+        for move in unfiltered_fields:
+            if not PieceLogics.king_in_check_after_move(position, move, game_state.board):
+                return True
+        return False
+
 
     @staticmethod
     def king_in_check_after_move(from_position: Tuple[int, int],
@@ -263,12 +293,12 @@ class PieceLogics:
         return attacked_fields
 
     @staticmethod
-    def get_all_possible_moves(game_state: GameState):
+    def get_all_legal_moves(game_state: GameState):
 
         piece_positions = np.argwhere(game_state.board > 0) if game_state.is_white_turn else np.argwhere(game_state.board < 0)
         possible_moves = set()
         for pos in piece_positions:
-            possible_moves.update(PieceLogics.get_possible_moves_of_piece(game_state, pos))
+            possible_moves.update(PieceLogics.get_legal_moves_of_piece(game_state, pos))
         return possible_moves
 
     @staticmethod
