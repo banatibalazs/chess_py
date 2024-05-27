@@ -28,19 +28,23 @@ class PromotionDialog(tk.Toplevel):
         self._frame: tk.Frame = tk.Frame(self)
         self._frame.pack()
 
-        self._rook_button: Square = Square(self, width=8, height=4, onclick=self._on_rook, col=0, row=0)
+        self._rook_button: Square = Square(self, width=8, height=4, col=0, row=0)
+        self._rook_button.bind("<Button-1>", self._on_rook)
         self._rook_button.pack(side=tk.LEFT)
         self._rook_button.set_image(self._rook_image_path)
 
-        self._bishop_button: Square = Square(self, width=8, height=4, onclick=self._on_bishop, col=1, row=0)
+        self._bishop_button: Square = Square(self, width=8, height=4, col=1, row=0)
+        self._bishop_button.bind("<Button-1>", self._on_bishop)
         self._bishop_button.pack(side=tk.LEFT)
         self._bishop_button.set_image(self._bishop_image_path)
 
-        self._knight_button: Square = Square(self, width=8, height=4, onclick=self._on_knight, col=2, row=0)
+        self._knight_button: Square = Square(self, width=8, height=4, col=2, row=0)
+        self._knight_button.bind("<Button-1>", self._on_knight)
         self._knight_button.pack(side=tk.LEFT)
         self._knight_button.set_image(self._knight_image_path)
 
-        self._queen_button: Square = Square(self, width=8, height=4, onclick=self._on_queen, col=3, row=0)
+        self._queen_button: Square = Square(self, width=8, height=4, col=3, row=0)
+        self._queen_button.bind("<Button-1>", self._on_queen)
         self._queen_button.pack(side=tk.LEFT)
         self._queen_button.set_image(self._queen_image_path)
 

@@ -19,25 +19,19 @@ class GameState:
 
         self.step_from: Optional[Tuple[int, int]] = None
         self.step_to: Optional[Tuple[int, int]] = None
-
         self._possible_fields: Set[Tuple[int, int]] = set()
-
         self._last_move = None
-        self._last_moved_piece = None
-
         # black king
-        self._king_04_is_moved = False
+        self._king_04_is_moved: bool = False
         # white king
-        self._king_74_is_moved = False
+        self._king_74_is_moved: bool = False
         # black rooks
-        self._rook_00_is_moved = False
-        self._rook_07_is_moved = False
+        self._rook_00_is_moved: bool = False
+        self._rook_07_is_moved: bool = False
         # white rooks
-        self._rook_70_is_moved = False
-        self._rook_77_is_moved = False
-
-        self._is_en_passant = False
-
+        self._rook_70_is_moved: bool = False
+        self._rook_77_is_moved: bool = False
+        self._is_en_passant: bool = False
         self.is_white_turn: bool = True
         self.is_game_over: bool = False
 

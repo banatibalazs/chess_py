@@ -28,6 +28,11 @@ class Game:
                                       self.click_on_board, self.bottom_right_button_click,
                                       self.bottom_left_button_click)
 
+        self.white_player_name: str = white_player_name
+        self.white_player_type: PlayerType = white_player_type
+        self.black_player_name: str = black_player_name
+        self.black_player_type: PlayerType = black_player_type
+
         self._gui_controller: GuiController = GuiController(self.gui)
         self.game_state = GameState()
         self.start_game()
@@ -87,7 +92,7 @@ class Game:
         if not self.game_state.is_game_over:
             # A selected piece is clicked -> deselect it
             if self.game_state.step_from == (row, col):
-                print("Deselecting the piece.")
+                # print("Deselecting the piece.")
                 self.game_state.step_from = None
                 self._update_gui()
 
@@ -96,7 +101,7 @@ class Game:
                   not self.game_state.is_white_turn and self.game_state.board[row, col] < 0):
                 self.game_state.step_from = (row, col)
                 self.get_possible_fields()
-                print("Selecting white the piece.")
+                # print("Selecting white the piece.")
                 self._update_gui()
 
             # Selected piece can move to the square -> move it
@@ -104,11 +109,11 @@ class Game:
                 if (row, col) in self.game_state.possible_fields:
                     self.game_state.step_to = (row, col)
                     self.make_move()
-                    print("Making a move.")
+                    # print("Making a move.")
 
             # Empty square or opponent's piece -> deselect the selected piece
             else:
-                print("Invalid square.")
+                # print("Invalid square.")
                 self.game_state.possible_fields = set()
                 self._update_gui()
 
@@ -157,7 +162,6 @@ class Game:
             self.game_state.board[to_row, to_col] = piece
 
         self.game_state.last_move = (from_row, from_col, to_row, to_col)
-        self.game_state.last_moved_piece = piece
         self.game_state.possible_fields.clear()
         self.game_state.step_from = None
 
