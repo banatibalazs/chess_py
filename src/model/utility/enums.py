@@ -18,7 +18,7 @@ class GameResult(Enum):
     DRAW_BY_THREEFOLD_REPETITION = 6
 
 
-class PieceType(Enum):
+class SignedPieceType(Enum):
     WH_PAWN = 1
     WH_ROOK = 2
     WH_KNIGHT = 3
@@ -34,7 +34,7 @@ class PieceType(Enum):
     NONE = 0
 
 
-class Type(Enum):
+class UnsignedPieceType(Enum):
     PAWN = 1
     ROOK = 2
     KNIGHT = 3

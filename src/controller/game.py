@@ -4,7 +4,7 @@ import numpy as np
 from src.controller.ai import RandomAI, GreedyAI, MinimaxAI, AI
 from src.controller.game_state import GameState
 from src.controller.gui_controller import GuiController
-from src.model.utility.enums import Color, GameResult, PlayerType, Type, PieceType
+from src.model.utility.enums import Color, GameResult, PlayerType, UnsignedPieceType, SignedPieceType
 from src.view.chess_gui import ChessGui
 from src.model.pieces.piece_logics import PieceLogics
 import time
@@ -56,17 +56,39 @@ class Game:
 
         self._gui_controller: GuiController = GuiController(self.gui)
         self.game_state = GameState()
-        # self.saved_states = []
+        self.game_state_list = []
+        self.displayed_state_index = 0
+        self.game_state_map = {}
         self.start_game()
 
     def start_game(self):
         self._update_gui()
+        if self.white_ai and self.black_ai:
+            self.game_loop()
+
         if self.game_state.is_white_turn and self.white_ai:
             self.game_state.step_from, self.game_state.step_to = self.white_ai.get_move(self.game_state)
-            self._make_move()
-        elif not self.game_state.is_white_turn and self.black_ai:
-            self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
-            self._make_move()
+            self.make_move()
+
+
+    def game_loop(self):
+        while not self.game_state.is_game_over:
+            if self.game_state.is_white_turn:
+                self.game_state.step_from, self.game_state.step_to = self.white_ai.get_move(self.game_state)
+                self.make_move()
+            else:
+                self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
+                self.make_move()
+
+            self.game_state.state_count += 1
+            self.game_state.is_white_turn = not self.game_state.is_white_turn
+
+            print(self.game_state.state_count)
+            self.save_game_state()
+            self.check_if_game_over()
+            if self.game_state.state_count >= 700:
+                self.game_state.is_game_over = True
+                self.end_game(GameResult.DRAW_BY_STALEMATE)
 
 
     # @timer_decorator
@@ -88,7 +110,8 @@ class Game:
                 self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
                 self.make_move()
 
-            # self.saved_states.append(self.game_state.board.copy())
+            self.game_state_list.append(self.game_state.board.copy())
+            self.displayed_state_index += 1
 
     def check_if_game_over(self) -> None:
         if self.game_state.is_white_turn:
@@ -101,6 +124,15 @@ class Game:
                 self.end_game(GameResult.BLACK_WON_BY_CHECKMATE)
             else:
                 self.end_game(GameResult.WHITE_WON_BY_CHECKMATE)
+
+        if (self.game_state.hash_state() in self.game_state_map and
+                self.game_state_map[self.game_state.hash_state()] == 3):
+            self.end_game(GameResult.DRAW_BY_THREEFOLD_REPETITION)
+
+        # insufficent material TODO
+        if np.where(self.game_state.board > 0)[0].size == 1 and np.where(self.game_state.board < 0)[0].size == 1:
+            self.end_game(GameResult.DRAW_BY_INSUFFICIENT_MATERIAL)
+
 
     def end_game(self, game_result: GameResult) -> None:
         self.game_state.is_game_over = True
@@ -128,9 +160,15 @@ class Game:
         return None
 
     def bottom_left_button_click(self) -> None:
+        if self.displayed_state_index > 0:
+            self.displayed_state_index -= 1
+        self.game_state = self.game_state_list[self.displayed_state_index]
         self._update_gui()
 
     def bottom_right_button_click(self) -> None:
+        if (self.displayed_state_index + 1) < len(self.game_state_list):
+            self.displayed_state_index += 1
+        self.game_state = self.game_state_list[self.displayed_state_index]
         self._update_gui()
 
     def click_on_board(self, row: int, col: int) -> None:
@@ -211,29 +249,48 @@ class Game:
         self.game_state.last_move = (from_row, from_col, to_row, to_col)
         self.game_state.possible_fields.clear()
         self.game_state.step_from = None
+        self.game_state.is_white_turn = not self.game_state.is_white_turn
 
-        self.next_turn()
+        self.save_game_state()
+        self._update_gui()
+        self.check_if_game_over()
+        if not self.game_state.is_game_over:
+            if self.game_state.is_white_turn and self.white_ai:
+                self.game_state.step_from, self.game_state.step_to = self.white_ai.get_move(self.game_state)
+                self.make_move()
+            elif not self.game_state.is_white_turn and self.black_ai:
+                self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
+                self.make_move()
+
+    def save_game_state(self) -> None:
+        if self.game_state.hash_state() not in self.game_state_map:
+            self.game_state_map[self.game_state.hash_state()] = 1
+        else:
+            self.game_state_map[self.game_state.hash_state()] += 1
+        self.game_state_list.append(self.game_state.copy())
+        self.displayed_state_index += 1
+
 
     def set_is_moved_flags(self, piece) -> None:
         # print("self.game_state.step_from: ", self.game_state.step_from)
         # print("self.game_state.step_to: ", self.game_state.step_to)
-        if piece == PieceType.BL_KING.value:
+        if piece == SignedPieceType.BL_KING.value:
             self.game_state.king_04_is_moved = True
-        elif piece == PieceType.WH_KING.value:
+        elif piece == SignedPieceType.WH_KING.value:
             self.game_state.king_74_is_moved = True
-        elif piece == PieceType.BL_ROOK.value:
+        elif piece == SignedPieceType.BL_ROOK.value:
             if self.game_state.step_from == (0, 0):
                 self.game_state.rook_00_is_moved = True
             elif self.game_state.step_from == (0, 7):
                 self.game_state.rook_07_is_moved = True
-        elif piece == PieceType.WH_ROOK.value:
+        elif piece == SignedPieceType.WH_ROOK.value:
             if self.game_state.step_from == (7, 0):
                 self.game_state.rook_70_is_moved = True
             elif self.game_state.step_from == (7, 7):
                 self.game_state.rook_77_is_moved = True
 
     def is_promotion(self, to_row: int, piece) -> bool:
-        return ((to_row == 0) or (to_row == 7)) and abs(piece) == Type.PAWN.value
+        return ((to_row == 0) or (to_row == 7)) and abs(piece) == UnsignedPieceType.PAWN.value
 
     def is_en_passant(self, from_col: int, to_row: int, to_col: int, piece) -> bool:
         # print("Is en passant function.")
@@ -242,28 +299,28 @@ class Game:
             return False
         last_from_row, last_from_col, last_to_row, last_to_col = self.game_state.last_move
         if self.game_state.is_white_turn:
-            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == Type.PAWN.value and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == UnsignedPieceType.PAWN.value and
                     to_col != from_col and
                     not self.game_state.board[to_row, to_col] > 0 and self.game_state.board[to_row + 1, to_col] < 0)
         else:
-            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == Type.PAWN.value and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == UnsignedPieceType.PAWN.value and
                     to_col != from_col and
                     not self.game_state.board[to_row, to_col] < 0 and self.game_state.board[to_row - 1, to_col] > 0)
 
     def is_castling(self, from_col: int, to_col: int, piece) -> bool:
-        return abs(piece) == Type.KING.value and abs(from_col - to_col) > 1
+        return abs(piece) == UnsignedPieceType.KING.value and abs(from_col - to_col) > 1
 
     def do_castling(self, from_row: int, from_col: int, to_row: int, to_col: int) -> None:
         # print("Castling")
 
         if to_col == 2:
             rook = self.game_state.board[to_row, 0]
-            if abs(rook) == Type.ROOK.value:
+            if abs(rook) == UnsignedPieceType.ROOK.value:
                 self.game_state.board[to_row, 0] = 0
                 self.game_state.board[to_row, 3] = rook
         elif to_col == 6:
             rook = self.game_state.board[to_row, 7]
-            if abs(rook) == Type.ROOK.value:
+            if abs(rook) == UnsignedPieceType.ROOK.value:
                 self.game_state.board[to_row, 7] = 0
                 self.game_state.board[to_row, 5] = rook
 

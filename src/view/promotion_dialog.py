@@ -1,4 +1,4 @@
-from src.model.utility.enums import PieceType, Color
+from src.model.utility.enums import SignedPieceType, Color
 import tkinter as tk
 
 from src.view.square import Square
@@ -18,9 +18,9 @@ class PromotionDialog(tk.Toplevel):
 
         self.color = color
         if color == Color.W:
-            self._piece_type: PieceType = PieceType.WH_QUEEN
+            self._piece_type: SignedPieceType = SignedPieceType.WH_QUEEN
         else:
-            self._piece_type: PieceType = PieceType.BL_QUEEN
+            self._piece_type: SignedPieceType = SignedPieceType.BL_QUEEN
 
         self._label: tk.Label = tk.Label(self, text="Choose a piece:")
         self._label.pack()
@@ -49,19 +49,19 @@ class PromotionDialog(tk.Toplevel):
         self._queen_button.set_image(self._queen_image_path)
 
     def _on_rook(self, *args) -> None:
-        self._piece_type = PieceType.WH_ROOK if self.color == Color.W else PieceType.BL_ROOK
+        self._piece_type = SignedPieceType.WH_ROOK if self.color == Color.W else SignedPieceType.BL_ROOK
         self.destroy()
 
     def _on_bishop(self, *args) -> None:
-        self._piece_type = PieceType.WH_BISHOP if self.color == Color.W else PieceType.BL_BISHOP
+        self._piece_type = SignedPieceType.WH_BISHOP if self.color == Color.W else SignedPieceType.BL_BISHOP
         self.destroy()
 
     def _on_knight(self, *args) -> None:
-        self._piece_type = PieceType.WH_KNIGHT if self.color == Color.W else PieceType.BL_KNIGHT
+        self._piece_type = SignedPieceType.WH_KNIGHT if self.color == Color.W else SignedPieceType.BL_KNIGHT
         self.destroy()
 
     def _on_queen(self, *args) -> None:
-        self._piece_type = PieceType.WH_QUEEN if self.color == Color.W else PieceType.BL_QUEEN
+        self._piece_type = SignedPieceType.WH_QUEEN if self.color == Color.W else SignedPieceType.BL_QUEEN
         self.destroy()
 
     def get_type(self, *args) -> int:

@@ -38,6 +38,10 @@ class ChessGui(ChessGuiAbs):
         else:
             self._chess_board: list = self.create_board_white_pov()
 
+        # Add two buttons to the right of the chess board
+        self.add_button("<", bottom_left_button_click_function, 11, 7, 1, 1, 40, 0, 3)
+        self.add_button(">", bottom_right_button_click_function, 11, 8, 1, 1, 40, 0, 3)
+
 
     def add_button(self, text: str, command: Callable, row: int, column: int, columnspan: int, row_span: int,
                    pady: int, padx: int = 0, width: int = 7, height: int = 1) -> tk.Button:
@@ -68,7 +72,7 @@ class ChessGui(ChessGuiAbs):
                 square = Square(self, width=8, height=4, col=j, row=i)
                 square.bind("<Button-1>", self.on_square_click)
                 square.bind("<Button-3>", self.on_right_click)
-                square.grid(row=i + 3, column=j + 1, sticky="nsew")
+                square.grid(row=i, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
             chess_board.append(row)
@@ -83,7 +87,7 @@ class ChessGui(ChessGuiAbs):
                 # square = Square(self, width=8, height=4, onclick=board_click_function, col=7-j, row=7-i)
                 square = Square(self, width=8, height=4, col=7 - j, row=7 - i)
                 square.bind("<Button-1>",self.on_square_click)
-                square.grid(row=i + 3, column=j + 1, sticky="nsew")
+                square.grid(row=i, column=j + 1, sticky="nsew")
                 square.config(bg=ChessGui.WHITE_COLOR if (i + j) % 2 == 0 else ChessGui.BLACK_COLOR)
                 row.append(square)
             chess_board.append(row)

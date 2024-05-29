@@ -2,7 +2,7 @@ from typing import Set, Tuple, List, Optional
 
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
 from src.controller.game_state import GameState
-from src.model.utility.enums import PieceType, Type
+from src.model.utility.enums import SignedPieceType, UnsignedPieceType
 import numpy as np
 
 
@@ -11,17 +11,17 @@ class PieceLogics:
     @staticmethod
     def get_attacked_fields(board, position, is_white) -> Set[Tuple[int, int]]:
         piece = board[position[0], position[1]]
-        if abs(piece) == 1:
+        if abs(piece) == UnsignedPieceType.PAWN.value:
             return PieceLogics.pawn_attacked_fields(board, position, is_white)
-        elif abs(piece) == 2:
+        elif abs(piece) == UnsignedPieceType.ROOK.value:
             return PieceLogics.rook_attacked_fields(board, position, is_white)
-        elif abs(piece) == 3:
+        elif abs(piece) == UnsignedPieceType.KNIGHT.value:
             return PieceLogics.knight_attacked_fields(board, position, is_white)
-        elif abs(piece) == 4:
+        elif abs(piece) == UnsignedPieceType.BISHOP.value:
             return PieceLogics.bishop_attacked_fields(board, position, is_white)
-        elif abs(piece) == 5:
+        elif abs(piece) == UnsignedPieceType.QUEEN.value:
             return PieceLogics.queen_attacked_fields(board, position, is_white)
-        elif abs(piece) == 6:
+        elif abs(piece) == UnsignedPieceType.KING.value:
             return PieceLogics.king_attacked_fields(board, position, is_white)
 
     @staticmethod
@@ -210,7 +210,7 @@ class PieceLogics:
         piece_type = abs(game_state.board[position[0], position[1]])
         is_white = game_state.board[position[0], position[1]] > 0
 
-        if piece_type == Type.PAWN.value:
+        if piece_type == UnsignedPieceType.PAWN.value:
             unfiltered_fields = PieceLogics.get_pawn_possible_moves(game_state.board, position,
                                                                     is_white,
                                                                     game_state.is_en_passant,
@@ -218,7 +218,7 @@ class PieceLogics:
         else:
             unfiltered_fields = PieceLogics.get_attacked_fields(game_state.board, position,
                                                                 is_white)
-        if piece_type == 6:
+        if piece_type == UnsignedPieceType.KING.value:
             unfiltered_fields.update(PieceLogics.get_castling_moves(game_state.board,
                                                                     game_state.king_04_is_moved,
                                                                     game_state.king_74_is_moved,
@@ -277,17 +277,17 @@ class PieceLogics:
         attacked_fields = set()
         for position in opponent_pieces_positions:
             piece_type = abs(board[tuple(position)])
-            if piece_type == 1:
+            if piece_type == UnsignedPieceType.PAWN.value:
                 attacked_fields.update(PieceLogics.pawn_attacked_fields(board, tuple(position), not is_white))
-            elif piece_type == 2:
+            elif piece_type == UnsignedPieceType.ROOK.value:
                 attacked_fields.update(PieceLogics.rook_attacked_fields(board, tuple(position), not is_white))
-            elif piece_type == 3:
+            elif piece_type == UnsignedPieceType.KNIGHT.value:
                 attacked_fields.update(PieceLogics.knight_attacked_fields(board, tuple(position), not is_white))
-            elif piece_type == 4:
+            elif piece_type == UnsignedPieceType.BISHOP.value:
                 attacked_fields.update(PieceLogics.bishop_attacked_fields(board, tuple(position), not is_white))
-            elif piece_type == 5:
+            elif piece_type == UnsignedPieceType.QUEEN.value:
                 attacked_fields.update(PieceLogics.queen_attacked_fields(board, tuple(position), not is_white))
-            elif piece_type == 6:
+            elif piece_type == UnsignedPieceType.KING.value:
                 attacked_fields.update(PieceLogics.king_attacked_fields(board, tuple(position), not is_white))
 
         return attacked_fields

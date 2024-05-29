@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add greedy ai">
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="new enum for piece type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ai.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/game_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/pieces/piece_logics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/utility/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/utility/enums.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/chess_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/chess_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/promotion_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/promotion_dialog.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,14 +285,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00080" summary="clean code, delete redundant lines and functions">
-      <option name="closed" value="true" />
-      <created>1715621196875</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1715621196875</updated>
     </task>
     <task id="LOCAL-00081" summary="refactor and TODOs">
       <option name="closed" value="true" />
@@ -676,7 +670,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716832046972</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="new enum for piece type">
+      <option name="closed" value="true" />
+      <created>1716993597388</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1716993597389</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -691,7 +693,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
     <MESSAGE value="optimize code" />
     <MESSAGE value="bugfix has_piece_at method" />
     <MESSAGE value="greedy player implemented" />
@@ -716,7 +717,8 @@
     <MESSAGE value="add new game_state.py class" />
     <MESSAGE value="ad ai module and bugfix promotion_dialog.py" />
     <MESSAGE value="add greedy ai" />
-    <option name="LAST_COMMIT_MESSAGE" value="add greedy ai" />
+    <MESSAGE value="new enum for piece type" />
+    <option name="LAST_COMMIT_MESSAGE" value="new enum for piece type" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
