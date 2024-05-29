@@ -1,11 +1,10 @@
 from typing import Optional, Tuple, Set
 import numpy as np
 
-from src.controller.ai import RandomAI, GreedyAI
+from src.controller.ai import RandomAI, GreedyAI, MinimaxAI, AI
 from src.controller.game_state import GameState
 from src.controller.gui_controller import GuiController
-from src.model.utility.enums import Color, GameResult
-from src.model.utility.enums import PlayerType
+from src.model.utility.enums import Color, GameResult, PlayerType, Type, PieceType
 from src.view.chess_gui import ChessGui
 from src.model.pieces.piece_logics import PieceLogics
 import time
@@ -30,21 +29,27 @@ class Game:
                                       self.bottom_left_button_click)
 
         if white_player_type == PlayerType.RANDOM:
-            self.white_ai = RandomAI(is_white=True)
+            self.white_ai: AI = RandomAI(is_white=True)
             self.white_player_name = "Random AI"
         elif white_player_type == PlayerType.GREEDY:
             self.white_ai = GreedyAI(is_white=True)
             self.white_player_name = "Greedy AI"
+        elif white_player_type == PlayerType.MINIMAX:
+            self.white_ai = MinimaxAI(is_white=True)
+            self.white_player_name = "Minimax AI"
         else:
             self.white_ai = None
             self.white_player_name: str = white_player_name
 
         if black_player_type == PlayerType.RANDOM:
-            self.black_ai = RandomAI(is_white=False)
+            self.black_ai: AI = RandomAI(is_white=False)
             self.black_player_name = "Random AI"
         elif black_player_type == PlayerType.GREEDY:
             self.black_ai = GreedyAI(is_white=False)
             self.black_player_name = "Greedy AI"
+        elif black_player_type == PlayerType.MINIMAX:
+            self.black_ai = MinimaxAI(is_white=False)
+            self.black_player_name = "Minimax AI"
         else:
             self.black_ai = None
             self.black_player_name: str = black_player_name
@@ -54,8 +59,15 @@ class Game:
         # self.saved_states = []
         self.start_game()
 
-    def start_game(self) -> None:
+    def start_game(self):
         self._update_gui()
+        if self.game_state.is_white_turn and self.white_ai:
+            self.game_state.step_from, self.game_state.step_to = self.white_ai.get_move(self.game_state)
+            self._make_move()
+        elif not self.game_state.is_white_turn and self.black_ai:
+            self.game_state.step_from, self.game_state.step_to = self.black_ai.get_move(self.game_state)
+            self._make_move()
+
 
     # @timer_decorator
     def next_turn(self) -> None:
@@ -65,6 +77,7 @@ class Game:
         else:
             self._update_gui()
         self.check_if_game_over()
+
         self.game_state.state_count += 1
         print(self.game_state.state_count)
         if not self.game_state.is_game_over:
@@ -204,23 +217,23 @@ class Game:
     def set_is_moved_flags(self, piece) -> None:
         # print("self.game_state.step_from: ", self.game_state.step_from)
         # print("self.game_state.step_to: ", self.game_state.step_to)
-        if piece == -6:
+        if piece == PieceType.BL_KING.value:
             self.game_state.king_04_is_moved = True
-        elif piece == 6:
+        elif piece == PieceType.WH_KING.value:
             self.game_state.king_74_is_moved = True
-        elif piece == -2:
+        elif piece == PieceType.BL_ROOK.value:
             if self.game_state.step_from == (0, 0):
                 self.game_state.rook_00_is_moved = True
             elif self.game_state.step_from == (0, 7):
                 self.game_state.rook_07_is_moved = True
-        elif piece == 2:
+        elif piece == PieceType.WH_ROOK.value:
             if self.game_state.step_from == (7, 0):
                 self.game_state.rook_70_is_moved = True
             elif self.game_state.step_from == (7, 7):
                 self.game_state.rook_77_is_moved = True
 
     def is_promotion(self, to_row: int, piece) -> bool:
-        return ((to_row == 0) or (to_row == 7)) and abs(piece) == 1
+        return ((to_row == 0) or (to_row == 7)) and abs(piece) == Type.PAWN.value
 
     def is_en_passant(self, from_col: int, to_row: int, to_col: int, piece) -> bool:
         # print("Is en passant function.")
@@ -229,28 +242,28 @@ class Game:
             return False
         last_from_row, last_from_col, last_to_row, last_to_col = self.game_state.last_move
         if self.game_state.is_white_turn:
-            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == 1 and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == Type.PAWN.value and
                     to_col != from_col and
                     not self.game_state.board[to_row, to_col] > 0 and self.game_state.board[to_row + 1, to_col] < 0)
         else:
-            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == 1 and
+            return (abs(last_from_row - last_to_row) > 1 and abs(piece) == Type.PAWN.value and
                     to_col != from_col and
                     not self.game_state.board[to_row, to_col] < 0 and self.game_state.board[to_row - 1, to_col] > 0)
 
     def is_castling(self, from_col: int, to_col: int, piece) -> bool:
-        return abs(piece) == 6 and abs(from_col - to_col) > 1
+        return abs(piece) == Type.KING.value and abs(from_col - to_col) > 1
 
     def do_castling(self, from_row: int, from_col: int, to_row: int, to_col: int) -> None:
         # print("Castling")
 
         if to_col == 2:
             rook = self.game_state.board[to_row, 0]
-            if abs(rook) == 2:
+            if abs(rook) == Type.ROOK.value:
                 self.game_state.board[to_row, 0] = 0
                 self.game_state.board[to_row, 3] = rook
         elif to_col == 6:
             rook = self.game_state.board[to_row, 7]
-            if abs(rook) == 2:
+            if abs(rook) == Type.ROOK.value:
                 self.game_state.board[to_row, 7] = 0
                 self.game_state.board[to_row, 5] = rook
 

@@ -34,6 +34,16 @@ class PieceType(Enum):
     NONE = 0
 
 
+class Type(Enum):
+    PAWN = 1
+    ROOK = 2
+    KNIGHT = 3
+    BISHOP = 4
+    QUEEN = 5
+    KING = 6
+    EMPTY = 0
+
+
 class PlayerType(Enum):
     HUMAN = 1
     RANDOM = 2

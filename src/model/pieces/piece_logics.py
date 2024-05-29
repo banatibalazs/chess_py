@@ -2,7 +2,7 @@ from typing import Set, Tuple, List, Optional
 
 from src.controller.custom_types_for_type_hinting import ByteArray8x8
 from src.controller.game_state import GameState
-from src.model.utility.enums import PieceType
+from src.model.utility.enums import PieceType, Type
 import numpy as np
 
 
@@ -210,7 +210,7 @@ class PieceLogics:
         piece_type = abs(game_state.board[position[0], position[1]])
         is_white = game_state.board[position[0], position[1]] > 0
 
-        if piece_type == 1:
+        if piece_type == Type.PAWN.value:
             unfiltered_fields = PieceLogics.get_pawn_possible_moves(game_state.board, position,
                                                                     is_white,
                                                                     game_state.is_en_passant,

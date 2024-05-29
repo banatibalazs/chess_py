@@ -1,6 +1,6 @@
 import random
 import time
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Tuple, List, Optional
 
 import numpy as np
@@ -17,8 +17,19 @@ def timer_decorator(func):
         return result
     return wrapper
 
-class RandomAI:
+
+class AI(ABC):
     def __init__(self, is_white):
+        self.is_white = is_white
+
+    @abstractmethod
+    def get_move(self, game_state: GameState) -> Optional[Tuple[Tuple[int, int], Tuple[int, int]]]:
+        pass
+
+
+class RandomAI(AI):
+    def __init__(self, is_white):
+        super().__init__(is_white)
         self.is_white = is_white
         self.selected_piece_position = None
 
@@ -50,8 +61,9 @@ class RandomAI:
             return movable_piece_positions
 
 
-class GreedyAI:
+class GreedyAI(AI):
     def __init__(self, is_white):
+        super().__init__(is_white)
         self.is_white = is_white
 
     @timer_decorator
@@ -118,37 +130,105 @@ class GreedyAI:
         return score
 
 
+class MinimaxAI(AI):
+    def __init__(self, is_white):
+        super().__init__(is_white)
+        self.is_white = is_white
+        self.depth = 2
+        self.counter = 0
 
-class MinimaxAI:
-    def __init__(self, depth):
-        self.depth = depth
+    @timer_decorator
+    def get_move(self, game_state: GameState):
+        best_score, best_move = self.minimax(game_state, self.depth, -9999, 9999, self.is_white)
+        print(f"Counter: {self.counter}")
+        return best_move
 
-    def get_move(self, board):
-        return self.minimax(board, self.depth, True)[1]
+    def minimax(self, game_state: GameState, depth, alpha, beta, maximizing_player):
+        self.counter += 1
+        if depth == 0 or game_state.is_game_over:
+            return self.evaluate_board(game_state), None
 
-    def minimax(self, board, depth, is_maximizing):
-        if depth == 0 or board.is_game_over():
-            return board.evaluate(), None
+        best_move = None
 
-        if is_maximizing:
-            best_score = -9999
-            best_move = None
-            for move in board.get_valid_moves():
-                board.make_move(move)
-                score = self.minimax(board, depth - 1, False)[0]
-                board.undo_move()
-                if score > best_score:
-                    best_score = score
-                    best_move = move
-            return best_score, best_move
+        if maximizing_player:
+            max_eval = -9999
+            positions_of_movable_pieces = self.get_positions_of_movable_pieces(game_state, self.is_white)
+            if positions_of_movable_pieces is None:
+                return None
+            for piece_position in positions_of_movable_pieces:
+                legal_moves_of_piece = PieceLogics.get_legal_moves_of_piece(game_state, piece_position)
+                for move in legal_moves_of_piece:
+
+                    # game_state.make_move(position, move)
+                    moving_piece = game_state.board[piece_position]
+                    captured_piece = game_state.board[move]
+                    game_state.board[move] = moving_piece
+
+                    eval = self.minimax(game_state, depth - 1, alpha, beta, False)[0]
+
+                    game_state.board[move] = captured_piece
+                    game_state.board[piece_position] = moving_piece
+                    # game_state.undo_move()
+
+                    if eval > max_eval:
+                        max_eval = eval
+                        best_move = (piece_position, move)
+                    alpha = max(alpha, eval)
+                    if beta <= alpha:
+                        break
+            return max_eval, best_move
         else:
-            best_score = 9999
-            best_move = None
-            for move in board.get_valid_moves():
-                board.make_move(move)
-                score = self.minimax(board, depth - 1, True)[0]
-                board.undo_move()
-                if score < best_score:
-                    best_score = score
-                    best_move = move
-            return best_score, best_move
+            min_eval = 9999
+            positions_of_movable_pieces = self.get_positions_of_movable_pieces(game_state, not self.is_white)
+            for piece_position in positions_of_movable_pieces:
+                legal_moves_of_piece = PieceLogics.get_legal_moves_of_piece(game_state, piece_position)
+                for move in legal_moves_of_piece:
+                    # game_state.make_move(position, move)
+                    moving_piece = game_state.board[piece_position]
+                    captured_piece = game_state.board[move]
+                    game_state.board[move] = moving_piece
+
+                    eval = self.minimax(game_state, depth - 1, alpha, beta, True)[0]
+                    # game_state.undo_move()
+                    game_state.board[move] = captured_piece
+                    game_state.board[piece_position] = moving_piece
+
+
+                    if eval < min_eval:
+                        min_eval = eval
+                        best_move = (piece_position, move)
+                    beta = min(beta, eval)
+                    if beta <= alpha:
+                        break
+            return min_eval, best_move
+
+    def get_positions_of_movable_pieces(self, game_state: GameState, is_white: bool) -> Optional[List[Tuple[int, int]]]:
+        piece_positions = np.argwhere(game_state.board > 0) if is_white else np.argwhere(game_state.board < 0)
+
+        if len(piece_positions) == 0:
+            return None
+        else:
+            movable_piece_positions = []
+            for position in piece_positions:
+                if PieceLogics.piece_has_legal_move(game_state, tuple(position)):
+                    movable_piece_positions.append(tuple(position))
+
+            return movable_piece_positions
+
+    def evaluate_board(self, game_state: GameState) -> int:
+        score: int = 0
+        if self.is_white:
+            own_piece_positions = np.argwhere(game_state.board > 0)
+            opponent_piece_positions = np.argwhere(game_state.board < 0)
+        else:
+            own_piece_positions = np.argwhere(game_state.board < 0)
+            opponent_piece_positions = np.argwhere(game_state.board > 0)
+
+        for position in own_piece_positions:
+            piece = game_state.board[tuple(position)]
+            # print(f"Own piece: {piece}")
+            score += piece
+        for position in opponent_piece_positions:
+            score -= game_state.board[tuple(position)]
+
+        return score
