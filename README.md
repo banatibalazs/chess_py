@@ -23,16 +23,19 @@ This project is a chess game implemented in Python using the Tkinter library for
 ## Demo
 
 ### Main Menu
-![Main Menu](/resources/demo_images/main_menu.png)
+<img src="/resources/demo_images/main_menu.png" alt="Main Menu" height="200"/>
 
 ### Game Board
-![Game Board](/resources/demo_images/starting.png)
+<img src="/resources/demo_images/starting.png" alt="Special Moves" width="200"/>
+
 
 ### Special Moves
 
-![Special Moves](/resources/demo_images/castling.png)
-![Special Moves](/resources/demo_images/en_passant.png)
-![Special Moves](/resources/demo_images/pawn_promotion.png)
+<p>
+<img src="/resources/demo_images/castling.png" alt="Special Moves" width="200"/>
+<img src="/resources/demo_images/en_passant.png" alt="Special Moves" width="200"/>
+<img src="/resources/demo_images/pawn_promotion.png" alt="Special Moves" width="200"/>
+</p>
 
 ## Installation
 
