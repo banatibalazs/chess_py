@@ -86,6 +86,7 @@ Chess Game Project
 
 ## Possible Improvements (for the Future)
    
+- **Database Integration**: Add database integration to store game data, player statistics, etc.
 - **Alpha-Beta Pruning**: Implement the Alpha-Beta pruning strategy for the AI player.
 - **Game Analysis**: Add game analysis features such as move suggestions, game evaluation, etc.
 - **Refactoring**: Refactor the codebase to improve readability and maintainability.
