@@ -78,20 +78,6 @@ Chess Game Project
     └── main.py (entry point of the application)
 ```
 
-## Key Classes
-
-### `Game`
-Manages the overall game logic, including player turns, move validation, and game state updates.
-
-### `Player`
-Represents a player in the game. There are different subclasses for human players and AI players with different strategies.
-
-### `ChessGui`
-Handles the graphical user interface using Tkinter.
-
-### `GuiController`
-Acts as a bridge between the game logic and the GUI, updating the GUI based on the game state.
-
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
