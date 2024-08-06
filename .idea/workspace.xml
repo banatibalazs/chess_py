@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="change README.md">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
-    </list>
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="README.md abridged" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -450,38 +446,6 @@
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
     </task>
-    <task id="LOCAL-00075" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1715533289161</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1715533289161</updated>
-    </task>
-    <task id="LOCAL-00076" summary="new ChessGui.py class inherited from tk.Toplevel">
-      <option name="closed" value="true" />
-      <created>1715541711749</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1715541711749</updated>
-    </task>
-    <task id="LOCAL-00077" summary="buttons replaced, last move showed in every snapshot">
-      <option name="closed" value="true" />
-      <created>1715609655770</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1715609655770</updated>
-    </task>
-    <task id="LOCAL-00078" summary="color changed, type hints add">
-      <option name="closed" value="true" />
-      <created>1715612158838</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1715612158838</updated>
-    </task>
     <task id="LOCAL-00079" summary="changed board coloring, last move is first then comes the possible fields coloring">
       <option name="closed" value="true" />
       <created>1715612982693</created>
@@ -842,7 +806,39 @@
       <option name="project" value="LOCAL" />
       <updated>1722961758829</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="add player initializer function to make the code look neater">
+      <option name="closed" value="true" />
+      <created>1722963137863</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963137863</updated>
+    </task>
+    <task id="LOCAL-00125" summary="README.md change">
+      <option name="closed" value="true" />
+      <created>1722963225983</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963225983</updated>
+    </task>
+    <task id="LOCAL-00126" summary="README.md abridged">
+      <option name="closed" value="true" />
+      <created>1722963262799</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963262799</updated>
+    </task>
+    <task id="LOCAL-00127" summary="README.md abridged">
+      <option name="closed" value="true" />
+      <created>1722963323570</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963323570</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -857,9 +853,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor, new package structure" />
-    <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
-    <MESSAGE value="bugfix last_moved_piece was not set after move" />
     <MESSAGE value="clean code" />
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
     <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
@@ -882,7 +875,10 @@
     <MESSAGE value="adjust README.md" />
     <MESSAGE value="add requirements.txt" />
     <MESSAGE value="change README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="change README.md" />
+    <MESSAGE value="add player initializer function to make the code look neater" />
+    <MESSAGE value="README.md change" />
+    <MESSAGE value="README.md abridged" />
+    <option name="LAST_COMMIT_MESSAGE" value="README.md abridged" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
