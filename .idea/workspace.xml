@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="name change">
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/castling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/en_passant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/king_in_check.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/main_menu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/pawn_promotion.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/possible_steps.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/demo_images/starting.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/chess_py.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/chess_py.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add requirements.txt" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -460,38 +446,6 @@
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
     </task>
-    <task id="LOCAL-00068" summary="add is_promotion is_en_passant and is_castling functions in GameController.py used in _make_move method">
-      <option name="closed" value="true" />
-      <created>1715252818524</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1715252818524</updated>
-    </task>
-    <task id="LOCAL-00069" summary="King class castling bugfix">
-      <option name="closed" value="true" />
-      <created>1715274547095</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1715274547095</updated>
-    </task>
-    <task id="LOCAL-00070" summary="refactor GameController.py, delete DataUpdater.py">
-      <option name="closed" value="true" />
-      <created>1715289472232</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1715289472232</updated>
-    </task>
-    <task id="LOCAL-00071" summary="wipe out superfluous code lines e.g. possible moves board">
-      <option name="closed" value="true" />
-      <created>1715346140672</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1715346140672</updated>
-    </task>
     <task id="LOCAL-00072" summary="add snapshot to revert step or review the previous steps back and forth">
       <option name="closed" value="true" />
       <created>1715381233186</created>
@@ -852,7 +806,39 @@
       <option name="project" value="LOCAL" />
       <updated>1722956863676</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="improve README.md add demo images">
+      <option name="closed" value="true" />
+      <created>1722960778943</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1722960778943</updated>
+    </task>
+    <task id="LOCAL-00118" summary="adjust README.md">
+      <option name="closed" value="true" />
+      <created>1722960968462</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1722960968462</updated>
+    </task>
+    <task id="LOCAL-00119" summary="adjust README.md">
+      <option name="closed" value="true" />
+      <created>1722961051629</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1722961051629</updated>
+    </task>
+    <task id="LOCAL-00120" summary="add requirements.txt">
+      <option name="closed" value="true" />
+      <created>1722961130700</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1722961130700</updated>
+    </task>
+    <option name="localTasksCounter" value="121" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -867,9 +853,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="black random move choose" />
-    <MESSAGE value="add random player, add checkbox in MainWindow.py to select if player is computer" />
-    <MESSAGE value="snapshot player color not changed bugfix, add chessboard from black player's point of view" />
     <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
     <MESSAGE value="refactor, new package structure" />
     <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
@@ -892,7 +875,10 @@
     <MESSAGE value="pygame version changes" />
     <MESSAGE value="alpha_beta_player.py implement" />
     <MESSAGE value="name change" />
-    <option name="LAST_COMMIT_MESSAGE" value="name change" />
+    <MESSAGE value="improve README.md add demo images" />
+    <MESSAGE value="adjust README.md" />
+    <MESSAGE value="add requirements.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="add requirements.txt" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

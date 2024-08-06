@@ -26,9 +26,11 @@ This project is a chess game implemented in Python using the Tkinter library for
 <img src="/resources/demo_images/main_menu.png" alt="Main Menu" height="200"/>
 
 ### Game Board
+
+<p>
 <img src="/resources/demo_images/starting.png" alt="Special Moves" width="200"/>
 <img src="/resources/demo_images/king_in_check.png" alt="Main Menu" height="200"/>
-
+</p>
 
 ### Special Moves
 
