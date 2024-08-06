@@ -84,7 +84,7 @@ Chess Game Project
 ```
 
 
-## Possible Improvements
+## Possible Improvements (for the Future)
    
 - **Alpha-Beta Pruning**: Implement the Alpha-Beta pruning strategy for the AI player.
 - **Game Analysis**: Add game analysis features such as move suggestions, game evaluation, etc.
