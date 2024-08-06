@@ -19,6 +19,19 @@ from src.model.enums.player_type import PlayerType
 from src.view.chess_gui import ChessGui
 
 
+def initialize_player(player_name: str, player_type: PlayerType, color: Color, board: Board, _time: Optional[int]) -> Player:
+    if player_type == PlayerType.HUMAN:
+        return Player(player_name, color, board, _time)
+    elif player_type == PlayerType.RANDOM:
+        return RandomPlayer(player_name, color, board, _time)
+    elif player_type == PlayerType.GREEDY:
+        return GreedyPlayer(player_name, color, board, _time)
+    elif player_type == PlayerType.MINIMAX_WITH_ALPHABETA:
+        return AlphaBeta(player_name, color, board, _time)
+    else:
+        return AlphaBeta(player_name, color, board, _time)
+
+
 class Game:
     def __init__(self, title: str, white_player_name: str, white_player_type: PlayerType, black_player_name: str,
                  black_player_type: PlayerType, _time: Optional[int], pov: Color) -> None:
@@ -34,27 +47,10 @@ class Game:
         self._gui_controller: GuiController = GuiController(self.gui)
 
         self._board: Board = Board()
-        if white_player_type == PlayerType.HUMAN:
-            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
-        elif white_player_type == PlayerType.RANDOM:
-            self._white_player: Player = RandomPlayer(white_player_name, Color.WHITE, self._board, _time)
-        elif white_player_type == PlayerType.GREEDY:
-            self._white_player: Player = GreedyPlayer(white_player_name, Color.WHITE, self._board, _time)
-        elif white_player_type == PlayerType.MINIMAX:
-            self._white_player: Player = AlphaBeta(white_player_name, Color.WHITE, self._board, _time)
-        else:
-            self._white_player: Player = Player(white_player_name, Color.WHITE, self._board, _time)
-
-        if black_player_type == PlayerType.HUMAN:
-            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
-        elif black_player_type == PlayerType.RANDOM:
-            self._black_player: Player = RandomPlayer(black_player_name, Color.BLACK, self._board, _time)
-        elif black_player_type == PlayerType.GREEDY:
-            self._black_player: Player = GreedyPlayer(black_player_name, Color.BLACK, self._board, _time)
-        elif black_player_type == PlayerType.MINIMAX:
-            self._black_player: Player = AlphaBeta(black_player_name, Color.BLACK, self._board, _time)
-        else:
-            self._black_player: Player = Player(black_player_name, Color.BLACK, self._board, _time)
+        self._white_player: Player = initialize_player(white_player_name, white_player_type,
+                                                       Color.WHITE, self._board, _time)
+        self._black_player: Player = initialize_player(black_player_name, black_player_type,
+                                                       Color.BLACK, self._board, _time)
         self._current_player: Player = self._white_player
         self._opponent_player: Player = self._black_player
 

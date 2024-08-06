@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add requirements.txt" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="change README.md">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/game.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -446,30 +450,6 @@
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
     </task>
-    <task id="LOCAL-00072" summary="add snapshot to revert step or review the previous steps back and forth">
-      <option name="closed" value="true" />
-      <created>1715381233186</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1715381233186</updated>
-    </task>
-    <task id="LOCAL-00073" summary="changed, simplified snapshot logic">
-      <option name="closed" value="true" />
-      <created>1715521345772</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1715521345787</updated>
-    </task>
-    <task id="LOCAL-00074" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1715528182850</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1715528182850</updated>
-    </task>
     <task id="LOCAL-00075" summary="refactor">
       <option name="closed" value="true" />
       <created>1715533289161</created>
@@ -838,7 +818,31 @@
       <option name="project" value="LOCAL" />
       <updated>1722961130700</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="change README.md">
+      <option name="closed" value="true" />
+      <created>1722961218829</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1722961218829</updated>
+    </task>
+    <task id="LOCAL-00122" summary="change README.md">
+      <option name="closed" value="true" />
+      <created>1722961302578</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1722961302578</updated>
+    </task>
+    <task id="LOCAL-00123" summary="change README.md">
+      <option name="closed" value="true" />
+      <created>1722961758829</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1722961758829</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -853,7 +857,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="checking if player has piece in a field is changed from iterating through the pieces to using a set of coordinates which improved performance" />
     <MESSAGE value="refactor, new package structure" />
     <MESSAGE value="update_attacked_fields changed to use piece_coordinates from Player class" />
     <MESSAGE value="bugfix last_moved_piece was not set after move" />
@@ -878,7 +881,8 @@
     <MESSAGE value="improve README.md add demo images" />
     <MESSAGE value="adjust README.md" />
     <MESSAGE value="add requirements.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="add requirements.txt" />
+    <MESSAGE value="change README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="change README.md" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

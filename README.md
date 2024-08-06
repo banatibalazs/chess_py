@@ -14,7 +14,7 @@ This project is a chess game implemented in Python using the Tkinter library for
 - **Human vs Human**: Two human players can play against each other.
 - **Human vs AI**: A human player can play against an AI player.
 - **AI vs AI**: Two AI players can play against each other.
-- **AI Strategies**: The AI players can use different strategies such as Random, Greedy, Minimax, and Alpha-Beta pruning.
+- **AI Strategies**: The AI players can use different strategies such as Random, Greedy, Minimax (in process), and Alpha-Beta pruning (TODO).
 - **Timer**: Optional timer for each player.
 - **Game Saving**: The game state can be saved and loaded.
 - **Move History**: Keeps track of the move history.
