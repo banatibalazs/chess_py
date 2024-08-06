@@ -1,3 +1,10 @@
+To include demo images in the `README.md`, you need to add the images to your repository and reference them using Markdown syntax. Here is how you can do it:
+
+1. Place your images in a directory within your project, for example, `images/`.
+
+2. Reference the images in your `README.md` using the following Markdown syntax:
+
+
 # Chess Game
 
 This project is a chess game implemented in Python using the Tkinter library for the graphical user interface (GUI). The game supports different types of players, including human players and AI players with various strategies.
@@ -12,6 +19,20 @@ This project is a chess game implemented in Python using the Tkinter library for
 - **Game Saving**: The game state can be saved and loaded.
 - **Move History**: Keeps track of the move history.
 - **GUI**: Interactive GUI using Tkinter.
+
+## Demo
+
+### Main Menu
+![Main Menu](/resources/demo_images/main_menu.png)
+
+### Game Board
+![Game Board](/resources/demo_images/starting.png)
+
+### Special Moves
+
+![Special Moves](/resources/demo_images/castling.png)
+![Special Moves](/resources/demo_images/en_passant.png)
+![Special Moves](/resources/demo_images/pawn_promotion.png)
 
 ## Installation
 
@@ -62,3 +83,5 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
+
+Make sure to replace `images/main_menu.png` and `images/game_board.png` with the actual paths to your images.
