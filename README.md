@@ -94,7 +94,6 @@ pyreverse -o png -p chess_game .
 
 UML is in the `documentation/uml` folder.
 
-
 ## Possible Improvements (for the Future)
    
 - **Database Integration**: Add database integration to store game data, player statistics, etc.
