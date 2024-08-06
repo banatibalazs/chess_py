@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="README.md changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="README.md changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -449,30 +446,6 @@
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
     </task>
-    <task id="LOCAL-00081" summary="refactor and TODOs">
-      <option name="closed" value="true" />
-      <created>1715632685430</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1715632685430</updated>
-    </task>
-    <task id="LOCAL-00082" summary="add promotion dialog">
-      <option name="closed" value="true" />
-      <created>1715687703864</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1715687703864</updated>
-    </task>
-    <task id="LOCAL-00083" summary="bugfix and checkmate checking">
-      <option name="closed" value="true" />
-      <created>1715687794937</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1715687794937</updated>
-    </task>
     <task id="LOCAL-00084" summary="en_passant bugfix and pawn class refactor">
       <option name="closed" value="true" />
       <created>1715699937653</created>
@@ -841,7 +814,31 @@
       <option name="project" value="LOCAL" />
       <updated>1722963725774</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="README.md changes">
+      <option name="closed" value="true" />
+      <created>1722964444690</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1722964444690</updated>
+    </task>
+    <task id="LOCAL-00131" summary="README.md changes">
+      <option name="closed" value="true" />
+      <created>1722964570739</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1722964570739</updated>
+    </task>
+    <task id="LOCAL-00132" summary="README.md changes">
+      <option name="closed" value="true" />
+      <created>1722964644989</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1722964644989</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

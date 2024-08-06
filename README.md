@@ -83,7 +83,6 @@ Chess Game Project
     └── main.py (entry point of the application)
 ```
 
-
 ## Possible Improvements (for the Future)
    
 - **Database Integration**: Add database integration to store game data, player statistics, etc.
