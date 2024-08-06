@@ -81,10 +81,3 @@ Chess Game Project
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-
-Make sure to replace `images/main_menu.png` and `images/game_board.png` with the actual paths to your images.
