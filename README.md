@@ -62,10 +62,21 @@ python src/main.py
 
 ## Project Structure
 
-- `src/controller/`: Contains the game logic and controllers.
-- `src/model/`: Contains the data models for the game.
-- `src/view/`: Contains the GUI components.
-- `src/main.py`: The entry point of the application.
+```plaintext
+Chess Game Project
+├── README.md
+├── requirements.txt
+└── src
+    ├── controller
+    │   └── (game logic and controllers)
+    ├── model
+    │   ├── pieces
+    │   │   └── (different chess pieces, e.g., Pawn, Rook, Knight, etc.)
+    │   └── (data models for the game)
+    ├── view
+    │   └── (GUI components)
+    └── main.py (entry point of the application)
+```
 
 ## Key Classes
 
