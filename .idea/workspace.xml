@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="add class and package uml png">
-      <change afterPath="$PROJECT_DIR$/documentation/uml/classes_ChessGame.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/documentation/uml/packages_ChessGame.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/problems/intriguing.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/intriguing.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/problems/solutions.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/problems/solutions.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/uml/classes_ChessGame.png" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/classes_ChessGame.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/uml/packages_ChessGame.png" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/packages_ChessGame.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/main_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/main_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/main_3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/pyqt_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/pyqt_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/stack_overflow_pygame_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/stack_overflow_pygame_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alternative/tkinter_canvas_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alternative/tkinter_canvas_gui.py" afterDir="false" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="comment out unnecessery codes, add new uml">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/uml/classes_ChessGame.png" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/classes_chess_py.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/uml/classes_ChessGame.svg" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/classes_chess_py.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/uml/packages_ChessGame.png" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/packages_chess_py.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/uml/packages_ChessGame.svg" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml/packages_chess_py.svg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,14 +349,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
-    </task>
-    <task id="LOCAL-00086" summary="changing colors and add timer in MainWindow.py">
-      <option name="closed" value="true" />
-      <created>1715718174341</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1715718174342</updated>
     </task>
     <task id="LOCAL-00087" summary="bugfix, MainWindow.py refactor">
       <option name="closed" value="true" />
@@ -749,7 +734,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722967847412</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="comment out unnecessery codes, add new uml">
+      <option name="closed" value="true" />
+      <created>1722968672163</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1722968672163</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -764,7 +757,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
     <MESSAGE value="optimize code" />
     <MESSAGE value="bugfix has_piece_at method" />
     <MESSAGE value="greedy player implemented" />
@@ -789,7 +781,8 @@
     <MESSAGE value="README.md abridged" />
     <MESSAGE value="README.md changes" />
     <MESSAGE value="add class and package uml png" />
-    <option name="LAST_COMMIT_MESSAGE" value="add class and package uml png" />
+    <MESSAGE value="comment out unnecessery codes, add new uml" />
+    <option name="LAST_COMMIT_MESSAGE" value="comment out unnecessery codes, add new uml" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
