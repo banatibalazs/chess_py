@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="README.md abridged" />
+    <list default="true" id="90d9f26f-9905-4754-ba7d-de0056fada60" name="Changes" comment="README.md changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -446,22 +449,6 @@
       <option name="presentableId" value="Default" />
       <updated>1713946046861</updated>
     </task>
-    <task id="LOCAL-00079" summary="changed board coloring, last move is first then comes the possible fields coloring">
-      <option name="closed" value="true" />
-      <created>1715612982693</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1715612982693</updated>
-    </task>
-    <task id="LOCAL-00080" summary="clean code, delete redundant lines and functions">
-      <option name="closed" value="true" />
-      <created>1715621196875</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1715621196875</updated>
-    </task>
     <task id="LOCAL-00081" summary="refactor and TODOs">
       <option name="closed" value="true" />
       <created>1715632685430</created>
@@ -838,7 +825,23 @@
       <option name="project" value="LOCAL" />
       <updated>1722963323570</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="README.md changes">
+      <option name="closed" value="true" />
+      <created>1722963380117</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963380117</updated>
+    </task>
+    <task id="LOCAL-00129" summary="README.md changes">
+      <option name="closed" value="true" />
+      <created>1722963725774</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1722963725774</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -853,7 +856,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clean code" />
     <MESSAGE value="implement threefold repetition in new GameSaver.py class using game state hashing" />
     <MESSAGE value="chessboard gui is selected according to the human player's point of view" />
     <MESSAGE value="optimize code" />
@@ -878,7 +880,8 @@
     <MESSAGE value="add player initializer function to make the code look neater" />
     <MESSAGE value="README.md change" />
     <MESSAGE value="README.md abridged" />
-    <option name="LAST_COMMIT_MESSAGE" value="README.md abridged" />
+    <MESSAGE value="README.md changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="README.md changes" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

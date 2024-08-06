@@ -1,5 +1,11 @@
 # Chess Game
 
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/release/python-380/)
+[![Tkinter](https://img.shields.io/badge/Tkinter-8.6-blue)](https://docs.python.org/3/library/tkinter.html)
+[![Pillow](https://img.shields.io/badge/Pillow-10.4.0-blue)](https://python-pillow.org/)
+[![NumPy](https://img.shields.io/badge/NumPy-2.0.1-blue)](https://numpy.org/)
+
+
 This project is a chess game implemented in Python using the Tkinter library for the graphical user interface (GUI). The game supports different types of players, including human players and AI players with various strategies.
 
 ## Features
@@ -23,16 +29,13 @@ This project is a chess game implemented in Python using the Tkinter library for
 
 
 ## Demo Images
-
-### Main Menu
-<img src="/resources/demo_images/main_menu.png" alt="Main Menu" height="200"/>
-
-### Game Board
-
+ 
 <p>
+<img src="/resources/demo_images/main_menu.png" alt="Main Menu" height="200"/>
 <img src="/resources/demo_images/starting.png" alt="Special Moves" width="200"/>
 <img src="/resources/demo_images/king_in_check.png" alt="Main Menu" width="200"/>
 </p>
+
 
 ### Special Moves
 
@@ -79,3 +82,15 @@ Chess Game Project
     │   └── (GUI components)
     └── main.py (entry point of the application)
 ```
+
+
+## Possible Improvements
+   
+- **Alpha-Beta Pruning**: Implement the Alpha-Beta pruning strategy for the AI player.
+- **Game Analysis**: Add game analysis features such as move suggestions, game evaluation, etc.
+- **Refactoring**: Refactor the codebase to improve readability and maintainability.
+- **Themes**: Add different themes for the game board and pieces.
+- **Sound Effects**: Add sound effects for different game events.
+- **Unit Tests**: Add unit tests to ensure the correctness of the game logic.
+- **Documentation**: Add detailed documentation for the project.
+- **Online Multiplayer**: Implement online multiplayer support.
