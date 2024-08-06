@@ -13,7 +13,16 @@ This project is a chess game implemented in Python using the Tkinter library for
 - **Move History**: Keeps track of the move history.
 - **GUI**: Interactive GUI using Tkinter.
 
-## Demo
+### Possible outcomes:
+- **Checkmate**: The game ends when a player's king is in checkmate.
+- **Resignation**: A player can resign at any time to end the game.
+- **Time Expiration**: The game ends when a player's time runs out.
+- **Stalemate**: The game ends when a player's king is not in check, but the player has no legal moves.
+- **Threefold Repetition**: The game ends in a draw when the same position occurs three times with the same player to move.
+- **Insufficient Material**: The game ends in a draw when neither player has sufficient material to checkmate the opponent.
+
+
+## Demo Images
 
 ### Main Menu
 <img src="/resources/demo_images/main_menu.png" alt="Main Menu" height="200"/>
