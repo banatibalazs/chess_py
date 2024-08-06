@@ -1,10 +1,3 @@
-To include demo images in the `README.md`, you need to add the images to your repository and reference them using Markdown syntax. Here is how you can do it:
-
-1. Place your images in a directory within your project, for example, `images/`.
-
-2. Reference the images in your `README.md` using the following Markdown syntax:
-
-
 # Chess Game
 
 This project is a chess game implemented in Python using the Tkinter library for the graphical user interface (GUI). The game supports different types of players, including human players and AI players with various strategies.
@@ -77,7 +70,3 @@ Chess Game Project
     │   └── (GUI components)
     └── main.py (entry point of the application)
 ```
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request.
