@@ -6,7 +6,7 @@
 [![NumPy](https://img.shields.io/badge/NumPy-2.0.1-blue)](https://numpy.org/)
 
 
-This project is a chess game implemented in Python using the Tkinter library for the graphical user interface (GUI). The game supports different types of players, including human players and AI players with various strategies.
+This project is a chess game implemented in Python using the Tkinter library for the graphical user interface (GUI). The game supports different types of players, including human players and AI players with various strategies (TODO).
 
 ## Features
 
